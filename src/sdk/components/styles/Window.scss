@@ -1,0 +1,86 @@
+@use "../../Lib.scss";
+.Window {
+  height: 100%;
+  width: 100%;
+  // background: pink;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  position: absolute;
+  translate: -50% -50%;
+  $titlebarHeight: 28px;
+  $btnHeight: 18px;
+  $padding: 5px;
+  .WindowDragHandle {
+    &,*,& *{user-select: none;}
+    position: absolute;
+    top: 0%;
+    left: 50%;
+    translate: -50% 0%;
+    height: $titlebarHeight;
+    width: calc(100% - ($padding * 2));
+    cursor: grab;
+    .Icon {
+      position: absolute;
+      top: 50%;
+      left: $padding;
+      translate: 0% -50%;
+      height: 20px;
+      aspect-ratio: 1 / 1;
+      background-repeat: no-repeat;
+      background-size: contain;
+      background-position: center;
+    }
+    .Title {
+      position: absolute;
+      top: 50%;
+      left: calc(24px + ($padding * 2));
+      translate: 0% -50%;
+      height: fit-content;
+      // width: fit-content;
+      text-align: center;
+      width: 60%;
+      font-size: .875rem;
+      font-weight: 400;
+      margin: 0;
+    }
+    &:active {
+      cursor: grabbing;
+    }
+    .ButtonWrapper {
+      height: $btnHeight;
+      width: fit-content;
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      flex-direction: row-reverse;
+      min-width: 20px;
+      position: absolute;
+      right: 0%;
+      top: 0%;
+      gap: 2px;
+      .Button {
+        height: $btnHeight;
+        width: 20px;
+        font-size: .75rem;
+        line-height: 0;
+        padding-bottom: .15rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border: none;
+        cursor: pointer;
+        transition: .35s;
+      }
+      // background: pink;
+    }
+    // background: green;
+  }
+  .WinContents {
+    height: calc(100% - ($padding * 1) - $titlebarHeight);
+    width: calc(100% - ($padding * 2));
+    position: absolute;
+    bottom: $padding;
+    left: $padding;
+  }
+}

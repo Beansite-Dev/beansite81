@@ -1,0 +1,36 @@
+@use "./Lib.scss";
+@use "./themes/Default.scss";
+@import url('https://fonts.cdnfonts.com/css/segoe-pro');
+@import url('https://fonts.googleapis.com/css2?family=Source+Code+Pro:ital,wght@0,200..900;1,200..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Comic+Relief:wght@400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=PT+Serif:ital,wght@0,400;0,700;1,400;1,700&display=swap');
+@import url('https://fonts.cdnfonts.com/css/tahoma');
+//---------------
+.font-segoe {&,*,& *{
+  font-family: 'Segoe Pro', sans-serif;
+  font-weight: 400;
+}}
+.font-tahoma {&,*,& *{
+  font-family: 'Tahoma', sans-serif;
+  font-weight: 400;
+}}
+.font-comic {&,*,& *{
+  font-family: 'Comic Relief', sans-serif;
+  font-weight: 400;
+}}
+.font-times {&,*,& *{
+  font-family: 'PT Serif', sans-serif;
+  font-weight: 400;
+}}
+#WindowWrapper {
+  @include Lib.fullOccupy(9);
+}
+#Beansite81 {
+  @include Lib.fullOccupy(1);
+}
+#Background {
+  @include Lib.fullOccupy(2);
+  background-image: url("/wallpaper/1.jpg");
+  background-position: center;
+  background-size: cover;
+}

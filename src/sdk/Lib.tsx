@@ -10,7 +10,7 @@ export const generateId=(length:number)=>{
   }
   return btoa(result).replaceAll("=","");
 }
-export function getQueryParams(qs) {
+export function getQueryParams(qs:string) {
     qs = qs.split('+').join(' ');
     var params = {},
         tokens,

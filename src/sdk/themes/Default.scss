@@ -1,0 +1,29 @@
+.default{
+  .Window {
+    background: #ffffff80;
+    backdrop-filter: blur(10px);
+    border: 1px #95959595 solid;
+    .WinContents {
+      background: white;
+      border: 1px #95959595 solid;
+    }
+    .Title {
+      color: black;
+    }
+    .Button {
+      background: transparent;
+      &.x {
+        background: #c75050 !important;
+        width: 40px !important;
+        color: #fff !important;
+      }
+      &:hover {
+        background: #0d73d1;
+        color: #fff;
+        &.x {
+          background: #c52020 !important;
+        }
+      }
+    }
+  }
+}

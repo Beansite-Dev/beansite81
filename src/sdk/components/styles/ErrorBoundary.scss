@@ -1,0 +1,30 @@
+#bsod {
+    height: 100dvh;
+    width: 100dvw;
+    position: fixed;
+    z-index: 999;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    background: #0000ae;
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+    flex-direction: column;
+    padding: 8px;
+    gap: 4px;
+    p {
+        font-family: "Lucida Console", 
+        sans-serif;color: #fff;
+        font-size: 1rem;
+        line-height: 1rem;
+        margin: 0;
+        padding: 0;
+        text-wrap: wrap;
+        word-wrap: break-word;
+        width: 135vmin;
+        &.fLen {
+            width: 100% !important;
+        }
+    }
+}
