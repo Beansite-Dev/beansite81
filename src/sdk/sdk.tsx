@@ -1,5 +1,5 @@
 import React, { Children, cloneElement, useRef, type ReactElement } from "react";
-import { Window } from "./components/Window";
+import { Window, WinDragToMax } from "./components/Window";
 import { motion } from "motion/react";
 import "./Global.scss";
 import { ErrorBoundary } from "./components/ErrorBoundary";
@@ -23,6 +23,7 @@ export const Beansite81=({
     <ErrorBoundary>
       <motion.div className="Beansite81 default font-segoe">
         <motion.div id="Background"></motion.div>
+        <WinDragToMax />
         <motion.div id="WindowWrapper" ref={WindowWrapper}>
           {renderChildren()}
           {/* {children} */}
