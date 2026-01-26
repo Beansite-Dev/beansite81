@@ -3,8 +3,9 @@ import { Window, WinDragToMax } from "./components/Window";
 import { motion } from "motion/react";
 import "./Global.scss";
 import { ErrorBoundary } from "./components/ErrorBoundary";
+import { Taskbar } from "./components/Taskbar";
 interface IBeansite81{
-  children:ReactElement
+  children:any
 };
 export const Beansite81=({
   children
@@ -23,11 +24,12 @@ export const Beansite81=({
     <ErrorBoundary>
       <motion.div className="Beansite81 default font-segoe">
         <motion.div id="Background"></motion.div>
-        <WinDragToMax />
+        {/* <WinDragToMax /> */}
         <motion.div id="WindowWrapper" ref={WindowWrapper}>
           {renderChildren()}
           {/* {children} */}
         </motion.div>
+        <Taskbar/>
       </motion.div>
     </ErrorBoundary>
   </>);

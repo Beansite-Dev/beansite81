@@ -1,7 +1,7 @@
 import { atom, useAtom } from "jotai";
 // @ts-ignore
 import React, { Children, useEffect, useRef, useState, type ReactElement } from "react";
-import { WinAtom } from "../store";
+import { DerivedWinAtom, uniqueById, WinAtom, type IWinObj } from "../store";
 // @ts-ignore
 import { isMotionComponent, motion } from "motion/react";
 import { generateId } from "../Lib";
@@ -18,7 +18,7 @@ export const WinDragToMax=():ReactElement|null=>{
   useEffect(()=>{
     console.log(`wdtm hoverStatus: ${isHover}`);
   },[isHover]);
-  return (wdtm&&false)?<>
+  return(wdtm&&false)?<>
     <motion.div 
       onMouseEnter={()=>{setIsHover(true);}}
       onMouseLeave={()=>{setIsHover(false);}}
@@ -58,7 +58,7 @@ export const Window=({
   minimized=false,
 }:IWindow):ReactElement=>{
   // @ts-ignore
-  const[windows,setWindow]=useAtom(WinAtom);
+  const[windows,setWindow]=useAtom(DerivedWinAtom);
   const[isMax,setIsMax]=useState<boolean>(maximized);
   const[lastPos,setLastPos]=useState<{x:number,y:number}|null>(null);
   const[lastDim,setLastDim]=useState<{height:number,width:number}|null>(null);
@@ -78,15 +78,18 @@ export const Window=({
   const ids=`${id}_${uuid}`;
   useEffect(()=>{
     console.log(`win-${id}loaded`);
-    return setWindow(x=>[
-      ...x,
-      {
-        title,
-        uuid, 
-        id:ids,
-        icon,
-      }
-    ]);
+    // return setWindowUnique({
+    //   title,
+    //   uuid, 
+    //   id:ids,
+    //   icon,
+    // });
+    return setWindow({
+      title,
+      uuid, 
+      id:ids,
+      icon,
+    });
   },[]);
   useEffect(()=>{
     console.log(isMax);
@@ -101,7 +104,7 @@ export const Window=({
         rndRef.current.getSelfElement().style.transition=".35s";
         rndRef.current.updateSize({
           width: innerWidth,
-          height: innerHeight - 48, 
+          height: innerHeight-48,
         });
         rndRef.current.updatePosition({
           x:0,
@@ -149,16 +152,16 @@ export const Window=({
                 setIsMax(true);
               }
             }}
-            onMouseDown={(_e)=>{
+            onMouseDown={(e)=>{
               if(isMax){
-                // if(dragRef.current&&lastPos){
-                //   const dRect=dragRef.current.getBoundingClientRect();
-                //   setLastPos({
-                //     x:e.clientX - (dRect.left),
-                //     y:e.clientY - (dRect.top),
-                //   });
-                //   setIsMax(false);
-                // }
+                if(dragRef.current&&lastPos){
+                  const dRect=dragRef.current.getBoundingClientRect();
+                  setLastPos({
+                    x:e.clientX - (dRect.left),
+                    y:e.clientY - (dRect.top),
+                  });
+                  setIsMax(false);
+                }
               }else{
                 swdtm(true);
               }
