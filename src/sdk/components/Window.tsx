@@ -142,35 +142,35 @@ export const Window=({
       default={{x,y,width,height,}}>
         <motion.div className="Window" id={ids}>
           <motion.div 
-            className={`WindowDragHandle `} 
-            ref={dragRef}
-            onMouseUp={(e)=>{
-              // console.log("detected mouseup");
-              swdtm(false);
-              if(e.clientY<=24){
-                // console.log("is in rad");
-                setIsMax(true);
-              }
-            }}
-            onMouseDown={(e)=>{
-              if(isMax){
-                if(dragRef.current&&lastPos){
-                  const dRect=dragRef.current.getBoundingClientRect();
-                  setLastPos({
-                    x:e.clientX - (dRect.left),
-                    y:e.clientY - (dRect.top),
-                  });
-                  setIsMax(false);
-                }
-              }else{
-                swdtm(true);
-              }
-            }}
-            id={`${id}_draghandle`}>
+            className={`WindowDragHandle `}>
               <motion.div className="Icon" style={{
                 backgroundImage:`url(${icon})`,
               }}></motion.div>
-              <motion.h1 className={`Title ${id}_draghandle`}>{title}</motion.h1>
+              <motion.h1  
+                ref={dragRef}
+                onMouseUp={(e)=>{
+                  // console.log("detected mouseup");
+                  swdtm(false);
+                  if(e.clientY<=24){
+                    // console.log("is in rad");
+                    setIsMax(true);
+                  }
+                }}
+                onMouseDown={(e)=>{
+                  if(isMax){
+                    if(dragRef.current&&lastPos){
+                      const dRect=dragRef.current.getBoundingClientRect();
+                      setLastPos({
+                        x:e.clientX - (dRect.left),
+                        y:e.clientY - (dRect.top),
+                      });
+                      setIsMax(false);
+                    }
+                  }else{
+                    swdtm(true);
+                  }
+                }}
+                className={`Title ${id}_draghandle`}>{title}</motion.h1>
               <motion.div className="ButtonWrapper">
                 <motion.button 
                   onClick={(e)=>{
