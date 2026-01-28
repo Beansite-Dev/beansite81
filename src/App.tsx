@@ -6,13 +6,16 @@ export const CHANGELOG:{
   releaseDate:string,
   changes:string[],
 }={
-  versionName:"0.4.3",
+  versionName:"0.4.7",
   releaseDate:"Jan 25, 2026",
   changes:[
     "Fixed jotai state by implementing derived atom",
     "Taskbar implementation has begun",
     "Added changelog",
     "SDK Tweaks",
+    "Fixed click to bring window to front",
+    "Added icon starters to taskbar and icons",
+    "Fixed start icon",
   ],
 }
 const App=({}):ReactElement=>{

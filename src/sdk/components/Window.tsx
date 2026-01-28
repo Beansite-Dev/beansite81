@@ -1,7 +1,7 @@
 import { atom, useAtom } from "jotai";
 // @ts-ignore
 import React, { Children, useEffect, useRef, useState, type ReactElement } from "react";
-import { DerivedWinAtom, uniqueById, WinAtom, type IWinObj } from "../store";
+import { DerivedWinAtom } from "../store";
 // @ts-ignore
 import { isMotionComponent, motion } from "motion/react";
 import { generateId } from "../Lib";
@@ -9,23 +9,6 @@ import "./styles/Window.scss";
 import { Rnd } from "react-rnd";
 import { Icons } from "./Enum";
 const wdtmAtom=atom<boolean>(false);
-export const WinDragToMax=():ReactElement|null=>{
-  const[wdtm]=useAtom(wdtmAtom);
-  const[isHover,setIsHover]=useState<boolean>(false);
-  useEffect(()=>{
-    console.log(`wdtm status: ${wdtm}`);
-  },[wdtm]);
-  useEffect(()=>{
-    console.log(`wdtm hoverStatus: ${isHover}`);
-  },[isHover]);
-  return(wdtm&&false)?<>
-    <motion.div 
-      onMouseEnter={()=>{setIsHover(true);}}
-      onMouseLeave={()=>{setIsHover(false);}}
-      id="wdtmDetector"></motion.div>
-    {isHover?<motion.div id="wdtmBox"></motion.div>:null}
-  </>:null;
-}
 export interface IWindow{
   children?:ReactElement;
   title:string;
@@ -84,12 +67,12 @@ export const Window=({
     //   id:ids,
     //   icon,
     // });
-    return setWindow({
+    return setWindow([{
       title,
       uuid, 
       id:ids,
       icon,
-    });
+    }]);
   },[]);
   useEffect(()=>{
     console.log(isMax);
@@ -104,7 +87,7 @@ export const Window=({
         rndRef.current.getSelfElement().style.transition=".35s";
         rndRef.current.updateSize({
           width: innerWidth,
-          height: innerHeight-48,
+          height: innerHeight-40,
         });
         rndRef.current.updatePosition({
           x:0,
@@ -135,6 +118,15 @@ export const Window=({
       disableDragging={isMax}
       enableResizing={!isMax}
       className="winRnd"
+      onMouseDown={(_e)=>{
+        console.log("detected mousedown");
+        document.querySelectorAll(".winRnd").forEach(x=>{
+          if(x.id!==`${ids}_rnd`)(x as HTMLElement).style.zIndex="-1";
+          else(x as HTMLElement).style.zIndex="10";
+        });
+        // console.log(document.getElementById(`${ids}_rnd`));
+      }}
+      id={`${ids}_rnd`}
       dragHandleClassName={`${id}_draghandle`}
       minWidth={minWidth}
       minHeight={minHeight}
@@ -201,3 +193,20 @@ export const Window=({
     </Rnd>
   </>);
 };
+export const WinDragToMax=():ReactElement|null=>{
+  const[wdtm]=useAtom(wdtmAtom);
+  const[isHover,setIsHover]=useState<boolean>(false);
+  useEffect(()=>{
+    console.log(`wdtm status: ${wdtm}`);
+  },[wdtm]);
+  useEffect(()=>{
+    console.log(`wdtm hoverStatus: ${isHover}`);
+  },[isHover]);
+  return(wdtm)?<>
+    <motion.div 
+      onMouseEnter={()=>{setIsHover(true);}}
+      onMouseLeave={()=>{setIsHover(false);}}
+      id="wdtmDetector"></motion.div>
+    {isHover?<motion.div id="wdtmBox"></motion.div>:null}
+  </>:null;
+}

@@ -1,4 +1,35 @@
 @use "../../Lib.scss";
 #Taskbar {
-  
+  position: fixed;
+  bottom: 0%;
+  left: 0%;
+  width: 100dvw;
+  height: 40px;
+  z-index: 20;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  .item {
+    height: 100%;
+    width: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    background: transparent;
+    border: none;
+    outline: none;
+    transition: .35s;
+    .icon {
+      height: 80%;
+      aspect-ratio: 1 / 1;
+      background-position: center;
+      background-size: contain;
+      object-fit: contain;
+      background-repeat: no-repeat;
+      mask-position: center;
+      mask-size: contain;
+      // background: pink;
+    }
+  }
 }

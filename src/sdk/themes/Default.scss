@@ -27,3 +27,50 @@
     }
   }
 }
+@property --c1 {
+  syntax: "<color>";
+  inherits: false;
+  initial-value: #fff;
+}
+@property --c2 {
+  syntax: "<color>";
+  inherits: false;
+  initial-value: #fff;
+}
+#Taskbar {
+  background: #ffffff70;
+  backdrop-filter: blur(10px);
+  border: 1px #95959595 solid;
+  .Start {
+    &:hover {
+      background: #240763;
+      .icon {
+        background-size: 400%;
+        --c1: #5817e4 !important;
+        --c2: #783afe !important;
+      }
+    }
+    @keyframes slide {
+      from {
+        background-position-x: 0%;
+      }
+      to {
+        background-position-x: 100%;
+      }
+    }
+    .icon {
+      background-color: #fff;
+      transition: --c1 .35s, --c2 .35s;
+      background: linear-gradient(
+        to right,
+        var(--c1) 25%,
+        var(--c2) 30%,
+        var(--c1) 35%,
+        );
+      mask-image: url("/assets/favicon_modern.svg");
+      mask-repeat: no-repeat;
+      animation: slide linear infinite 5s;
+      animation-delay: 1s;
+    }
+  }
+}
