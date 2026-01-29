@@ -15,12 +15,15 @@
 #wdtmBox {
   position: fixed;
   z-index: 8;
-  height: calc(100% - 1rem);
-  width: calc(100% - 1rem);
+  height: calc(100% - 1.5rem - 40px);
+  width: calc(100% - 1.5rem);
   top: 50%;
   left: 50%;
-  translate: -50% -50%;
-  background: pink;
+  translate: -50% calc(-50% - 20px - .25rem);
+  background: #fffa;
+  border: 2px dashed #959595;
+  backdrop-filter: blur(1rem);
+  opacity: .5;
 }
 .Window {
   height: 100%;

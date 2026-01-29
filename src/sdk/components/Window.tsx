@@ -3,7 +3,7 @@ import { atom, useAtom } from "jotai";
 import React, { Children, useEffect, useRef, useState, type ReactElement } from "react";
 import { DerivedWinAtom } from "../store";
 // @ts-ignore
-import { isMotionComponent, motion } from "motion/react";
+import { isMotionComponent, motion, AnimatePresence } from "motion/react";
 import { generateId } from "../Lib";
 import "./styles/Window.scss";
 import { Rnd } from "react-rnd";
@@ -72,6 +72,8 @@ export const Window=({
       uuid, 
       id:ids,
       icon,
+      open:true,
+      minimized
     }]);
   },[]);
   useEffect(()=>{
@@ -119,12 +121,24 @@ export const Window=({
       enableResizing={!isMax}
       className="winRnd"
       onMouseDown={(_e)=>{
+        // if((e as MouseEvent).clientY<=22) swdtm(true);
+        // else 
+        swdtm(false);
         console.log("detected mousedown");
         document.querySelectorAll(".winRnd").forEach(x=>{
           if(x.id!==`${ids}_rnd`)(x as HTMLElement).style.zIndex="-1";
           else(x as HTMLElement).style.zIndex="10";
         });
         // console.log(document.getElementById(`${ids}_rnd`));
+      }}
+      onDrag={(_e,d)=>{
+        if(d.y<=20) swdtm(true);
+        else swdtm(false);
+      }}
+      onDragStop={(_e,d)=>{
+        if(d.y<=20){
+          setIsMax(true);
+        }
       }}
       id={`${ids}_rnd`}
       dragHandleClassName={`${id}_draghandle`}
@@ -140,13 +154,13 @@ export const Window=({
               }}></motion.div>
               <motion.h1  
                 ref={dragRef}
-                onMouseUp={(e)=>{
+                onMouseUp={(_e)=>{
                   // console.log("detected mouseup");
                   swdtm(false);
-                  if(e.clientY<=24){
-                    // console.log("is in rad");
-                    setIsMax(true);
-                  }
+                  // if(e.clientY<=24){
+                  //   // console.log("is in rad");
+                  //   setIsMax(true);
+                  // }
                 }}
                 onMouseDown={(e)=>{
                   if(isMax){
@@ -182,6 +196,22 @@ export const Window=({
                   onClick={(e)=>{
                     e.preventDefault();
                     console.log("~ min");
+                    rndRef.current.getSelfElement().style.transition=".35s";
+                    rndRef.current.getSelfElement().style.opacity="0";
+                    rndRef.current.getSelfElement().style.translate="0% 3.5%";
+                    rndRef.current.getSelfElement().style.scale="90%";
+                    setTimeout(()=>{
+                      rndRef.current.getSelfElement().style.transition="0s";
+                      rndRef.current.getSelfElement().style.display="none";
+                    },360);
+                    setWindow([{
+                      title,
+                      uuid, 
+                      id:ids,
+                      icon,
+                      open:false,
+                      minimized
+                    }]);
                   }}
                   className="Button min">🗕</motion.button>
               </motion.div>
@@ -195,18 +225,18 @@ export const Window=({
 };
 export const WinDragToMax=():ReactElement|null=>{
   const[wdtm]=useAtom(wdtmAtom);
-  const[isHover,setIsHover]=useState<boolean>(false);
   useEffect(()=>{
     console.log(`wdtm status: ${wdtm}`);
   },[wdtm]);
-  useEffect(()=>{
-    console.log(`wdtm hoverStatus: ${isHover}`);
-  },[isHover]);
   return(wdtm)?<>
-    <motion.div 
-      onMouseEnter={()=>{setIsHover(true);}}
-      onMouseLeave={()=>{setIsHover(false);}}
-      id="wdtmDetector"></motion.div>
-    {isHover?<motion.div id="wdtmBox"></motion.div>:null}
+    <AnimatePresence>
+      {wdtm&&<motion.div 
+        initial={{opacity:0}}
+        animate={{opacity:1}}
+        exit={{opacity:0}}
+        transition={{duration:.15}}
+        key={1}
+        id="wdtmBox"></motion.div>}
+    </AnimatePresence>
   </>:null;
 }

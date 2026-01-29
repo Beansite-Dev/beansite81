@@ -1,4 +1,14 @@
 @use "../../Lib.scss";
+@property --t1 {
+  syntax: "<color>";
+  inherits: false;
+  initial-value: transparent;
+}
+@property --p1 {
+  syntax: "<percentage>";
+  inherits: false;
+  initial-value: 110%;
+}
 #Taskbar {
   position: fixed;
   bottom: 0%;
@@ -20,7 +30,30 @@
     border: none;
     outline: none;
     transition: .35s;
+    border: 1px outset transparent;
+    box-sizing: border-box;
+    border-radius: 1px;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    &:not(.Start){
+      background: radial-gradient(
+        circle at 50% var(--p1), 
+        var(--t1), 
+        transparent,
+        transparent,
+        transparent);
+      transition: 
+        --t1 .25s, 
+        --p1 1s;
+      &:hover {
+        // border-color: #95959595;
+        --t1: #fff;
+        --p1: 90%;
+      }
+    }
     .icon {
+      filter: drop-shadow(0 0 5px #000a);
       height: 80%;
       aspect-ratio: 1 / 1;
       background-position: center;

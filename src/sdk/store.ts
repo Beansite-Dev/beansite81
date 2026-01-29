@@ -6,6 +6,8 @@ export interface IWinObj{
   id:string;
   title:string;
   icon:keyof typeof Icons;
+  open:boolean;
+  minimized:boolean;
   // component:typeof Window;
 };
 export const uniqueById=(items:IWinObj[])=>{

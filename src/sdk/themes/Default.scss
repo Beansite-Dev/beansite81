@@ -42,12 +42,15 @@
   backdrop-filter: blur(10px);
   border: 1px #95959595 solid;
   .Start {
+    filter: drop-shadow(0 0 5px #000a);
     &:hover {
-      background: #240763;
+      background-color: #240763;
+      filter: drop-shadow(0 0 5px #0000);
       .icon {
         background-size: 400%;
+        animation: slide linear 5s;
         --c1: #5817e4 !important;
-        --c2: #783afe !important;
+        --c2: #6e2df9 !important;
       }
     }
     @keyframes slide {
@@ -58,9 +61,13 @@
         background-position-x: 100%;
       }
     }
+    transition: .35s !important;
     .icon {
       background-color: #fff;
-      transition: --c1 .35s, --c2 .35s;
+      transition: 
+        --c1 .35s, 
+        --c2 .35s, 
+        background-color .35s;
       background: linear-gradient(
         to right,
         var(--c1) 25%,
@@ -69,7 +76,6 @@
         );
       mask-image: url("/assets/favicon_modern.svg");
       mask-repeat: no-repeat;
-      animation: slide linear infinite 5s;
       animation-delay: 1s;
     }
   }

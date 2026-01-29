@@ -6,8 +6,8 @@ export const CHANGELOG:{
   releaseDate:string,
   changes:string[],
 }={
-  versionName:"0.4.7",
-  releaseDate:"Jan 25, 2026",
+  versionName:"0.5.3",
+  releaseDate:"Jan 29, 2026",
   changes:[
     "Fixed jotai state by implementing derived atom",
     "Taskbar implementation has begun",
@@ -16,6 +16,10 @@ export const CHANGELOG:{
     "Fixed click to bring window to front",
     "Added icon starters to taskbar and icons",
     "Fixed start icon",
+    "Added taskbar styling fixes",
+    "Fixed drag to maximize",
+    "Deleted more boilerplate code",
+    "Tweak tsconfig",
   ],
 }
 const App=({}):ReactElement=>{
