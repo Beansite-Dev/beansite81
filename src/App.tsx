@@ -7,7 +7,7 @@ export const CHANGELOG:{
   comment:string,
   changes:string[],
 }={
-  versionName:"0.6.2",
+  versionName:"0.6.4",
   releaseDate:"Feb 2, 2026",
   comment: "Hello 2",
   changes:[
@@ -24,6 +24,7 @@ export const CHANGELOG:{
     "Tweak tsconfig",
     "Added changelog comment",
     "Code reorginization",
+    "Fixed taskbar update issues through derived atoms",
   ],
 }
 const App=({}):ReactElement=>{

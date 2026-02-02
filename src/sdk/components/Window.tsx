@@ -178,8 +178,8 @@ export const Window=({
                       uuid, 
                       id:ids,
                       icon,
-                      open:false,
-                      minimized
+                      open:true,
+                      minimized:false
                     }]);
                   }}
                   className="Button min">🗕</motion.button>

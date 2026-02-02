@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState, type ReactElement } from "react";
 import "./styles/Taskbar.scss";
 import { AnimatePresence, easeInOut, motion, stagger } from "motion/react";
 import { atom, useAtom } from "jotai";
-import { DerivedWinAtom } from "../store";
+import { DerivedWinAtom, uniqueById, WinAtom, type IWinObj } from "../store";
 import { createPortal } from "react-dom";
 import Particles, { initParticlesEngine } from "@tsparticles/react";
 import {
@@ -12,7 +12,16 @@ import {
   OutMode,
 } from "@tsparticles/engine";
 import { loadSlim } from "@tsparticles/slim";
+import { useAtomValue, useSetAtom } from "jotai/react";
+import { selectAtom } from "jotai/utils";
 const startMenuAtom=atom<boolean>(false);
+export const DerivedTaskbarWinAtom=atom(
+  (get)=>get(WinAtom).map(item=>item.id),
+);
+export const DerivedTaskbarItemWinAtom=atom(
+  (get)=>get(WinAtom),
+  (get,set,update:IWinObj[])=>set(WinAtom,uniqueById([...get(WinAtom),...update]))
+);
 const variants={
   open:{
     opacity: 1,
@@ -31,7 +40,6 @@ const variants={
   },
 }
 export const StartMenu=({}):ReactElement|null=>{
-  const[windows,setWindow]=useAtom(DerivedWinAtom);
   const[startMenuOpen,setStartMenuOpen]=useAtom(startMenuAtom);
   useEffect(()=>{
     initParticlesEngine(async(engine)=>{
@@ -40,7 +48,6 @@ export const StartMenu=({}):ReactElement|null=>{
       setInit(true);
     });
   },[]);
-
   const options:ISourceOptions=useMemo(()=>({
     "particles": {
       "number": {
@@ -172,7 +179,8 @@ export const StartMenu=({}):ReactElement|null=>{
 }
 export const Taskbar=({}):ReactElement=>{
   // @ts-ignore
-  const[windows,setWindow]=useAtom(DerivedWinAtom);
+  const [windows]=useAtom(DerivedTaskbarWinAtom);
+  // const windows=useAtomValue(selectAtom(DerivedTaskbarWinAtom,(v)=>v));
   const[startMenuOpen,setStartMenuOpen]=useAtom(startMenuAtom);
   useEffect(()=>{
     console.table(windows);
@@ -183,23 +191,26 @@ export const Taskbar=({}):ReactElement=>{
     _key:number;
   }
   const AppItem=({id,_key}:IAppItem):ReactElement=>{
-    // useEffect(()=>{
-    // indexing ref
-      // windows[windows.findIndex((win)=>{return win.id===id;})]
-    // },[]);
-    return(<>{windows[windows.findIndex((win)=>{return win.id===id;})].open
+    const[windows2,]=useAtom(DerivedWinAtom);
+    const setWindow=useSetAtom(DerivedTaskbarItemWinAtom);
+    return(<>{windows2[windows.findIndex((win)=>{return win===id;})].open
       &&<motion.div 
-        key={_key}//{windows.findIndex((win)=>{return win.id===id;})}
-        variants={variants}
-        initial={"closed"}
         animate={"open"}
         exit={"closed"}
         onClick={(e)=>{
           e.preventDefault();
+          setWindow([{
+            title:windows2[windows.findIndex((win)=>{return win===id;})].title,
+            uuid:windows2[windows.findIndex((win)=>{return win===id;})].uuid, 
+            id:windows2[windows.findIndex((win)=>{return win===id;})].id,
+            icon:windows2[windows.findIndex((win)=>{return win===id;})].icon,
+            open:true,
+            minimized:false
+          }]);
         }}
         className="item">
           <motion.div
-            style={{backgroundImage:`url(${windows[windows.findIndex((win)=>{return win.id===id;})].icon})`,}} 
+            style={{backgroundImage:`url(${windows2[windows.findIndex((win)=>{return win===id;})].icon})`,}} 
             className="icon"></motion.div>
     </motion.div>}</>);
   }
@@ -215,7 +226,7 @@ export const Taskbar=({}):ReactElement=>{
       </motion.div>
       <AnimatePresence>
         {windows.map((win,i)=>
-          <AppItem key={i} _key={i} id={win.id}/>)}
+          <AppItem key={i} _key={i} id={win}/>)}
       </AnimatePresence>
     </motion.div>
   </>);
