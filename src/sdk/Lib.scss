@@ -7,3 +7,15 @@
   width: 100dvw;
   z-index: $z;
 }
+@mixin bgDefault {
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  object-fit: cover;
+}
+@mixin bgContain {
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+  object-fit: contain;
+}

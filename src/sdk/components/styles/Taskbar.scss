@@ -21,7 +21,7 @@
   align-items: center;
   .item {
     height: 100%;
-    width: 50px;
+    width: 55px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -29,7 +29,6 @@
     background: transparent;
     border: none;
     outline: none;
-    transition: .35s;
     border: 1px outset transparent;
     box-sizing: border-box;
     border-radius: 1px;
@@ -44,7 +43,7 @@
         transparent,
         transparent);
       transition: 
-        --t1 .25s, 
+        --t1 .35s, 
         --p1 1s;
       &:hover {
         // border-color: #95959595;
@@ -64,5 +63,28 @@
       mask-size: contain;
       // background: pink;
     }
+  }
+}
+#StartMenu {
+  @include Lib.fullOccupy(99);
+  @include Lib.bgDefault();
+  height: calc(100dvh + 1px) !important;
+  width: calc(100dvw + 1px) !important;
+  padding: 6rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex: 1;
+  box-sizing: border-box;
+  isolation: isolate;
+  #tsparticles {
+    z-index: 20;
+  }
+  #GridWrapper {
+    z-index: 25;
+    background: pink;
+    flex-grow: 1;
+    height: 100%;
+    width: 100%;
   }
 }

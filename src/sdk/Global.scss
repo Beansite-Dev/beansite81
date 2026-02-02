@@ -30,9 +30,8 @@
 }
 #Background {
   @include Lib.fullOccupy(2);
+  @include Lib.bgDefault();
   background-image: url("/wallpaper/1.jpg");
   height: calc(100dvh + 1px) !important;
   width: calc(100dvw + 1px) !important;
-  background-position: center;
-  background-size: cover;
 }

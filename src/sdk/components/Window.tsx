@@ -40,33 +40,17 @@ export const Window=({
   // @ts-ignore
   minimized=false,
 }:IWindow):ReactElement=>{
-  // @ts-ignore
-  const[windows,setWindow]=useAtom(DerivedWinAtom);
+  const[_windows,setWindow]=useAtom(DerivedWinAtom);
   const[isMax,setIsMax]=useState<boolean>(maximized);
   const[lastPos,setLastPos]=useState<{x:number,y:number}|null>(null);
   const[lastDim,setLastDim]=useState<{height:number,width:number}|null>(null);
-  // @ts-ignore
-  const[wdtm,swdtm]=useAtom(wdtmAtom);
+  const[_wdtm,swdtm]=useAtom(wdtmAtom);
   const rndRef=useRef<any>(null);
   const dragRef=useRef<any>(null);
-  // interface Ims{
-    // height?:number|string;
-    // width?:number|string;
-    // top?:number|string;
-    // left?:number|string;
-  // }
-  // const[ms,sms]=useState<Ims>({});
-  // const [position,setPosition]=useState<{x:number,y:number}>({x:0,y:0});
   const uuid=generateId(10);
   const ids=`${id}_${uuid}`;
   useEffect(()=>{
     console.log(`win-${id}loaded`);
-    // return setWindowUnique({
-    //   title,
-    //   uuid, 
-    //   id:ids,
-    //   icon,
-    // });
     return setWindow([{
       title,
       uuid, 
@@ -111,25 +95,17 @@ export const Window=({
   //🗙︎🗕🗖︎🗗︎
   return(<>
     <Rnd
-      // style={ms}
-      // position={position}
-      // onDragStop={(e, d) => {
-      //   setPosition({ x: d.x, y: d.y });
-      // }}
       ref={rndRef}
       disableDragging={isMax}
       enableResizing={!isMax}
       className="winRnd"
       onMouseDown={(_e)=>{
-        // if((e as MouseEvent).clientY<=22) swdtm(true);
-        // else 
         swdtm(false);
         console.log("detected mousedown");
         document.querySelectorAll(".winRnd").forEach(x=>{
           if(x.id!==`${ids}_rnd`)(x as HTMLElement).style.zIndex="-1";
           else(x as HTMLElement).style.zIndex="10";
         });
-        // console.log(document.getElementById(`${ids}_rnd`));
       }}
       onDrag={(_e,d)=>{
         if(d.y<=20) swdtm(true);
@@ -154,14 +130,7 @@ export const Window=({
               }}></motion.div>
               <motion.h1  
                 ref={dragRef}
-                onMouseUp={(_e)=>{
-                  // console.log("detected mouseup");
-                  swdtm(false);
-                  // if(e.clientY<=24){
-                  //   // console.log("is in rad");
-                  //   setIsMax(true);
-                  // }
-                }}
+                onMouseUp={(_e)=>{swdtm(false);}}
                 onMouseDown={(e)=>{
                   if(isMax){
                     if(dragRef.current&&lastPos){

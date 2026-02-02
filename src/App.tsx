@@ -4,10 +4,12 @@ import { Icons } from './sdk/components/Enum';
 export const CHANGELOG:{
   versionName:string,
   releaseDate:string,
+  comment:string,
   changes:string[],
 }={
-  versionName:"0.5.3",
-  releaseDate:"Jan 29, 2026",
+  versionName:"0.6.2",
+  releaseDate:"Feb 2, 2026",
+  comment: "Hello 2",
   changes:[
     "Fixed jotai state by implementing derived atom",
     "Taskbar implementation has begun",
@@ -20,6 +22,8 @@ export const CHANGELOG:{
     "Fixed drag to maximize",
     "Deleted more boilerplate code",
     "Tweak tsconfig",
+    "Added changelog comment",
+    "Code reorginization",
   ],
 }
 const App=({}):ReactElement=>{
