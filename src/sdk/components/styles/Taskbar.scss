@@ -51,6 +51,29 @@
         --p1: 90%;
       }
     }
+    position: relative;
+    .preview {
+      height: 4.5rem;
+      aspect-ratio: 16 / 9;
+      position: absolute;
+      top: 0%;
+      left: 50%;
+      translate: -50% -50%;
+      opacity: 0;
+      display: flex;
+      pointer-events: none;
+      z-index: 60;
+      backdrop-filter: blur(1rem) !important;
+      filter: drop-shadow(0 0 20px black);
+      transition: .5s !important;
+      scale: 90%;
+    }
+    &:hover > .preview {
+      opacity: 1 !important;
+      translate: -50% calc(-100%);
+      pointer-events: all;
+      scale: 100%;
+    }
     .icon {
       filter: drop-shadow(0 0 5px #000a);
       height: 80%;

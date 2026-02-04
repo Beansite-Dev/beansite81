@@ -7,10 +7,11 @@ export const CHANGELOG:{
   comment:string,
   changes:string[],
 }={
-  versionName:"0.6.4",
+  versionName:"0.7.2",
   releaseDate:"Feb 2, 2026",
-  comment: "Hello 2",
+  comment: "Hello 3",
   changes:[
+    "TODO: Add window opening",
     "Fixed jotai state by implementing derived atom",
     "Taskbar implementation has begun",
     "Added changelog",
@@ -25,6 +26,7 @@ export const CHANGELOG:{
     "Added changelog comment",
     "Code reorginization",
     "Fixed taskbar update issues through derived atoms",
+    "Added closing/minimize functionality to windows",
   ],
 }
 const App=({}):ReactElement=>{

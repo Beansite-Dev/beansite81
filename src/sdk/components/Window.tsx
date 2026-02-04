@@ -1,7 +1,7 @@
 import { atom, useAtom } from "jotai";
 // @ts-ignore
 import React, { Children, useEffect, useRef, useState, type ReactElement } from "react";
-import { DerivedWinAtom } from "../store";
+import { DerivedWinAtom, DerivedWinModifierAtom, type IWinObj } from "../store";
 // @ts-ignore
 import { isMotionComponent, motion, AnimatePresence } from "motion/react";
 import { generateId } from "../Lib";
@@ -41,7 +41,10 @@ export const Window=({
   minimized=false,
 }:IWindow):ReactElement=>{
   const[_windows,setWindow]=useAtom(DerivedWinAtom);
+  const[,updateWindow]=useAtom(DerivedWinModifierAtom);
   const[isMax,setIsMax]=useState<boolean>(maximized);
+  const[isMin,setIsMin]=useState<boolean>(minimized);
+  const[isOpen,setIsOpen]=useState<boolean>(!closed);
   const[lastPos,setLastPos]=useState<{x:number,y:number}|null>(null);
   const[lastDim,setLastDim]=useState<{height:number,width:number}|null>(null);
   const[_wdtm,swdtm]=useAtom(wdtmAtom);
@@ -60,6 +63,39 @@ export const Window=({
       minimized
     }]);
   },[]);
+  // close/minimize scripts
+  useEffect(()=>{
+    console.log(_windows.filter(x=>x.id==ids)[0]);
+    if(_windows.filter(x=>x.id==ids)[0]){
+      let winObj:IWinObj=_windows.filter(x=>x.id==ids)[0];
+      let winElm:HTMLElement=rndRef.current.getSelfElement();
+      if(isMin!==winObj.minimized||isOpen!==winObj.open){
+        if(winObj.minimized==true||winObj.open==false){
+          winElm.style.transition=".35s";
+          winElm.style.opacity="0";
+          winElm.style.translate="0% 3.5%";
+          winElm.style.scale="90%";
+          setTimeout(()=>{
+            winElm.style.transition="0s";
+            winElm.style.display="none";
+          },360);
+        }else if(winObj.minimized==false||winObj.open==true){
+          // TODO: fix this, it doesnt animate but does work
+          winElm.style.transition=".35s";
+          winElm.style.display="block";
+          winElm.style.opacity="1";
+          winElm.style.translate="0% 0%";
+          winElm.style.scale="100%";
+          setTimeout(()=>{
+            winElm.style.transition="0s";
+          },360);
+        }
+        setIsMin(winObj.minimized);
+        setIsOpen(winObj.open);
+      }
+    }
+  },[_windows]);
+  // maximize scripts
   useEffect(()=>{
     console.log(isMax);
     // sms(isMax?{
@@ -151,6 +187,7 @@ export const Window=({
                   onClick={(e)=>{
                     e.preventDefault();
                     console.log("~ close");
+                    updateWindow([ids,"open",false]);
                   }}
                   className="Button x">🗙︎</motion.button>
                 <motion.button 
@@ -165,22 +202,7 @@ export const Window=({
                   onClick={(e)=>{
                     e.preventDefault();
                     console.log("~ min");
-                    rndRef.current.getSelfElement().style.transition=".35s";
-                    rndRef.current.getSelfElement().style.opacity="0";
-                    rndRef.current.getSelfElement().style.translate="0% 3.5%";
-                    rndRef.current.getSelfElement().style.scale="90%";
-                    setTimeout(()=>{
-                      rndRef.current.getSelfElement().style.transition="0s";
-                      rndRef.current.getSelfElement().style.display="none";
-                    },360);
-                    setWindow([{
-                      title,
-                      uuid, 
-                      id:ids,
-                      icon,
-                      open:true,
-                      minimized:false
-                    }]);
+                    updateWindow([ids,"minimized",true]);
                   }}
                   className="Button min">🗕</motion.button>
               </motion.div>

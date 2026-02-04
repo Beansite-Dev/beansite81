@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState, type ReactElement } from "react";
 import "./styles/Taskbar.scss";
 import { AnimatePresence, easeInOut, motion, stagger } from "motion/react";
 import { atom, useAtom } from "jotai";
-import { DerivedWinAtom, uniqueById, WinAtom, type IWinObj } from "../store";
+import { DerivedWinAtom, DerivedWinModifierAtom, uniqueById, WinAtom, type IWinObj } from "../store";
 import { createPortal } from "react-dom";
 import Particles, { initParticlesEngine } from "@tsparticles/react";
 import {
@@ -182,33 +182,31 @@ export const Taskbar=({}):ReactElement=>{
   const [windows]=useAtom(DerivedTaskbarWinAtom);
   // const windows=useAtomValue(selectAtom(DerivedTaskbarWinAtom,(v)=>v));
   const[startMenuOpen,setStartMenuOpen]=useAtom(startMenuAtom);
-  useEffect(()=>{
-    console.table(windows);
-  },[windows]);
   interface IAppItem {
     // key:string;
     id:string;
     _key:number;
   }
   const AppItem=({id,_key}:IAppItem):ReactElement=>{
-    const[windows2,]=useAtom(DerivedWinAtom);
+    const[windows2,updateWindow]=useAtom(DerivedWinModifierAtom);
+    useEffect(()=>{
+      console.table(windows2);
+    },[windows2]);
     const setWindow=useSetAtom(DerivedTaskbarItemWinAtom);
-    return(<>{windows2[windows.findIndex((win)=>{return win===id;})].open
+    return(<>{windows2.filter(i=>i.id==id)[0].open
       &&<motion.div 
+        initial={"closed"}
         animate={"open"}
+        transition={{duration:.35}}
         exit={"closed"}
         onClick={(e)=>{
           e.preventDefault();
-          setWindow([{
-            title:windows2[windows.findIndex((win)=>{return win===id;})].title,
-            uuid:windows2[windows.findIndex((win)=>{return win===id;})].uuid, 
-            id:windows2[windows.findIndex((win)=>{return win===id;})].id,
-            icon:windows2[windows.findIndex((win)=>{return win===id;})].icon,
-            open:true,
-            minimized:false
-          }]);
+          updateWindow([id,"minimized",!windows2.filter(i=>i.id==id)[0].minimized]);
         }}
         className="item">
+          <motion.div className="preview">
+            
+          </motion.div>
           <motion.div
             style={{backgroundImage:`url(${windows2[windows.findIndex((win)=>{return win===id;})].icon})`,}} 
             className="icon"></motion.div>

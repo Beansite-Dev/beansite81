@@ -41,6 +41,12 @@
   background: #ffffff70;
   backdrop-filter: blur(10px);
   border: 1px #95959595 solid;
+  .item {
+    .preview {
+      background: #ffffffd5 !important;
+      border: 1px #95959595 solid !important;
+    }
+  }
   .Start {
     filter: drop-shadow(0 0 5px #000a);
     &:hover {

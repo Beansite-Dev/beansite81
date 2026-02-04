@@ -23,6 +23,16 @@ export const DerivedWinAtom=atom(
   (get)=>get(WinAtom),
   (get,set,update:IWinObj[])=>set(WinAtom,uniqueById([...get(WinAtom),...update]))
 );
+export const DerivedWinModifierAtom=atom(
+  // windows2[windows.findIndex((win)=>{return win===id;})]
+  (get)=>get(WinAtom),
+  (get,set,update:[string,keyof IWinObj,any])=>set(WinAtom,get(WinAtom).map((item:IWinObj)=>{
+    if(item.id===update[0]){
+      return {...item, [update[1]]: update[2]};
+    }
+    return item;
+  }))
+);
 // const setWindowUnique=(newItem:IWinObj)=>{
   // setWindow((x)=>{return uniqueById([...x,newItem]);});
 // };
