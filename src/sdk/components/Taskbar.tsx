@@ -6,22 +6,17 @@ import { DerivedWinAtom, DerivedWinModifierAtom, uniqueById, WinAtom, type IWinO
 import { createPortal } from "react-dom";
 import Particles, { initParticlesEngine } from "@tsparticles/react";
 import {
-  type Container,
   type ISourceOptions,
-  MoveDirection,
-  OutMode,
 } from "@tsparticles/engine";
 import { loadSlim } from "@tsparticles/slim";
-import { useAtomValue, useSetAtom } from "jotai/react";
-import { selectAtom } from "jotai/utils";
 const startMenuAtom=atom<boolean>(false);
 export const DerivedTaskbarWinAtom=atom(
   (get)=>get(WinAtom).map(item=>item.id),
 );
-export const DerivedTaskbarItemWinAtom=atom(
-  (get)=>get(WinAtom),
-  (get,set,update:IWinObj[])=>set(WinAtom,uniqueById([...get(WinAtom),...update]))
-);
+// export const DerivedTaskbarItemWinAtom=atom(
+//   (get)=>get(WinAtom),
+//   (get,set,update:IWinObj[])=>set(WinAtom,uniqueById([...get(WinAtom),...update]))
+// );
 const variants={
   open:{
     opacity: 1,
@@ -157,6 +152,9 @@ export const StartMenu=({}):ReactElement|null=>{
     // },
     "retina_detect": true
   }),[],);
+  // useKeyPress("Escape",()=>{
+  //   setStartMenuOpen(false);
+  // });
   const [init,setInit]=useState(false);
   return(startMenuOpen?
     createPortal(<AnimatePresence>
@@ -192,7 +190,7 @@ export const Taskbar=({}):ReactElement=>{
     useEffect(()=>{
       console.table(windows2);
     },[windows2]);
-    const setWindow=useSetAtom(DerivedTaskbarItemWinAtom);
+    // const setWindow=useSetAtom(DerivedTaskbarItemWinAtom);
     return(<>{windows2.filter(i=>i.id==id)[0].open
       &&<motion.div 
         initial={"closed"}
