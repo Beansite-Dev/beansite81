@@ -1,18 +1,20 @@
 import { useState, type ReactElement } from 'react';
 import { Beansite81, Window } from './sdk/sdk';
 import { Icons } from './sdk/components/Enum';
+import { Helmet } from "react-helmet-async";
 export const CHANGELOG:{
   versionName:string,
   releaseDate:string,
   comment:string,
   changes:string[],
 }={
-  versionName:"0.8.62",
+  versionName:"0.8.7",
   releaseDate:"Feb 9, 2026",
   comment: "Quick checkpoint",
   changes:[
     "TODO: fix minimize animations by using animate presence",
     "WIP: Addding window opening",
+    "Quick react-helmet-async implementation",
     "Fixed jotai state by implementing derived atom",
     "Taskbar implementation has begun",
     "Added changelog",
@@ -32,6 +34,13 @@ export const CHANGELOG:{
 }
 const App=({}):ReactElement=>{
   return(<>
+    <Helmet>
+      <meta charSet="UTF-8" />
+      <link rel="icon" type="image/svg+xml" href="/assets/favicon_modern.svg" />
+      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <title>Beansite 8.1</title>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    </Helmet>
     <Beansite81>
       <Window
         id="win1"
