@@ -7,11 +7,12 @@ export const CHANGELOG:{
   comment:string,
   changes:string[],
 }={
-  versionName:"0.7.3",
-  releaseDate:"Feb 4, 2026",
-  comment: "Hello 3",
+  versionName:"0.8.6",
+  releaseDate:"Feb 9, 2026",
+  comment: "Quick checkpoint",
   changes:[
-    "TODO: Add window opening",
+    "TODO: fix minimize animations by using animate presence",
+    "WIP: Addding window opening",
     "Fixed jotai state by implementing derived atom",
     "Taskbar implementation has begun",
     "Added changelog",

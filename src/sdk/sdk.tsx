@@ -1,4 +1,4 @@
-import React, { Children, cloneElement, useRef, type ReactElement } from "react";
+import React, { Children, cloneElement, useRef, type ReactElement, type Ref, type RefObject } from "react";
 import { Window, WinDragToMax } from "./components/Window";
 import { motion } from "motion/react";
 import "./Global.scss";
@@ -20,16 +20,17 @@ export const Beansite81=({
       }
     });
   };
+  const mb81ref=useRef<any>(null);
   return(<>
     <ErrorBoundary>
-      <motion.div className="Beansite81 default font-segoe">
+      <motion.div ref={mb81ref} id="Beansite81" className="Beansite81 default font-segoe">
         <motion.div id="Background"></motion.div>
         <WinDragToMax />
         <motion.div id="WindowWrapper" ref={WindowWrapper}>
           {renderChildren()}
           {/* {children} */}
         </motion.div>
-        <Taskbar/>
+        <Taskbar mb81ref={mb81ref}/>
       </motion.div>
     </ErrorBoundary>
   </>);

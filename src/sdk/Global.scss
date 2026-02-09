@@ -22,6 +22,11 @@
   font-family: 'PT Serif', sans-serif;
   font-weight: 400;
 }}
+html,body{&,*,& *{
+  padding: none;
+  margin: none;
+  position: relative;
+}}
 #WindowWrapper {
   @include Lib.fullOccupy(9);
 }

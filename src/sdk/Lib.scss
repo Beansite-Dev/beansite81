@@ -13,6 +13,12 @@
   background-size: cover;
   object-fit: cover;
 }
+@mixin bgDefaultForced {
+  background-repeat: no-repeat !important;
+  background-position: center !important;
+  background-size: cover !important;
+  object-fit: cover !important;
+}
 @mixin bgContain {
   background-repeat: no-repeat;
   background-position: center;

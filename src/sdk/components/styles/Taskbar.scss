@@ -105,9 +105,48 @@
   }
   #GridWrapper {
     z-index: 25;
-    background: pink;
+    // background: rgba(pink,.2);
     flex-grow: 1;
     height: 100%;
     width: 100%;
+    min-height: 20rem;
+    height: calc(24rem + (.5rem * 3));
+    gap: .5rem;
+    display: grid;
+    grid-template-columns: repeat(auto-fit,8rem);
+    grid-template-rows: repeat(auto-fit,8rem);
+    .startMenuItem {
+      @include Lib.bgDefaultForced;
+      // height: 8rem;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+      transition: .35s;
+      position: relative;
+      .Name {
+        position: absolute !important;
+        bottom: 0%;
+        left: 0%;
+        width: 100%;
+        height: fit-content;
+        font-size: .75rem;
+        margin: 0;
+        padding: .25rem;
+        padding-top: 2rem;
+        box-sizing: border-box;
+        color: #fff;
+        user-select: none;
+        background: linear-gradient(
+          to bottom,
+          transparent,
+          #101010bb);
+      }
+      &:hover {
+        scale: 110%;
+        filter: drop-shadow(0 0 2.5rem #101010);
+      }
+      // background: pink;
+    }
   }
 }

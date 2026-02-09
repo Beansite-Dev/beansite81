@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState, type ReactElement } from "react";
+import { useEffect, useMemo, useState, type CSSProperties, type ReactElement } from "react";
 import "./styles/Taskbar.scss";
 import { AnimatePresence, easeInOut, motion, stagger } from "motion/react";
 import { atom, useAtom } from "jotai";
@@ -9,6 +9,7 @@ import {
   type ISourceOptions,
 } from "@tsparticles/engine";
 import { loadSlim } from "@tsparticles/slim";
+import { Icons } from "./Enum";
 const startMenuAtom=atom<boolean>(false);
 export const DerivedTaskbarWinAtom=atom(
   (get)=>get(WinAtom).map(item=>item.id),
@@ -34,7 +35,7 @@ const variants={
     scale: "90%",
   },
 }
-export const StartMenu=({}):ReactElement|null=>{
+export const StartMenu=({mb81ref}:{mb81ref:React.RefObject<HTMLDivElement>}):ReactElement|null=>{
   const[startMenuOpen,setStartMenuOpen]=useAtom(startMenuAtom);
   useEffect(()=>{
     initParticlesEngine(async(engine)=>{
@@ -152,13 +153,46 @@ export const StartMenu=({}):ReactElement|null=>{
     // },
     "retina_detect": true
   }),[],);
-  // useKeyPress("Escape",()=>{
-  //   setStartMenuOpen(false);
-  // });
   const [init,setInit]=useState(false);
-  return(startMenuOpen?
-    createPortal(<AnimatePresence>
+  interface IStartMenuItem {
+    name:string;
+    icon?:string;
+    background:string;
+    renderIcon?:boolean;
+    customCallback?:()=>void;
+    target?:string;
+    style?:CSSProperties;
+  }
+  const StartMenuItem=({
+    name,
+    icon,
+    background,
+    renderIcon=true,
+    customCallback,
+    target,
+    style,
+  }:IStartMenuItem):ReactElement=>{
+    const[windows,updateWindow]=useAtom(DerivedWinModifierAtom);
+    return(<>
       <motion.div 
+        style={{
+          ...style,
+          background: background,
+        }}
+        onClick={(e)=>{
+          e.preventDefault();
+          setStartMenuOpen(false);
+          if(target){
+            updateWindow([target,"open",false]);
+          }
+        }} 
+        className="startMenuItem">
+          <motion.h1 className="Name">{name}</motion.h1>
+      </motion.div>
+    </>);
+  };
+  return(<>{mb81ref.current?createPortal(<><AnimatePresence>
+      {startMenuOpen?<motion.div 
         key={0}
         variants={variants}
         initial={"closed"}
@@ -169,13 +203,21 @@ export const StartMenu=({}):ReactElement|null=>{
             id="tsparticles"
             options={options}/>
           <motion.div id="GridWrapper">
-
+            <StartMenuItem 
+              name="Back to Desktop"
+              background={"url(/wallpaper/1.jpg)"}
+              renderIcon={false}/>
+            <StartMenuItem 
+              name="Win1"
+              background={"#0CA2FF"}
+              icon={Icons.configApplication}
+              target="win1"/>
           </motion.div>
-      </motion.div>
-    </AnimatePresence>,
-  document.getElementById("root")!):null);
+      </motion.div>:null}
+    </AnimatePresence></>,
+  mb81ref.current):null}</>);
 }
-export const Taskbar=({}):ReactElement=>{
+export const Taskbar=({mb81ref}:{mb81ref:React.RefObject<HTMLDivElement>}):ReactElement=>{
   // @ts-ignore
   const [windows]=useAtom(DerivedTaskbarWinAtom);
   // const windows=useAtomValue(selectAtom(DerivedTaskbarWinAtom,(v)=>v));
@@ -211,7 +253,7 @@ export const Taskbar=({}):ReactElement=>{
     </motion.div>}</>);
   }
   return(<>
-    <StartMenu/>
+    <StartMenu mb81ref={mb81ref} />
     <motion.div id="Taskbar">
       <motion.div 
         onClick={(e)=>{

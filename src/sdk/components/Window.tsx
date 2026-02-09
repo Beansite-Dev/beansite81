@@ -57,7 +57,7 @@ export const Window=({
     return setWindow([{
       title,
       uuid, 
-      id:ids,
+      id:id,
       icon,
       open:true,
       minimized
@@ -65,9 +65,9 @@ export const Window=({
   },[]);
   // close/minimize scripts
   useEffect(()=>{
-    console.log(_windows.filter(x=>x.id==ids)[0]);
-    if(_windows.filter(x=>x.id==ids)[0]){
-      let winObj:IWinObj=_windows.filter(x=>x.id==ids)[0];
+    console.log(_windows.filter(x=>x.id==id)[0]);
+    if(_windows.filter(x=>x.id==id)[0]){
+      let winObj:IWinObj=_windows.filter(x=>x.id==id)[0];
       let winElm:HTMLElement=rndRef.current.getSelfElement();
       if(isMin!==winObj.minimized||isOpen!==winObj.open){
         if(winObj.minimized==true||winObj.open==false){
@@ -187,7 +187,7 @@ export const Window=({
                   onClick={(e)=>{
                     e.preventDefault();
                     console.log("~ close");
-                    updateWindow([ids,"open",false]);
+                    updateWindow([id,"open",false]);
                   }}
                   className="Button x">🗙︎</motion.button>
                 <motion.button 
@@ -202,7 +202,7 @@ export const Window=({
                   onClick={(e)=>{
                     e.preventDefault();
                     console.log("~ min");
-                    updateWindow([ids,"minimized",true]);
+                    updateWindow([id,"minimized",true]);
                   }}
                   className="Button min">🗕</motion.button>
               </motion.div>

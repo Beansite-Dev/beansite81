@@ -19,7 +19,8 @@
     "react-helmet-async": "^2.0.5",
     "react-rnd": "^10.5.2",
     "sass": "^1.97.2",
-    "scss": "^0.2.4"
+    "scss": "^0.2.4",
+    "usehooks-ts": "^3.1.1"
   },
   "devDependencies": {
     "@eslint/js": "^9.39.1",
