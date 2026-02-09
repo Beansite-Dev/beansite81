@@ -7,7 +7,7 @@ export const CHANGELOG:{
   comment:string,
   changes:string[],
 }={
-  versionName:"0.8.6",
+  versionName:"0.8.62",
   releaseDate:"Feb 9, 2026",
   comment: "Quick checkpoint",
   changes:[
