@@ -183,11 +183,16 @@ export const StartMenu=({mb81ref}:{mb81ref:React.RefObject<HTMLDivElement>}):Rea
           e.preventDefault();
           setStartMenuOpen(false);
           if(target){
-            updateWindow([target,"open",false]);
+            updateWindow([target,"open",true]);
           }
         }} 
         className="startMenuItem">
           <motion.h1 className="Name">{name}</motion.h1>
+          {renderIcon&&<motion.div 
+            className="Icon" 
+            style={{
+              backgroundImage:`url(${icon})`
+            }}></motion.div>}
       </motion.div>
     </>);
   };
@@ -212,6 +217,11 @@ export const StartMenu=({mb81ref}:{mb81ref:React.RefObject<HTMLDivElement>}):Rea
               background={"#0CA2FF"}
               icon={Icons.configApplication}
               target="win1"/>
+            <StartMenuItem 
+              name="Win2"
+              background={"#27D260"}
+              icon={Icons.configApplication}
+              target="win2"/>
           </motion.div>
       </motion.div>:null}
     </AnimatePresence></>,

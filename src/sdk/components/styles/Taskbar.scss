@@ -124,6 +124,14 @@
       cursor: pointer;
       transition: .35s;
       position: relative;
+      border: 1px solid #95959595;
+      box-sizing: border-box;
+      .Icon {
+        @include Lib.bgContain;
+        height: 5rem;
+        aspect-ratio: 1 / 1;
+        filter: drop-shadow(0 0 .5rem #10101050);
+      }
       .Name {
         position: absolute !important;
         bottom: 0%;

@@ -8,12 +8,13 @@ export const CHANGELOG:{
   comment:string,
   changes:string[],
 }={
-  versionName:"0.8.7",
+  versionName:"0.8.82",
   releaseDate:"Feb 9, 2026",
   comment: "Quick checkpoint",
   changes:[
+    "TODO: set up firebase hosting",
     "TODO: fix minimize animations by using animate presence",
-    "WIP: Addding window opening",
+    "Added window opening",
     "Quick react-helmet-async implementation",
     "Fixed jotai state by implementing derived atom",
     "Taskbar implementation has begun",

@@ -12,6 +12,7 @@
     "@tsparticles/engine": "^3.9.1",
     "@tsparticles/react": "^3.0.0",
     "@tsparticles/slim": "^3.9.1",
+    "firebase-tools": "^15.5.1",
     "jotai": "^2.16.2",
     "motion": "^12.26.2",
     "react": "^19.2.0",
