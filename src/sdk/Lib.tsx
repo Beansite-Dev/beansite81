@@ -11,7 +11,7 @@ export const generateId=(length:number)=>{
   return btoa(result).replaceAll("=","");
 }
 export const getQueryParams=(qs:string)=>{
-  qs = qs.split('+').join(' ');
+  qs=qs.split('+').join(' ');
   var params={},
     tokens,
     re=/[?&]?([^=]+)=([^&]*)/g;

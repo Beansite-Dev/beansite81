@@ -9,13 +9,12 @@ export const CHANGELOG:{
   comment:string,
   changes:string[],
 }={
-  versionName:"0.8.92",
+  versionName:"0.8.96",
   releaseDate:"Feb 9, 2026",
   comment: "Quick checkpoint",
   changes:[
     "TODO: set up firebase hosting",
     "TODO: set up vercel hosting",
-    "TODO: fix minimize animations by using animate presence",
     "Added changelog",
     "Updated lib",
     "Added window opening",
