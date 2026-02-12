@@ -2,19 +2,22 @@ import { useState, type ReactElement } from 'react';
 import { Beansite81, Window } from './sdk/sdk';
 import { Icons } from './sdk/components/Enum';
 import { Helmet } from "react-helmet-async";
+import { motion } from 'motion/react';
 export const CHANGELOG:{
   versionName:string,
   releaseDate:string,
   comment:string,
   changes:string[],
 }={
-  versionName:"0.8.85",
+  versionName:"0.8.92",
   releaseDate:"Feb 9, 2026",
   comment: "Quick checkpoint",
   changes:[
     "TODO: set up firebase hosting",
     "TODO: set up vercel hosting",
     "TODO: fix minimize animations by using animate presence",
+    "Added changelog",
+    "Updated lib",
     "Added window opening",
     "Quick react-helmet-async implementation",
     "Fixed jotai state by implementing derived atom",
@@ -51,11 +54,17 @@ const App=({}):ReactElement=>{
           
       </Window>
       <Window
-        id="win2"
+        id="changelog"
         y={240}
-        icon={Icons.configApplication}
-        title="Test Win 2">
-          
+        icon={Icons.text}
+        title="Changelog">
+          <motion.h1>{CHANGELOG.versionName} - {CHANGELOG.releaseDate}</motion.h1>
+          <motion.p>{CHANGELOG.comment}</motion.p>
+          <motion.ul>
+            {CHANGELOG.changes.map((change,index)=>(
+              <motion.li key={index}>{change}</motion.li>
+            ))}
+          </motion.ul>
       </Window>
     </Beansite81>
   </>);

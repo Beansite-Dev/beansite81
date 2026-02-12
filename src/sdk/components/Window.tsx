@@ -10,7 +10,7 @@ import { Rnd } from "react-rnd";
 import { Icons } from "./Enum";
 const wdtmAtom=atom<boolean>(false);
 export interface IWindow{
-  children?:ReactElement;
+  children?:ReactElement[];
   title:string;
   id:string;
   bounds?:any;

@@ -109,5 +109,8 @@
     bottom: $padding;
     left: 50%;
     translate: -50% 0%;
+    padding: 1rem;
+    box-sizing: border-box;
+    overflow: hidden auto;
   }
 }

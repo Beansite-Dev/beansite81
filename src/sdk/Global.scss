@@ -40,3 +40,7 @@ html,body{&,*,& *{
   height: calc(100dvh + 1px) !important;
   width: calc(100dvw + 1px) !important;
 }
+h1,p {
+  margin: 0;
+  padding: 0;
+}
