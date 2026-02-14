@@ -13,7 +13,8 @@
     "@tsparticles/engine": "^3.9.1",
     "@tsparticles/react": "^3.0.0",
     "@tsparticles/slim": "^3.9.1",
-    "firebase-tools": "^15.5.1",
+    "firebase-cli": "^1.2.0",
+    "firebase-tools": "^15.6.0",
     "jotai": "^2.17.1",
     "motion": "^12.34.0",
     "react": "^19.2.4",
@@ -24,7 +25,7 @@
     "sass": "^1.97.3",
     "scss": "^0.2.4",
     "usehooks-ts": "^3.1.1",
-    "vercel": "^50.13.2"
+    "vercel": "^50.17.1"
   },
   "devDependencies": {
     "@eslint/js": "^9.39.2",
