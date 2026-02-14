@@ -1,7 +1,7 @@
 import { generateId } from "../modules/Lib";
 const tips=[
     "There are tons of easter eggs in CMD; Try to find them all",
-    "Did you know Boston is also called Beantown? Just me? oh...",
+    "Did you know Boston is also called Beantown?",
     "I actually have a youtube! Please subscribe, I want to buy new cymbals for my drums but I have a bank balance of $-2.59",
     "Are you reading these?",
     "Ancient Greece used to elect public officials with beans! Another reason to love them",
@@ -121,5 +121,8 @@ const tips=[
     "100% nodejs",
     "i really should learn typescript",
     "holy motion spam",
+    "i used to be so fucking corny",
+    "finally learnt typescripts, as a correction to my old shi",
+    "90210"
 ];
 export default tips;

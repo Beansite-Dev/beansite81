@@ -19,6 +19,28 @@
   display: flex;
   justify-content: flex-start;
   align-items: center;
+  #DateWrapper {
+    height: 100%;
+    position: absolute;
+    top: 50%;
+    right: 0%;
+    translate: 0% -50%;
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    flex-direction: column;
+    padding: .5rem;
+    // filter: drop-shadow(0 0 20px black);
+    box-sizing: border-box;
+    div {
+      margin: 0;
+      padding: 0;
+      text-align: right;
+      color: #fff;
+      font-size: .725rem;
+      text-shadow: 0 0 20px #101010;
+    }
+  }
   .item {
     height: 100%;
     width: 55px;

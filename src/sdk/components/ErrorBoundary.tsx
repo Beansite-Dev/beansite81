@@ -15,6 +15,7 @@ export class ErrorBoundary extends Component {
     alert(`${error} ${JSON.stringify(info)}`)
   }
   render(){
+    // @ts-ignore
     if(this.state.hasError)return(<>
       <div id="bsod">
         <pre>
@@ -25,16 +26,21 @@ export class ErrorBoundary extends Component {
             {"c":"If problems continue, disable or remove any newly installed hardbeanware or softbeanware. Disable BEAN memory options such as caching or shadowing. If you need to use Safe Mode to remove or disable components, restart your bean, press F8 to select Advanced Bean Options, and then select Safe Mode."},
             {"c":"Technical information:"},
             // {"c":"*** STOP: 0x000000FE (0x00000008, 0x000000006, 0x00000009, 0x847075cc)"}
+            // @ts-ignore
             {"c":`*** STOP: ${this.state.errorData.message}`},
+          // @ts-ignore
           ].concat(JSON.stringify(this.state.errorData.stack).replaceAll('"',"").split("\\n").map(data=>({"c":data,"nobr":true,"fLen":true})))
           .map((data,index)=>
             <Fragment key={index}>
+              {/* @ts-ignore */}
               <p className={`${data.ccn?data.ccn:""} ${data.fLen?"fLen":""}`}>{data.c}</p>
+            {/* @ts-ignore */}
             {data.nobr?null:<br/>}</Fragment>)}
           
         </pre>
       </div>
     </>);
+    // @ts-ignore
     return this.props.children;
   }
 }

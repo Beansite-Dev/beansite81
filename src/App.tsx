@@ -9,31 +9,16 @@ export const CHANGELOG:{
   comment:string,
   changes:string[],
 }={
-  versionName:"0.8.96",
-  releaseDate:"Feb 9, 2026",
+  versionName:"0.8.98",
+  releaseDate:"Feb 14, 2026",
   comment: "Quick checkpoint",
   changes:[
-    "TODO: set up firebase hosting",
-    "TODO: set up vercel hosting",
+    "Deployed to firebase and vercel",
+    "Added time",
     "Added changelog",
     "Updated lib",
     "Added window opening",
-    "Quick react-helmet-async implementation",
-    "Fixed jotai state by implementing derived atom",
-    "Taskbar implementation has begun",
-    "Added changelog",
-    "SDK Tweaks",
-    "Fixed click to bring window to front",
-    "Added icon starters to taskbar and icons",
-    "Fixed start icon",
-    "Added taskbar styling fixes",
-    "Fixed drag to maximize",
-    "Deleted more boilerplate code",
-    "Tweak tsconfig",
-    "Added changelog comment",
-    "Code reorginization",
-    "Fixed taskbar update issues through derived atoms",
-    "Added closing/minimize functionality to windows",
+    "Cleaned changelog",
   ],
 }
 const App=({}):ReactElement=>{
@@ -50,7 +35,18 @@ const App=({}):ReactElement=>{
         id="win1"
         icon={Icons.configApplication}
         title="Test Win 1">
-          
+          <motion.h1>Test Window</motion.h1>
+          <motion.h2>Debug</motion.h2>
+          <motion.p>Check game win</motion.p>
+          <motion.input id="checkwin" type="text" />
+          <motion.button
+            onClick={()=>{
+              const input=document.getElementById("checkwin");
+              if(input)window.open(
+                (input as HTMLInputElement).value,
+                "TEST WINDOW - BEANSITE 81 GAMELOADER",
+                "toolbar=no,location=no,directories=no,status=no,menubar=no,scrollbars=yes,resizable=yes,width=640,height=360,top=100,left=100");
+            }}>Submit</motion.button><br/>
       </Window>
       <Window
         id="changelog"
