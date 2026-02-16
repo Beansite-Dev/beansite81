@@ -22,7 +22,8 @@ export interface IWindow{
   minHeight?:number;
   minWidth?:number;
   maximized?:boolean;
-  minimized?:boolean;
+  minimized?:boolean|null;
+  closed?:boolean|null;
 };
 export const Window=({
   children,
@@ -39,12 +40,13 @@ export const Window=({
   maximized=false,
   // @ts-ignore
   minimized=false,
+  closed=false,
 }:IWindow):ReactElement=>{
   const[_windows,setWindow]=useAtom(DerivedWinAtom);
   const[,updateWindow]=useAtom(DerivedWinModifierAtom);
   const[isMax,setIsMax]=useState<boolean>(maximized);
-  const[isMin,setIsMin]=useState<boolean>(minimized);
-  const[isOpen,setIsOpen]=useState<boolean>(!closed);
+  const[isMin,setIsMin]=useState<boolean|null>(false);
+  const[isOpen,setIsOpen]=useState<boolean|null>(true);
   const[lastPos,setLastPos]=useState<{x:number,y:number}|null>(null);
   const[lastDim,setLastDim]=useState<{height:number,width:number}|null>(null);
   const[_wdtm,swdtm]=useAtom(wdtmAtom);
@@ -59,8 +61,8 @@ export const Window=({
       uuid, 
       id:id,
       icon,
-      open:true,
-      minimized
+      open: !closed,
+      minimized: !!minimized,
     }]);
   },[]);
   // close/minimize scripts

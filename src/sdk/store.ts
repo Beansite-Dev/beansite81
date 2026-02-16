@@ -6,8 +6,8 @@ export interface IWinObj{
   id:string;
   title:string;
   icon:keyof typeof Icons;
-  open:boolean;
-  minimized:boolean;
+  open:boolean;//|null;
+  minimized:boolean;//|null;
   // component:typeof Window;
 };
 export const uniqueById=(items:IWinObj[])=>{
@@ -32,6 +32,50 @@ export const DerivedWinModifierAtom=atom(
     }
     return item;
   }))
+);
+// export const SettingsAtom=atom(
+//   localStorage.getItem("mb7-settings")&&(()=>{
+//     const requiredKeys=[
+//       "backgroundImage",
+//       "backgroundSize",
+//       "backgroundRepeat",
+//       "savedWallpapers",
+//       "theme",
+//       "font",
+//     ];
+//     const settings=JSON.parse(localStorage.getItem("mb7-settings"));
+//     return settings&&
+//       Array.isArray(Object.keys(settings)) &&
+//       requiredKeys.every(key => Object.keys(settings).includes(key));
+//   })()?JSON.parse(localStorage.getItem("mb7-settings")):{
+//     backgroundImage:"/wallpapers/default.png",
+//     backgroundSize:"cover",
+//     backgroundRepeat:"no-repeat",
+//     savedWallpapers:[],
+//     theme:"default",
+//     font:"segoe",
+// });
+export interface ISettingsAtom {
+  backgroundImage: string;
+  backgroundSize: "cover"|"contain"|number;
+  backgroundRepeat: "repeat"|"norepeat";
+  theme: "default";
+  font: "segoe"|"tahoma"|"comic"|"time",
+};
+export const SettingsAtom=atom<ISettingsAtom>({
+  backgroundImage:"",
+  theme: "default",
+  font: "segoe",
+  backgroundSize: "cover",
+  backgroundRepeat: "norepeat"
+});
+export const DerivedSetttingsAtom=atom(
+  (get)=>get(SettingsAtom),
+  (get,set,update:[keyof ISettingsAtom,any])=>
+    set(SettingsAtom,{
+      ...get(SettingsAtom),
+      [update[0]]:update[1],
+    }),
 );
 // const setWindowUnique=(newItem:IWinObj)=>{
   // setWindow((x)=>{return uniqueById([...x,newItem]);});

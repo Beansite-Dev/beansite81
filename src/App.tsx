@@ -3,18 +3,29 @@ import { Beansite81, Window } from './sdk/sdk';
 import { Icons } from './sdk/components/Enum';
 import { Helmet } from "react-helmet-async";
 import { motion } from 'motion/react';
+import { Settings } from './sdk/components/Settings';
 export const CHANGELOG:{
   versionName:string,
   releaseDate:string,
   comment:string,
   changes:string[],
 }={
-  versionName:"0.8.99",
-  releaseDate:"Feb 14, 2026",
-  comment: "Quick checkpoint",
+  versionName:"0.10.22",
+  releaseDate:"Feb 15, 2026",
+  comment: "lots of work",
   changes:[
+    "TODO: Fix/test initial maximized script",
+    "TODO: remove animation if window is initially closed/minimized",
+    "TODO: Add more themes",
+    "TODO: Fix cors issues with backend server (if possible)",
     "Deployed to firebase and vercel",
     "Added time",
+    "Added settings menu",
+    "Added settings atoms/derived atoms",
+    "Added simple themeing to sdk",
+    "Fixed initial closed/minimized scripts",
+    "Bumped version number",
+    "Progressed on backend server",
     "Added changelog",
     "Updated lib",
     "Added window opening",
@@ -60,6 +71,16 @@ const App=({}):ReactElement=>{
               <motion.li key={index}>{change}</motion.li>
             ))}
           </motion.ul>
+      </Window>
+      <Window
+        id="settings"
+        y={20}
+        x={20}
+        closed
+        icon={Icons.configApplication}
+        title="Settings">
+          {/* @ts-ignore */}
+          <Settings />
       </Window>
     </Beansite81>
   </>);

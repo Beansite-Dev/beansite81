@@ -4,6 +4,8 @@ import { motion } from "motion/react";
 import "./Global.scss";
 import { ErrorBoundary } from "./components/ErrorBoundary";
 import { Taskbar } from "./components/Taskbar";
+import { useAtom } from "jotai";
+import { DerivedSetttingsAtom } from "./store";
 interface IBeansite81{
   children:any
 };
@@ -21,9 +23,10 @@ export const Beansite81=({
     });
   };
   const mb81ref=useRef<any>(null);
+  const[settings,]=useAtom(DerivedSetttingsAtom);
   return(<>
     <ErrorBoundary>
-      <motion.div ref={mb81ref} id="Beansite81" className="Beansite81 default font-segoe">
+      <motion.div ref={mb81ref} id="Beansite81" className={`Beansite81 ${settings.theme} font-${settings.font}`}>
         <motion.div id="Background"></motion.div>
         <WinDragToMax />
         <motion.div id="WindowWrapper" ref={WindowWrapper}>

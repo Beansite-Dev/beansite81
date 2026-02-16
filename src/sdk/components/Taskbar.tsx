@@ -223,6 +223,11 @@ export const StartMenu=({mb81ref}:{mb81ref:React.RefObject<HTMLDivElement>}):Rea
               background={"#27D260"}
               icon={Icons.text}
               target="changelog"/>
+            <StartMenuItem 
+              name="Settings"
+              background={"#D653E7"}
+              icon={Icons.configApplication}
+              target="settings"/>
           </motion.div>
       </motion.div>:null}
     </AnimatePresence></>,

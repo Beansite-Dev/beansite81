@@ -1,0 +1,24 @@
+@import url('https://fonts.cdnfonts.com/css/segoe-pro');
+@import url('https://fonts.googleapis.com/css2?family=Source+Code+Pro:ital,wght@0,200..900;1,200..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Comic+Relief:wght@400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=PT+Serif:ital,wght@0,400;0,700;1,400;1,700&display=swap');
+@import url('https://fonts.cdnfonts.com/css/tahoma');
+
+#Settings{
+  display: flex;
+}
+
+#fontSelector{
+  #segoe{
+    font-family: "Segoe Pro", sans-serif;
+  }
+  #tahoma{
+    font-family: "Tahoma", sans-serif;
+  }
+  #comic{
+    font-family: "Comic Relief", sans-serif;
+  }
+  #time{
+    font-family: "PT Serif", sans-serif;
+  }
+}
