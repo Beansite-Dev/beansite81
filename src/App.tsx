@@ -10,14 +10,16 @@ export const CHANGELOG:{
   comment:string,
   changes:string[],
 }={
-  versionName:"0.10.22",
-  releaseDate:"Feb 15, 2026",
-  comment: "lots of work",
+  versionName:"0.10.26",
+  releaseDate:"Feb 18, 2026",
+  comment: "checkpoint",
   changes:[
-    "TODO: Fix/test initial maximized script",
-    "TODO: remove animation if window is initially closed/minimized",
     "TODO: Add more themes",
     "TODO: Fix cors issues with backend server (if possible)",
+    "TODO: Deploy backend server",
+    "Fixed animations and initial states",
+    "Added enum types",
+    "Fixed taskbar styling",
     "Deployed to firebase and vercel",
     "Added time",
     "Added settings menu",
@@ -44,6 +46,7 @@ const App=({}):ReactElement=>{
     <Beansite81>
       <Window
         id="win1"
+        maximized
         icon={Icons.configApplication}
         title="Test Win 1">
           <motion.h1>Test Window</motion.h1>

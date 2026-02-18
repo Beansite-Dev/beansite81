@@ -14,7 +14,7 @@ export interface IWindow{
   title:string;
   id:string;
   bounds?:any;
-  icon:keyof typeof Icons;
+  icon:string;
   x?:number;
   y?:number;
   width?:number;

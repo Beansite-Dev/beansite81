@@ -5,7 +5,7 @@ export interface IWinObj{
   uuid:string;
   id:string;
   title:string;
-  icon:keyof typeof Icons;
+  icon:string;
   open:boolean;//|null;
   minimized:boolean;//|null;
   // component:typeof Window;
