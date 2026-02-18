@@ -70,33 +70,15 @@ export const Window=({
     console.log(_windows.filter(x=>x.id==id)[0]);
     if(_windows.filter(x=>x.id==id)[0]){
       let winObj:IWinObj=_windows.filter(x=>x.id==id)[0];
-      let winElm:HTMLElement=rndRef.current.getSelfElement();
+      // let winElm:HTMLElement=rndRef.current.getSelfElement();
       if(isMin!==winObj.minimized||isOpen!==winObj.open){
-        if(winObj.minimized==true||winObj.open==false){
-          winElm.style.transition=".35s";
-          winElm.style.opacity="0";
-          winElm.style.translate="0% 3.5%";
-          winElm.style.scale="90%";
-          setTimeout(()=>{
-            winElm.style.transition="0s";
-            winElm.style.display="none";
-          },360);
-        }else if(winObj.minimized==false||winObj.open==true){
-          // TODO: fix this, it doesnt animate but does work
-          winElm.style.transition=".35s";
-          winElm.style.display="block";
-          winElm.style.opacity="1";
-          winElm.style.translate="0% 0%";
-          winElm.style.scale="100%";
-          setTimeout(()=>{
-            winElm.style.transition="0s";
-          },360);
-        }
         setIsMin(winObj.minimized);
         setIsOpen(winObj.open);
       }
     }
   },[_windows]);
+  useEffect(()=>{console.log(`min: ${isMin} - ${!(!isOpen||isMin)}`);},[isMin]);
+  useEffect(()=>{console.log(`open: ${isOpen} - ${!(!isOpen||isMin)}`);},[isOpen]);
   // maximize scripts
   useEffect(()=>{
     console.log(isMax);
@@ -159,60 +141,69 @@ export const Window=({
       minWidth={minWidth}
       minHeight={minHeight}
       bounds={bounds.current}
+      style={{pointerEvents:!(!isOpen||isMin)?"auto":"none"}}
       default={{x,y,width,height,}}>
-        <motion.div className="Window" id={ids}>
-          <motion.div 
-            className={`WindowDragHandle `}>
-              <motion.div className="Icon" style={{
-                backgroundImage:`url(${icon})`,
-              }}></motion.div>
-              <motion.h1  
-                ref={dragRef}
-                onMouseUp={(_e)=>{swdtm(false);}}
-                onMouseDown={(e)=>{
-                  if(isMax){
-                    if(dragRef.current&&lastPos){
-                      const dRect=dragRef.current.getBoundingClientRect();
-                      setLastPos({
-                        x:e.clientX - (dRect.left),
-                        y:e.clientY - (dRect.top),
-                      });
-                      setIsMax(false);
-                    }
-                  }else{
-                    swdtm(true);
-                  }
-                }}
-                className={`Title ${id}_draghandle`}>{title}</motion.h1>
-              <motion.div className="ButtonWrapper">
-                <motion.button 
-                  onClick={(e)=>{
-                    e.preventDefault();
-                    console.log("~ close");
-                    updateWindow([id,"open",false]);
-                  }}
-                  className="Button x">🗙︎</motion.button>
-                <motion.button 
-                  onClick={(e)=>{
-                    e.preventDefault();
-                    setIsMax(!isMax);
-                    console.log("~ max");
-                  }}
-                  id={`${id}_max`}
-                  className="Button max">{isMax?"🗗︎":"🗖︎"}</motion.button>
-                <motion.button 
-                  onClick={(e)=>{
-                    e.preventDefault();
-                    console.log("~ min");
-                    updateWindow([id,"minimized",true]);
-                  }}
-                  className="Button min">🗕</motion.button>
+        <AnimatePresence>
+          {!(!isOpen||isMin)?<motion.div 
+            initial={{opacity:0,y:5}}
+            animate={{opacity:1,y:0}}
+            exit={{opacity:0,y:5}}
+            key={0}
+            className="Window" 
+            id={ids}>
+              <motion.div 
+                className={`WindowDragHandle `}>
+                  <motion.div className="Icon" style={{
+                    backgroundImage:`url(${icon})`,
+                  }}></motion.div>
+                  <motion.h1  
+                    ref={dragRef}
+                    onMouseUp={(_e)=>{swdtm(false);}}
+                    onMouseDown={(e)=>{
+                      if(isMax){
+                        if(dragRef.current&&lastPos){
+                          const dRect=dragRef.current.getBoundingClientRect();
+                          setLastPos({
+                            x:e.clientX - (dRect.left),
+                            y:e.clientY - (dRect.top),
+                          });
+                          setIsMax(false);
+                        }
+                      }else{
+                        swdtm(true);
+                      }
+                    }}
+                    className={`Title ${id}_draghandle`}>{title}</motion.h1>
+                  <motion.div className="ButtonWrapper">
+                    <motion.button 
+                      onClick={(e)=>{
+                        e.preventDefault();
+                        console.log("~ close");
+                        updateWindow([id,"open",false]);
+                      }}
+                      className="Button x">🗙︎</motion.button>
+                    <motion.button 
+                      onClick={(e)=>{
+                        e.preventDefault();
+                        setIsMax(!isMax);
+                        console.log("~ max");
+                      }}
+                      id={`${id}_max`}
+                      className="Button max">{isMax?"🗗︎":"🗖︎"}</motion.button>
+                    <motion.button 
+                      onClick={(e)=>{
+                        e.preventDefault();
+                        console.log("~ min");
+                        updateWindow([id,"minimized",true]);
+                      }}
+                      className="Button min">🗕</motion.button>
+                  </motion.div>
               </motion.div>
-          </motion.div>
-          <motion.div className="WinContents">
-            {children}
-          </motion.div>
-        </motion.div>
+              <motion.div className="WinContents">
+                {children}
+              </motion.div>
+          </motion.div>:null}
+        </AnimatePresence>
     </Rnd>
   </>);
 };

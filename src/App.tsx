@@ -10,9 +10,9 @@ export const CHANGELOG:{
   comment:string,
   changes:string[],
 }={
-  versionName:"0.10.26",
+  versionName:"0.11.02",
   releaseDate:"Feb 18, 2026",
-  comment: "checkpoint",
+  comment: "finally fixed the animations",
   changes:[
     "TODO: Add more themes",
     "TODO: Fix cors issues with backend server (if possible)",
@@ -46,7 +46,7 @@ const App=({}):ReactElement=>{
     <Beansite81>
       <Window
         id="win1"
-        maximized
+        // maximized
         icon={Icons.configApplication}
         title="Test Win 1">
           <motion.h1>Test Window</motion.h1>
