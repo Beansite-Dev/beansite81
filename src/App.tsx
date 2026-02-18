@@ -10,12 +10,11 @@ export const CHANGELOG:{
   comment:string,
   changes:string[],
 }={
-  versionName:"0.11.02",
+  versionName:"0.11.12",
   releaseDate:"Feb 18, 2026",
   comment: "finally fixed the animations",
   changes:[
     "TODO: Add more themes",
-    "TODO: Fix cors issues with backend server (if possible)",
     "TODO: Deploy backend server",
     "Fixed animations and initial states",
     "Added enum types",

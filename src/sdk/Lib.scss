@@ -1,3 +1,19 @@
+.font-segoe {&,*,& *{
+  font-family: 'Segoe Pro', sans-serif;
+  font-weight: 400;
+}}
+.font-tahoma {&,*,& *{
+  font-family: 'Tahoma', sans-serif;
+  font-weight: 400;
+}}
+.font-comic {&,*,& *{
+  font-family: 'Comic Relief', sans-serif;
+  font-weight: 400;
+}}
+.font-times {&,*,& *{
+  font-family: 'PT Serif', sans-serif;
+  font-weight: 400;
+}}
 @mixin fullOccupy($z:1,$p:fixed) {
   position: $p;
   top: 50%;

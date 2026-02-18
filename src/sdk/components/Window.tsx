@@ -3,7 +3,7 @@ import { atom, useAtom } from "jotai";
 import React, { Children, useEffect, useRef, useState, type ReactElement } from "react";
 import { DerivedWinAtom, DerivedWinModifierAtom, type IWinObj } from "../store";
 // @ts-ignore
-import { isMotionComponent, motion, AnimatePresence } from "motion/react";
+import { isMotionComponent, motion, AnimatePresence, easeInOut } from "motion/react";
 import { generateId } from "../Lib";
 import "./styles/Window.scss";
 import { Rnd } from "react-rnd";
@@ -25,6 +25,23 @@ export interface IWindow{
   minimized?:boolean|null;
   closed?:boolean|null;
 };
+const variants={
+  open:{
+    opacity: 1,
+    y:0,
+    scale: "100%",
+    transition: {
+      duration: .25,
+      staggerChildren: .25,
+      ease: easeInOut,
+    }
+  },
+  closed:{
+    opacity: 0,
+    y:5,
+    scale: "90%",
+  },
+}
 export const Window=({
   children,
   title,
@@ -54,6 +71,12 @@ export const Window=({
   const dragRef=useRef<any>(null);
   const uuid=generateId(10);
   const ids=`${id}_${uuid}`;
+  const MoveWinToTop=()=>{
+    document.querySelectorAll(".winRnd").forEach(x=>{
+      if(x.id!==`${ids}_rnd`)(x as HTMLElement).style.zIndex="-1";
+      else(x as HTMLElement).style.zIndex="10";
+    });
+  }
   useEffect(()=>{
     console.log(`win-${id}loaded`);
     return setWindow([{
@@ -74,9 +97,13 @@ export const Window=({
       if(isMin!==winObj.minimized||isOpen!==winObj.open){
         setIsMin(winObj.minimized);
         setIsOpen(winObj.open);
+        if(!isMin||isOpen){
+          MoveWinToTop();
+        }
       }
     }
   },[_windows]);
+  // logging state updates
   useEffect(()=>{console.log(`min: ${isMin} - ${!(!isOpen||isMin)}`);},[isMin]);
   useEffect(()=>{console.log(`open: ${isOpen} - ${!(!isOpen||isMin)}`);},[isOpen]);
   // maximize scripts
@@ -86,11 +113,12 @@ export const Window=({
     // }:{});
     if(rndRef.current){
       if(isMax){
+        MoveWinToTop();
         const rect=rndRef.current.getSelfElement().getBoundingClientRect();
         setLastPos({x:rect.x,y:rect.y});
         setLastDim({height:rect.height,width:rect.width});
         console.table({x:rect.x,y:rect.y});
-        rndRef.current.getSelfElement().style.transition=".35s";
+        rndRef.current.getSelfElement().style.transition=".35s !important";
         rndRef.current.updateSize({
           width: innerWidth,
           height: innerHeight-40,
@@ -100,14 +128,14 @@ export const Window=({
           y:0,
         });
         setTimeout(()=>{
-          rndRef.current.getSelfElement().style.transition="0s";
+          rndRef.current.getSelfElement().style.transition="0s !important";
         },360);
       }else{if(!lastPos||!lastDim)return;
-        rndRef.current.getSelfElement().style.transition=".35s";
+        rndRef.current.getSelfElement().style.transition=".35s !important";
         rndRef.current.updatePosition(lastPos);
         rndRef.current.updateSize(lastDim);
         setTimeout(()=>{
-          rndRef.current.getSelfElement().style.transition="0s";
+          rndRef.current.getSelfElement().style.transition="0s !important";
         },360);
       }
     }
@@ -121,11 +149,8 @@ export const Window=({
       className="winRnd"
       onMouseDown={(_e)=>{
         swdtm(false);
-        console.log("detected mousedown");
-        document.querySelectorAll(".winRnd").forEach(x=>{
-          if(x.id!==`${ids}_rnd`)(x as HTMLElement).style.zIndex="-1";
-          else(x as HTMLElement).style.zIndex="10";
-        });
+        console.log(`detected mousedown ${ids}`);
+        MoveWinToTop();
       }}
       onDrag={(_e,d)=>{
         if(d.y<=20) swdtm(true);
@@ -145,9 +170,10 @@ export const Window=({
       default={{x,y,width,height,}}>
         <AnimatePresence>
           {!(!isOpen||isMin)?<motion.div 
-            initial={{opacity:0,y:5}}
-            animate={{opacity:1,y:0}}
-            exit={{opacity:0,y:5}}
+            variants={variants}
+            initial={"closed"}
+            animate={"open"}
+            exit={"closed"}
             key={0}
             className="Window" 
             id={ids}>
