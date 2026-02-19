@@ -12,9 +12,9 @@ export const CHANGELOG:{
   comment:string,
   changes:string[],
 }={
-  versionName:"0.11.13",
+  versionName:"0.11.14",
   releaseDate:"Feb 18, 2026",
-  comment: "why wont it work bruh",
+  comment: "fixed",
   changes:[
     "TODO: Add more themes",
     "TODO: Add dialog modules",
