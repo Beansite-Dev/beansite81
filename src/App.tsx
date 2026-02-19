@@ -12,12 +12,13 @@ export const CHANGELOG:{
   comment:string,
   changes:string[],
 }={
-  versionName:"0.11.14",
-  releaseDate:"Feb 18, 2026",
-  comment: "fixed",
+  versionName:"0.11.22",
+  releaseDate:"Feb 19, 2026",
+  comment: "tweaky time",
   changes:[
     "TODO: Add more themes",
     "TODO: Add dialog modules",
+    "Added taskbar reorginization",
     "Fixed animations and initial states",
     "Added enum types",
     "Fixed taskbar styling",

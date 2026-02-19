@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState, type CSSProperties, type ReactElement } from "react";
 import "./styles/Taskbar.scss";
-import { AnimatePresence, easeInOut, motion, stagger } from "motion/react";
+import { AnimatePresence, easeInOut, motion, stagger, Reorder } from "motion/react";
 import { atom, useAtom } from "jotai";
 import { DerivedWinAtom, DerivedWinModifierAtom, ExpressDerivedWinModifierAtom, uniqueById, WinAtom, type IWinObj } from "../store";
 import { createPortal } from "react-dom";
@@ -14,6 +14,7 @@ const startMenuAtom=atom<boolean>(false);
 import { useTime } from "react-timer-hook";
 export const DerivedTaskbarWinAtom=atom(
   (get)=>get(WinAtom).map(item=>item.id),
+  // (get,set,update:IWinObj[])=>set(WinAtom,update),
 );
 // export const DerivedTaskbarItemWinAtom=atom(
 //   (get)=>get(WinAtom),
@@ -260,7 +261,15 @@ const TaskbarClock=({}):ReactElement=>{
 }
 export const Taskbar=({mb81ref}:{mb81ref:React.RefObject<HTMLDivElement>}):ReactElement=>{
   // @ts-ignore
-  const [windows]=useAtom(DerivedTaskbarWinAtom);
+  const[windows,]=useAtom(DerivedTaskbarWinAtom);
+  const[derivedTaskbarReorderWindows,sdtrw]=useState(windows);
+  const[windows2,updateWindow]=useAtom(DerivedWinModifierAtom);
+  useEffect(()=>{
+    console.log(windows2.filter(i=>i.open).length,derivedTaskbarReorderWindows.length);
+    if(windows2.filter(i=>i.open).length!==derivedTaskbarReorderWindows.length){
+      sdtrw(windows);
+    }
+  },[windows]);
   // const windows=useAtomValue(selectAtom(DerivedTaskbarWinAtom,(v)=>v));
   const[startMenuOpen,setStartMenuOpen]=useAtom(startMenuAtom);
   interface IAppItem {
@@ -269,13 +278,11 @@ export const Taskbar=({mb81ref}:{mb81ref:React.RefObject<HTMLDivElement>}):React
     _key:number;
   }
   const AppItem=({id,_key}:IAppItem):ReactElement=>{
-    const[windows2,updateWindow]=useAtom(DerivedWinModifierAtom);
     useEffect(()=>{
       console.table(windows2);
     },[windows2]);
     // const setWindow=useSetAtom(DerivedTaskbarItemWinAtom);
-    return(<>{windows2.filter(i=>i.id==id)[0].open
-      &&<motion.div 
+    return(<><motion.div 
         initial={"closed"}
         animate={"open"}
         transition={{duration:.35}}
@@ -291,7 +298,7 @@ export const Taskbar=({mb81ref}:{mb81ref:React.RefObject<HTMLDivElement>}):React
           <motion.div
             style={{backgroundImage:`url(${windows2[windows.findIndex((win)=>{return win===id;})].icon})`,}} 
             className="icon"></motion.div>
-    </motion.div>}</>);
+    </motion.div></>);
   }
   return(<>
     <StartMenu mb81ref={mb81ref} />
@@ -304,8 +311,16 @@ export const Taskbar=({mb81ref}:{mb81ref:React.RefObject<HTMLDivElement>}):React
           <motion.div className="icon"></motion.div>
       </motion.div>
       <AnimatePresence>
-        {windows.map((win,i)=>
-          <AppItem key={i} _key={i} id={win}/>)}
+        <Reorder.Group className="rgroup" axis="x" as="div" values={derivedTaskbarReorderWindows} onReorder={sdtrw}>
+          {derivedTaskbarReorderWindows.map((item,i)=>
+            windows2.filter(i=>i.id==item)[0].open&&
+              <Reorder.Item className="ritem" as="div" key={item} value={item}>
+                <AppItem key={i} _key={i} id={item}/>
+              </Reorder.Item>
+          )}
+        </Reorder.Group>
+        {/* {windows.map((win,i)=> */}
+          {/* <AppItem key={i} _key={i} id={win}/>)} */}
       </AnimatePresence>
       <TaskbarClock/>
     </motion.div>

@@ -40,6 +40,23 @@
       font-size: .725rem;
     }
   }
+  .rgroup {
+    position: absolute;
+    left: 50px;
+    top: 50%;
+    translate: 0 -50%;
+    width: fit-content;
+    height: 40px;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    box-sizing: border-box;
+    // background: pink; 
+    .ritem {
+      height: 100%;
+      width: 55px;
+    }
+  }
   .item {
     height: 100%;
     width: 55px;
