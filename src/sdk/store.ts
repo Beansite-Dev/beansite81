@@ -33,6 +33,20 @@ export const DerivedWinModifierAtom=atom(
     return item;
   }))
 );
+export const ExpressDerivedWinModifierAtom=atom(
+  // windows2[windows.findIndex((win)=>{return win===id;})]
+  (get)=>get(WinAtom),
+  (get,set,update:[string,keyof IWinObj,any][])=>{
+    update.forEach(x=>{
+      set(WinAtom,get(WinAtom).map((item:IWinObj)=>{
+        if(item.id===x[0]){
+          return {...item, [x[1]]: x[2]};
+        }
+        return item;
+      }))
+    })
+  }
+);
 // export const SettingsAtom=atom(
 //   localStorage.getItem("mb7-settings")&&(()=>{
 //     const requiredKeys=[

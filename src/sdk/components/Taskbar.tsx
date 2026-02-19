@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState, type CSSProperties, type ReactElement } f
 import "./styles/Taskbar.scss";
 import { AnimatePresence, easeInOut, motion, stagger } from "motion/react";
 import { atom, useAtom } from "jotai";
-import { DerivedWinAtom, DerivedWinModifierAtom, uniqueById, WinAtom, type IWinObj } from "../store";
+import { DerivedWinAtom, DerivedWinModifierAtom, ExpressDerivedWinModifierAtom, uniqueById, WinAtom, type IWinObj } from "../store";
 import { createPortal } from "react-dom";
 import Particles, { initParticlesEngine } from "@tsparticles/react";
 import {
@@ -173,7 +173,7 @@ export const StartMenu=({mb81ref}:{mb81ref:React.RefObject<HTMLDivElement>}):Rea
     target,
     style,
   }:IStartMenuItem):ReactElement=>{
-    const[windows,updateWindow]=useAtom(DerivedWinModifierAtom);
+    const[windows,updateWindow]=useAtom(ExpressDerivedWinModifierAtom);
     return(<>
       <motion.div 
         style={{
@@ -184,7 +184,10 @@ export const StartMenu=({mb81ref}:{mb81ref:React.RefObject<HTMLDivElement>}):Rea
           e.preventDefault();
           setStartMenuOpen(false);
           if(target){
-            updateWindow([target,"open",true]);
+            updateWindow([
+              [target,"open",true],
+              [target,"minimized",false],
+            ]);
           }
         }} 
         className="startMenuItem">

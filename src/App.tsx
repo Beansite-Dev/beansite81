@@ -4,6 +4,8 @@ import { Icons } from './sdk/components/Enum';
 import { Helmet } from "react-helmet-async";
 import { motion } from 'motion/react';
 import { Settings } from './sdk/components/Settings';
+import { useAtom } from 'jotai';
+import { ExpressDerivedWinModifierAtom } from './sdk/store';
 export const CHANGELOG:{
   versionName:string,
   releaseDate:string,
@@ -15,7 +17,7 @@ export const CHANGELOG:{
   comment: "finally fixed the animations",
   changes:[
     "TODO: Add more themes",
-    "TODO: Deploy backend server",
+    "TODO: Add dialog modules",
     "Fixed animations and initial states",
     "Added enum types",
     "Fixed taskbar styling",
@@ -34,6 +36,7 @@ export const CHANGELOG:{
   ],
 }
 const App=({}):ReactElement=>{
+  const[_,setWindow]=useAtom(ExpressDerivedWinModifierAtom);
   return(<>
     <Helmet>
       <meta charSet="UTF-8" />
@@ -59,7 +62,18 @@ const App=({}):ReactElement=>{
                 (input as HTMLInputElement).value,
                 "TEST WINDOW - BEANSITE 81 GAMELOADER",
                 "toolbar=no,location=no,directories=no,status=no,menubar=no,scrollbars=yes,resizable=yes,width=640,height=360,top=100,left=100");
-            }}>Submit</motion.button><br/>
+            }}>Submit</motion.button><br/><br/>
+          <motion.button
+            onClick={()=>{
+              setWindow([
+                ["win1","open",true],
+                ["changelog","open",true],
+                ["settings","open",true],
+                ["win1","minimized",false],
+                ["changelog","minimized",false],
+                ["settings","minimized",false],
+              ]);
+            }}>Open All Windows</motion.button><br/>
       </Window>
       <Window
         id="changelog"
