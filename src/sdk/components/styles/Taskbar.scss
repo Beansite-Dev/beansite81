@@ -23,14 +23,14 @@
     height: 100%;
     position: absolute;
     top: 50%;
-    right: 0%;
+    right: 5px;
     translate: 0% -50%;
     display: flex;
     justify-content: center;
     align-items: flex-end;
     flex-direction: column;
     padding: .5rem;
-    filter: drop-shadow(0 0 5px black);
+    text-shadow: 0 0 5px #00000095;
     box-sizing: border-box;
     user-select: none;
     cursor: pointer;
@@ -59,6 +59,53 @@
       width: 55px;
     }
   }
+  @mixin FadedOutline {
+    content: "";
+    position: absolute;
+    top: 50%;
+    translate: 0% -50%;
+    height: 90%;
+    width: 1px;
+    background: linear-gradient(
+      to top,
+      transparent,
+      #25252525,
+      #35353595,
+      #25252525,
+      transparent
+    );
+    filter: drop-shadow(0 0 1px #fff);
+    transition: .25s;
+    box-sizing: border-box;
+  }
+  .item:not(.Start), #DateWrapper{
+    background: radial-gradient(
+      circle at 50% var(--p1), 
+      var(--t1), 
+      transparent,
+      transparent,
+      transparent);
+    transition: 
+      --t1 .35s, 
+      --p1 1s;
+    &::after {
+      @include FadedOutline;
+      right: 0%;
+      opacity: 0;
+    }
+    &::before {
+      @include FadedOutline;
+      left: 0%;
+      opacity: 0;
+    }
+    &:hover {
+      // border-color: #95959595;
+      --t1: #fff;
+      --p1: 90%;
+      &::before{opacity:1;}
+      &::after{opacity:1;}
+    }
+  }
   .item {
     height: 100%;
     width: 55px;
@@ -75,22 +122,6 @@
     background-repeat: no-repeat;
     background-position: center;
     background-size: cover;
-    &:not(.Start){
-      background: radial-gradient(
-        circle at 50% var(--p1), 
-        var(--t1), 
-        transparent,
-        transparent,
-        transparent);
-      transition: 
-        --t1 .35s, 
-        --p1 1s;
-      &:hover {
-        // border-color: #95959595;
-        --t1: #fff;
-        --p1: 90%;
-      }
-    }
     position: relative;
     .preview {
       height: 4.5rem;

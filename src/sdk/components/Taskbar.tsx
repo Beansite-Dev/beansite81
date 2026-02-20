@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState, type CSSProperties, type ReactElement } from "react";
 import "./styles/Taskbar.scss";
-import { AnimatePresence, easeInOut, motion, stagger, Reorder } from "motion/react";
+import { AnimatePresence, easeInOut, motion, stagger, Reorder, type ValueAnimationOptionsWithRenderContext } from "motion/react";
 import { atom, useAtom } from "jotai";
 import { DerivedWinAtom, DerivedWinModifierAtom, ExpressDerivedWinModifierAtom, uniqueById, WinAtom, type IWinObj } from "../store";
 import { createPortal } from "react-dom";
@@ -13,6 +13,10 @@ import { Icons } from "./Enum";
 const startMenuAtom=atom<boolean>(false);
 import { useTime } from "react-timer-hook";
 import { Dialog } from "./Dialog";
+import Calendar from 'react-calendar';
+import Clock from 'react-clock';
+type ValuePiece = Date | null;
+type Value = ValuePiece | [ValuePiece, ValuePiece];
 export const DerivedTaskbarWinAtom=atom(
   (get)=>get(WinAtom).map(item=>item.id),
   // (get,set,update:IWinObj[])=>set(WinAtom,update),
@@ -116,44 +120,7 @@ export const StartMenu=({mb81ref}:{mb81ref:React.RefObject<HTMLDivElement>}):Rea
         }
       }
     },
-    //   "detect_on": "canvas",
-    //   "events": {
-    //     "onhover": {
-    //       "enable": true,
-    //       "mode": "grab"
-    //     },
-    //     "onclick": {
-    //       "enable": true,
-    //       "mode": "push"
-    //     },
-    //     // "resize": true
-    //   },
-    //   "modes": {
-    //     "grab": {
-    //       "distance": 231.44200550588337,
-    //       "line_linked": {
-    //         "opacity": 1
-    //       }
-    //     },
-    //     "bubble": {
-    //       "distance": 400,
-    //       "size": 40,
-    //       "duration": 2,
-    //       "opacity": 8,
-    //       "speed": 3
-    //     },
-    //     "repulse": {
-    //       "distance": 200,
-    //       "duration": 0.4
-    //     },
-    //     "push": {
-    //       "particles_nb": 4
-    //     },
-    //     "remove": {
-    //       "particles_nb": 2
-    //     }
-    //   }
-    // },
+    
     "retina_detect": true
   }),[],);
   const [init,setInit]=useState(false);
@@ -175,7 +142,7 @@ export const StartMenu=({mb81ref}:{mb81ref:React.RefObject<HTMLDivElement>}):Rea
     target,
     style,
   }:IStartMenuItem):ReactElement=>{
-    const[windows,updateWindow]=useAtom(ExpressDerivedWinModifierAtom);
+    const[_windows,updateWindow]=useAtom(ExpressDerivedWinModifierAtom);
     return(<>
       <motion.div 
         style={{
@@ -249,6 +216,15 @@ const TaskbarClock=({mb81ref}:{mb81ref:React.RefObject<HTMLDivElement>}):ReactEl
   }=useTime({format:'12-hour',interval:60});
   const date=new Date().toLocaleDateString();
   const[showDateDialog,setShowDateDialog]=useState<boolean>(false);
+
+  const DialogClock=({}):ReactElement=>{
+    const[value,onValueChange]=useState<Value>(new Date());
+    return(<>
+      <motion.div>
+        {/* <Calendar value={value} onChange={onValueChange}/> */}
+      </motion.div>
+    </>)
+  }
   return(<>
     <Dialog
       display={showDateDialog}
@@ -259,7 +235,7 @@ const TaskbarClock=({mb81ref}:{mb81ref:React.RefObject<HTMLDivElement>}):ReactEl
         right: "5px"
       }}
       size={{h:"15rem",w:"20rem"}}>
-
+        
     </Dialog>
     <motion.div 
       onClick={(_e)=>{

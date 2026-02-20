@@ -7,8 +7,8 @@ import { isMotionComponent, motion, AnimatePresence, easeInOut } from "motion/re
 import { generateId } from "../Lib";
 import "./styles/Window.scss";
 import { Rnd } from "react-rnd";
-import { Icons } from "./Enum";
-const wdtmAtom=atom<boolean>(false);
+import { Icons, WindowSymbols } from "./Enum";
+export const wdtmAtom=atom<boolean>(false);
 export interface IWindow{
   children?:ReactElement[];
   title:string;
@@ -69,7 +69,7 @@ export const Window=({
   const[_windowDragToMax,setWindowDragToMax]=useAtom(wdtmAtom);
   const rndRef=useRef<any>(null);
   const dragRef=useRef<any>(null);
-  const uuid=generateId(10);
+  const uuid=generateId(10); //Universally Unique Identifier
   const ids=`${id}_${uuid}`;
   const MoveWinToTop=()=>{
     document.querySelectorAll(".winRnd").forEach(x=>{
@@ -153,13 +153,11 @@ export const Window=({
         MoveWinToTop();
       }}
       onDrag={(_e,d)=>{
-        if(d.y<=20) setWindowDragToMax(true);
+        if(d.y<=20)setWindowDragToMax(true);
         else setWindowDragToMax(false);
       }}
       onDragStop={(_e,d)=>{
-        if(d.y<=20){
-          setIsMax(true);
-        }
+        if(d.y<=20)setIsMax(true);
       }}
       id={`${ids}_rnd`}
       dragHandleClassName={`${id}_draghandle`}
@@ -195,9 +193,7 @@ export const Window=({
                           });
                           setIsMax(false);
                         }
-                      }else{
-                        setWindowDragToMax(true);
-                      }
+                      }else setWindowDragToMax(true);
                     }}
                     className={`Title ${id}_draghandle`}>{title}</motion.h1>
                   <motion.div className="ButtonWrapper">
@@ -207,7 +203,7 @@ export const Window=({
                         console.log("~ close");
                         updateWindow([id,"open",false]);
                       }}
-                      className="Button x">🗙︎</motion.button>
+                      className="Button x">{WindowSymbols.close}</motion.button>
                     <motion.button 
                       onClick={(e)=>{
                         e.preventDefault();
@@ -215,14 +211,14 @@ export const Window=({
                         console.log("~ max");
                       }}
                       id={`${id}_max`}
-                      className="Button max">{isMax?"🗗︎":"🗖︎"}</motion.button>
+                      className="Button max">{isMax?WindowSymbols.unmax:WindowSymbols.max}</motion.button>
                     <motion.button 
                       onClick={(e)=>{
                         e.preventDefault();
                         console.log("~ min");
                         updateWindow([id,"minimized",true]);
                       }}
-                      className="Button min">🗕</motion.button>
+                      className="Button min">{WindowSymbols.min}</motion.button>
                   </motion.div>
               </motion.div>
               <motion.div className="WinContents">
@@ -234,13 +230,13 @@ export const Window=({
   </>);
 };
 export const WinDragToMax=():ReactElement|null=>{
-  const[wdtm]=useAtom(wdtmAtom);
+  const[windowDragToMax]=useAtom(wdtmAtom);
   useEffect(()=>{
-    console.log(`wdtm status: ${wdtm}`);
-  },[wdtm]);
-  return(wdtm)?<>
+    console.log(`wdtm status: ${windowDragToMax}`);
+  },[windowDragToMax]);
+  return(windowDragToMax)?<>
     <AnimatePresence>
-      {wdtm&&<motion.div 
+      {windowDragToMax&&<motion.div 
         initial={{opacity:0}}
         animate={{opacity:1}}
         exit={{opacity:0}}

@@ -5,6 +5,19 @@ export const CreateIcon=(standardName:string):string=>{
 export const CreateIconPNG=(standardName:string):string=>{
   return `${defaultIconPath}${standardName}.png`; 
 }
+interface IWindowSymbols{
+  close: string;
+  min: string;
+  max: string;
+  unmax: string;
+}
+export const WindowSymbols:IWindowSymbols={
+  //🗙︎🗕🗖︎🗗︎
+  close:"🗙︎",
+  min:"🗕",
+  max:"🗖︎",
+  unmax:"🗗︎",
+}
 interface IIcons {
   file: string;
   application: string;
