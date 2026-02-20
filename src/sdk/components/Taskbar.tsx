@@ -12,6 +12,7 @@ import { loadSlim } from "@tsparticles/slim";
 import { Icons } from "./Enum";
 const startMenuAtom=atom<boolean>(false);
 import { useTime } from "react-timer-hook";
+import { Dialog } from "./Dialog";
 export const DerivedTaskbarWinAtom=atom(
   (get)=>get(WinAtom).map(item=>item.id),
   // (get,set,update:IWinObj[])=>set(WinAtom,update),
@@ -238,7 +239,7 @@ export const StartMenu=({mb81ref}:{mb81ref:React.RefObject<HTMLDivElement>}):Rea
   mb81ref.current):null}</>);
 }
 // https://www.npmjs.com/package/react-timer-hook
-const TaskbarClock=({}):ReactElement=>{
+const TaskbarClock=({mb81ref}:{mb81ref:React.RefObject<HTMLDivElement>}):ReactElement=>{
   const{ 
     milliseconds,
     seconds,
@@ -247,15 +248,30 @@ const TaskbarClock=({}):ReactElement=>{
     ampm 
   }=useTime({format:'12-hour',interval:60});
   const date=new Date().toLocaleDateString();
+  const[showDateDialog,setShowDateDialog]=useState<boolean>(false);
   return(<>
-    <motion.div id="DateWrapper">
-      <motion.div id="time">
-        {/* String(n).padStart(4, '0'); */}
-        {(hours === 0 ? 12 : hours)}:{String(minutes).padStart(2,'0')} {ampm?.toUpperCase()}
-      </motion.div>
-      <motion.div id="date">
-        {date}
-      </motion.div>
+    <Dialog
+      display={showDateDialog}
+      mb81ref={mb81ref}
+      onClickOff={setShowDateDialog}
+      position={{
+        bottom: "45px",
+        right: "5px"
+      }}
+      size={{h:"15rem",w:"20rem"}}>
+
+    </Dialog>
+    <motion.div 
+      onClick={(_e)=>{
+        setShowDateDialog(true);
+      }}
+      id="DateWrapper">
+        <motion.div id="time">
+          {(hours === 0 ? 12 : hours)}:{String(minutes).padStart(2,'0')} {ampm?.toUpperCase()}
+        </motion.div>
+        <motion.div id="date">
+          {date}
+        </motion.div>
     </motion.div>
   </>);
 }
@@ -322,7 +338,7 @@ export const Taskbar=({mb81ref}:{mb81ref:React.RefObject<HTMLDivElement>}):React
         {/* {windows.map((win,i)=> */}
           {/* <AppItem key={i} _key={i} id={win}/>)} */}
       </AnimatePresence>
-      <TaskbarClock/>
+      <TaskbarClock mb81ref={mb81ref}/>
     </motion.div>
   </>);
 }

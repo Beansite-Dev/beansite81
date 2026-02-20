@@ -1,0 +1,17 @@
+@use "../../Lib.scss";
+.ClickoffDetector {
+  @include Lib.fullOccupyAlt(165,fixed);
+  // background: pink;
+}
+.Dialog {
+  position: fixed;
+  z-index: 170;
+  padding: .5rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  .ContentWrapper {
+    height: 100%;
+    width: 100%;
+  }
+}

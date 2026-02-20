@@ -66,7 +66,7 @@ export const Window=({
   const[isOpen,setIsOpen]=useState<boolean|null>(true);
   const[lastPos,setLastPos]=useState<{x:number,y:number}|null>(null);
   const[lastDim,setLastDim]=useState<{height:number,width:number}|null>(null);
-  const[_wdtm,swdtm]=useAtom(wdtmAtom);
+  const[_windowDragToMax,setWindowDragToMax]=useAtom(wdtmAtom);
   const rndRef=useRef<any>(null);
   const dragRef=useRef<any>(null);
   const uuid=generateId(10);
@@ -148,13 +148,13 @@ export const Window=({
       enableResizing={!isMax}
       className="winRnd"
       onMouseDown={(_e)=>{
-        swdtm(false);
+        setWindowDragToMax(false);
         console.log(`detected mousedown ${ids}`);
         MoveWinToTop();
       }}
       onDrag={(_e,d)=>{
-        if(d.y<=20) swdtm(true);
-        else swdtm(false);
+        if(d.y<=20) setWindowDragToMax(true);
+        else setWindowDragToMax(false);
       }}
       onDragStop={(_e,d)=>{
         if(d.y<=20){
@@ -184,7 +184,7 @@ export const Window=({
                   }}></motion.div>
                   <motion.h1  
                     ref={dragRef}
-                    onMouseUp={(_e)=>{swdtm(false);}}
+                    onMouseUp={(_e)=>{setWindowDragToMax(false);}}
                     onMouseDown={(e)=>{
                       if(isMax){
                         if(dragRef.current&&lastPos){
@@ -196,7 +196,7 @@ export const Window=({
                           setIsMax(false);
                         }
                       }else{
-                        swdtm(true);
+                        setWindowDragToMax(true);
                       }
                     }}
                     className={`Title ${id}_draghandle`}>{title}</motion.h1>

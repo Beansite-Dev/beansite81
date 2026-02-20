@@ -23,6 +23,14 @@
   width: 100dvw;
   z-index: $z;
 }
+@mixin fullOccupyAlt($z:1,$p:fixed) {
+  position: $p;
+  top: 0;
+  left: 0;
+  height: 100dvh;
+  width: 100dvw;
+  z-index: $z;
+}
 @mixin bgDefault {
   background-repeat: no-repeat;
   background-position: center;
