@@ -33,6 +33,7 @@
   top: 50%;
   left: 50%;
   position: absolute;
+  transition: height .35s, width .35s;
   translate: -50% -50%;
   $titlebarHeight: 28px;
   $btnHeight: 18px;

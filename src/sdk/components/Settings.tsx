@@ -23,6 +23,7 @@ export const Settings=({}):ReactElement=>{
             <option value="tahoma">Tahoma</option>
             <option value="comic">Comic Sans</option>
             <option value="time">Times New Roman</option>
+            <option value="mono">Source Code Pro</option>
         </select>
       </motion.div><br/>
       <motion.div id="theme">

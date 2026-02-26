@@ -12,7 +12,7 @@ export class ErrorBoundary extends Component {
   static getDerivedStateFromError(errorData:Object){return({hasError:true,errorData});}
   componentDidCatch(error:any,info:any){
     console.error(error,info);
-    alert(`${error} ${JSON.stringify(info)}`)
+    // alert(`${error} ${JSON.stringify(info)}`);
   }
   render(){
     // @ts-ignore

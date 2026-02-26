@@ -14,6 +14,10 @@
   font-family: 'PT Serif', sans-serif;
   font-weight: 400;
 }}
+.font-mono {&,*,& *{
+  font-family: "Source Code Pro", monospace;
+  font-weight: 400;
+}}
 @mixin fullOccupy($z:1,$p:fixed) {
   position: $p;
   top: 50%;
@@ -48,4 +52,11 @@
   background-position: center;
   background-size: contain;
   object-fit: contain;
+}
+@mixin rowWrapper {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  // flex-wrap: wrap;
 }

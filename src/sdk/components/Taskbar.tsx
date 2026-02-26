@@ -6,6 +6,7 @@ import { DerivedWinAtom, DerivedWinModifierAtom, ExpressDerivedWinModifierAtom, 
 import { createPortal } from "react-dom";
 import Particles, { initParticlesEngine } from "@tsparticles/react";
 import {
+  setRangeValue,
   type ISourceOptions,
 } from "@tsparticles/engine";
 import { loadSlim } from "@tsparticles/slim";
@@ -13,10 +14,12 @@ import { Icons } from "./Enum";
 const startMenuAtom=atom<boolean>(false);
 import { useTime } from "react-timer-hook";
 import { Dialog } from "./Dialog";
-import Calendar from 'react-calendar';
-import Clock from 'react-clock';
+import Clock from "react-clock";
+import Calendar from "react-calendar";
 type ValuePiece = Date | null;
 type Value = ValuePiece | [ValuePiece, ValuePiece];
+
+
 export const DerivedTaskbarWinAtom=atom(
   (get)=>get(WinAtom).map(item=>item.id),
   // (get,set,update:IWinObj[])=>set(WinAtom,update),
@@ -208,22 +211,32 @@ export const StartMenu=({mb81ref}:{mb81ref:React.RefObject<HTMLDivElement>}):Rea
 // https://www.npmjs.com/package/react-timer-hook
 const TaskbarClock=({mb81ref}:{mb81ref:React.RefObject<HTMLDivElement>}):ReactElement=>{
   const{ 
-    milliseconds,
-    seconds,
     minutes,
     hours,
     ampm 
   }=useTime({format:'12-hour',interval:60});
   const date=new Date().toLocaleDateString();
   const[showDateDialog,setShowDateDialog]=useState<boolean>(false);
-
   const DialogClock=({}):ReactElement=>{
-    const[value,onValueChange]=useState<Value>(new Date());
+    const[time,setTime]=useState(new Date());
+    useEffect(()=>{
+      const timer=setInterval(()=>{
+        setTime(new Date());
+      },1000);
+      return()=>clearInterval(timer);
+    },[]);
     return(<>
-      <motion.div>
-        {/* <Calendar value={value} onChange={onValueChange}/> */}
+      <motion.div className="ClockPositionWrapper">
+        <motion.div className="ClockWrapper">
+          <Clock value={time}/>
+        </motion.div>
       </motion.div>
-    </>)
+    </>);
+  }
+  const DialogCalendar=({}):ReactElement=>{
+    return(<motion.div>
+        
+    </motion.div>);
   }
   return(<>
     <Dialog
@@ -234,8 +247,12 @@ const TaskbarClock=({mb81ref}:{mb81ref:React.RefObject<HTMLDivElement>}):ReactEl
         bottom: "45px",
         right: "5px"
       }}
-      size={{h:"15rem",w:"20rem"}}>
-        
+      size={{h:"18rem",w:"25rem"}}>
+        {/* @ts-ignore */}
+        <motion.div id="DateDialogLRWrapper">
+          <DialogClock/>
+          <DialogCalendar/>
+        </motion.div>
     </Dialog>
     <motion.div 
       onClick={(_e)=>{
@@ -243,7 +260,7 @@ const TaskbarClock=({mb81ref}:{mb81ref:React.RefObject<HTMLDivElement>}):ReactEl
       }}
       id="DateWrapper">
         <motion.div id="time">
-          {(hours === 0 ? 12 : hours)}:{String(minutes).padStart(2,'0')} {ampm?.toUpperCase()}
+          {(hours===0?12:hours)}:{String(minutes).padStart(2,'0')} {ampm?.toUpperCase()}
         </motion.div>
         <motion.div id="date">
           {date}
@@ -252,7 +269,7 @@ const TaskbarClock=({mb81ref}:{mb81ref:React.RefObject<HTMLDivElement>}):ReactEl
   </>);
 }
 export const Taskbar=({mb81ref}:{mb81ref:React.RefObject<HTMLDivElement>}):ReactElement=>{
-  // @ts-ignore
+  //@ts-ignore
   const[windows,]=useAtom(DerivedTaskbarWinAtom);
   const[derivedTaskbarReorderWindows,sdtrw]=useState(windows);
   const[windows2,updateWindow]=useAtom(DerivedWinModifierAtom);

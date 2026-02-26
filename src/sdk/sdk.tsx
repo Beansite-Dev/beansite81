@@ -28,7 +28,7 @@ export const Beansite81=({
     <ErrorBoundary>
       <motion.div ref={mb81ref} id="Beansite81" className={`Beansite81 ${settings.theme} font-${settings.font}`}>
         <motion.div id="Background"></motion.div>
-        <WinDragToMax />
+        <WinDragToMax/>
         <motion.div id="WindowWrapper" ref={WindowWrapper}>
           {renderChildren()}
           {/* {children} */}
