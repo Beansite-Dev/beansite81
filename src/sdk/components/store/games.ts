@@ -1,4 +1,4 @@
-import { queryParams } from "../modules/Lib";
+import { queryParams } from "../../Lib";
 const games={
   "Slope": {
     url: "https://kdata1.com/2020/05/slope/",

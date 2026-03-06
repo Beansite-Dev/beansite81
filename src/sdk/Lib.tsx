@@ -21,4 +21,8 @@ export const getQueryParams=(qs:string)=>{
   console.log(params);
   return params;
 }
-export const queryParams=getQueryParams(window.location.search);
+interface IqueryParams {
+  lb?:boolean|string;
+  [key:string]:any;
+}
+export const queryParams:IqueryParams=getQueryParams(window.location.search);
