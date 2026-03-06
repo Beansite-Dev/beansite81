@@ -37,6 +37,10 @@ export const Settings=({}):ReactElement=>{
           id="themeSelector" 
           defaultValue={settings.theme}>
             <option value="default">Default</option>
+            <option value="dark">Dark</option>
+            <option value="blue">Blue</option>
+            {/*//?exclusive for testing
+               // <option value="lib">DefaultLib</option> */}
         </select>
       </motion.div><br/>
       <motion.div id="background">

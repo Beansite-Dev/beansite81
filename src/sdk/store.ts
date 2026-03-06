@@ -73,7 +73,7 @@ export interface ISettingsAtom {
   backgroundImage: string;
   backgroundSize: "cover"|"contain"|number;
   backgroundRepeat: "repeat"|"norepeat";
-  theme: "default";
+  theme: "default"|"lib"|"dark";
   font: "segoe"|"tahoma"|"comic"|"time"|"mono",
 };
 export const SettingsAtom=atom<ISettingsAtom>({

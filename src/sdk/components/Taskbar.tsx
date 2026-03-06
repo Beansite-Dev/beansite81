@@ -294,8 +294,8 @@ export const Taskbar=({mb81ref}:{mb81ref:React.RefObject<HTMLDivElement>}):React
     return(<><motion.div 
         initial={"closed"}
         animate={"open"}
-        transition={{duration:.35}}
         exit={"closed"}
+        transition={{duration:.35}}
         onClick={(e)=>{
           e.preventDefault();
           updateWindow([id,"minimized",!windows2.filter(i=>i.id==id)[0].minimized]);

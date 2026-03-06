@@ -1,0 +1,105 @@
+@property --c1 {
+  syntax: "<color>";
+  inherits: false;
+  initial-value: #fff;
+}
+@property --c2 {
+  syntax: "<color>";
+  inherits: false;
+  initial-value: #fff;
+}
+@mixin theme(
+  $primaryColor,
+  $borderColor,
+  $fontColor
+){
+  .Window {
+    background: rgba($primaryColor, 0.44);
+    backdrop-filter: blur(10px);
+    border: 1px rgba($borderColor, 0.58) solid;
+    .WinContents {
+      background: white;
+      border: 1px rgba($borderColor, 0.58) solid;
+    }
+    .Title {
+      color: $fontColor;
+    }
+    .Button {
+      background: transparent;
+      color: $fontColor;
+      &.x {
+        background: #c75050 !important;
+        width: 40px !important;
+        color: #fff !important;
+      }
+      &:hover {
+        background: #0d73d1;
+        color: #fff;
+        &.x {
+          background: #c52020 !important;
+        }
+      }
+    }
+  }
+  #Taskbar {
+    background: rgba($primaryColor, 0.44);
+    backdrop-filter: blur(10px);
+    border: 1px rgba($borderColor, 0.58) solid;
+    .item {
+      .preview {
+        background: rgba($primaryColor, 0.84) !important;
+        border: 1px rgba($borderColor, 0.58) solid !important;
+      }
+    }
+    .Start {
+      filter: drop-shadow(0 0 5px #000a);
+      &:hover {
+        background-color: #240763;
+        filter: drop-shadow(0 0 5px #0000);
+        .icon {
+          background-size: 400%;
+          animation: slide linear 5s;
+          --c1: #5817e4 !important;
+          --c2: #6e2df9 !important;
+        }
+      }
+      @keyframes slide {
+        from {
+          background-position-x: 0%;
+        }
+        to {
+          background-position-x: 100%;
+        }
+      }
+      transition: .35s !important;
+      .icon {
+        background-color: #fff;
+        transition: 
+          --c1 .35s, 
+          --c2 .35s, 
+          background-color .35s;
+        background: linear-gradient(
+          to right,
+          var(--c1) 25%,
+          var(--c2) 30%,
+          var(--c1) 35%,
+          );
+        mask-image: url("/assets/favicon_modern.svg");
+        mask-repeat: no-repeat;
+        animation-delay: 1s;
+      }
+    }
+  }
+  #StartMenu {
+    background-color: #240763;
+    // background-image: url("/wallpaper/startbg1.png");
+  }
+  .Dialog {
+    background: rgba($primaryColor, 0.84) !important;
+    border: 1px rgba($borderColor, 0.58) solid !important;
+    .ContentWrapper {
+      background: $primaryColor;
+      border: 1px rgba($borderColor, 0.58) solid;
+    }
+  }
+}
