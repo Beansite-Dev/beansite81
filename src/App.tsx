@@ -12,8 +12,8 @@ export const CHANGELOG:{
   comment:string,
   changes:string[],
 }={
-  versionName:"0.13.05",
-  releaseDate:"Feb 26, 2026",
+  versionName:"0.13.07",
+  releaseDate:"Mar 6, 2026",
   comment: "tweaky time//checkpoint 2",
   changes:[
     "TODO: Fix maximization animation",

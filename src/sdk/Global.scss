@@ -14,12 +14,8 @@ html,body{&,*,& *{
   margin: none;
   position: relative;
 }}
-#WindowWrapper {
-  @include Lib.fullOccupy(9);
-}
-#Beansite81 {
-  @include Lib.fullOccupy(1);
-}
+#WindowWrapper{@include Lib.fullOccupy(9);}
+#Beansite81{@include Lib.fullOccupy(1);}
 #Background {
   @include Lib.fullOccupy(2);
   @include Lib.bgDefault();
