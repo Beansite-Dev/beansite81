@@ -1,5 +1,22 @@
+import type { CSSProperties } from "react";
 import { queryParams } from "../../Lib";
-const games={
+interface IgamesObject {
+  url: string;
+  id: string;
+  type: "OpenInGL";
+  desc?: string; 
+  customBannerCSS?:CSSProperties;
+  working?: boolean;
+  status?: string;
+  vdate?: string;
+}
+interface Igames {
+  [key:string]:IgamesObject;
+}
+const games:Igames={
+
+}
+const ARCHIVE_games:Igames={
   "Slope": {
     url: "https://kdata1.com/2020/05/slope/",
     id: "slope",
@@ -1054,4 +1071,4 @@ const games={
   // },
 };
 //? add '&lb=true' to enable letterbox on ruffle urls
-export default games;
+export { games, ARCHIVE_games };

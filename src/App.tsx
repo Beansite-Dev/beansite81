@@ -12,14 +12,15 @@ export const CHANGELOG:{
   comment:string,
   changes:string[],
 }={
-  versionName:"0.14.04",
+  versionName:"0.14.08",
   releaseDate:"Mar 6, 2026",
-  comment: "tweaky time//checkpoint 2",
+  comment: "tweaky time//checkpoint 5",
   changes:[
     "TODO: Fix maximization animation",
     "TODO: Work on clock dialog by adding calender",
     "TODO: Add localStorage to settings",
     "Updated lib import paths (remnant from 7)",
+    "More typing stuff",
     "Updated stores from 7 to use typescript",
     "Updated types",
     "Added mono font",

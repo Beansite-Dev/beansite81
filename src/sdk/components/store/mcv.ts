@@ -1,11 +1,14 @@
-interface Imcv {
+interface ImcvObject {
   url:string;
   id:string;
   type:string;
   icon:string;
   enabled?:boolean;
 }
-export const mcv:Record<string,Imcv> ={
+interface Imcv {
+  [key:string]:ImcvObject;
+}
+export const mcv:Imcv={
   "Eaglercraft 1.8.8":{
     url: "/gs/e188-61624-ecxu35u.html",
     id: "eag188_v",

@@ -3,6 +3,8 @@ import "./styles/Taskbar.scss";
 import { AnimatePresence, easeInOut, motion, stagger, Reorder, type ValueAnimationOptionsWithRenderContext } from "motion/react";
 import { atom, useAtom } from "jotai";
 import { DerivedWinAtom, DerivedWinModifierAtom, ExpressDerivedWinModifierAtom, uniqueById, WinAtom, type IWinObj } from "../store";
+import {DayPicker} from "react-day-picker";
+import "react-day-picker/dist/style.css";
 import { createPortal } from "react-dom";
 import Particles, { initParticlesEngine } from "@tsparticles/react";
 import {
@@ -15,7 +17,7 @@ const startMenuAtom=atom<boolean>(false);
 import { useTime } from "react-timer-hook";
 import { Dialog } from "./Dialog";
 import Clock from "react-clock";
-import Calendar from "react-calendar";
+// import Calendar from "react-calendar";
 type ValuePiece = Date | null;
 type Value = ValuePiece | [ValuePiece, ValuePiece];
 
@@ -234,8 +236,9 @@ const TaskbarClock=({mb81ref}:{mb81ref:React.RefObject<HTMLDivElement>}):ReactEl
     </>);
   }
   const DialogCalendar=({}):ReactElement=>{
+    const [date, setDate] = useState<Date | undefined>(new Date());
     return(<motion.div>
-        
+      
     </motion.div>);
   }
   return(<>
