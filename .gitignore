@@ -12,6 +12,10 @@ dist
 dist-ssr
 *.local
 
+# cahce files
+*.cache
+.firebase/hosting.*.cache
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
