@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
+    "build-router": "tsc -b && npx react-router build",
     "preview": "vite preview"
   },
   "dependencies": {
@@ -14,7 +15,6 @@
     "@tsparticles/react": "^3.0.0",
     "@tsparticles/slim": "^3.9.1",
     "date-fns": "^4.1.0",
-    "firebase-cli": "^1.2.0",
     "firebase-tools": "^15.6.0",
     "jotai": "^2.17.1",
     "motion": "^12.34.0",
@@ -29,7 +29,7 @@
     "sass": "^1.97.3",
     "scss": "^0.2.4",
     "usehooks-ts": "^3.1.1",
-    "vercel": "^50.17.1"
+    "vercel": "^50.28.0"
   },
   "devDependencies": {
     "@eslint/js": "^9.39.2",

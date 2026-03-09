@@ -238,7 +238,7 @@ const TaskbarClock=({mb81ref}:{mb81ref:React.RefObject<HTMLDivElement>}):ReactEl
   const DialogCalendar=({}):ReactElement=>{
     const [date, setDate] = useState<Date | undefined>(new Date());
     return(<motion.div>
-      
+      <DayPicker mode="single"/>
     </motion.div>);
   }
   return(<>

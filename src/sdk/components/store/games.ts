@@ -6,7 +6,7 @@ interface IgamesObject {
   type: "OpenInGL";
   desc?: string; 
   customBannerCSS?:CSSProperties;
-  working?: boolean;
+  working?: boolean|string;
   status?: string;
   vdate?: string;
 }
