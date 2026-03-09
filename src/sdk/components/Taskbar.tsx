@@ -3,7 +3,7 @@ import "./styles/Taskbar.scss";
 import { AnimatePresence, easeInOut, motion, stagger, Reorder, type ValueAnimationOptionsWithRenderContext } from "motion/react";
 import { atom, useAtom } from "jotai";
 import { DerivedWinAtom, DerivedWinModifierAtom, ExpressDerivedWinModifierAtom, uniqueById, WinAtom, type IWinObj } from "../store";
-import {DayPicker} from "react-day-picker";
+import { DayPicker } from "react-day-picker";
 import "react-day-picker/dist/style.css";
 import { createPortal } from "react-dom";
 import Particles, { initParticlesEngine } from "@tsparticles/react";
@@ -236,7 +236,7 @@ const TaskbarClock=({mb81ref}:{mb81ref:React.RefObject<HTMLDivElement>}):ReactEl
     </>);
   }
   const DialogCalendar=({}):ReactElement=>{
-    const [date, setDate] = useState<Date | undefined>(new Date());
+    // const[date,setDate]=useState<Date|undefined>(new Date());
     return(<motion.div>
       <DayPicker mode="single"/>
     </motion.div>);
@@ -250,7 +250,7 @@ const TaskbarClock=({mb81ref}:{mb81ref:React.RefObject<HTMLDivElement>}):ReactEl
         bottom: "45px",
         right: "5px"
       }}
-      size={{h:"18rem",w:"25rem"}}>
+      size={{h:"20rem",w:"30rem"}}>
         {/* @ts-ignore */}
         <motion.div id="DateDialogLRWrapper">
           <DialogClock/>

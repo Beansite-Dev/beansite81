@@ -1,0 +1,166 @@
+@use "Theme";
+//? IMPORTS
+/* logo    */@import url('https://fonts.cdnfonts.com/css/breezy-pro');
+/* global  */@import url('https://fonts.cdnfonts.com/css/poppins');
+// /* card    */@import url('https://fonts.cdnfonts.com/css/arial');
+// /* barcode */@import url('https://fonts.googleapis.com/css2?family=Libre+Barcode+39&display=swap');
+//? GLOBAL
+html,body,#root{
+  background: Theme.$bg1;
+  &,*{
+    padding: none;
+    margin: none;
+    isolation: isolate;
+    position: relative;
+    box-sizing: border-box;
+    font-family: "Poppins", sans-serif;
+    outline: none;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    &::selection {
+      background: Theme.$accent;
+      color: Theme.$bg2;
+    }
+    // font-family: 'Breezy Pro', sans-serif;
+  }
+}
+//? MIXINS
+@mixin backgroundElement($zIndex){
+  height: 100dvh;
+  width: 100dvw;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  translate: -50% -50%;
+}
+//? STYLES
+#bg{@include backgroundElement(1);
+  background-image: url("/wallpaper/1.jpg");
+  filter: Theme.$blur;
+  scale: 110%;
+  opacity: .05;
+}
+#grid{@include backgroundElement(2);
+  // scale: 100%;
+  $gridColor: #45454545;
+  width: 120dvw !important;
+  filter: drop-shadow(0 0 2rem Theme.$borderColor);
+  $gridSize: 2.5rem;
+  background-size: $gridSize $gridSize !important;
+  background-repeat: repeat !important;
+  background-image:
+    repeating-linear-gradient(
+      0deg, 
+      $gridColor, 
+      $gridColor 1px, 
+      transparent 1px, 
+      transparent $gridSize),
+    repeating-linear-gradient(-90deg, 
+      $gridColor, 
+      $gridColor 1px, 
+      transparent 1px, 
+      transparent $gridSize);
+}
+#pageHeader{
+  position: fixed;
+  z-index: 99;
+  background: rgba(Theme.$bg5,.75);
+  backdrop-filter: Theme.$blur;
+  border: none;
+  border-bottom: Theme.$border;
+  border-radius: none;
+  box-shadow: 0 0 1rem rgba(Theme.$bg5,.5);
+  top: 0%;
+  left: 50%;
+  translate: -50% 0%;
+  width: 100dvw;
+  height: 6rem;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  flex-direction: row;
+  padding: 1rem;
+  gap: .5rem;
+  #logoIcon {
+    font-size: 2.25rem;
+    color: Theme.$p2;
+  }
+  #logo{
+    font-family: 'Breezy Pro', sans-serif;
+    color: Theme.$h1;
+    font-weight: normal;
+    font-size: 4rem !important;
+    text-shadow: 
+      0 0 .5rem Theme.$borderColor,
+      0 0 2rem rgba(Theme.$accent,.5);
+  }
+  #version{
+    // font-family: 'Breezy Pro', sans-serif;
+    // font-family: ;
+    color: Theme.$p3;
+    font-weight: lighter;
+    transform: scaleX(95%);
+    font-size: 2.35rem !important;
+    border: none;
+    height: 3.5rem;
+    $ph_vb: .5px rgba(Theme.$p3,.5) solid;
+    border-bottom: $ph_vb;
+    translate: 0 -.25rem;
+    text-shadow: 
+      0 0 .75rem Theme.$borderColor,
+      0 0 1.25rem rgba(Theme.$accent,.35);
+    // border-top: Theme.$ph_vb;
+  }
+  .spacer {
+    flex-grow: 1;
+    // background: pink;
+    height: 100%;
+  }
+  .phitemWrapper {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    height: 100%;
+    gap: .5rem;
+    background: transparent;
+    .phitem {
+      height: 100%;
+      aspect-ratio: 1 / 1;
+      color: Theme.$p3;
+      border: none;
+      background: transparent;
+      font-size: 1.5rem;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+      transition: .35s;
+      &:hover {
+        scale: 125%;
+        filter: brightness(125%);
+      }
+    }
+  }
+}
+.extWindowRenderer{
+  height: 100%;
+  width: 100%;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: -50% -50%;
+}
+.mainWrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  bottom: 0%;
+  left: 50%;
+  translate: -50% 0%;
+  width: 100dvw;
+  height: calc(100dvh - 6rem);
+  z-index: 99;
+  background: pink;
+}

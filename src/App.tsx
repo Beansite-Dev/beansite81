@@ -12,15 +12,17 @@ export const CHANGELOG:{
   comment:string,
   changes:string[],
 }={
-  versionName:"0.15.02",
+  versionName:"0.16.83",
   releaseDate:"Mar 9, 2026",
-  comment: "tweaky time//checkpoint 6",
+  comment: "tweaky time//checkpoint 7",
   changes:[
     "TODO: Fix maximization animation",
     "TODO: Work on clock dialog by adding calender",
-    "TODO: Add localStorage to settings",
+    "TODO: Implement background selector and saves",
     "Quick typefixes in games.ts",
-    "Taskbar modification",
+    "Added localStorage support",
+    "Added calender to taskbar clock",
+    "Started work on ExtWindowRenderer",
     "Fixed firebase hosting and routing",
     "Updated lib import paths (remnant from 7)",
     "More typing stuff",
@@ -43,7 +45,6 @@ const App=({}):ReactElement=>{
       <link rel="icon" type="image/svg+xml" href="/assets/favicon_modern.svg" />
       <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       <title>Beansite 8.1</title>
-      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     </Helmet>
     <Beansite81>
       <Window

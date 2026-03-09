@@ -71,26 +71,35 @@ export const ExpressDerivedWinModifierAtom=atom(
 // });
 export interface ISettingsAtom {
   backgroundImage: string;
-  backgroundSize: "cover"|"contain"|number;
-  backgroundRepeat: "repeat"|"norepeat";
+  backgroundSize: "cover"|"contain"|number|string;
+  backgroundRepeat: "repeat"|"norepeat"|number|string;
   theme: "default"|"lib"|"dark";
   font: "segoe"|"tahoma"|"comic"|"time"|"mono",
 };
-export const SettingsAtom=atom<ISettingsAtom>({
-  backgroundImage:"",
-  theme: "default",
-  font: "segoe",
-  backgroundSize: "cover",
-  backgroundRepeat: "norepeat"
+export const SettingsAtom=atom<ISettingsAtom>(
+  localStorage.getItem("mb81-settings")&&(()=>{
+    const settings=JSON.parse(localStorage.getItem("mb81-settings")!);
+    return settings&&
+      Array.isArray(Object.keys(settings))&&[
+        "backgroundImage",
+        "backgroundSize",
+        "backgroundRepeat",
+        "theme",
+        "font",
+      ].every(key=>Object.keys(settings).includes(key));
+  })()?JSON.parse(localStorage.getItem("mb81-settings")!):{
+    backgroundImage:"/wallpapers/1.jpg",
+    backgroundSize:"cover",
+    backgroundRepeat:"no-repeat",
+    theme:"default",
+    font:"segoe",
 });
 export const DerivedSetttingsAtom=atom(
   (get)=>get(SettingsAtom),
   (get,set,update:[keyof ISettingsAtom,any])=>
+    // @ts-expect-error
     set(SettingsAtom,{
       ...get(SettingsAtom),
       [update[0]]:update[1],
-    }),
+    } as ISettingsAtom),
 );
-// const setWindowUnique=(newItem:IWinObj)=>{
-  // setWindow((x)=>{return uniqueById([...x,newItem]);});
-// };

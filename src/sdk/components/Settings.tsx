@@ -1,11 +1,14 @@
 import "./styles/Settings.scss";
 import type { ReactElement } from "react";
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
 import { atom, useAtom } from "jotai";
 import { isMotionComponent, motion, AnimatePresence } from "motion/react";
 import { DerivedSetttingsAtom } from "../store";
 export const Settings=({}):ReactElement=>{
   const[settings,setSettings]=useAtom(DerivedSetttingsAtom);
+  useEffect(()=>{
+    localStorage.setItem("mb81-settings",JSON.stringify(settings));
+  },[settings]);
   return(<>
     <motion.div id="settings">
       <h1>Settings</h1>
