@@ -13,8 +13,8 @@ export const CHANGELOG:{
   comment:string,
   changes:string[],
 }={
-  versionName:"0.17.29",
-  releaseDate:"Mar 10, 2026",
+  versionName:"0.17.30",
+  releaseDate:"Mar 11, 2026",
   comment: "i forgor",
   changes:[
     "TODO: Fix maximization animation",
