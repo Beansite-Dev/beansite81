@@ -1,0 +1,22 @@
+@use "../../Lib.scss";
+.LoadingScreen {
+  @include Lib.fullOccupy(999);
+  background: #000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  gap: .5rem;
+  .Logo {
+    height: 10rem;
+    aspect-ratio: 1 / 1;
+    @include Lib.bgContain;
+    background-image: url("/assets/favicon_modern.png");
+  }
+  p {
+    color: #C8C8C8;
+    font-size: .875rem;
+    font-family: 'Segoe Pro', sans-serif;
+    font-weight: 400;
+  }
+}

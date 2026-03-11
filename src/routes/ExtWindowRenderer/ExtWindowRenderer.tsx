@@ -1,8 +1,8 @@
 import { motion } from "motion/react";
-import type { ReactElement } from "react";
+import { type ReactElement } from "react";
 import { Helmet } from "react-helmet-async";
 import "./style.scss";
-export const ExtWindowRenderer=({}):ReactElement=>{
+const ExtWindowRenderer=({}):ReactElement=>{
   return(<>
     <Helmet>
       <meta charSet="UTF-8" />
@@ -24,3 +24,4 @@ export const ExtWindowRenderer=({}):ReactElement=>{
     </motion.div>
   </>);
 }
+export default ExtWindowRenderer;

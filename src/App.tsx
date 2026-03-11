@@ -6,21 +6,26 @@ import { motion } from 'motion/react';
 import { Settings } from './sdk/components/Settings';
 import { useAtom } from 'jotai';
 import { ExpressDerivedWinModifierAtom } from './sdk/store';
+import { Beanpowered } from './apps/beanpowered/Beanpowered';
 export const CHANGELOG:{
   versionName:string,
   releaseDate:string,
   comment:string,
   changes:string[],
 }={
-  versionName:"0.16.85",
-  releaseDate:"Mar 9, 2026",
-  comment: "tweaky time//checkpoint 7",
+  versionName:"0.17.29",
+  releaseDate:"Mar 10, 2026",
+  comment: "i forgor",
   changes:[
     "TODO: Fix maximization animation",
     "TODO: Work on clock dialog by adding calender",
     "TODO: Implement background selector and saves",
+    "TODO: Implement Beanpowered",
+    "Fixed styling bugs with different pages by using lazy loading",
     "Quick typefixes in games.ts",
     "Added localStorage support",
+    "Added loading screen",
+    "Fixed resizing only workign on top bug",
     "Added calender to taskbar clock",
     "Started work on ExtWindowRenderer",
     "Fixed firebase hosting and routing",
@@ -38,7 +43,7 @@ export const CHANGELOG:{
   ],
 }
 const App=({}):ReactElement=>{
-  const[_,setWindow]=useAtom(ExpressDerivedWinModifierAtom);
+  const[,setWindow]=useAtom(ExpressDerivedWinModifierAtom);
   return(<>
     <Helmet>
       <meta charSet="UTF-8" />
@@ -75,6 +80,7 @@ const App=({}):ReactElement=>{
                 ["settings","minimized",false],
               ]);
             }}>Open All Windows</motion.button><br/>
+          <motion.a href="/extwr">ExtWindowRenderer</motion.a>
       </Window>
       <Window
         id="changelog"
@@ -88,6 +94,17 @@ const App=({}):ReactElement=>{
               <motion.li key={index}>{change}</motion.li>
             ))}
           </motion.ul>
+      </Window>
+      <Window
+        id="beanpowered"
+        y={10}
+        x={380}
+        height={450}
+        width={450*(16/10)}
+        // closed
+        icon={Icons.beanpowered}
+        title="Beanpowered">
+          <Beanpowered/>
       </Window>
       <Window
         id="settings"

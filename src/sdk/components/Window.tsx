@@ -7,14 +7,14 @@ import { isMotionComponent, motion, AnimatePresence, easeInOut } from "motion/re
 import { generateId } from "../Lib";
 import "./styles/Window.scss";
 import { Rnd } from "react-rnd";
-import { Icons, WindowSymbols } from "./Enum";
+import { Icons, WindowSymbols, type IIcons } from "./Enum";
 export const wdtmAtom=atom<boolean>(false);
 export interface IWindow{
-  children?:ReactElement[];
+  children?:ReactElement[]|ReactElement;
   title:string;
   id:string;
   bounds?:any;
-  icon:string;
+  icon:keyof IIcons;
   x?:number;
   y?:number;
   width?:number;
@@ -50,7 +50,7 @@ export const Window=({
   icon=Icons.configApplication,
   x=10,
   y=10,
-  width=340,
+  width=360,
   height=220,
   minHeight=100,
   minWidth=100,
@@ -83,7 +83,7 @@ export const Window=({
       title,
       uuid, 
       id:id,
-      icon,
+      icon:(icon as string),
       open: !closed,
       minimized: !!minimized,
     }]);
@@ -178,7 +178,7 @@ export const Window=({
               <motion.div 
                 className={`WindowDragHandle `}>
                   <motion.div className="Icon" style={{
-                    backgroundImage:`url(${icon})`,
+                    backgroundImage:`url(${icon as string})`,
                   }}></motion.div>
                   <motion.h1  
                     ref={dragRef}

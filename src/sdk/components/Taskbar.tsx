@@ -236,7 +236,6 @@ const TaskbarClock=({mb81ref}:{mb81ref:React.RefObject<HTMLDivElement>}):ReactEl
     </>);
   }
   const DialogCalendar=({}):ReactElement=>{
-    // const[date,setDate]=useState<Date|undefined>(new Date());
     return(<motion.div>
       <DayPicker mode="single"/>
     </motion.div>);
@@ -253,8 +252,8 @@ const TaskbarClock=({mb81ref}:{mb81ref:React.RefObject<HTMLDivElement>}):ReactEl
       size={{h:"20rem",w:"30rem"}}>
         {/* @ts-ignore */}
         <motion.div id="DateDialogLRWrapper">
-          <DialogClock/>
           <DialogCalendar/>
+          <DialogClock/>
         </motion.div>
     </Dialog>
     <motion.div 

@@ -12,7 +12,7 @@
 html,body{&,*,& *{
   padding: none;
   margin: none;
-  position: relative;
+  // position: relative;
 }}
 #WindowWrapper{@include Lib.fullOccupy(9);}
 #Beansite81{@include Lib.fullOccupy(1);}

@@ -15,7 +15,7 @@ export const getQueryParams=(qs:string)=>{
   var params={},
     tokens,
     re=/[?&]?([^=]+)=([^&]*)/g;
-  while (tokens = re.exec(qs)) {
+  while(tokens=re.exec(qs)){
     params[decodeURIComponent(tokens[1]) as keyof typeof params] = decodeURIComponent(tokens[2]) as typeof params[keyof typeof params];
   }
   console.log(params);

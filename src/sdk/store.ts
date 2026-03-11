@@ -11,11 +11,11 @@ export interface IWinObj{
   // component:typeof Window;
 };
 export const uniqueById=(items:IWinObj[])=>{
-  const set=new Set();
+  const s=new Set();
   return items.filter((item)=>{
-    const isDuplicate=set.has(item.id);
-    set.add(item.id);
-    return !isDuplicate;
+    const d=s.has(item.id);
+    s.add(item.id);
+    return !d;
   });
 }
 export const WinAtom=atom<IWinObj[]>([]);
@@ -27,9 +27,7 @@ export const DerivedWinModifierAtom=atom(
   // windows2[windows.findIndex((win)=>{return win===id;})]
   (get)=>get(WinAtom),
   (get,set,update:[string,keyof IWinObj,any])=>set(WinAtom,get(WinAtom).map((item:IWinObj)=>{
-    if(item.id===update[0]){
-      return {...item, [update[1]]: update[2]};
-    }
+    if(item.id===update[0]){return{...item,[update[1]]: update[2]};}
     return item;
   }))
 );
@@ -39,36 +37,12 @@ export const ExpressDerivedWinModifierAtom=atom(
   (get,set,update:[string,keyof IWinObj,any][])=>{
     update.forEach(x=>{
       set(WinAtom,get(WinAtom).map((item:IWinObj)=>{
-        if(item.id===x[0]){
-          return {...item, [x[1]]: x[2]};
-        }
+        if(item.id===x[0]){return{...item,[x[1]]:x[2]};}
         return item;
       }))
     })
   }
 );
-// export const SettingsAtom=atom(
-//   localStorage.getItem("mb7-settings")&&(()=>{
-//     const requiredKeys=[
-//       "backgroundImage",
-//       "backgroundSize",
-//       "backgroundRepeat",
-//       "savedWallpapers",
-//       "theme",
-//       "font",
-//     ];
-//     const settings=JSON.parse(localStorage.getItem("mb7-settings"));
-//     return settings&&
-//       Array.isArray(Object.keys(settings)) &&
-//       requiredKeys.every(key => Object.keys(settings).includes(key));
-//   })()?JSON.parse(localStorage.getItem("mb7-settings")):{
-//     backgroundImage:"/wallpapers/default.png",
-//     backgroundSize:"cover",
-//     backgroundRepeat:"no-repeat",
-//     savedWallpapers:[],
-//     theme:"default",
-//     font:"segoe",
-// });
 export interface ISettingsAtom {
   backgroundImage: string;
   backgroundSize: "cover"|"contain"|number|string;
