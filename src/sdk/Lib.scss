@@ -1,3 +1,11 @@
+@font-face {
+  font-family: "Segoe SL Boot";
+  src: url("/fonts/segoe_slboot.ttf");
+}
+.font-segoe-slboot {&,*,& *{
+  font-family: 'Segoe SL Boot';
+  font-weight: 400;
+}}
 .font-segoe {&,*,& *{
   font-family: 'Segoe Pro', sans-serif;
   font-weight: 400;

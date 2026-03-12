@@ -13,14 +13,16 @@ export const CHANGELOG:{
   comment:string,
   changes:string[],
 }={
-  versionName:"0.17.30",
-  releaseDate:"Mar 11, 2026",
-  comment: "i forgor",
+  versionName:"0.18.12",
+  releaseDate:"Mar 12, 2026",
+  comment: "pre max animation fix checkpoint",
   changes:[
     "TODO: Fix maximization animation",
     "TODO: Work on clock dialog by adding calender",
     "TODO: Implement background selector and saves",
     "TODO: Implement Beanpowered",
+    "Fixed some positioning",
+    "Added more to loading screens and styles",
     "Fixed styling bugs with different pages by using lazy loading",
     "Quick typefixes in games.ts",
     "Added localStorage support",
@@ -98,7 +100,7 @@ const App=({}):ReactElement=>{
       <Window
         id="beanpowered"
         y={10}
-        x={380}
+        x={360}
         height={450}
         width={450*(16/10)}
         // closed

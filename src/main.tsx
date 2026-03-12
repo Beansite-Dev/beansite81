@@ -23,6 +23,7 @@ const Wrapper=({}):ReactElement=>{
           <Suspense fallback={<Loading/>}>
             <Routes>
               <Route path="/" element={<App/>} />
+              <Route path="/lstest" element={<Loading/>} />
               <Route path="/extwr" element={<ExtWindowRenderer/>} />
             </Routes>
           </Suspense>
