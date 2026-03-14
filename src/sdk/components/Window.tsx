@@ -30,11 +30,11 @@ const variants={
     opacity: 1,
     y:0,
     scale: "100%",
-    transition: {
-      duration: .25,
-      staggerChildren: .25,
-      ease: easeInOut,
-    }
+    // transition: {
+    //   duration: .25,
+    //   staggerChildren: .25,
+    //   ease: easeInOut,
+    // }
   },
   closed:{
     opacity: 0,
@@ -66,6 +66,8 @@ export const Window=({
   const[isOpen,setIsOpen]=useState<boolean|null>(true);
   const[lastPos,setLastPos]=useState<{x:number,y:number}|null>(null);
   const[lastDim,setLastDim]=useState<{height:number,width:number}|null>(null);
+  const[dim,setDim]=useState<{height:number,width:number,x:number,y:number}>({width,height,x,y});
+  const[isResizing,setIsResizing]=useState<boolean>(false);
   const[_windowDragToMax,setWindowDragToMax]=useAtom(wdtmAtom);
   const rndRef=useRef<any>(null);
   const dragRef=useRef<any>(null);
@@ -97,15 +99,14 @@ export const Window=({
       if(isMin!==winObj.minimized||isOpen!==winObj.open){
         setIsMin(winObj.minimized);
         setIsOpen(winObj.open);
-        if(!isMin||isOpen){
-          MoveWinToTop();
-        }
+        if(!isMin||isOpen){MoveWinToTop();}
       }
     }
   },[_windows]);
   // logging state updates
   useEffect(()=>{console.log(`min: ${isMin} - ${!(!isOpen||isMin)}`);},[isMin]);
   useEffect(()=>{console.log(`open: ${isOpen} - ${!(!isOpen||isMin)}`);},[isOpen]);
+  useEffect(()=>console.log(isResizing),[isResizing]);
   // maximize scripts
   useEffect(()=>{
     console.log(isMax);
@@ -118,28 +119,32 @@ export const Window=({
         setLastPos({x:rect.x,y:rect.y});
         setLastDim({height:rect.height,width:rect.width});
         console.table({x:rect.x,y:rect.y});
-        rndRef.current.getSelfElement().style.transition=".35s !important";
-        rndRef.current.updateSize({
-          width: innerWidth,
-          height: innerHeight-40,
-        });
-        rndRef.current.updatePosition({
-          x:0,
-          y:0,
-        });
-        setTimeout(()=>{
-          rndRef.current.getSelfElement().style.transition="0s !important";
-        },360);
+        setDim({x:0,y:0,height:innerHeight-40,width:innerWidth,});
+        // rndRef.current.getSelfElement().style.transition=".35s !important";
+        // rndRef.current.updateSize({
+        //   width: innerWidth,
+        //   height: innerHeight-40,
+        // });
+        // rndRef.current.updatePosition({
+        //   x:0,
+        //   y:0,
+        // });
+        // setTimeout(()=>{
+        //   rndRef.current.getSelfElement().style.transition="0s !important";
+        // },360);
       }else{if(!lastPos||!lastDim)return;
-        rndRef.current.getSelfElement().style.transition=".35s !important";
+        // rndRef.current.getSelfElement().style.transition=".35s !important";
         rndRef.current.updatePosition(lastPos);
         rndRef.current.updateSize(lastDim);
-        setTimeout(()=>{
-          rndRef.current.getSelfElement().style.transition="0s !important";
-        },360);
+        setDim({x:lastPos.x,y:lastPos.y,height:lastDim.height,width:lastDim.width,});
+        // setTimeout(()=>{
+        //   rndRef.current.getSelfElement().style.transition="0s !important";
+        // },360);
       }
     }
   },[isMax]);
+  // useEffect(()=>{
+  // },[dim]);
   //🗙︎🗕🗖︎🗗︎
   return(<>
     <Rnd
@@ -147,6 +152,22 @@ export const Window=({
       disableDragging={isMax}
       enableResizing={!isMax}
       className="winRnd"
+      // default={{x,y,width,height,}}
+      size={{width:dim.width,height:dim.height}}
+      position={{x:dim.x,y:dim.y}}
+      onResize={(e,direction,ref,delta,position)=>{
+        setDim({
+          width:ref.offsetWidth,
+          height:ref.offsetHeight,
+          ...position,
+        });
+      }}
+      onResizeStart={()=>setIsResizing(true)}
+      onResizeStop={()=>setIsResizing(false)}
+      onDragStop={(_e,d)=>{
+        setDim((prev)=>({...prev,x:d.x,y:d.y}));
+        if(d.y<=20)setIsMax(true);
+      }}
       onMouseDown={(_e)=>{
         setWindowDragToMax(false);
         console.log(`detected mousedown ${ids}`);
@@ -156,24 +177,23 @@ export const Window=({
         if(d.y<=20)setWindowDragToMax(true);
         else setWindowDragToMax(false);
       }}
-      onDragStop={(_e,d)=>{
-        if(d.y<=20)setIsMax(true);
-      }}
       id={`${ids}_rnd`}
       dragHandleClassName={`${id}_draghandle`}
       minWidth={minWidth}
       minHeight={minHeight}
       bounds={bounds.current}
-      style={{pointerEvents:!(!isOpen||isMin)?"auto":"none"}}
-      default={{x,y,width,height,}}>
+      style={{pointerEvents:!(!isOpen||isMin)?"auto":"none"}}>
         <AnimatePresence>
           {!(!isOpen||isMin)?<motion.div 
             variants={variants}
             initial={"closed"}
             animate={"open"}
+            style={{height:dim.height,width:dim.width}}
             exit={"closed"}
             key={0}
+            transition={{duration:.25}}
             className="Window" 
+            layout={!isResizing}
             id={ids}>
               <motion.div 
                 className={`WindowDragHandle `}>

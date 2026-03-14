@@ -13,11 +13,10 @@ export const CHANGELOG:{
   comment:string,
   changes:string[],
 }={
-  versionName:"0.18.12",
+  versionName:"0.18.62",
   releaseDate:"Mar 12, 2026",
   comment: "pre max animation fix checkpoint",
   changes:[
-    "TODO: Fix maximization animation",
     "TODO: Work on clock dialog by adding calender",
     "TODO: Implement background selector and saves",
     "TODO: Implement Beanpowered",
@@ -25,6 +24,8 @@ export const CHANGELOG:{
     "Added more to loading screens and styles",
     "Fixed styling bugs with different pages by using lazy loading",
     "Quick typefixes in games.ts",
+    "Added tips to loading screen",
+    "Fixed resize animation",
     "Added localStorage support",
     "Added loading screen",
     "Fixed resizing only workign on top bug",

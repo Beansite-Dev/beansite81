@@ -1,12 +1,14 @@
 import { motion } from "motion/react";
 import { lazy, useEffect, useState, type ReactElement } from "react";
 import "./styles/LoadingScreen.scss";
+import tips from "./store/tips";
+import { shuffle } from "../Lib";
 export const Loading=({}):ReactElement=>{
   //https://blogfonts.com/segoe-mono-boot-1.font
   //use charmap-
   const LoadingBar=({}):ReactElement=>{
     const[i,si]=useState<number>(0);
-    const items:ReactElement[]=[//length=17
+    const items:ReactElement[]=[//length=117
       <>&#57426;</>,<>&#57427;</>,<>&#57428;</>,<>&#57429;</>,<>&#57430;</>,<>&#57431;</>,
       <>&#57432;</>,<>&#57433;</>,<>&#57434;</>,<>&#57435;</>,<>&#57436;</>,<>&#57437;</>,
       <>&#57438;</>,<>&#57439;</>,<>&#57440;</>,<>&#57441;</>,<>&#57442;</>,<>&#57443;</>,
@@ -29,12 +31,20 @@ export const Loading=({}):ReactElement=>{
       <>&#57540;</>,<>&#57541;</>,<>&#57542;</>,
     ];
     useEffect(()=>{
-      console.log("loading screen = effect ran");
       const x=setInterval(()=>{si(y=>(y+1)%items.length);},25);
       return ()=>clearInterval(x);
     },[]);
     // useEffect(()=>console.log(i),[i])
     return(<motion.p className="bcircle">{items[i]}</motion.p>);
+  }
+  const Tips=({}):ReactElement=>{
+    const[i,si]=useState<number>(0);
+    useEffect(()=>{
+      shuffle(tips);
+      const x=setInterval(()=>{si(y=>(y+1)%tips.length);},3000);
+      return ()=>clearInterval(x);
+    },[]);
+    return(<motion.p className="tips">{tips[i]}</motion.p>);
   }
   return(<>
     <motion.div 
@@ -46,6 +56,7 @@ export const Loading=({}):ReactElement=>{
         <motion.div className="Logo"></motion.div>
         <motion.p>Starting Beansite 8.1...</motion.p>
         <br/>
+        <Tips/>
         <LoadingBar/>
     </motion.div>
   </>);

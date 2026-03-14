@@ -1,5 +1,11 @@
 import { generateId } from "../../Lib";
 const tips:string[]=[
+    "Test 1",
+    "Test 2",
+    "Test 3",
+    "Test 4",
+    "Test 5",
+    "Test 6",
     "There are tons of easter eggs in CMD; Try to find them all",
     "Did you know Boston is also called Beantown?",
     "I actually have a youtube! Please subscribe, I want to buy new cymbals for my drums but I have a bank balance of $-2.59",
