@@ -27,7 +27,7 @@ export const Beansite81=({
   return(<>
     <ErrorBoundary>
       <motion.div ref={mb81ref} id="Beansite81" className={`Beansite81 ${settings.theme} font-${settings.font}`}>
-        <motion.div id="Background"></motion.div>
+        <motion.div id="Background" style={{backgroundImage:`url("${settings.backgroundImage}")`}}></motion.div>
         <WinDragToMax/>
         <motion.div id="WindowWrapper" ref={WindowWrapper}>
           {renderChildren()}

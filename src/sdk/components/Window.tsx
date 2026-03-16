@@ -110,8 +110,6 @@ export const Window=({
   // maximize scripts
   useEffect(()=>{
     console.log(isMax);
-    // sms(isMax?{
-    // }:{});
     if(rndRef.current){
       if(isMax){
         MoveWinToTop();
@@ -120,31 +118,13 @@ export const Window=({
         setLastDim({height:rect.height,width:rect.width});
         console.table({x:rect.x,y:rect.y});
         setDim({x:0,y:0,height:innerHeight-40,width:innerWidth,});
-        // rndRef.current.getSelfElement().style.transition=".35s !important";
-        // rndRef.current.updateSize({
-        //   width: innerWidth,
-        //   height: innerHeight-40,
-        // });
-        // rndRef.current.updatePosition({
-        //   x:0,
-        //   y:0,
-        // });
-        // setTimeout(()=>{
-        //   rndRef.current.getSelfElement().style.transition="0s !important";
-        // },360);
       }else{if(!lastPos||!lastDim)return;
-        // rndRef.current.getSelfElement().style.transition=".35s !important";
         rndRef.current.updatePosition(lastPos);
         rndRef.current.updateSize(lastDim);
         setDim({x:lastPos.x,y:lastPos.y,height:lastDim.height,width:lastDim.width,});
-        // setTimeout(()=>{
-        //   rndRef.current.getSelfElement().style.transition="0s !important";
-        // },360);
       }
     }
   },[isMax]);
-  // useEffect(()=>{
-  // },[dim]);
   //🗙︎🗕🗖︎🗗︎
   return(<>
     <Rnd
@@ -191,12 +171,12 @@ export const Window=({
             style={{height:dim.height,width:dim.width}}
             exit={"closed"}
             key={0}
-            transition={{duration:.25}}
-            className="Window" 
-            layout={!isResizing}
+            transition={{duration:isResizing?0:.25,}}
+            className={`Window ${isResizing?"noAni":""}`} 
+            layout
             id={ids}>
               <motion.div 
-                className={`WindowDragHandle `}>
+                className={`WindowDragHandle`}>
                   <motion.div className="Icon" style={{
                     backgroundImage:`url(${icon as string})`,
                   }}></motion.div>

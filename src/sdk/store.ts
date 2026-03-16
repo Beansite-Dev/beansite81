@@ -62,7 +62,7 @@ export const SettingsAtom=atom<ISettingsAtom>(
         "font",
       ].every(key=>Object.keys(settings).includes(key));
   })()?JSON.parse(localStorage.getItem("mb81-settings")!):{
-    backgroundImage:"/wallpapers/1.jpg",
+    backgroundImage:"/wallpaper/1.jpg",
     backgroundSize:"cover",
     backgroundRepeat:"no-repeat",
     theme:"default",

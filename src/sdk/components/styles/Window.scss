@@ -39,6 +39,7 @@
   $titlebarHeight: 28px;
   $btnHeight: 18px;
   $padding: 5px;
+  &.noAni{&,*,& *{transition: none !important;}}
   .WindowDragHandle {
     &,*,& *{user-select: none;}
     position: absolute;

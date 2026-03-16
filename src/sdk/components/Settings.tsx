@@ -4,21 +4,42 @@ import { useEffect, useRef } from "react";
 import { atom, useAtom } from "jotai";
 import { isMotionComponent, motion, AnimatePresence } from "motion/react";
 import { DerivedSetttingsAtom } from "../store";
+import{ useDropzone } from "react-dropzone";
 export const Settings=({}):ReactElement=>{
   const[settings,setSettings]=useAtom(DerivedSetttingsAtom);
   useEffect(()=>{
     localStorage.setItem("mb81-settings",JSON.stringify(settings));
+    console.table(settings);
   },[settings]);
+  const DragAndDrop=({}):ReactElement=>{
+    const{acceptedFiles,getRootProps,getInputProps}=useDropzone({
+      onDrop:(files:any):void=>{
+        console.log(files[0]);
+        const x=new FileReader();
+        x.onload=(e)=>{
+          const result=e.target?.result;
+          if(typeof result==="string"){setSettings(["backgroundImage",result]);}
+        }
+        x.readAsDataURL(files[0]);
+      },
+      accept:{'image/*':['.jpeg','.png']},
+      maxFiles:1,
+    });
+    return(<>
+      <motion.div {...getRootProps({className:"dropzone"})} id="dragAndDrop">
+        <input {...getInputProps()} />
+        <motion.p>Drop some files here, or click to select files</motion.p>
+      </motion.div>
+    </>);
+  }
   return(<>
-    <motion.div id="settings">
+    <motion.div id="Settings">
       <h1>Settings</h1>
       <motion.div id="font">
         <motion.h2>Font</motion.h2>
         <motion.p>Select a font: </motion.p>
         <select 
-          onChange={(e)=>{
-            setSettings(["font",e.target.value]);
-          }}
+          onChange={(e)=>{setSettings(["font",e.target.value]);}}
           name="Font" 
           id="fontSelector" 
           defaultValue={settings.font}>
@@ -48,8 +69,16 @@ export const Settings=({}):ReactElement=>{
       </motion.div><br/>
       <motion.div id="background">
         <motion.h2>Background</motion.h2>
-        <motion.p>Select a background: </motion.p>
-        <input type="file" id="backgroundSelector"/>
+        <DragAndDrop/>
+      </motion.div>
+      <motion.div id="dangerzone">
+        <motion.h2>Danger Zone</motion.h2>
+        <motion.button onClick={()=>{
+          if(confirm("Would you really like to reset all settings?")){
+            localStorage.clear();
+            window.location.reload();
+          }
+        }}>Reset Settings</motion.button>
       </motion.div>
     </motion.div>
   </>);

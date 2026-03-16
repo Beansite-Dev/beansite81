@@ -3,22 +3,28 @@
 @import url('https://fonts.googleapis.com/css2?family=Comic+Relief:wght@400;700&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=PT+Serif:ital,wght@0,400;0,700;1,400;1,700&display=swap');
 @import url('https://fonts.cdnfonts.com/css/tahoma');
-
 #Settings{
-  display: flex;
-}
-
-#fontSelector{
-  #segoe{
-    font-family: "Segoe Pro", sans-serif;
+  button {
+    margin: .5rem 0;
+    cursor: pointer;
+    width: 10rem;
   }
-  #tahoma{
-    font-family: "Tahoma", sans-serif;
-  }
-  #comic{
-    font-family: "Comic Relief", sans-serif;
-  }
-  #time{
-    font-family: "PT Serif", sans-serif;
+  .dropzone{
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    border-radius: 2;
+    border: 1px dashed #45454550;
+    background-color: #fcfcfc;
+    color: #45454550;
+    outline: none;
+    transition: border .24s ease-in-out;
+    cursor: pointer;
+    margin: .5rem 0;
+    &:hover{
+      border-color: #2196f3;
+    }
   }
 }
