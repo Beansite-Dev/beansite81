@@ -10,6 +10,8 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@check-light-or-dark/image": "^1.0.5",
+    "@dnd-kit/react": "^0.3.2",
     "@fortawesome/free-solid-svg-icons": "^7.2.0",
     "@tsparticles/engine": "^3.9.1",
     "@tsparticles/react": "^3.0.0",

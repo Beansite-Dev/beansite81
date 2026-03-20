@@ -1,6 +1,7 @@
 import type { ReactElement } from "react";
-export const Beanpowered=({}):ReactElement=>{
+const Beanpowered=({}):ReactElement=>{
   return(<>
 
   </>);
 }
+export default Beanpowered;

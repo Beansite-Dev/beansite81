@@ -5,7 +5,7 @@ import { atom, useAtom } from "jotai";
 import { isMotionComponent, motion, AnimatePresence } from "motion/react";
 import { DerivedSetttingsAtom } from "../store";
 import{ useDropzone } from "react-dropzone";
-export const Settings=({}):ReactElement=>{
+const Settings=({}):ReactElement=>{
   const[settings,setSettings]=useAtom(DerivedSetttingsAtom);
   useEffect(()=>{
     localStorage.setItem("mb81-settings",JSON.stringify(settings));
@@ -83,3 +83,4 @@ export const Settings=({}):ReactElement=>{
     </motion.div>
   </>);
 }
+export default Settings;

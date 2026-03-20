@@ -1,28 +1,30 @@
-import { useState, type ReactElement } from 'react';
+import { lazy, useState, type ReactElement } from 'react';
 import { Beansite81, Window } from './sdk/sdk';
 import { Icons } from './sdk/components/Enum';
 import { Helmet } from "react-helmet-async";
 import { motion } from 'motion/react';
-import { Settings } from './sdk/components/Settings';
 import { useAtom } from 'jotai';
 import { ExpressDerivedWinModifierAtom } from './sdk/store';
-import { Beanpowered } from './apps/beanpowered/Beanpowered';
+const Settings=lazy(()=>import('./sdk/components/Settings'));
+const Beanpowered=lazy(()=>import('./apps/beanpowered/Beanpowered.tsx'));
 export const CHANGELOG:{
   versionName:string,
   releaseDate:string,
   comment:string,
   changes:string[],
 }={
-  versionName:"0.19.00",
-  releaseDate:"Mar 12, 2026",
+  versionName:"0.20.12",
+  releaseDate:"Mar 20, 2026",
   comment: "fixed it",
   changes:[
     "TODO: Work on clock dialog by adding calender",
     "TODO: Implement background selector and saves",
     "TODO: Implement Beanpowered",
     "TODO: Implement Beanforged",
-    "TODO: Implement desktop icons and shortcuts",
     "TODO: Add background presets",
+    "Implemented Desktop",
+    "Added more fallbacks for preformance improvement. Window components now load lazily",
+    "Cleaned Changelog",
     "Fixed resizing bugs",
     "added settings reset",
     "Fixed/added background selector",
@@ -32,23 +34,6 @@ export const CHANGELOG:{
     "Quick typefixes in games.ts",
     "Added tips to loading screen",
     "Fixed resize animation",
-    "Added localStorage support",
-    "Added loading screen",
-    "Fixed resizing only workign on top bug",
-    "Added calender to taskbar clock",
-    "Started work on ExtWindowRenderer",
-    "Fixed firebase hosting and routing",
-    "Updated lib import paths (remnant from 7)",
-    "More typing stuff",
-    "Updated stores from 7 to use typescript",
-    "Updated types",
-    "Added mono font",
-    "Created ThemeLib",
-    "Used ThemeLib to create a dark mode",
-    "Updated default theme to use ThemeLib",
-    "Fixed issues in error boundary",
-    "Fixed more styling within windows and taskbars",
-    "Cleaned changelog",
   ],
 }
 const App=({}):ReactElement=>{
@@ -82,13 +67,24 @@ const App=({}):ReactElement=>{
             onClick={()=>{
               setWindow([
                 ["win1","open",true],
-                ["changelog","open",true],
-                ["settings","open",true],
                 ["win1","minimized",false],
+                ["changelog","open",true],
                 ["changelog","minimized",false],
+                ["settings","open",true],
                 ["settings","minimized",false],
+                ["beanpowered","open",true],
+                ["beanpowered","minimized",false],
               ]);
-            }}>Open All Windows</motion.button><br/>
+            }}>Open All Windows</motion.button>
+          <motion.button
+            onClick={()=>{
+              setWindow([
+                ["win1","open",false],
+                ["changelog","open",false],
+                ["settings","open",false],
+                ["beanpowered","open",false],
+              ]);
+            }}>Close All Windows</motion.button><br/>
           <motion.a href="/extwr">ExtWindowRenderer</motion.a>
       </Window>
       <Window

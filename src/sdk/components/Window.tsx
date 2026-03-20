@@ -1,6 +1,6 @@
 import { atom, useAtom } from "jotai";
 // @ts-ignore
-import React, { Children, useEffect, useRef, useState, type ReactElement } from "react";
+import React, { Children, Suspense, useEffect, useRef, useState, type ComponentType, type ReactElement } from "react";
 import { DerivedWinAtom, DerivedWinModifierAtom, type IWinObj } from "../store";
 // @ts-ignore
 import { isMotionComponent, motion, AnimatePresence, easeInOut } from "motion/react";
@@ -24,6 +24,7 @@ export interface IWindow{
   maximized?:boolean;
   minimized?:boolean|null;
   closed?:boolean|null;
+  CustomLoadingScreen?:ComponentType;
 };
 const variants={
   open:{
@@ -42,6 +43,13 @@ const variants={
     scale: "90%",
   },
 }
+const LoadingScreen=():ReactElement=>{
+  return(<>
+    <motion.div className="WinLS">
+      <motion.h1>Loading</motion.h1>
+    </motion.div>
+  </>);
+}
 export const Window=({
   children,
   title,
@@ -58,6 +66,7 @@ export const Window=({
   // @ts-ignore
   minimized=false,
   closed=false,
+  CustomLoadingScreen=LoadingScreen,
 }:IWindow):ReactElement=>{
   const[_windows,setWindow]=useAtom(DerivedWinAtom);
   const[,updateWindow]=useAtom(DerivedWinModifierAtom);
@@ -222,7 +231,9 @@ export const Window=({
                   </motion.div>
               </motion.div>
               <motion.div className="WinContents">
-                {children}
+                <Suspense fallback={<CustomLoadingScreen/>}>
+                  {!(!isOpen||isMin)?children:null}
+                </Suspense>
               </motion.div>
           </motion.div>:null}
         </AnimatePresence>

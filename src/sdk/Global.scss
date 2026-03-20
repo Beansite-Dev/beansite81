@@ -1,8 +1,11 @@
+// library
 @use "./Lib.scss";
 @use "./themes/ThemeLib.scss";
+// themes
 @use "./themes/Default.scss";
 @use "./themes/Dark.scss";
 @use "./themes/Blue.scss";
+// fonts
 @import url('https://fonts.cdnfonts.com/css/segoe-pro');
 @import url('https://fonts.googleapis.com/css2?family=Source+Code+Pro:ital,wght@0,200..900;1,200..900&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Comic+Relief:wght@400;700&display=swap');
@@ -14,7 +17,10 @@ html,body{&,*,& *{
   margin: none;
   // position: relative;
 }}
-#WindowWrapper{@include Lib.fullOccupy(9);}
+#WindowWrapper{
+  @include Lib.fullOccupy(9);
+  pointer-events: none;
+}
 #Beansite81{@include Lib.fullOccupy(1);}
 #Background {
   @include Lib.fullOccupy(2);

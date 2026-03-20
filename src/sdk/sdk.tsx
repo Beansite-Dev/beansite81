@@ -6,6 +6,7 @@ import { ErrorBoundary } from "./components/ErrorBoundary";
 import { Taskbar } from "./components/Taskbar";
 import { useAtom } from "jotai";
 import { DerivedSetttingsAtom } from "./store";
+import { Desktop } from "./components/Desktop";
 interface IBeansite81{
   children:any
 };
@@ -34,6 +35,7 @@ export const Beansite81=({
           {/* {children} */}
         </motion.div>
         <Taskbar mb81ref={mb81ref}/>
+        <Desktop/>
       </motion.div>
     </ErrorBoundary>
   </>);

@@ -1,0 +1,60 @@
+@use "../../Lib.scss";
+#Desktop {
+  position: fixed;
+  z-index: 5;
+  top: 0%;
+  left: 0%;
+  height: calc(100dvh - 48px);
+  width: 100dvw;
+  // background: pink;
+  display: flex;
+  gap: .25rem;
+  padding: .25rem !important;
+  padding-bottom: calc(48xp + .25rem);
+  flex-direction: column;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  align-items: flex-start;
+  flex: 0;
+  .DesktopIcon {
+    height: 6rem;
+    aspect-ratio: 3 / 4;
+    // background: pink;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    cursor: pointer;
+    text-align: center;
+    user-select: none;
+    // background: green;
+    span {
+      font-size: .875rem;
+      line-height: 1;
+      color: white;
+      text-shadow: 
+        0 0 5px rgba(black,.5),
+        0 0 2.5px black,
+        0 0 10px rgba(black,.75);
+    }
+    box-sizing: border-box;
+    transition: .25s;
+    border: .5px dashed #0A5CA000;
+    &:focus-within,&:focus {
+      background: rgba(#0D7CD6,.5);
+      border: .5px dashed #0A5CA000;
+    }
+    .icon {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column !important;
+      height: 3.5rem !important;
+      aspect-ratio: 1 / 1;
+      // width: 3rem;
+      // background: pink;
+      @include Lib.bgContain;
+    }
+  }
+}
