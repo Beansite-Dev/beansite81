@@ -1,0 +1,160 @@
+@use "Theme.scss";
+@use "../../sdk/Lib.scss";
+//? IMPORTS
+/* logo    */@import url('https://fonts.cdnfonts.com/css/breezy-pro');
+/* global  */@import url('https://fonts.cdnfonts.com/css/poppins');
+//? GLOBAL
+html,body,#root{
+  background: Theme.$bg1;
+  &,*{
+    padding: 0;
+    margin: 0;
+    isolation: isolate;
+    position: relative;
+    box-sizing: border-box;
+    font-family: "Poppins", sans-serif;
+    outline: none;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    &::selection {
+      background: Theme.$accent;
+      color: Theme.$bg2;
+    }
+    // font-family: 'Breezy Pro', sans-serif;
+  }
+}
+//? MIXINS
+@mixin backgroundElement($zIndex){
+  height: 100dvh;
+  width: 100dvw;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  translate: -50% -50%;
+}
+@mixin Section($height){
+  height: $height;
+  width: 100dvw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  .SectWrap {
+    height: calc(100% - 1rem);
+    width: 100vmin;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    flex-direction: column;
+  }
+}
+//? STYLES
+.rowWrapper {
+  flex-direction: row;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: .5rem;
+  height: fit-content;
+  width: fit-content;
+}
+button {
+  height: 2.5rem;
+  width: 10rem;
+  // padding: .5rem;
+  border: Theme.$border;
+  border-radius: .5rem;
+  background: rgba(Theme.$bg1,.5);
+  backdrop-filter: blur(1rem);
+  color: #fefefed0;
+  cursor: pointer;
+  transition: .35s;
+  &:hover {
+    color: Theme.$bg1;
+    background: #fff;
+    translate: 0% -20%;
+  }
+}
+header{@include Section(80dvh);
+  // background: Theme.$bg2;
+  background-image: url("/wallpaper/1.jpg");
+  .SectWrap{
+    justify-content: center !important;
+  }
+  .shade {
+    height: 100%;
+    width: 100%;
+    position: absolute !important;
+    top: 50%;
+    left: 50%;
+    translate: -50% -50%;
+    z-index: -1 !important;
+    backdrop-filter: blur(1rem);
+    background: linear-gradient(
+      to bottom,
+      rgba(Theme.$bg1,.25),
+      rgba(Theme.$bg1,1),
+    );
+  }
+
+  .h1 {
+    line-height: 1;
+    &,*,&*{
+      margin: 0;
+      padding: 0;
+      gap: 0;
+      z-index: 6 !important;
+    }
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    gap: 1rem;
+    // height: 100%;
+    span {
+      line-height: 1;
+      color: #f0f0f0a0;
+      &.left {
+        width: 100%;
+        padding-left: .5rem !important;
+        text-align: left;
+      }
+      &.right {
+        width: 100%;
+        text-align: right;
+        padding-right: .5rem !important;
+      }
+      &.offset {
+        translate: 0% 100%;
+      }
+      &.gradient {
+        background-image: linear-gradient(
+          to right,
+          #2EBF38,
+          #368531
+        );
+        background-clip: text;
+        color: transparent; 
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent; 
+      }
+      &.small{
+        font-size: 1.25rem;
+        height: 1.75rem;
+        line-height: .8;
+        vertical-align: middle;
+        font-weight: 300;
+      }
+      text-align: center;
+      &.large{
+        font-size: 9.5rem;
+        height: 8rem;
+        line-height: .85;
+        vertical-align: middle;
+        font-weight: 500;
+      }
+    }
+  }
+}

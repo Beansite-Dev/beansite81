@@ -13,15 +13,17 @@ export const CHANGELOG:{
   comment:string,
   changes:string[],
 }={
-  versionName:"0.20.12",
-  releaseDate:"Mar 20, 2026",
-  comment: "fixed it",
+  versionName:"0.21.60",
+  releaseDate:"Mar 23, 2026",
+  comment: "im slow as shit",
   changes:[
-    "TODO: Work on clock dialog by adding calender",
     "TODO: Implement background selector and saves",
     "TODO: Implement Beanpowered",
     "TODO: Implement Beanforged",
     "TODO: Add background presets",
+    "TODO: Work on new homepage",
+    "Worked on NEW Homepage",
+    "Added calender",
     "Implemented Desktop",
     "Added more fallbacks for preformance improvement. Window components now load lazily",
     "Cleaned Changelog",
@@ -35,7 +37,7 @@ export const CHANGELOG:{
     "Added tips to loading screen",
     "Fixed resize animation",
   ],
-}
+};
 const App=({}):ReactElement=>{
   const[,setWindow]=useAtom(ExpressDerivedWinModifierAtom);
   return(<>

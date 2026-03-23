@@ -13,8 +13,8 @@ const App=lazy(()=>{
     new Promise(resolve=>setTimeout(resolve,300))
   ]).then(([moduleExports]) => moduleExports);
 });
-
 const ExtWindowRenderer=lazy(()=>import('./routes/ExtWindowRenderer/ExtWindowRenderer.tsx'));
+const Homepage=lazy(()=>import('./routes/Homepage/Homepage.tsx'));
 const Wrapper=({}):ReactElement=>{
   return(<StrictMode>
     <HelmetProvider>
@@ -22,7 +22,8 @@ const Wrapper=({}):ReactElement=>{
         <AnimatePresence>
           <Suspense fallback={<Loading/>}>
             <Routes>
-              <Route path="/" element={<App/>} />
+              <Route path="/" element={<Homepage/>} />
+              <Route path="/app" element={<App/>} />
               <Route path="/lstest" element={<Loading/>} />
               <Route path="/extwr" element={<ExtWindowRenderer/>} />
             </Routes>
