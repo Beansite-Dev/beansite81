@@ -17,8 +17,10 @@
     "@tsparticles/react": "^3.0.0",
     "@tsparticles/slim": "^3.9.1",
     "date-fns": "^4.1.0",
-    "firebase-tools": "^15.6.0",
+    "emulators-ui": "^0.73.9",
+    "firebase-tools": "^15.11.0",
     "jotai": "^2.17.1",
+    "js-dos": "^8.3.20",
     "motion": "^12.34.0",
     "react": "^19.2.4",
     "react-clock": "^6.0.0",
@@ -28,11 +30,12 @@
     "react-helmet-async": "^2.0.5",
     "react-rnd": "^10.5.2",
     "react-router": "^7.13.0",
+    "react-ruffle": "^1.0.4",
     "react-timer-hook": "^4.0.5",
     "sass": "^1.97.3",
     "scss": "^0.2.4",
     "usehooks-ts": "^3.1.1",
-    "vercel": "^50.28.0"
+    "vercel": "^50.35.0"
   },
   "devDependencies": {
     "@eslint/js": "^9.39.2",

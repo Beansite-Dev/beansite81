@@ -100,7 +100,7 @@ header{@include Section(80dvh);
 
   .h1 {
     line-height: 1;
-    &,*,&*{
+    &,*,& *{
       margin: 0;
       padding: 0;
       gap: 0;

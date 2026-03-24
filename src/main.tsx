@@ -15,6 +15,8 @@ const App=lazy(()=>{
 });
 const ExtWindowRenderer=lazy(()=>import('./routes/ExtWindowRenderer/ExtWindowRenderer.tsx'));
 const Homepage=lazy(()=>import('./routes/Homepage/Homepage.tsx'));
+const DosboxPage=lazy(()=>import('./routes/Dos/Dos.tsx'));
+const RufflePage=lazy(()=>import('./routes/Ruf/Ruf.tsx'));
 const Wrapper=({}):ReactElement=>{
   return(<StrictMode>
     <HelmetProvider>
@@ -26,6 +28,14 @@ const Wrapper=({}):ReactElement=>{
               <Route path="/app" element={<App/>} />
               <Route path="/lstest" element={<Loading/>} />
               <Route path="/extwr" element={<ExtWindowRenderer/>} />
+              <Route path="g">
+                <Route path="dos">
+                  <Route path="test" element={<DosboxPage path="/g/dos_src/OregonTrailDeluxe.zip"/>} />
+                </Route>
+                <Route path="ruf">
+                  <Route path="test" element={<RufflePage path="/g/ruf_src/ducklife.swf"/>} />
+                </Route>
+              </Route>
             </Routes>
           </Suspense>
         </AnimatePresence>
