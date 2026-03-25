@@ -18,6 +18,16 @@ const games:IGames={
     }}),
   ],
   dos:[],
-  gen:[],
+  gen:[
+    {
+      name:"Cookie Clicker",
+      src:"/g/src/cc/index.html",
+      id:"cc",
+    },{
+      name:"Celeste",
+      src:"/g/src/celeste/index.html",
+      id:"cel",
+    },
+  ],
 };
 export default games;

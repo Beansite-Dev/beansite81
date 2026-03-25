@@ -36,7 +36,7 @@ const Wrapper=({}):ReactElement=>{
               <Route path={GlobalKeyAccess}>
                 <Route index element={GlobalKeyAccess}/>
               </Route>
-              <Route path="g">
+              <Route path="g"> 
                 <Route path="dos">
                   {/* <Route path="test" element={<DosboxPage path="/g/dos_src/OregonTrailDeluxe.zip"/>} /> */}
                 </Route>
