@@ -13,8 +13,8 @@ export const CHANGELOG:{
   comment:string,
   changes:string[],
 }={
-  versionName:"0.22.420",
-  releaseDate:"Mar 23, 2026",
+  versionName:"0.23.12",
+  releaseDate:"Mar 25, 2026",
   comment: "im slow as shit",
   changes:[
     "TODO: Implement background selector and saves",
@@ -24,6 +24,11 @@ export const CHANGELOG:{
     "TODO: Work on new homepage",
     "TODO: Work on Dosbox pages",
     "Added ruffle emulator",
+    "Added ruffle pages",
+    "Fixed deploy issues",
+    "repushed date",
+    "Updated games jsons and ts files",
+    "Updated deploy.sh",
     "Started adding dosbox emulator",
     "Worked on NEW Homepage",
     "Added calender",

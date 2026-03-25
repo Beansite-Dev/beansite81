@@ -129,6 +129,9 @@ importers:
       vite:
         specifier: npm:rolldown-vite@7.2.5
         version: rolldown-vite@7.2.5(@types/node@24.10.12)(sass@1.97.3)(tsx@4.21.0)(yaml@2.8.2)
+      vite-plugin-json5:
+        specifier: ^1.2.0
+        version: 1.2.0(rolldown-vite@7.2.5(@types/node@24.10.12)(sass@1.97.3)(tsx@4.21.0)(yaml@2.8.2))
 
 packages:
 
@@ -4833,6 +4836,11 @@ packages:
     resolution: {integrity: sha512-rG/1tx1Sv93aC3Mk9sC+fcbcXTWu+T9qtQRQtZQ5AmTRKa6QDpfc2bSfSneyebLNKUMq9k9QtaympR9gPHFgNA==}
     engines: {node: '>= 18'}
     hasBin: true
+
+  vite-plugin-json5@1.2.0:
+    resolution: {integrity: sha512-79kBKxmwNrJPmXvl8Q6pgC2iiRplAP6BLjgcI0ErKg3ph1SKpDKWtI4dSGUWlN6ru/mWj55mxlZoILNC5tASbw==}
+    peerDependencies:
+      vite: ^3.0.0 || ^4.0.0 || ^5.0.0 || ^6.0.0 || ^7.0.0
 
   wcwidth@1.0.1:
     resolution: {integrity: sha512-XHPEwS0q6TaxcvG85+8EYkbiCux2XtWG2mkc47Ng2A77BQu9+DqIOJldST4HgPkuea7dvKSj5VgX3P1d4rW8Tg==}
@@ -10112,6 +10120,14 @@ snapshots:
       - rollup
       - supports-color
       - typescript
+
+  vite-plugin-json5@1.2.0(rolldown-vite@7.2.5(@types/node@24.10.12)(sass@1.97.3)(tsx@4.21.0)(yaml@2.8.2)):
+    dependencies:
+      '@rollup/pluginutils': 5.3.0
+      json5: 2.2.3
+      vite: rolldown-vite@7.2.5(@types/node@24.10.12)(sass@1.97.3)(tsx@4.21.0)(yaml@2.8.2)
+    transitivePeerDependencies:
+      - rollup
 
   wcwidth@1.0.1:
     dependencies:

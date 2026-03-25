@@ -1,5 +1,6 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
+import json5Plugin from 'vite-plugin-json5'
 
 // https://vite.dev/config/
 export default defineConfig({
@@ -9,5 +10,6 @@ export default defineConfig({
         plugins: [['babel-plugin-react-compiler']],
       },
     }),
+    json5Plugin(),
   ],
 })

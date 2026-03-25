@@ -3,8 +3,9 @@ import type { ReactElement } from "react";
 import { Helmet } from "react-helmet-async";
 import { Flash } from "react-ruffle";
 import "./style.scss";
+import games from "../../sdk/components/store/games";
 //https://github.com/lacymorrow/react-ruffle
-interface IRufflePage{path:string;}
+interface IRufflePage{path:string;name:string;id:string;}
 interface IRufflePlayer{path:string;};
 export const RufflePlayer=({path}:IRufflePlayer):ReactElement=>{
   return(<Flash 
@@ -17,10 +18,10 @@ export const RufflePlayer=({path}:IRufflePlayer):ReactElement=>{
     <p>{path}</p>
   </Flash>);
 }
-const RufflePage=({path}:IRufflePage):ReactElement=>{
+const RufflePage=({path,name,id}:IRufflePage):ReactElement=>{
   return(<>
     <Helmet>
-      <title>ruffle - {path}</title>
+      <title>{name} - ruffle:{id} - {path}</title>
     </Helmet>
     <motion.div className='RufPageWrapper'>
       <RufflePlayer {...{path}} />

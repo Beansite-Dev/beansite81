@@ -1,0 +1,102 @@
+{
+  "btb":{
+    "name": "Breaking the Bank",
+    "src":"breakingthebank"
+  },
+  "etp":{
+    "name": "Escaping the Prison",
+    "src":"escapingtheprisongame"
+  },
+  "ctp":{
+    "name": "Crossing the Pit",
+    "src":"flash_crossingthepit"
+  },
+  "ftc":{
+    "name": "Fleeing the Complex",
+    "src":"fleeing_the_complex"
+  },
+  "itas":{
+    "name": "Infiltrating the Airship",
+    "src":"infiltratingtheairshipgame"
+  },
+  "std":{
+    "name": "Stealing the Diamond",
+    "src":"stealingthediamondgame"
+  },
+  "dl":{
+    "name": "Duck Life",
+    "src":"ducklife"
+  },
+  "dl2":{
+    "name": "Duck Life 2",
+    "src":"ducklife2"
+  },
+  "dl3":{
+    "name": "Duck Life 3",
+    "src":"ducklife3"
+  },
+  "dl4":{
+    "name": "Duck Life 4",
+    "src":"ducklife4"
+  },
+  "fpaw1":{
+    "name": "FPA World 1",
+    "src":"FPAWorld1"
+  },
+  "fpaw2":{
+    "name": "FPA World 2",
+    "src":"FPAWorld2"
+  },
+  "fpaw3":{
+    "name": "FPA World 3",
+    "src":"FPAWorld3"
+  },
+  "hw":{
+    "name": "Happy Wheels",
+    "src":"happyWheels"
+  },
+  "rs1":{
+    "name": "Riddle School",
+    "src":"riddleschool"
+  },
+  "rs2":{
+    "name": "Riddle School 2",
+    "src":"riddleschool2"
+  },
+  "rs3":{
+    "name": "Riddle School 3",
+    "src":"riddleschool3"
+  },
+  "rs4":{
+    "name": "Riddle School 4",
+    "src":"riddleschool4"
+  },
+  "rs5":{
+    "name": "Riddle School 5",
+    "src":"riddleschool5"
+  },
+  "rst":{
+    "name": "Riddle School Transfer",
+    "src":"riddleschooltransfer"
+  },
+  "rst2":{
+    "name": "Riddle School Transfer 2",
+    "src":"riddleschooltransfer2"
+  },
+  "smbco":{
+    "name": "Super Mario Bros Crossover",
+    "src":"smbco"
+  },
+  "sm63":{
+    "name": "Super Mario 63",
+    "src":"supermario63"
+  },
+  "ssf":{
+    "name": "Super Smash Flash 2",
+    "src":"SuperSmash"
+  },
+  "ssf2":{
+    "name": "Super Smash Flash 2",
+    "src":"SuperSmash2"
+  }
+}

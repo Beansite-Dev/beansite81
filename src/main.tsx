@@ -6,6 +6,9 @@ import { BrowserRouter, Route, Routes } from "react-router";
 // import { ExtWindowRenderer } from './routes/ExtWindowRenderer/ExtWindowRenderer.tsx';
 import { Loading } from './sdk/components/LoadingScreen.tsx';
 import { AnimatePresence } from 'motion/react';
+import games from './sdk/components/store/games.ts';
+import { generateId } from './sdk/Lib.tsx';
+import { atom, useAtom } from 'jotai';
 // const App=lazy(()=>import('./App.tsx'));
 const App=lazy(()=>{
   return Promise.all([
@@ -15,9 +18,11 @@ const App=lazy(()=>{
 });
 const ExtWindowRenderer=lazy(()=>import('./routes/ExtWindowRenderer/ExtWindowRenderer.tsx'));
 const Homepage=lazy(()=>import('./routes/Homepage/Homepage.tsx'));
-const DosboxPage=lazy(()=>import('./routes/Dos/Dos.tsx'));
+// const DosboxPage=lazy(()=>import('./routes/Dos/Dos.tsx'));
 const RufflePage=lazy(()=>import('./routes/Ruf/Ruf.tsx'));
+const GlobalKeyAccessAtom=atom<string>(generateId(20));
 const Wrapper=({}):ReactElement=>{
+  const[GlobalKeyAccess]=useAtom(GlobalKeyAccessAtom);
   return(<StrictMode>
     <HelmetProvider>
       <BrowserRouter>
@@ -28,12 +33,21 @@ const Wrapper=({}):ReactElement=>{
               <Route path="/app" element={<App/>} />
               <Route path="/lstest" element={<Loading/>} />
               <Route path="/extwr" element={<ExtWindowRenderer/>} />
+              <Route path={GlobalKeyAccess}>
+                <Route index element={GlobalKeyAccess}/>
+              </Route>
               <Route path="g">
                 <Route path="dos">
-                  <Route path="test" element={<DosboxPage path="/g/dos_src/OregonTrailDeluxe.zip"/>} />
+                  {/* <Route path="test" element={<DosboxPage path="/g/dos_src/OregonTrailDeluxe.zip"/>} /> */}
                 </Route>
                 <Route path="ruf">
-                  <Route path="test" element={<RufflePage path="/g/ruf_src/ducklife.swf"/>} />
+                  {games.ruf.map((x,i)=>
+                    <Route key={i} path={x.id} element={
+                      <RufflePage 
+                        name={x.name} 
+                        id={x.id} 
+                        path={`/g/ruf_src/${x.src}.swf`}/>} />)}                  
+                  <Route path="test" element={<RufflePage name="Test" id="test" path="/g/ruf_src/ducklife.swf"/>} />
                 </Route>
               </Route>
             </Routes>
