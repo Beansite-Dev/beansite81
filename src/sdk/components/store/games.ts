@@ -25,7 +25,7 @@ const games:IGames={
       id:"cc",
     },{
       name:"Celeste",
-      src:"/g/src/celeste/index.html",
+      src:"/g/src/cel/index.html",
       id:"cel",
     },
   ],

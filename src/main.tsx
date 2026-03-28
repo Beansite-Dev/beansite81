@@ -1,9 +1,7 @@
 import { lazy, StrictMode, Suspense, type ReactElement } from 'react'
 import { createRoot } from 'react-dom/client'
-// import App from './App.tsx'
 import { HelmetProvider } from 'react-helmet-async';
-import { BrowserRouter, Route, Routes } from "react-router";
-// import { ExtWindowRenderer } from './routes/ExtWindowRenderer/ExtWindowRenderer.tsx';
+import { BrowserRouter, Navigate, Route, Routes, useNavigation } from "react-router";
 import { Loading } from './sdk/components/LoadingScreen.tsx';
 import { AnimatePresence } from 'motion/react';
 import games from './sdk/components/store/games.ts';
@@ -20,14 +18,18 @@ const ExtWindowRenderer=lazy(()=>import('./routes/ExtWindowRenderer/ExtWindowRen
 const Homepage=lazy(()=>import('./routes/Homepage/Homepage.tsx'));
 // const DosboxPage=lazy(()=>import('./routes/Dos/Dos.tsx'));
 const RufflePage=lazy(()=>import('./routes/Ruf/Ruf.tsx'));
+const IFrameRenderer=lazy(()=>import('./routes/HTMLRenderer/IFrameRenderer.tsx'));
 const GlobalKeyAccessAtom=atom<string>(generateId(20));
 const Wrapper=({}):ReactElement=>{
   const[GlobalKeyAccess]=useAtom(GlobalKeyAccessAtom);
+  // const navigation=useNavigation();
+  // const isNavigating=Boolean(navigation.location);
   return(<StrictMode>
     <HelmetProvider>
       <BrowserRouter>
         <AnimatePresence>
           <Suspense fallback={<Loading/>}>
+            {/* {isNavigating&&<Loading/>} */}
             <Routes>
               <Route path="/" element={<Homepage/>} />
               <Route path="/app" element={<App/>} />
@@ -37,6 +39,10 @@ const Wrapper=({}):ReactElement=>{
                 <Route index element={GlobalKeyAccess}/>
               </Route>
               <Route path="g"> 
+                <Route path="cel">
+                  <Route index element={<IFrameRenderer path="/g/src/cel/index.html"/>} />
+                  <Route path="src" element={<Navigate to="/g/cel/index.html" replace />}/>
+                </Route>
                 <Route path="dos">
                   {/* <Route path="test" element={<DosboxPage path="/g/dos_src/OregonTrailDeluxe.zip"/>} /> */}
                 </Route>
@@ -56,5 +62,5 @@ const Wrapper=({}):ReactElement=>{
       </BrowserRouter>
     </HelmetProvider>
   </StrictMode>);
-}
+};
 createRoot(document.getElementById('root')!).render(<Wrapper/>,);

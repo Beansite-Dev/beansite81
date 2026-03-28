@@ -1,8 +1,9 @@
 @use "Theme.scss";
 @use "../../sdk/Lib.scss";
 //? IMPORTS
-/* logo    */@import url('https://fonts.cdnfonts.com/css/breezy-pro');
-/* global  */@import url('https://fonts.cdnfonts.com/css/poppins');
+/* logo      */@import url('https://fonts.cdnfonts.com/css/breezy-pro');
+/* global    */@import url('https://fonts.cdnfonts.com/css/poppins');
+/* signature */@import url('https://fonts.cdnfonts.com/css/qalisha-signature-script');
 //? GLOBAL
 html,body,#root{
   background: Theme.$bg1;
@@ -53,8 +54,9 @@ html,body,#root{
 .rowWrapper {
   flex-direction: row;
   display: flex;
-  justify-content: center;
-  align-items: center;
+  justify-content: flex-start;
+  align-items: flex-start;
+  width: 100%;
   gap: .5rem;
   height: fit-content;
   width: fit-content;
@@ -77,10 +79,51 @@ button {
   }
 }
 header{@include Section(80dvh);
+  align-items: flex-start !important;
   // background: Theme.$bg2;
-  background-image: url("/wallpaper/1.jpg");
+  .background{
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-attachment: fixed;
+    position: absolute !important;
+    top: 50%;
+    left: 50%;
+    translate: -50% -50%;
+    height: 100%;
+    width: 100%;
+    z-index: -2 !important;
+    filter: hue-rotate(190deg);
+    background-image: url("/wallpaper/1.jpg");
+  }
+  padding: 2rem !important;
   .SectWrap{
     justify-content: center !important;
+    align-items: flex-start !important;
+  }
+  user-select: none;
+  .logoSub {
+    margin-bottom: -1rem !important;
+  }
+  .Logo {
+    font-size: 8rem;
+    margin: -2rem -.5rem !important;
+    background: linear-gradient(
+      270deg, 
+      #EA2222, 
+      #FFC0CB, 
+      #EA2222);
+    background-size: 600% 600% !important;
+    animation: GradientAnim1 60s ease infinite;
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    font-weight: 500;
+  }
+  @keyframes GradientAnim1 {
+    0%{background-position:0% 100%}
+    50%{background-position:100% 0%}
+    100%{background-position:0% 100%}
   }
   .shade {
     height: 100%;
@@ -97,63 +140,158 @@ header{@include Section(80dvh);
       rgba(Theme.$bg1,1),
     );
   }
-
-  .h1 {
-    line-height: 1;
-    &,*,& *{
-      margin: 0;
-      padding: 0;
-      gap: 0;
-      z-index: 6 !important;
-    }
+  span {
+    font-size: 2.5rem;
+    color: #f0f0f0;
+  }
+}
+// section{}
+.s1{@include Section(60vh);
+  h1 {
+    font-size: 2.5rem;
+    color: Theme.$h1;
+    font-weight: 500;
+  }
+  p{
+    font-size: .875rem;
+    color: Theme.$p2;
+    font-weight: 300;
+    width: 37.5rem !important;
     text-align: center;
+  }
+  .rightWrap {
+    font-size: .75rem;
+    color: Theme.$p3;
+    font-weight: 300;
+    width: calc(37.5rem - .5rem) !important;
+    text-align: right;
+    .signature {
+      user-select: none;
+      font-family: 'Qalisha Signature Script', sans-serif !important;
+      color: Theme.$h2;
+      font-size: calc(.875rem * 3); 
+    }
+  }
+}
+.s2{@include Section(90dvh);
+  justify-content: flex-start !important;
+  .shade {
+    height: 100%;
+    width: 100%;
+    position: absolute !important;
+    top: 50%;
+    left: 50%;
+    translate: -50% -50%;
+    z-index: -1 !important;
+    // backdrop-filter: blur(1rem);
+    background: linear-gradient(
+      to top,
+      rgba(Theme.$bg1,1),
+      rgba(Theme.$bg1,0),
+      rgba(Theme.$bg1,0),
+      rgba(Theme.$bg1,1)
+    );
+  }
+  .background{
+    position: absolute !important;
+    top: 50%;
+    left: 50%;
+    translate: -50% -50%;
+    height: 100%;
+    width: 100%;
+    z-index: -2 !important;
+    background-size: 2.5rem 2.5rem !important;
+    background-repeat: repeat !important;
+    opacity: .75;
+    background-image:
+      linear-gradient(to right, Theme.$borderColor 1px, transparent 1px),
+      linear-gradient(to bottom, Theme.$borderColor 1px, transparent 1px);
+  }
+  padding: 2rem !important;
+  h1 {
+    font-size: 5rem;
+    color: Theme.$h1;
+    font-weight: 500;
+    transform: rotateX(-15deg);
+    filter: drop-shadow(0 .5rem .5rem Theme.$borderColor);
+  }
+  perspective: 1000px;
+  transform-style: preserve-3d !important;
+  perspective-origin: 50%;
+  user-select: none;
+  .timesWrapper {
+    position: absolute !important;
+    z-index: 5;
+    top: 50%;
+    left: 50%;
+    translate: -50% -25%;
     display: flex;
     justify-content: center;
     align-items: center;
     flex-direction: column;
-    gap: 1rem;
-    // height: 100%;
+    text-align: center;
+    line-height: 1;
+    // padding: 1rem !important;
+    width: 9rem;
+    height: 9rem;
+    aspect-ratio: 1 / 1 !important;
+    border-radius: .5rem;
+    border: Theme.$border;
+    background: rgba(Theme.$bg2,.85);
+    backdrop-filter: blur(3rem);
+    transform: rotateX(-5deg);
+    filter: drop-shadow(0 .5rem .25rem Theme.$bg1);
     span {
-      line-height: 1;
-      color: #f0f0f0a0;
-      &.left {
-        width: 100%;
-        padding-left: .5rem !important;
-        text-align: left;
+      &.small {
+        font-size: .875rem;
+        color: Theme.$p3;
       }
-      &.right {
-        width: 100%;
-        text-align: right;
-        padding-right: .5rem !important;
-      }
-      &.offset {
-        translate: 0% 100%;
-      }
-      &.gradient {
-        background-image: linear-gradient(
-          to right,
-          #2EBF38,
-          #368531
-        );
-        background-clip: text;
-        color: transparent; 
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent; 
-      }
-      &.small{
-        font-size: 1.25rem;
-        height: 1.75rem;
-        line-height: .8;
-        vertical-align: middle;
-        font-weight: 300;
-      }
-      text-align: center;
-      &.large{
-        font-size: 9.5rem;
-        height: 8rem;
-        line-height: .85;
-        vertical-align: middle;
+      &.large {
+        font-size: 5rem;
+        color: Theme.$h1;
         font-weight: 500;
+      }
+    }
+  }
+  .Wrapper {
+    perspective: 100%;
+    transform: rotateX(30deg);
+    width: 100%;
+    bottom: 5%;
+    left: 50%;
+    translate: -50% 0%;
+    aspect-ratio: calc((16 * 2) + .5) / 9;
+    filter: drop-shadow(0 .5rem .5rem Theme.$borderColor);
+    div {
+      aspect-ratio: 16 / 9;
+      height: 100%;
+      background: black;
+      position: absolute !important;
+      top: 50%;
+      translate: 0% -50%;
+      border-radius: .5rem;
+      border: Theme.$border;
+      background-repeat: no-repeat;
+      background-size: cover;
+      background-position: center;
+      span {
+        bottom: .5rem;
+        position: absolute !important;
+        font-size: 2.5rem;
+        font-weight: 500;
+        color: Theme.$p2;
+        text-shadow: 0 0 .15rem rgba(Theme.$bg1,.75);
+        filter: drop-shadow(0 .5rem .2rem rgba(Theme.$bg1,.75));
+      }
+      &.mb7load {
+        left: 0%;
+        span{left:.5rem;}
+        background-image: url("/assets/mb7load.gif");
+      }
+      &.mb81load {
+        right: 0%;
+        span{right:.5rem;}
+        background-image: url("/assets/mb81load.gif");
       }
     }
   }

@@ -19,6 +19,7 @@
     "date-fns": "^4.1.0",
     "emulators-ui": "^0.73.9",
     "firebase-tools": "^15.11.0",
+    "html-react-parser": "^5.2.17",
     "jotai": "^2.17.1",
     "js-dos": "^8.3.20",
     "motion": "^12.34.0",
@@ -34,8 +35,10 @@
     "react-timer-hook": "^4.0.5",
     "sass": "^1.97.3",
     "scss": "^0.2.4",
+    "typewriter-effect": "^2.22.0",
     "usehooks-ts": "^3.1.1",
-    "vercel": "^50.35.0"
+    "vercel": "^50.35.0",
+    "vite-plugin-image-optimizer": "^2.0.3"
   },
   "devDependencies": {
     "@eslint/js": "^9.39.2",
@@ -62,5 +65,5 @@
       "@tsparticles/engine"
     ]
   },
-  "packageManager": "pnpm@10.32.1+sha512.a706938f0e89ac1456b6563eab4edf1d1faf3368d1191fc5c59790e96dc918e4456ab2e67d613de1043d2e8c81f87303e6b40d4ffeca9df15ef1ad567348f2be"
+  "packageManager": "pnpm@10.33.0+sha512.10568bb4a6afb58c9eb3630da90cc9516417abebd3fabbe6739f0ae795728da1491e9db5a544c76ad8eb7570f5c4bb3d6c637b2cb41bfdcdb47fa823c8649319"
 }
