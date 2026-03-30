@@ -235,9 +235,9 @@ header{@include Section(80dvh);
     width: 9rem;
     height: 9rem;
     aspect-ratio: 1 / 1 !important;
-    border-radius: .5rem;
+    border-radius: 1rem;
     border: Theme.$border;
-    background: rgba(Theme.$bg2,.85);
+    background: rgba(Theme.$bg3,.85);
     backdrop-filter: blur(3rem);
     transform: rotateX(-5deg);
     filter: drop-shadow(0 .5rem .25rem Theme.$bg1);
@@ -255,13 +255,15 @@ header{@include Section(80dvh);
   }
   .Wrapper {
     perspective: 100%;
-    transform: rotateX(30deg);
     width: 100%;
     bottom: 5%;
     left: 50%;
     translate: -50% 0%;
     aspect-ratio: calc((16 * 2) + .5) / 9;
     filter: drop-shadow(0 .5rem .5rem Theme.$borderColor);
+    perspective: 1000px;
+    transform-style: preserve-3d !important;
+    perspective-origin: 50%;
     div {
       aspect-ratio: 16 / 9;
       height: 100%;
@@ -269,7 +271,7 @@ header{@include Section(80dvh);
       position: absolute !important;
       top: 50%;
       translate: 0% -50%;
-      border-radius: .5rem;
+      border-radius: 1rem;
       border: Theme.$border;
       background-repeat: no-repeat;
       background-size: cover;
