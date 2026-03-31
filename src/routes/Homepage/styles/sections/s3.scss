@@ -1,0 +1,46 @@
+@use "../../Theme.scss";
+@use "../lib.scss" as *;
+.s3{@include Section(round(60vh,2px));
+  h1 {
+    font-size: 2.5rem;
+    color: Theme.$h1;
+    font-weight: 500;
+  }
+  .shade {
+    height: 100%;
+    width: 100%;
+    position: absolute !important;
+    top: 50%;
+    left: 50%;
+    translate: -50% -50%;
+    z-index: -1 !important;
+    // backdrop-filter: blur(1rem);
+    background: linear-gradient(
+      to top,
+      rgba(Theme.$bg1,1),
+      rgba(Theme.$bg1,0),
+      rgba(Theme.$bg1,0),
+      rgba(Theme.$bg1,1)
+    );
+  }
+  .background{
+    position: absolute !important;
+    top: 50%;
+    left: 50%;
+    translate: -50% -50%;
+    height: 100%;
+    width: 100%;
+    z-index: -2 !important;
+    $stripe-width: 1px;
+    $stripe-gap: .5rem;
+    $stripe-color: Theme.$borderColor;
+    opacity: .75;
+    background-image:repeating-linear-gradient(
+      45deg,
+      $stripe-color,
+      $stripe-color $stripe-width,
+      transparent $stripe-width,
+      transparent calc(#{$stripe-width} + #{$stripe-gap})
+    ) !important;
+  }
+}

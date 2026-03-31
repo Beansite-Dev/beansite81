@@ -13,15 +13,15 @@ export const CHANGELOG:{
   comment:string,
   changes:string[],
 }={
-  versionName:"0.24.19",
-  releaseDate:"Mar 27, 2026",
+  versionName:"0.25.11",
+  releaseDate:"Mar 31, 2026",
   comment: "this is really coming tg",
   changes:[
     "TODO: Implement Beanpowered",
     "TODO: Implement Beanforged",
     "TODO: Add background presets",
     "TODO: Work on Dosbox pages",
-    "Added Homepage Animation",
+    "Worked on homepage x3",
     "Added IFRameRenderer and HTMLRenderer (incomplete)",
     "Worked on homepage (which is nearly finished)",
     "Added ruffle emulator",

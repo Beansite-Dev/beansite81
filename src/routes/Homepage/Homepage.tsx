@@ -1,7 +1,25 @@
 import { motion } from "motion/react";
+import type { Variants } from "motion/react";
 import type { ReactElement } from "react";
 import "./style.scss";
 import Typewriter from 'typewriter-effect';
+import { FunctionlessWindow } from "./WindowExample";
+import { Icons } from "../../sdk/components/Enum";
+const ani={
+  initial:{opacity:0,y:15,},
+  whileInView:{opacity:1,y:0,},
+  viewport:{once:true}
+};
+const winVariant:Variants={
+  hidden:{opacity:0,y:30},
+  visible:{
+    opacity:1,
+    y:0,
+    transition:{
+      duration:.35
+    }
+  },
+};
 const Homepage=({}):ReactElement=>{
   return(<>
     <motion.header>
@@ -9,10 +27,8 @@ const Homepage=({}):ReactElement=>{
       <motion.div className="background"></motion.div>
       <motion.div className="SectWrap">
         <motion.div 
-          initial={{opacity:0,y:35,}}
-          whileInView={{opacity:1,y:0,}}
+          {...ani}
           transition={{duration:.25}}
-          viewport={{once:true}}
           className="rowWrapper logoSub">
             <motion.span>Our</motion.span>
             <Typewriter options={{
@@ -27,39 +43,68 @@ const Homepage=({}):ReactElement=>{
             }}/>
         </motion.div>
         <motion.span 
-          initial={{opacity:0,y:35,}}
-          whileInView={{opacity:1,y:0,}}
+          {...ani}
           transition={{duration:.25,delay:.15}}
-          viewport={{once:true}}
           className="Logo">Beansite</motion.span>
         <motion.div className="rowWrapper">
           <a href="/app"><motion.button
-            initial={{opacity:0,y:35,}}
-            whileInView={{opacity:1,y:0,}}
-            viewport={{once:true}}
+            {...ani}
+            className="button"
             transition={{duration:.15,delay:.25}}>
               Go To App
           </motion.button></a>
           <motion.button
-            initial={{opacity:0,y:35,}}
-            whileInView={{opacity:1,y:0,}}
-            viewport={{once:true}}
+            {...ani}
+            className="button"
             transition={{duration:.15,delay:.5}}>
               Learn More
           </motion.button>
         </motion.div>
       </motion.div>
+      <motion.div className="windowExampleWrapper">
+        <motion.div 
+          className="windowRotateWrapper"
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true }}
+          variants={{
+            hidden: {},
+            visible: { transition: { staggerChildren: 0.15, delayChildren: 0.25 } }
+          }}
+        >
+          <FunctionlessWindow 
+            variants={winVariant}
+            icon={Icons.configApplication}
+            title="Test Window 1">
+
+          </FunctionlessWindow>
+          <FunctionlessWindow 
+            variants={winVariant}
+            icon={Icons.configApplication}
+            title="Test Window 2">
+
+          </FunctionlessWindow>
+          <FunctionlessWindow 
+            variants={winVariant}
+            icon={Icons.configApplication}
+            title="Test Window 3">
+
+          </FunctionlessWindow>
+          <FunctionlessWindow 
+            variants={winVariant}
+            icon={Icons.configApplication}
+            title="Test Window 4">
+
+          </FunctionlessWindow>
+        </motion.div>
+      </motion.div>
     </motion.header>
     <motion.section className="s1">
       <motion.h1
-        initial={{opacity:0,y:15,}}
-        whileInView={{opacity:1,y:0,}}
-        viewport={{once:true}}
+        {...ani}
         transition={{duration:.25}}>An Unexpected Success</motion.h1>
       <motion.p
-        initial={{opacity:0,y:15,}}
-        whileInView={{opacity:1,y:0,}}
-        viewport={{once:true}}
+        {...ani}
         transition={{duration:.25,delay:.125}}>
           Beansite started as a simple HTML project I created 
           to escape boredom in class. I never expected it to 
@@ -70,9 +115,7 @@ const Homepage=({}):ReactElement=>{
           about any other app. Thanks to all of you for that. 
       </motion.p>
       <motion.div 
-        initial={{opacity:0,y:15,}}
-        whileInView={{opacity:1,y:0,}}
-        viewport={{once:true}}
+        {...ani}
         transition={{duration:.25,delay:.25}}
         className="rightWrap">
           <motion.span className="signature">-Tyler Vaz</motion.span><br/>
@@ -117,6 +160,12 @@ const Homepage=({}):ReactElement=>{
             <motion.span>00:02.37</motion.span>
         </motion.div>
       </motion.div>
+      <motion.p>Tests were conducted on HP Chromebook 11 G8 EE, results may vary</motion.p>
+    </motion.section>
+    <motion.section className="s3">
+      <motion.div className="shade"></motion.div>
+      <motion.div className="background"></motion.div>
+      
     </motion.section>
   </>);
 };

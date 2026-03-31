@@ -1,0 +1,30 @@
+@use "../../Theme.scss";
+@use "../lib.scss" as *;
+
+.s1{@include Section(round(60vh,2px));
+  h1 {
+    font-size: 2.5rem;
+    color: Theme.$h1;
+    font-weight: 500;
+  }
+  p{
+    font-size: .875rem;
+    color: Theme.$p2;
+    font-weight: 300;
+    width: 37.5rem !important;
+    text-align: center;
+  }
+  .rightWrap {
+    font-size: .75rem;
+    color: Theme.$p3;
+    font-weight: 300;
+    width: calc(37.5rem - .5rem) !important;
+    text-align: right;
+    .signature {
+      user-select: none;
+      font-family: 'Qalisha Signature Script', sans-serif !important;
+      color: Theme.$h2;
+      font-size: calc(.875rem * 3); 
+    }
+  }
+}

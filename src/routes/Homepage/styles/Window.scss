@@ -1,0 +1,132 @@
+@use "../../../sdk/Lib.scss";
+.Window {
+  height: 100%;
+  width: 100%;
+  background: rgba(#050505, 0.44) !important;
+  backdrop-filter: blur(10px) !important;
+  border: 1px rgba(#959595, 0.58) solid !important;
+  border-radius: 0px !important;
+  position: absolute !important;
+  top: 50% !important;
+  left: 50% !important;
+  transition: height .35s, width .35s !important;
+  translate: -50% -50% !important;
+  $titlebarHeight: 28px;
+  $btnHeight: 18px;
+  $padding: 5px;
+  // width: 125% !important;
+  // aspect-ratio: 5 / 3 !important;
+  &,*,& *{
+    padding: 0 !important;
+    margin: 0 !important;
+    isolation: isolate !important;
+    position: relative !important;
+    box-sizing: border-box !important;
+    font-family: "Poppins", sans-serif !important;
+    outline: none !important;
+  }
+  &.noAni{&,*,& *{transition: none !important;}}
+  
+  .WindowDragHandle {
+    &,*,& *{user-select: none !important;}
+    position: absolute !important;
+    top: 0% !important;
+    left: 50% !important;
+    translate: -50% 0% !important;
+    height: $titlebarHeight !important;
+    width: calc(100% - ($padding * 2)) !important;
+    cursor: grab !important;
+    
+    .Icon {
+      position: absolute !important;
+      top: 50% !important;
+      left: $padding !important;
+      translate: 0% -50% !important;
+      height: 20px !important;
+      aspect-ratio: 1 / 1 !important;
+      background-repeat: no-repeat !important;
+      background-size: contain !important;
+      background-position: center !important;
+    }
+    
+    .Title {
+      position: absolute !important;
+      top: 50% !important;
+      left: calc(24px + ($padding * 2)) !important;
+      translate: 0% -50% !important;
+      height: fit-content !important;
+      text-align: center !important;
+      width: calc(100% - ($padding * 3) - 80px) !important;
+      font-size: .875rem !important;
+      font-weight: 400 !important;
+      margin: 0 !important;
+      
+      // -- Embedded Dark Theme --
+      color: white !important;
+    }
+    
+    &:active {
+      cursor: grabbing !important;
+    }
+    
+    .ButtonWrapper {
+      height: $btnHeight !important;
+      width: fit-content !important;
+      display: flex !important;
+      align-items: center !important;
+      justify-content: flex-end !important;
+      flex-direction: row-reverse !important;
+      min-width: 20px !important;
+      position: absolute !important;
+      right: 0% !important;
+      top: 0% !important;
+      gap: 2px !important;
+      
+      .Button {
+        height: $btnHeight !important;
+        width: 20px !important;
+        font-size: .75rem !important;
+        line-height: 0 !important;
+        padding-bottom: .15rem !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        border: none !important;
+        cursor: pointer !important;
+        transition: .35s !important;
+        
+        // -- Embedded Dark Theme --
+        background: transparent !important;
+        color: white !important;
+        &.x {
+          background: #c75050 !important;
+          width: 40px !important;
+          color: #fff !important;
+        }
+        &:hover {
+          background: #0d73d1 !important;
+          color: #fff !important;
+          &.x {
+            background: #c52020 !important;
+          }
+        }
+      }
+    }
+  }
+  
+  .WinContents {
+    height: calc(100% - ($padding * 1) - $titlebarHeight) !important;
+    width: calc(100% - ($padding * 2)) !important;
+    position: absolute !important;
+    bottom: $padding !important;
+    left: 50% !important;
+    translate: -50% 0% !important;
+    padding: 1rem !important;
+    box-sizing: border-box !important;
+    overflow: hidden auto !important;
+    
+    // -- Embedded Dark Theme --
+    background: white !important;
+    border: 1px rgba(#959595, 0.58) solid !important;
+  }
+}
