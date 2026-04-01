@@ -1,6 +1,6 @@
 import { atom, useAtom } from "jotai";
 // @ts-ignore
-import React, { Children, Suspense, useEffect, useRef, useState, type ComponentType, type ReactElement } from "react";
+import React, { Children, Suspense, useEffect, useRef, useState, type ComponentType, type CSSProperties, type ReactElement } from "react";
 import { DerivedWinAtom, DerivedWinModifierAtom, type IWinObj } from "../store";
 // @ts-ignore
 import { isMotionComponent, motion, AnimatePresence, easeInOut } from "motion/react";
@@ -24,6 +24,7 @@ export interface IWindow{
   maximized?:boolean;
   minimized?:boolean|null;
   closed?:boolean|null;
+  customContentBoxStyling?:CSSProperties;
   CustomLoadingScreen?:ComponentType;
 };
 const variants={
@@ -63,6 +64,7 @@ export const Window=({
   minHeight=100,
   minWidth=100,
   maximized=false,
+  customContentBoxStyling={},
   // @ts-ignore
   minimized=false,
   closed=false,
@@ -230,7 +232,7 @@ export const Window=({
                       className="Button min">{WindowSymbols.min}</motion.button>
                   </motion.div>
               </motion.div>
-              <motion.div className="WinContents">
+              <motion.div className="WinContents" style={customContentBoxStyling}>
                 <Suspense fallback={<CustomLoadingScreen/>}>
                   {!(!isOpen||isMin)?children:null}
                 </Suspense>
