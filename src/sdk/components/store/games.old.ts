@@ -13,9 +13,6 @@ interface IgamesObject {
 interface Igames {
   [key:string]:IgamesObject;
 }
-const games:Igames={
-
-}
 const ARCHIVE_games:Igames={
   "Slope": {
     url: "https://kdata1.com/2020/05/slope/",
@@ -1071,4 +1068,4 @@ const ARCHIVE_games:Igames={
   // },
 };
 //? add '&lb=true' to enable letterbox on ruffle urls
-export { games, ARCHIVE_games };
+export { ARCHIVE_games };

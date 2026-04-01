@@ -1,0 +1,76 @@
+@use "../Theme.scss";
+@use "lib.scss" as *;
+footer{@include Section(round(65dvh,2px));
+  align-items: flex-start !important;
+  flex-direction: row !important;
+  justify-content: space-between !important;
+  padding: 2rem !important;
+  padding-right: 4rem !important;
+  width: 100dvw !important;
+  overflow: hidden;
+  .brandColumn {
+    display: flex;
+    flex-direction: column;
+    // gap: .25rem;
+    width: min-content !important;
+    h1{
+      font-size: 6rem;
+      font-weight: 500;
+      margin: 0rem -.5rem !important;
+      line-height: 1;
+      background: linear-gradient(
+        270deg, 
+        #EA2222, 
+        #FFC0CB, 
+        #EA2222
+      ) !important;
+      background-size: 600% 600% !important;
+      animation: GradientAnim1 60s ease infinite !important;
+      background-clip: text !important;
+      -webkit-background-clip: text !important;
+      -webkit-text-fill-color: transparent !important;
+    }
+    p {
+      font-size: 1.225rem;
+      color: Theme.$p3;
+      font-weight: 300;
+    }
+  }
+
+  .linksWrapper {
+    display: flex;
+    flex-direction: row;
+    gap: 3.5rem;
+    width: fit-content !important;
+    // position: absolute !important;
+    // right: 2rem;
+    // top: 50%;
+    // translate: 0% -50%;
+    .linkColumn {
+      display: flex;
+      flex-direction: column;
+      gap: .5rem;
+      h3 {
+        font-size: 2rem;
+        color: Theme.$h1;
+        font-weight: 400;
+        margin-bottom: .25rem;
+      }
+      a {
+        font-size: .875rem;
+        color: Theme.$p3;
+        text-decoration: none;
+        font-weight: 300;
+        transition: color .15s ease;
+        &:hover {
+          color: Theme.$h1;
+        }
+      }
+    }
+  }
+}
+@keyframes GradientAnim1 {
+  0%{background-position:0% 100%}
+  50%{background-position:100% 0%}
+  100%{background-position:0% 100%}
+}

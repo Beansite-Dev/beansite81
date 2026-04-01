@@ -13,39 +13,23 @@ export const CHANGELOG:{
   comment:string,
   changes:string[],
 }={
-  versionName:"0.25.11",
-  releaseDate:"Mar 31, 2026",
-  comment: "this is really coming tg",
+  versionName:"0.27.53",
+  releaseDate:"Apr 1, 2026",
+  comment: "",
   changes:[
-    "TODO: Implement Beanpowered",
+    "TODO: Adapt Beanpowered codebase to use new games objects",
     "TODO: Implement Beanforged",
     "TODO: Add background presets",
     "TODO: Work on Dosbox pages",
-    "Worked on homepage x3",
+    "Worked on homepage x5",
+    "Version push 25 -> 27 because of undeployed large changes",
+    "Reformatted Beansite 7's Beanpowered to work with typescript",
     "Added IFRameRenderer and HTMLRenderer (incomplete)",
     "Worked on homepage (which is nearly finished)",
     "Added ruffle emulator",
     "File Reorg",
     "Added ruffle pages",
-    "Fixed deploy issues",
-    "repushed date",
-    "Updated games jsons and ts files",
-    "Updated deploy.sh",
-    "Started adding dosbox emulator",
-    "Worked on NEW Homepage",
-    "Added calender",
-    "Implemented Desktop",
-    "Added more fallbacks for preformance improvement. Window components now load lazily",
     "Cleaned Changelog",
-    "Fixed resizing bugs",
-    "added settings reset",
-    "Fixed/added background selector",
-    "Fixed some positioning",
-    "Added more to loading screens and styles",
-    "Fixed styling bugs with different pages by using lazy loading",
-    "Quick typefixes in games.ts",
-    "Added tips to loading screen",
-    "Fixed resize animation",
   ],
 };
 const App=({}):ReactElement=>{
@@ -118,6 +102,7 @@ const App=({}):ReactElement=>{
         x={360}
         height={450}
         width={450*(16/10)}
+
         // closed
         icon={Icons.beanpowered}
         title="Beanpowered">
