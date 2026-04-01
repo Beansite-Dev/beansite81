@@ -13,9 +13,9 @@ export const CHANGELOG:{
   comment:string,
   changes:string[],
 }={
-  versionName:"0.27.55",
+  versionName:"0.27.56",
   releaseDate:"Apr 1, 2026",
-  comment: "repush cuz oopsie",
+  comment: "repush cuz oopsie x2",
   changes:[
     "TODO: Adapt Beanpowered codebase to use new games objects",
     "TODO: Implement Beanforged",
@@ -102,7 +102,7 @@ const App=({}):ReactElement=>{
         x={360}
         height={450}
         width={450*(16/10)}
-
+        customContentBoxStyling={{overflow:"hidden"}}
         // closed
         icon={Icons.beanpowered}
         title="Beanpowered">
