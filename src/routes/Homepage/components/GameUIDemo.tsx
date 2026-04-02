@@ -1,9 +1,11 @@
 import { motion } from "motion/react";
-import "./style/GameUI.scss";
+import "./GameUIDemo.scss";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faGear, faHeart, faInfoCircle, faPlay } from "@fortawesome/free-solid-svg-icons";
 import { useEffect, useRef } from "react";
-import { ARCHIVE_games as games } from "../../../../sdk/components/store/games.old";
+import { ARCHIVE_games as games } from "../../../sdk/components/store/games.old";
+import { Dialog } from '@base-ui/react/dialog';
+import "./Dialog.scss";
 type GameData=typeof games[keyof typeof games];
 const GameUI=({
   gamedata,
@@ -35,28 +37,26 @@ const GameUI=({
     }
   },[gamedata.id]);
   const GUILaunchButton=()=>{
+    const Alert=()=>{
+      return(<Dialog.Root>
+        <Dialog.Trigger id="GUI_launch"><FontAwesomeIcon icon={faPlay}/> Launch</Dialog.Trigger>
+        <Dialog.Portal>
+          <Dialog.Backdrop className="Backdrop" />
+          <Dialog.Popup className="Popup">
+            <Dialog.Title className="Title">Continue On Beansite</Dialog.Title>
+            <Dialog.Description className="Description">
+              This feature is demo only, please continue on Beansite to play this game.
+            </Dialog.Description>
+            <div className="Actions">
+              <a href="/app"><button className="button bold">Continue</button></a>
+              <Dialog.Close className="button">Close</Dialog.Close>
+            </div>
+          </Dialog.Popup>
+        </Dialog.Portal>
+      </Dialog.Root>);
+    };
     return(
-      <motion.button
-        id="GUI_launch"
-        onClick={(e)=>{if(launchFunc){
-          e.preventDefault();
-          var win=window.open("",gamename,"toolbar=no,location=no,directories=no,status=no,menubar=no,scrollbars=yes,resizable=yes,width=640,height=360,top=100,left=100");
-          if(win){
-            win.document.documentElement.innerHTML=`
-              <title>${gamename}</title>
-              <link rel="icon" type="image/x-icon" href="${`/apps/beanpowered/gicon/${gamedata.id}.png`}">
-              <iframe src="${gamedata.url}" 
-                allowfullscreen
-                style="
-                  height:100dvh;
-                  width:100dvw;
-                  position:fixed;
-                  top:50%;
-                  left:50%;
-                  translate:-50% -50%;"/>`;
-          }
-        }}}><FontAwesomeIcon icon={faPlay}/> Launch
-      </motion.button>
+      <Alert/>
     );
   };
   return(<>
@@ -124,5 +124,4 @@ const GameUI=({
     </motion.div>
   </>);
 };
-
 export default GameUI;

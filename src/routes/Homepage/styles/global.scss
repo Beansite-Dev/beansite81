@@ -8,7 +8,7 @@ html,body,#root{
   background: Theme.$bg1;
   overflow-x: hidden;
   overflow-y: auto;
-  &,*{
+  &,*{&:not(:where(.bp_appwrapper,.bp_appwrapper *)){
     padding: 0;
     margin: 0;
     isolation: isolate;
@@ -23,7 +23,7 @@ html,body,#root{
       background: Theme.$accent;
       color: Theme.$bg2;
     }
-  }
+  }}
 }
 //? STYLES
 .rowWrapper {

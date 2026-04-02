@@ -1,0 +1,265 @@
+@use "./vars" as *;
+#bp_appwrapper {
+  *,&{
+    -ms-overflow-style: none !important;
+    scrollbar-width: none !important;
+    &::-webkit-scrollbar { 
+      display: none !important;
+    }
+  }
+  height: 100% !important;
+  width: 100% !important;
+  position: absolute !important;
+  top: 50% !important;
+  left: 50% !important;
+  translate: -50% -50% !important;
+  background: $bp_bg1 !important;
+  padding: 3px !important;
+  box-sizing: content-box !important;
+  * {
+    box-sizing: border-box !important;
+    font-family: 'Motiva Sans', sans-serif !important;
+  }
+  #bp_navbar {
+    width: 100% !important;
+    background: $bp_bg1 !important;
+    display: flex !important;
+    justify-content: flex-start !important;
+    align-items: center !important;
+    padding: 2px 8px !important;
+    height: 2.5rem !important;
+    position: absolute !important;
+    top: 0% !important;
+    left: 0% !important;
+    br{width: .5rem !important;height: 100% !important;}
+    .bpnb_navbtn {
+      height: 1.5rem !important;
+      font-size: 1rem !important;
+      appearance: none !important;
+      background: transparent !important;
+      border: none !important;
+      color: $bp_icon !important;
+      width: fit-content !important;
+    }
+    .bpnb_button {
+      height: 1.75rem !important;
+      width: fit-content !important;
+      padding: 0 2px !important;
+      text-transform: uppercase !important;
+      font-weight: 500 !important;
+      font-size: 1rem !important;
+      appearance: none !important;
+      background: transparent !important;
+      border: none !important;
+      color: #fff !important;
+      margin-right: .5rem !important;
+      cursor: pointer !important;
+      &.selected {
+        color: $bp_accent !important;
+        border-bottom: .2rem solid $bp_accent !important;
+      }
+    }
+  }
+  #bp_footer {
+    width: 100% !important;
+    background: $bp_bg1 !important;
+    display: flex !important;
+    justify-content: flex-start !important;
+    align-items: center !important;
+    padding: 2px 8px !important;
+    height: 2.5rem !important;
+    position: absolute !important;
+    bottom: 0% !important;
+    left: 0% !important;
+    border-top: $bp_border !important;
+    z-index: 2 !important;
+    .bpf_button {
+      height: 1.5rem !important;
+      width: fit-content !important;
+      font-size: .75rem !important;
+      display: flex !important;
+      flex-direction: row !important;
+      justify-content: center !important;
+      align-items: center !important;
+      gap: .35rem !important;
+      appearance: none !important;
+      border: none !important;
+      background: transparent !important;
+      position: absolute !important;
+      top: 50% !important;
+      translate: 0% -60% !important;
+      color: $bp_icon !important;
+      padding: 0 !important;
+      cursor: pointer !important;
+      transition: .35s !important;
+      &:hover {
+        color: #f5f5f5 !important;
+        div {
+          background: #f5f5f5 !important;
+        }
+      }
+      div {
+        transition: .35s !important;
+        background: $bp_icon !important;
+        height: 1rem !important;
+        aspect-ratio: 1 / 1 !important;
+        display: flex !important;
+        justify-items: center !important;
+        align-items: center !important;
+        color: $bp_bg1 !important;
+        border-radius: .2rem !important;
+        font-size: .65rem !important;
+        svg {
+          position: absolute !important;
+          top: 50% !important;
+          left: 50% !important;
+          translate: -50% -50% !important;
+        }
+      }
+      &.bottom {
+        left: 1rem !important;
+      }
+      &.center {
+        left: 50% !important;
+        translate: -50% -60% !important;
+      }
+      &.right {
+        right: 1rem !important;
+      }
+    }
+  }
+  #bpsb_searchbar {
+    height: 2.5rem !important;
+    width: calc(10rem + .1rem) !important;
+    position: absolute !important;
+    top: 2rem !important;
+    left: 0% !important;
+    background: $bp_bg1 !important;
+    z-index: 1 !important;
+    padding: .5rem !important;
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    &::after {
+      content: "" !important;
+      position: absolute !important;
+      bottom: -.5rem !important;
+      height: .5rem !important;
+      width: 100% !important;
+      left: 0% !important;
+      background: linear-gradient(180deg,$bp_bg1,transparent) !important;
+    }
+    #bp_SearchBar {
+      height: 100% !important;
+      width: 100% !important;
+      appearance: none !important;
+      background: #3e4047 !important;
+      border: $bp_border !important;
+      border-radius: $bp_borderrad !important;
+      outline: none !important;
+      color: #dedede !important;
+      padding: 2px 6px !important;
+    }
+  }
+  .bp_tabs {
+    height: calc(100% - 5rem) !important;
+    width: 100% !important;
+    position: absolute !important;
+    top: 50% !important;
+    left: 50% !important;
+    translate: -50% -50% !important;
+    .bp_panel {
+      height: 100% !important;
+      width: calc(100% - 10rem - 2px) !important;
+      position: absolute !important;
+      right: 0% !important;
+      top: 50% !important;
+      translate: 0 -50% !important;
+      background: $bp_bg4 !important;
+      // border: $bp_border !important;
+      border-top-left-radius: $bp_borderrad !important;
+    }
+    .bp_sidebar {
+      display: flex !important;
+      z-index: 0 !important;
+      padding-inline: 0.25rem !important;
+      width: 10rem !important;
+      height: calc(100% - 2rem) !important;
+      position: absolute !important; 
+      bottom: 0% !important;
+      left: 0% !important;
+      flex-direction: column !important;
+      gap: 0.25rem !important;
+      box-shadow: inset 90 -1px $bp_border_clr !important;
+      overflow: auto !important;
+      overflow-x: hidden !important; 
+      background: $bp_bg3 !important;
+      padding: .25rem !important;
+      padding-top: .5rem !important;
+      .bp_TabIndicator {
+        position: absolute !important;
+        z-index: -1 !important;
+        left: 50% !important;
+        top: 0% !important;
+        translate: -50% var(--active-tab-top) !important;
+        width: var(--active-tab-width) !important;
+        height: 1.35rem !important;
+        background-color: $bp_bg_accent2 !important;
+        transition-property: translate, width !important;
+        transition-duration: 200ms !important;
+        transition-timing-function: ease-in-out !important;
+        // &:hover {
+        //   background: $bp_icon !important;
+        // }
+      }
+      .bpsb_item {
+        &.nonfunc {
+          cursor: not-allowed !important;
+          opacity: .5 !important;
+          text-decoration-line: line-through !important;
+        }
+        transition: .15s !important;
+        &:hover {
+          background: rgba($bp_bg_accent1,.75) !important;
+        }
+        width: calc(10rem - .5rem) !important;
+        cursor: pointer !important;
+        max-width: 10rem !important;
+        height: 1.35rem !important;
+        min-height: 1.35rem !important;
+        max-height: 1.35rem !important;
+        padding: 1px 2px !important;
+        text-align: left !important;
+        font-size: .875rem !important;
+        appearance: none !important;
+        display: flex !important;
+        justify-content: flex-start !important;
+        align-items: center !important;
+        gap: .25rem !important;
+        background: none !important;
+        border: none !important;
+        color: $bp_p !important;
+        flex-shrink: 0 !important;
+        .bpsbi_txt {
+          height: 100% !important;
+          width: calc(100% - 2rem) !important;
+          overflow: hidden !important;
+          text-overflow: ellipsis !important;
+          white-space: nowrap !important;
+          line-clamp: 1 !important;
+        }
+        .bpsbi_icon {
+          height: 100% !important;
+          aspect-ratio: 1 / 1 !important;
+          background-position: center !important;
+          background-size: contain !important;
+          background-repeat: no-repeat !important;
+          border-radius: $bp_borderrad !important;
+        }
+        // &:hover {
+        //   background: $bp_bg_accent1 !important;
+        // }
+      }
+    }
+  }
+}

@@ -1,11 +1,11 @@
 import { motion } from "motion/react";
-import "./style/Beanpowered.scss";
+import "./BeanpoweredDemo.scss";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowLeft, faArrowRight, faDownload, faPlus, faUserFriends } from "@fortawesome/free-solid-svg-icons";
 import { Tabs } from '@base-ui/react/tabs';
-import { ARCHIVE_games as games } from "../../sdk/components/store/games.old";
+import { ARCHIVE_games as games } from "../../../sdk/components/store/games.old";
 import { useState, type ReactElement } from "react";
-import GameUI from "./components/GameUI/GameUI";
+import GameUI from "./GameUIDemo";
 
 const Beanpowered=({launchFunc=true}:{launchFunc?:boolean;}):ReactElement=>{
   const[searchRes,setSearchRes]=useState<typeof games>(games);

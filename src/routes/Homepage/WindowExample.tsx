@@ -1,4 +1,4 @@
-import type { ReactElement, ReactNode } from "react";
+import type { CSSProperties, ReactElement, ReactNode } from "react";
 import type { HTMLMotionProps } from "motion/react";
 import { motion } from "motion/react";
 import { Icons, WindowSymbols } from "../../sdk/components/Enum";
@@ -8,15 +8,17 @@ export const FunctionlessWindow=({
   title,
   icon = Icons.configApplication,
   children,
+  winContentStyle={},
   ...rest
 }: {
   title: string;
   icon?: string;
   children?: ReactNode;
+  winContentStyle?:CSSProperties;
 } & HTMLMotionProps<"div">): ReactElement => {
   return (
-    <motion.div className="Window" {...rest} style={{ position: "absolute", borderRadius: "1rem", border: "1px solid rgba(255,255,255,0.1)", background: "rgba(15,15,15,0.85)", backdropFilter: "blur(2rem)", ...(rest.style as object || {}) }}>
-      <motion.div className="WindowDragHandle" style={{ cursor: "default" }}>
+    <motion.div className="Window" {...rest}>
+      <motion.div className="WindowDragHandle">
         <motion.div
           className="Icon"
           style={{backgroundImage:`url(${icon})`,}}></motion.div>
@@ -27,7 +29,7 @@ export const FunctionlessWindow=({
           <motion.button className="Button min">{WindowSymbols.min}</motion.button>
         </motion.div>
       </motion.div>
-      <motion.div className="WinContents">
+      <motion.div className="WinContents" style={winContentStyle}>
         {children}
       </motion.div>
     </motion.div>

@@ -1,0 +1,21 @@
+@use "../../../sdk/Lib.scss" as Lib;
+@use "../Theme.scss";
+.Loading {
+  @include Lib.fullOccupy(99);
+  position: fixed !important;
+  background: Theme.$bg1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  span {
+    font-size: 2rem;
+    color: Theme.$h2 !important;
+    font-weight: 500;
+    animation: flash 2s infinite;
+  }
+}
+@keyframes flash{
+  0%{opacity:1;}
+  50%{opacity:0;}
+  100%{opacity:1;}
+}

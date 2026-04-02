@@ -121,11 +121,10 @@
     bottom: $padding !important;
     left: 50% !important;
     translate: -50% 0% !important;
-    padding: 1rem !important;
-    box-sizing: border-box !important;
-    overflow: hidden auto !important;
+    // padding: 1rem !important;
+    // box-sizing: border-box !important;
     
-    // -- Embedded Dark Theme --
+    overflow: hidden;
     background: white !important;
     border: 1px rgba(#959595, 0.58) solid !important;
   }

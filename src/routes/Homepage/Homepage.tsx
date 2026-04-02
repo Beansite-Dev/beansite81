@@ -7,6 +7,7 @@ import { FunctionlessWindow } from "./WindowExample";
 import { Icons } from "../../sdk/components/Enum";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHeart } from '@fortawesome/free-solid-svg-icons';  
+import Beanpowered from "./components/BeanpoweredDemo";
 const ani={
   initial:{opacity:0,y:15,},
   whileInView:{opacity:1,y:0,},
@@ -85,32 +86,31 @@ const Homepage=({}):ReactElement=>{
           variants={{
             hidden: {},
             visible: { transition: { staggerChildren: 0.15, delayChildren: 0.25 } }
-          }}
-        >
-          <FunctionlessWindow 
-            variants={winVariant}
-            icon={Icons.configApplication}
-            title="Test Window 1">
+          }}>
+            <FunctionlessWindow 
+              variants={winVariant}
+              icon={Icons.beanpowered}
+              title="Beanpowered">
+                {/* <Beanpowered/> */}
+            </FunctionlessWindow>
+            <FunctionlessWindow 
+              variants={winVariant}
+              icon={Icons.configApplication}
+              title="Test Window 2">
 
-          </FunctionlessWindow>
-          <FunctionlessWindow 
-            variants={winVariant}
-            icon={Icons.configApplication}
-            title="Test Window 2">
+            </FunctionlessWindow>
+            <FunctionlessWindow 
+              variants={winVariant}
+              icon={Icons.configApplication}
+              title="Test Window 3">
 
-          </FunctionlessWindow>
-          <FunctionlessWindow 
-            variants={winVariant}
-            icon={Icons.configApplication}
-            title="Test Window 3">
+            </FunctionlessWindow>
+            <FunctionlessWindow 
+              variants={winVariant}
+              icon={Icons.configApplication}
+              title="Test Window 4">
 
-          </FunctionlessWindow>
-          <FunctionlessWindow 
-            variants={winVariant}
-            icon={Icons.configApplication}
-            title="Test Window 4">
-
-          </FunctionlessWindow>
+            </FunctionlessWindow>
         </motion.div>
       </motion.div>
     </motion.header>
@@ -216,7 +216,19 @@ const Homepage=({}):ReactElement=>{
             </motion.p>
           </motion.div>
           <motion.div className="right">
-            
+            <FunctionlessWindow 
+              style={{
+                height: "100% !important",
+                width: "100% !important",
+              }}
+              {...ani}
+              transition={{duration:.25,delay:.75}}
+              winContentStyle={{overflow: "hidden !important",}}
+              variants={winVariant}
+              icon={Icons.beanpowered}
+              title="Beanpowered">
+                <Beanpowered launchFunc={false}/>
+            </FunctionlessWindow>
           </motion.div>
       </motion.div>
     </motion.section>
