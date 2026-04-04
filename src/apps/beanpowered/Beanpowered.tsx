@@ -3,12 +3,17 @@ import "./style/Beanpowered.scss";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowLeft, faArrowRight, faDownload, faPlus, faUserFriends } from "@fortawesome/free-solid-svg-icons";
 import { Tabs } from '@base-ui/react/tabs';
-import { ARCHIVE_games as games } from "../../sdk/components/store/games.old";
+import gamesSrc,{type IGame} from "../../sdk/components/store/games";
+// import games from "../../sdk/components/store/games.old";
 import { useState, type ReactElement } from "react";
 import GameUI from "./components/GameUI/GameUI";
-
+export const games:IGame[]=[
+  ...gamesSrc.gen,
+  ...gamesSrc.ruf,
+  ...gamesSrc.dos,
+];
 const Beanpowered=({launchFunc=true}:{launchFunc?:boolean;}):ReactElement=>{
-  const[searchRes,setSearchRes]=useState<typeof games>(games);
+  const[searchRes,setSearchRes]=useState<IGame[]>(games);
   return(<>
     <div id="bp_appwrapper">
       <motion.div id="bp_navbar">
@@ -43,51 +48,40 @@ const Beanpowered=({launchFunc=true}:{launchFunc?:boolean;}):ReactElement=>{
           onChange={(e)=>{
             setSearchRes(
               e.target.value
-                ? Object.keys(games)
-                    .filter((key)=>key.toLowerCase().includes(e.target.value.toLowerCase()))
-                    .reduce<typeof games>((obj,key)=>{
-                      obj[key]=games[key];
-                      return obj;
-                    },{})
+                ? games.filter((g)=>g.name.toLowerCase().includes(e.target.value.toLowerCase()))
                 : games
             );
           }}
           id="bp_SearchBar"></motion.input>
       </motion.div>
-      <Tabs.Root className="bp_tabs" defaultValue="slope">
+      <Tabs.Root className="bp_tabs" defaultValue={games[0].id}>
         <Tabs.List className="bp_sidebar">
-          {Object.keys(searchRes)
-            .reduce<string[]>((obj,key)=>{
-              if(games[key].working)obj.push(key);
-              return obj;
-            },[])
-            .map((name)=>(
-              <Tabs.Tab key={games[name].id} className={`bpsb_item ${!games[name].working?"nonfunc":""}`} value={games[name].id}>
+          {searchRes
+            .filter((g)=>g.working)
+            .map((g)=>(
+              <Tabs.Tab key={g.id} className={`bpsb_item ${!g.working?"nonfunc":""}`} value={g.id}>
                 <motion.div
                   className="bpsbi_icon"
-                  style={{backgroundImage:`url("/apps/beanpowered/gicon/${games[name].id}.png")`}}></motion.div> <span className="bpsbi_txt">{name}</span>
+                  style={{backgroundImage:`url("/apps/beanpowered/gicon/${g.id}.png")`}}></motion.div> <span className="bpsbi_txt">{g.name}</span>
               </Tabs.Tab>
             ))}
-          {Object.keys(searchRes)
-            .reduce<string[]>((obj,key)=>{
-              if(!games[key].working)obj.push(key);
-              return obj;
-            },[])
-            .map((name)=>(
-              <Tabs.Tab key={games[name].id} className={`bpsb_item ${!games[name].working?"nonfunc":""}`} value={games[name].id}>
+          {searchRes
+            .filter((g)=>!g.working)
+            .map((g)=>(
+              <Tabs.Tab key={g.id} className={`bpsb_item ${!g.working?"nonfunc":""}`} value={g.id}>
                 <motion.div
                   className="bpsbi_icon"
-                  style={{backgroundImage:`url("/apps/beanpowered/gicon/${games[name].id}.png")`}}></motion.div> <span className="bpsbi_txt">{name}</span>
+                  style={{backgroundImage:`url("/apps/beanpowered/gicon/${g.id}.png")`}}></motion.div> <span className="bpsbi_txt">{g.name}</span>
               </Tabs.Tab>
             ))}
           <Tabs.Indicator className="bp_TabIndicator" />
         </Tabs.List>
-        {Object.keys(games).map((name)=>(
-          <Tabs.Panel key={games[name].id} className="bp_panel" id={`tabpanel${games[name].id}`} value={games[name].id}>
+        {games.map((g)=>(
+          <Tabs.Panel key={g.id} className="bp_panel" id={`tabpanel${g.id}`} value={g.id}>
             <GameUI 
               launchFunc={launchFunc} 
-              gamedata={games[name]} 
-              gamename={name}/>
+              gamedata={g} 
+              gamename={g.name}/>
           </Tabs.Panel>
         ))}
       </Tabs.Root>

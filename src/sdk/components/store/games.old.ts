@@ -1068,4 +1068,4 @@ const ARCHIVE_games:Igames={
   // },
 };
 //? add '&lb=true' to enable letterbox on ruffle urls
-export { ARCHIVE_games };
+export default ARCHIVE_games;

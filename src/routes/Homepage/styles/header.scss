@@ -103,6 +103,18 @@ header{@include Section(round(80dvh,2px));
     display: flex;
     justify-content: center;
     align-items: center;
+    .bpdemoss {
+      height: 100%;
+      width: 100%;
+      translate: -50% -50%;
+      position: absolute !important;
+      top: 50%;
+      left: 50%;
+      background-position: center;
+      background-repeat: no-repeat;
+      background-size: cover;
+      background-image: url("/assets/homepage/bpdemoss.png");
+    }
     .windowRotateWrapper {
       display: grid;
       grid-template-rows: repeat(2,1fr);

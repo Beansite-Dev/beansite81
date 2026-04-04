@@ -43,14 +43,19 @@ html,body,#root{
   // padding: .5rem;
   border: Theme.$border;
   border-radius: .5rem;
-  background: rgba(Theme.$bg1,.5);
-  backdrop-filter: blur(1rem);
+  &:not(.transparent){
+    background: rgba(Theme.$bg1,.5);
+    backdrop-filter: blur(1rem);
+  }
   color: #fefefed0;
   cursor: pointer;
   transition: .35s;
   &:hover {
     color: Theme.$bg1;
-    background: #fff;
+    background: #fff !important;
     translate: 0% -20%;
   }
+}
+.transparent {
+  background: transparent;
 }

@@ -1,25 +1,25 @@
 {
-  "btb":{
+  "hsbtb":{
     "name": "Breaking the Bank",
     "src":"breakingthebank"
   },
-  "etp":{
+  "hsetp":{
     "name": "Escaping the Prison",
     "src":"escapingtheprisongame"
   },
-  "ctp":{
+  "hsctp":{
     "name": "Crossing the Pit",
     "src":"flash_crossingthepit"
   },
-  "ftc":{
+  "hsftc":{
     "name": "Fleeing the Complex",
     "src":"fleeing_the_complex"
   },
-  "itas":{
+  "hsita":{
     "name": "Infiltrating the Airship",
     "src":"infiltratingtheairshipgame"
   },
-  "std":{
+  "hsstd":{
     "name": "Stealing the Diamond",
     "src":"stealingthediamondgame"
   },

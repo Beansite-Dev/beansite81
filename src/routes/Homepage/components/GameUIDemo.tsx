@@ -3,16 +3,20 @@ import "./GameUIDemo.scss";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faGear, faHeart, faInfoCircle, faPlay } from "@fortawesome/free-solid-svg-icons";
 import { useEffect, useRef } from "react";
-import { ARCHIVE_games as games } from "../../../sdk/components/store/games.old";
+import gamesSrc,{type IGame} from "../../../sdk/components/store/games";
 import { Dialog } from '@base-ui/react/dialog';
 import "./Dialog.scss";
-type GameData=typeof games[keyof typeof games];
+const games:Record<string,IGame>=[
+  ...gamesSrc.ruf,
+  ...gamesSrc.dos,
+  ...gamesSrc.gen,
+].reduce<Record<string,IGame>>((obj,g)=>{obj[g.name]=g;return obj;},{});
 const GameUI=({
   gamedata,
   gamename,
   launchFunc=true
 }:{
-  gamedata:GameData;
+  gamedata:IGame;
   gamename:string;
   launchFunc?:boolean;
 })=>{
@@ -49,7 +53,8 @@ const GameUI=({
             </Dialog.Description>
             <div className="Actions">
               <a href="/app"><button className="button bold">Continue</button></a>
-              <Dialog.Close className="button">Close</Dialog.Close>
+              <Dialog.Close 
+                className="button transparent">Close</Dialog.Close>
             </div>
           </Dialog.Popup>
         </Dialog.Portal>
@@ -102,14 +107,7 @@ const GameUI=({
         <motion.div className="GUI_statusWrapper">
           <motion.span className="GUI_status">
             Current Game Status:
-            <motion.span
-              className={`
-              GUI_currentStatusCircle 
-              ${gamedata.working===true?"Green"
-               :gamedata.working===undefined?"Gray"
-               :gamedata.working==="y"?"Yellow"
-               :gamedata.working===false?"Red"
-               :"Gray"}`}></motion.span>
+            <motion.span className={`GUI_currentStatusCircle ${gamedata.working?"Green":"Red"}`}></motion.span>
           </motion.span>
           <motion.span className="GUI_status">Status Message: {gamedata.status?gamedata.status:"Unchecked"}</motion.span>
           <motion.span className="GUI_status">Last Checked: {gamedata.vdate?gamedata.vdate:"Never"}</motion.span>

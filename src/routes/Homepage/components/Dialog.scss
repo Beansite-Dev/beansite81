@@ -15,8 +15,8 @@
   }
 }
 .bold {
-  background: #fffffff0;
-  color: Theme.$bg1;
+  background: #fffffff0 !important;
+  color: Theme.$bg1 !important;
 }
 .Popup {
   box-sizing: border-box;
@@ -30,7 +30,8 @@
   padding: 1.5rem;
   border-radius: 0.5rem;
   outline: Theme.$border;
-  background-color: Theme.$bg1;
+  background-color: rgba(Theme.$bg1,.75);
+  backdrop-filter: blur(2rem);
   color: Theme.$p2;
   transition: all 150ms;
   touch-action: none;

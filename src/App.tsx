@@ -13,25 +13,23 @@ export const CHANGELOG:{
   comment:string,
   changes:string[],
 }={
-  versionName:"0.28.17",
-  releaseDate:"Apr 2, 2026",
-  comment: "repush cuz oopsie x2",
+  versionName:"0.29.335",
+  releaseDate:"Apr 4, 2026",
+  comment: "finally cookin",
   changes:[
-    "TODO: Adapt Beanpowered codebase to use new games objects",
     "TODO: Implement Beanforged",
     "TODO: Add background presets",
     "TODO: Work on Dosbox pages",
+    "Added Slope and Gunspin",
+    "Finally seperated Taskbar/Startmenu files",
+    "Updated beanpowered to use new games store",
+    "Added all .swf files from 7",
+    "Split homepage sections into files",
     "Moved router declaritive -> data",
+    "Fixed routing issues",
     "Implemented Beanpowered demos",
     "Tweaked default loading screen",
-    "Worked on homepage x6",
-    "Version push 25 -> 27 because of undeployed large changes",
-    "Reformatted Beansite 7's Beanpowered to work with typescript",
-    "Added IFRameRenderer and HTMLRenderer (incomplete)",
-    "Worked on homepage (which is nearly finished)",
-    "Added ruffle emulator",
-    "File Reorg",
-    "Added ruffle pages",
+    "Worked on homepage x7",
     "Cleaned Changelog",
   ],
 };
@@ -42,7 +40,7 @@ const App=({}):ReactElement=>{
       <meta charSet="UTF-8" />
       <link rel="icon" type="image/svg+xml" href="/assets/favicon_modern.svg" />
       <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-      <title>Beansite 8.1</title>
+      <title>Beansite 8.1 - App</title>
     </Helmet>
     <Beansite81>
       <Window

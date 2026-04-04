@@ -72,7 +72,7 @@ export const router=createBrowserRouter([{
           children:[ 
             ...games.ruf.map((x)=>{return{
               path:x.id,
-              element:<RufflePage name={x.name} id={x.id} path={`/g/ruf_src/${x.src}.swf`}/>
+              element:<RufflePage name={x.name} id={x.id} path={x.gameSrc as string}/>
             };}),
             {path:"test",element:<RufflePage name="Test" id="test" path="/g/ruf_src/ducklife.swf"/>}
           ],
