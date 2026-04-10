@@ -22,6 +22,7 @@ const Homepage=lazy(()=>{
   ]).then(([moduleExports])=>moduleExports);
 });
 const RufflePage=lazy(()=>import('./routes/Ruf/Ruf.tsx'));
+const DosboxPage=lazy(()=>import('./routes/Dos/Dos.tsx'));
 const IFrameRenderer=lazy(()=>import('./routes/HTMLRenderer/IFrameRenderer.tsx'));
 export const globalKey=generateId(20);
 export const GlobalKeyAccessAtom=atom<string>(globalKey);
@@ -65,7 +66,7 @@ export const router=createBrowserRouter([{
         },{
           path:"dos",
           children:[
-            // { path: "test", element: <DosboxPage path="/g/dos_src/OregonTrailDeluxe.zip"/> }
+            { path: "test", element: <DosboxPage path="/g/dos_src/OregoneTrailDeluxe.jsdos"/> }
           ]
         },{
           path:"ruf",

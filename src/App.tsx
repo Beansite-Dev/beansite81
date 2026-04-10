@@ -13,13 +13,14 @@ export const CHANGELOG:{
   comment:string,
   changes:string[],
 }={
-  versionName:"0.29.335",
-  releaseDate:"Apr 4, 2026",
+  versionName:"0.30.69",
+  releaseDate:"Apr 10, 2026",
   comment: "finally cookin",
   changes:[
     "TODO: Implement Beanforged",
     "TODO: Add background presets",
     "TODO: Work on Dosbox pages",
+    "Worked on fixing dosbox pages. Was able to get most errors to fix, however it still does not work. This is most likely due to a wasm error",
     "Added Slope and Gunspin",
     "Finally seperated Taskbar/Startmenu files",
     "Updated beanpowered to use new games store",
