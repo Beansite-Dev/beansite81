@@ -13,8 +13,8 @@ export const CHANGELOG:{
   comment:string,
   changes:string[],
 }={
-  versionName:"0.30.69",
-  releaseDate:"Apr 10, 2026",
+  versionName:"0.30.71",
+  releaseDate:"Apr 15, 2026",
   comment: "finally cookin",
   changes:[
     "TODO: Implement Beanforged",
