@@ -20,6 +20,7 @@ export const CHANGELOG:{
     "TODO: Implement Beanforged",
     "TODO: Add background presets",
     "TODO: Work on Dosbox pages",
+    "TODO: Fix deployment styling mismatch. I theorize that this is a rogue stylsheet causing issue",
     "Worked on fixing dosbox pages. Was able to get most errors to fix, however it still does not work. This is most likely due to a wasm error",
     "Added Slope and Gunspin",
     "Finally seperated Taskbar/Startmenu files",

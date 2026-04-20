@@ -14,7 +14,7 @@ const Footer=():ReactElement=>{
       <motion.h1 {...ani} transition={{duration:.25}}>Beansite</motion.h1>
       <motion.p {...ani} transition={{duration:.25,delay:.125}}>Copyright © 2026 M1dnight. All rights reserved.</motion.p>
       <motion.p {...ani} transition={{duration:.25,delay:.25}}>Made with <FontAwesomeIcon icon={faHeart} /> in New Jersey</motion.p>
-      <motion.p {...ani} transition={{duration:.25,delay:.325}}>App version {CHANGELOG.versionName}; Homepage version v0.9.23</motion.p>
+      <motion.span {...ani} transition={{duration:.25,delay:.325}}>App version {CHANGELOG.versionName}; Homepage version v0.9.23</motion.span>
     </motion.div>
     <motion.div className="linksWrapper">
       <motion.div className="linkColumn">

@@ -35,6 +35,11 @@ footer{@include Section(round(65dvh,2px));
       color: Theme.$p3;
       font-weight: 300;
     }
+    span {
+      font-size: .875rem;
+      color: rgba(Theme.$p3,.75);
+      font-weight: 300;
+    }
   }
 
   .linksWrapper {

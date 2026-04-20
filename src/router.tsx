@@ -6,8 +6,8 @@ import games from './sdk/components/store/games.ts';
 import { generateId } from './sdk/Lib.tsx';
 import { atom } from 'jotai';
 import "./routes/Homepage/styles/loading.scss";
-import BeanpoweredDemo from './routes/Homepage/components/BeanpoweredDemo.tsx';
-import Beanpowered from './apps/beanpowered/Beanpowered.tsx';
+const BeanpoweredDemo=lazy(()=>import('./routes/Homepage/components/BeanpoweredDemo.tsx'));
+const Beanpowered=lazy(()=>import('./apps/beanpowered/Beanpowered.tsx'));
 const App=lazy(()=>{
   return Promise.all([
     import("./App.tsx"),
