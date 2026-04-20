@@ -1,3 +1,5 @@
+#!/bin/bash
+SECONDS=0
 echo -e "---\nStarting Build...";
 echo -e "=> pnpm i"
 echo -e "=> pnpm build\n---\n\n"
@@ -8,3 +10,4 @@ echo -e "=> firebase deploy"
 echo -e "=> vercel --prod\n---\n\n"
 pnpm firebase deploy & pnpm vercel --prod;
 echo -e "\n\n---\nFinished!"
+echo "Ran for $SECONDS s"

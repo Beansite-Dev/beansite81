@@ -98,7 +98,7 @@ export const Window=({
       id:id,
       icon:(icon as string),
       open: !closed,
-      minimized: !!minimized,
+      minimized:!!minimized,
     }]);
   },[]);
   // close/minimize scripts

@@ -2,6 +2,7 @@ import { motion } from "motion/react";
 import type { ReactElement } from "react";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHeart } from '@fortawesome/free-solid-svg-icons';
+import { CHANGELOG } from "../../../App";
 const ani={
   initial:{opacity:0,y:15,},
   whileInView:{opacity:1,y:0,},
@@ -13,6 +14,7 @@ const Footer=():ReactElement=>{
       <motion.h1 {...ani} transition={{duration:.25}}>Beansite</motion.h1>
       <motion.p {...ani} transition={{duration:.25,delay:.125}}>Copyright © 2026 M1dnight. All rights reserved.</motion.p>
       <motion.p {...ani} transition={{duration:.25,delay:.25}}>Made with <FontAwesomeIcon icon={faHeart} /> in New Jersey</motion.p>
+      <motion.p {...ani} transition={{duration:.25,delay:.325}}>App version {CHANGELOG.versionName}; Homepage version v0.9.23</motion.p>
     </motion.div>
     <motion.div className="linksWrapper">
       <motion.div className="linkColumn">
