@@ -13,14 +13,15 @@ export const CHANGELOG:{
   comment:string,
   changes:string[],
 }={
-  versionName:"0.30.71",
-  releaseDate:"Apr 15, 2026",
-  comment: "finally cookin",
+  versionName:"0.31.04",
+  releaseDate:"Apr 28, 2026",
+  comment: "sorry about the break",
   changes:[
     "TODO: Implement Beanforged",
     "TODO: Add background presets",
     "TODO: Work on Dosbox pages",
     "TODO: Fix deployment styling mismatch. I theorize that this is a rogue stylsheet causing issue",
+    "Cracked cookie clicker url detection (which was suprisingly hard)",
     "Worked on fixing dosbox pages. Was able to get most errors to fix, however it still does not work. This is most likely due to a wasm error",
     "Added Slope and Gunspin",
     "Finally seperated Taskbar/Startmenu files",
