@@ -98,5 +98,9 @@
   "ssf2":{
     "name": "Super Smash Flash 2",
     "src":"SuperSmash2"
+  },
+  "tboi":{
+    "name": "The Binding of Isaac",
+    "src":"tboiwotl-v1.666.swf"
   }
 }

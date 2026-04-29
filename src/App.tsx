@@ -13,7 +13,7 @@ export const CHANGELOG:{
   comment:string,
   changes:string[],
 }={
-  versionName:"0.32.10",
+  versionName:"0.33.36",
   releaseDate:"Apr 29, 2026",
   comment: "sorry about the break",
   changes:[
@@ -21,6 +21,7 @@ export const CHANGELOG:{
     "TODO: Add background presets",
     "TODO: Work on Dosbox pages",
     "TODO: Fix deployment styling mismatch. I theorize that this is a rogue stylsheet causing issue",
+    "Added LOTS of games",
     "Cracked cookie clicker url detection + improvements/bugfixes (which was suprisingly hard)",
     "Worked on fixing dosbox pages. Was able to get most errors to fix, however it still does not work. This is most likely due to a wasm error",
     "Added Slope and Gunspin",

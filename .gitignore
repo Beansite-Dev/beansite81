@@ -26,6 +26,6 @@ dist-ssr
 *.ntvs*
 *.njsproj
 *.sln
-*.sw?
+# *.sw?
 .vercel
 .env*.local
