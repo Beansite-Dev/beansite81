@@ -1,9 +1,10 @@
 import { motion } from "motion/react";
 import type { Variants } from "motion/react";
-import type { ReactElement } from "react";
-import { FunctionlessWindow } from "../WindowExample";
+import { lazy, type ReactElement } from "react";
+// import { FunctionlessWindow } from "../WindowExample";
 import { Icons } from "../../../sdk/components/Enum";
 import Beanpowered from "../components/BeanpoweredDemo";
+const FunctionlessWindow=lazy(()=>import("../WindowExample.tsx"));
 const ani={
   initial:{opacity:0,y:15,},
   whileInView:{opacity:1,y:0,},

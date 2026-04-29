@@ -2,7 +2,7 @@ import type { CSSProperties, ReactElement, ReactNode } from "react";
 import type { HTMLMotionProps } from "motion/react";
 import { motion } from "motion/react";
 import { Icons, WindowSymbols } from "../../sdk/components/Enum";
-export const FunctionlessWindow=({
+const FunctionlessWindow=({
   title,
   icon = Icons.configApplication,
   children,
@@ -33,3 +33,4 @@ export const FunctionlessWindow=({
     </motion.div>
   );
 };
+export default FunctionlessWindow;

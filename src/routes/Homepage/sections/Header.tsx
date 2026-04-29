@@ -2,8 +2,11 @@ import { motion } from "motion/react";
 import type { Variants } from "motion/react";
 import type { ReactElement } from "react";
 import Typewriter from 'typewriter-effect';
-import { FunctionlessWindow } from "../WindowExample";
+// import { FunctionlessWindow } from "../WindowExample";
 import { Icons } from "../../../sdk/components/Enum";
+import { lazy, startTransition } from 'react';
+import { useNavigate } from 'react-router';
+const FunctionlessWindow=lazy(()=>import("../WindowExample.tsx"));
 const ani={
   initial:{opacity:0,y:15,},
   whileInView:{opacity:1,y:0,},
@@ -20,6 +23,7 @@ const winVariant:Variants={
   },
 };
 const Header=():ReactElement=>{
+  const navigate=useNavigate();
   return(<motion.header>
     <motion.div className="shade"></motion.div>
     <motion.div className="background"></motion.div>
@@ -45,7 +49,11 @@ const Header=():ReactElement=>{
         transition={{duration:.25,delay:.15}}
         className="Logo">Beansite</motion.span>
       <motion.div className="rowWrapper">
-        <a href="/app"><motion.button
+        <a href="/app" onClick={()=>{
+          // startTransition(()=>{
+            // navigate("/app");
+          // });
+        }}><motion.button
           {...ani}
           className="button"
           transition={{duration:.15,delay:.25}}>
