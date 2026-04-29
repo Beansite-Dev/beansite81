@@ -24,6 +24,7 @@ const ARCHIVE_games:Igames={
     vdate: "9/17/25",
     //*verified 9/17/25: status=Working
     //*verified 8/9/25:  status=Working
+    //?info 4/29/26:     added to 81
   },
   "Slope 2": {
     url: "https://lnahtml.github.io/a6/slope-2/",
@@ -305,6 +306,7 @@ const ARCHIVE_games:Igames={
     vdate: "9/17/25",
     //*verified 9/17/25: status=Working
     //*verified 8/9/25:  status=Working; Fixed
+    //?info 4/29/26:     added to 81
   },
   "Jetpack Joyride": {
     url: "https://www.miniplay.com/embed/jetpack-joyride",
@@ -472,6 +474,7 @@ const ARCHIVE_games:Igames={
     status: "Not Working; URL Has been taken down",
     vdate: "9/17/25",
     //!verified 9/17/25: status=Not Working; URL Has been taken down
+    //?info 4/29/26:     added to 81
   },
   "FNaF 1": {
     url: "https://fnafgame.io/fnaf.embed?ez_iframe=1",

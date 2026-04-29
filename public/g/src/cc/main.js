@@ -1246,7 +1246,6 @@ Game.local=true;
 // }
 Game.resPath="//cdn.dashnet.org/cookieclicker/";
 
-
 Game.Launch=function()
 {
 	Game.mobile=0;
