@@ -1,0 +1,39 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
+//vars
+$bp_bg1: #171d25;//to change
+$bp_bg2: #262626;
+$bp_bg3: #24282f;//to change
+$bp_bg4: #2b3038;//to change
+$bp_bg5: #2d333c;//to change
+$bp_icon: #95989d;//to change
+$bp_accent: #01a9ea;//to change
+$bp_border_clr: #363739;//to change
+$bp_border: 1px solid $bp_border_clr;//to change
+$bp_border2: 1px solid rgba($bp_icon,.5);//to change
+$bp_p: #dedede;//to change
+$bp_borderrad: .35rem;//to change
+#bp_appwrapper {
+  *,&{
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+    &::-webkit-scrollbar { 
+      display: none;
+    }
+  }
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  translate: -50% -50%;
+  background: $bp_bg1;
+  padding: 3px;
+  box-sizing: content-box;
+  * {
+    box-sizing: border-box;
+    font-family: "Inter", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 300;
+    font-style: normal;
+  }
+}

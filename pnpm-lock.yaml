@@ -83,6 +83,9 @@ importers:
       react-helmet-async:
         specifier: ^2.0.5
         version: 2.0.5(react@19.2.4)
+      react-powerglitch:
+        specifier: ^1.1.0
+        version: 1.1.0(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
       react-rnd:
         specifier: ^10.5.2
         version: 10.5.2(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
@@ -2711,6 +2714,9 @@ packages:
     resolution: {integrity: sha512-3Ybi1tAuwAP9s0r1UQ2J4n5Y0G05bJkpUIO0/bI9MhwmD70S5aTWbXGBwxHrelT+XM1k6dM0pk+SwNkpTRN7Pg==}
     engines: {node: ^10 || ^12 || >=14}
 
+  powerglitch@2.5.0:
+    resolution: {integrity: sha512-JByDXadAGOT1Vnm8LvANfEfSFDYAUxSDSRXD7wWxy04bD93yf1V+/cYc+fs4kQzZSa0s4ebVQ93xUvPcM3WCng==}
+
   prelude-ls@1.2.1:
     resolution: {integrity: sha512-vkcDPrRZo1QZLbn5RLGPpg/WmIQ65qoWWhcGKf/b5eplkkarX0m9z8ppCat4mlOqUsWpyNuYgO3VRyrYHSzX5g==}
     engines: {node: '>= 0.8.0'}
@@ -2798,6 +2804,12 @@ packages:
 
   react-is@16.13.1:
     resolution: {integrity: sha512-24e6ynE2H+OKt4kqsOvNd8kBpV65zoxbA4BVsEOB3ARVWQki/DHzaUoC5KuON/BiccDaCCTZBuOcfZs70kR8bQ==}
+
+  react-powerglitch@1.1.0:
+    resolution: {integrity: sha512-ueYw9dZFszBnchxbTOBJunvoWhVDoValhjDBjuZTXl3Hnj3DdwykcrS5Hdz4HDapnjveERMWeQo78OS5hmwF9A==}
+    peerDependencies:
+      react: '>= 16.8.0'
+      react-dom: '>= 16.8.0'
 
   react-property@2.0.2:
     resolution: {integrity: sha512-+PbtI3VuDV0l6CleQMsx2gtK0JZbZKbpdu5ynr+lbsuvtmgbNcS3VM0tuY2QjFNOcWxvXeHjDpy42RO+4U2rug==}
@@ -5791,6 +5803,8 @@ snapshots:
       picocolors: 1.1.1
       source-map-js: 1.2.1
 
+  powerglitch@2.5.0: {}
+
   prelude-ls@1.2.1: {}
 
   pretty-ms@7.0.1:
@@ -5892,6 +5906,12 @@ snapshots:
       shallowequal: 1.1.0
 
   react-is@16.13.1: {}
+
+  react-powerglitch@1.1.0(react-dom@19.2.4(react@19.2.4))(react@19.2.4):
+    dependencies:
+      powerglitch: 2.5.0
+      react: 19.2.4
+      react-dom: 19.2.4(react@19.2.4)
 
   react-property@2.0.2: {}
 

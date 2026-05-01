@@ -1,0 +1,54 @@
+@font-face {
+  font-family: "Lucida Console";
+  src: url("/assets/selector/fonts/lucon.ttf");
+}
+#root {
+  height: 100dvh;
+  width: 100dvw;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%,-50%);
+  // background: #000;
+  &::after{
+    content:"";
+    height: 100%;
+    width: 100%;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    background: radial-gradient(
+      circle, 
+      transparent 50%, 
+      #00000090 75%,
+      #000000f0 100%);
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    pointer-events: none;
+    user-select: none;
+  }
+  background: repeating-linear-gradient(
+    0deg,
+    #050505,
+    #050505 2px,
+    #0f0f0f 2px,
+    #0a0a0a 4px
+  ),radial-gradient(
+    circle, 
+    transparent 80%,
+    #000000 100%);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  gap: 3vmin;
+  #title {
+    color: #fff;
+    font-size: 4vmin;
+    font-weight: 400;
+    font-family: "Lucida Console";
+    text-align: center;
+  }
+}

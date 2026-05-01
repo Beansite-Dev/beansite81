@@ -21,6 +21,7 @@ const Homepage=lazy(()=>{
     new Promise(resolve=>setTimeout(resolve,200))
   ]).then(([moduleExports])=>moduleExports);
 });
+const Selector=lazy(()=>import('./routes/Selector/selector.tsx'));
 const RufflePage=lazy(()=>import('./routes/Ruf/Ruf.tsx'));
 const DosboxPage=lazy(()=>import('./routes/Dos/Dos.tsx'));
 const IFrameRenderer=lazy(()=>import('./routes/HTMLRenderer/IFrameRenderer.tsx'));
@@ -56,6 +57,7 @@ export const DeclarativeRouter=({})=>{
           <Routes>
             <Route path="/" element={<Homepage/>} />
             <Route path="/app" element={<App/>} />
+            <Route path="/selector" element={<Selector/>} />
             <Route path="/lstest" element={<Loading/>} />
             <Route path="/extwr" element={<ExtWindowRenderer/>} />
             {/* <Route path={GlobalAccessKey}> */}

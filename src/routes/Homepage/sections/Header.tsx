@@ -2,11 +2,13 @@ import { motion } from "motion/react";
 import type { Variants } from "motion/react";
 import type { ReactElement } from "react";
 import Typewriter from 'typewriter-effect';
-// import { FunctionlessWindow } from "../WindowExample";
+// import FunctionlessWindow from "../WindowExample";
 import { Icons } from "../../../sdk/components/Enum";
 import { lazy, startTransition } from 'react';
 import { useNavigate } from 'react-router';
 const FunctionlessWindow=lazy(()=>import("../WindowExample.tsx"));
+//! to fix
+//! issue: window wrapper doesnt show up
 const ani={
   initial:{opacity:0,y:15,},
   whileInView:{opacity:1,y:0,},
@@ -67,40 +69,44 @@ const Header=():ReactElement=>{
         </motion.button>
       </motion.div>
     </motion.div>
-    <motion.div className="windowExampleWrapper">
-      <motion.div 
-        className="windowRotateWrapper"
-        initial="hidden"
-        whileInView="visible"
-        viewport={{once:true}}
-        variants={{
-          hidden:{},
-          visible:{transition:{staggerChildren:0.15,delayChildren:0.25}}
-        }}>
-          <FunctionlessWindow 
-            variants={winVariant}
-            icon={Icons.beanpowered}
-            title="Beanpowered">
-              <motion.div className="bpdemoss"></motion.div>
-              {/* <Beanpowered/> */}
-          </FunctionlessWindow>
-          <FunctionlessWindow 
-            variants={winVariant}
-            icon={Icons.configApplication}
-            title="Test Window 2">
-          </FunctionlessWindow>
-          <FunctionlessWindow 
-            variants={winVariant}
-            icon={Icons.configApplication}
-            title="Test Window 3">
-          </FunctionlessWindow>
-          <FunctionlessWindow 
-            variants={winVariant}
-            icon={Icons.configApplication}
-            title="Test Window 4">
-          </FunctionlessWindow>
-      </motion.div>
-    </motion.div>
+    <div className="windowExampleWrapper">
+      <div className="windowRotateWrapper">
+        <FunctionlessWindow 
+          variants={winVariant}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{once:true}}
+          icon={Icons.beanpowered}
+          title="Beanpowered">
+            <motion.div className="bpdemoss"></motion.div>
+            {/* <Beanpowered/> */}
+        </FunctionlessWindow>
+        <FunctionlessWindow 
+          variants={winVariant}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{once:true}}
+          icon={Icons.configApplication}
+          title="Test Window 2">
+        </FunctionlessWindow>
+        <FunctionlessWindow 
+          variants={winVariant}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{once:true}}
+          icon={Icons.configApplication}
+          title="Test Window 3">
+        </FunctionlessWindow>
+        <FunctionlessWindow 
+          variants={winVariant}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{once:true}}
+          icon={Icons.configApplication}
+          title="Test Window 4">
+        </FunctionlessWindow>
+      </div>
+    </div>
   </motion.header>);
 };
 export default Header;

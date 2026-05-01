@@ -1,0 +1,79 @@
+@font-face {
+  font-family: "Lucida Console";
+  src: url("/assets/selector/fonts/lucon.ttf");
+}
+#os_wrapper {
+  font-family: "Lucida Console";
+  height: 26vmin;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1vmin;
+  box-sizing: border-box !important;
+  .os {
+    filter:
+      drop-shadow(0 0 1vmin rgba(255,255,255,.15))
+      drop-shadow(0 0 5vmin rgba(255,255,255,.25))
+      drop-shadow(0 0 10vmin rgba(255,255,255,.15));
+    height: 100%;
+    width: 22vmin;
+    transition: .35s;
+    opacity: .65;
+    &:hover {
+      transform: scale(115%);
+      opacity: 1;
+    }
+    // background: #fff;
+    padding: 2vmin;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    span {
+      height: 100%;
+      aspect-ratio: 1 / 1;
+    }
+    .hdd_icon {
+      height: 80%;
+      aspect-ratio: 1 / 1;
+      // background: #000;
+      background-size: contain;
+      object-fit: contain;
+      background-position: center;
+      background-repeat: no-repeat;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background-image: url("/assets/selector/hdd.png");
+    }
+    h1 {
+      height: 20%;
+      color: #fff;
+      font-size: 2.6vmin;
+      font-weight: 400;
+      text-align: center;
+    }
+  }
+}
+#glitched {
+  height: 100% !important;
+}
+#b98txt{
+  color: darkred !important;
+  filter:
+    drop-shadow(0 0 1vmin red)
+    drop-shadow(0 0 1vmin rgba(255,100,100,.5));
+}
+.new {
+  transform: scale(115%);
+  opacity: .85 !important;
+  &:hover {
+    transform: scale(125%) !important;
+    opacity: 1 !important;
+  }
+  filter: 
+  drop-shadow(0 0 .5vmin rgba(255,255,255,1))
+  drop-shadow(0 0 2vmin rgba(255,255,0,.65))
+  drop-shadow(0 0 3vmin rgba(255,165,.85))
+  drop-shadow(0 0 5vmin rgba(255,125,0,1)) !important;
+}
