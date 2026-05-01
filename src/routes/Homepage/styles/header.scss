@@ -128,10 +128,13 @@ header{@include Section(round(80dvh,2px));
       position: absolute !important;
       top: 50% !important;
       left: 50% !important;
-      translate: -50% -50% !important;
       gap: 1rem !important;
       perspective: 1500px !important;
-      transform: rotateY(-30deg) rotateX(15deg) rotateZ(-5deg) !important;
+      transform: 
+        rotateY(-30deg) 
+        rotateX(15deg) 
+        rotateZ(-5deg) 
+        translate(-58.5%,-62.5%) !important;
       .windowExample {
         scale: 1 !important;
         transform-origin: center center !important;
