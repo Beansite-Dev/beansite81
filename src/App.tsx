@@ -13,9 +13,9 @@ export const CHANGELOG:{
   comment:string,
   changes:string[],
 }={
-  versionName:"0.35.26",
-  releaseDate:"May 1, 2026",
-  comment: "FIXED THAT SHIT LETS FUCKING GO",
+  versionName:"0.35.28",
+  releaseDate:"May 4, 2026",
+  comment: "sorry about the break",
   changes:[
     "TODO: Implement Beanforged",
     "TODO: Add more games",
