@@ -55,7 +55,7 @@ const Beanpowered=({launchFunc=true}:{launchFunc?:boolean;}):ReactElement=>{
           id="bp_SearchBar"></motion.input>
       </motion.div>
       <Tabs.Root className="bp_tabs" defaultValue={games[0].id}>
-        <Tabs.List className="bp_sidebar">
+        <Tabs.List className="bp_sidebar" activateOnFocus loopFocus>
           {searchRes
             .filter((g)=>g.working)
             .map((g)=>(

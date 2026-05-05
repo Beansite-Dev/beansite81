@@ -1,18 +1,19 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
 //vars
-$bp_bg1: #171d25;//to change
-$bp_bg2: #262626;
-$bp_bg3: #24282f;//to change
-$bp_bg4: #2b3038;//to change
-$bp_bg5: #2d333c;//to change
-$bp_icon: #95989d;//to change
-$bp_accent: #01a9ea;//to change
-$bp_border_clr: #363739;//to change
-$bp_border: 1px solid $bp_border_clr;//to change
-$bp_border2: 1px solid rgba($bp_icon,.5);//to change
-$bp_p: #dedede;//to change
-$bp_borderrad: .35rem;//to change
-#bp_appwrapper {
+$bf_bg1: #080808;//to change
+$bf_bg2: #161616;
+$bf_bg3: #262626;
+//to change
+$bf_bg4: #2b3038;//to change
+$bf_bg5: #2d333c;//to change
+$bf_icon: #e5e5e5;
+$bf_accent: #01a9ea;//to change
+$bf_border_clr: #363739;//to change
+$bf_border: 1px solid $bf_border_clr;//to change
+$bf_border2: 1px solid rgba($bf_icon,.5);//to change
+$bf_p: #dedede;//to change
+$bf_borderrad: .35rem;//to change
+#bf_appwrapper {
   *,&{
     -ms-overflow-style: none;
     scrollbar-width: none;
@@ -26,9 +27,38 @@ $bp_borderrad: .35rem;//to change
   top: 50%;
   left: 50%;
   translate: -50% -50%;
-  background: $bp_bg1;
+  background: $bf_bg1;
   padding: 3px;
   box-sizing: content-box;
+  #bf_sidebar {
+    height: 100%;
+    width: 3rem;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    flex-direction: column;
+    position: absolute;
+    left: 0%;
+    top: 50%;
+    translate: 0% -50%;
+    gap: .5rem;
+    padding: .5rem;
+    background: $bf_bg2;
+    .bf_sb_icon {
+      width: 100%;
+      aspect-ratio: 1 / 1;
+      background: transparent;
+      border: none;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+      font-size: 1.25rem;
+      color: $bf_icon;
+      border-radius: 50%;
+      // margin-bottom: .5rem;
+    }
+  }
   * {
     box-sizing: border-box;
     font-family: "Inter", sans-serif;

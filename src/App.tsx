@@ -7,6 +7,7 @@ import { useAtom } from 'jotai';
 import { ExpressDerivedWinModifierAtom } from './sdk/store';
 const Settings=lazy(()=>import('./sdk/components/Settings'));
 const Beanpowered=lazy(()=>import('./apps/beanpowered/Beanpowered.tsx'));
+const Beanforged=lazy(()=>import('./apps/beanforged/Beanforged.tsx'));
 export const CHANGELOG:{
   versionName:string,
   releaseDate:string,
@@ -116,6 +117,20 @@ const App=({}):ReactElement=>{
         icon={Icons.beanpowered}
         title="Beanpowered">
           <Beanpowered/>
+      </Window>
+      <Window
+        id="beanforged"
+        y={20}
+        x={370}
+        height={450}
+        width={450*(16/10)}
+        customContentBoxStyling={{overflow:"hidden"}}
+        // closed
+        maximized
+        // darkIcon
+        icon={Icons.beanforged}
+        title="Beanforged">
+          <Beanforged/>
       </Window>
       <Window
         id="settings"

@@ -23,6 +23,7 @@ export interface IWindow{
   minWidth?:number;
   maximized?:boolean;
   minimized?:boolean|null;
+  // darkIcon?:boolean;
   closed?:boolean|null;
   customContentBoxStyling?:CSSProperties;
   CustomLoadingScreen?:ComponentType;
@@ -67,6 +68,7 @@ export const Window=({
   customContentBoxStyling={},
   // @ts-ignore
   minimized=false,
+  // darkIcon=false,
   closed=false,
   CustomLoadingScreen=LoadingScreen,
 }:IWindow):ReactElement=>{
@@ -190,6 +192,7 @@ export const Window=({
                 className={`WindowDragHandle`}>
                   <motion.div className="Icon" style={{
                     backgroundImage:`url(${icon as string})`,
+                    // ...(darkIcon?{invert:"100%"}:{}),
                   }}></motion.div>
                   <motion.h1  
                     ref={dragRef}

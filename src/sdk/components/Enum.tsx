@@ -139,6 +139,7 @@ export const Icons:IIcons={
   phoneDeviceOld:CreateIcon("48"),
   // commandPrompt:CreateIconPNG("d1f5fcw-533b556a-a161-4cc6-b9d7-67037b797373"),
   beanpowered:"/apps/beanpowered/bp.png",
+  beanforged:"/apps/beanforged/beanforge.png",
   // multibeanmc:"/apps/mbmc/logo.png",
   // firebean:"/apps/firebean/favicon.png",
   video:CreateIcon("23"),
