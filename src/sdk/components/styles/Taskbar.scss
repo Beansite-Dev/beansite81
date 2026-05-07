@@ -173,7 +173,8 @@
       left: 0%;
       opacity: 0;
     }
-    &:hover {
+    &.focused:hover{filter: brightness(125%);}
+    &:hover,&.focused {
       // border-color: #95959595;
       --t1: #fff;
       --p1: 90%;

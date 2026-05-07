@@ -6,10 +6,11 @@ export const CreateIconPNG=(standardName:string):string=>{
   return `${defaultIconPath}${standardName}.png`; 
 }
 export interface IWindowSymbols{
-  close: string;
-  min: string;
-  max: string;
-  unmax: string;
+  close:string;
+  min:string;
+  max:string;
+  unmax:string;
+  search:string;
 }
 export const WindowSymbols:IWindowSymbols={
   //🗙︎🗕🗖︎🗗︎
@@ -17,6 +18,7 @@ export const WindowSymbols:IWindowSymbols={
   min:"🗕",
   max:"🗖︎",
   unmax:"🗗︎",
+  search:"⌕",
 }
 export interface IIcons {
   file: string;
@@ -139,7 +141,8 @@ export const Icons:IIcons={
   phoneDeviceOld:CreateIcon("48"),
   // commandPrompt:CreateIconPNG("d1f5fcw-533b556a-a161-4cc6-b9d7-67037b797373"),
   beanpowered:"/apps/beanpowered/bp.png",
-  beanforged:"/apps/beanforged/beanforge.png",
+  beanforgedDark:"/apps/beanforged/beanforge.png",
+  beanforged:"/apps/beanforged/bfl.png",
   // multibeanmc:"/apps/mbmc/logo.png",
   // firebean:"/apps/firebean/favicon.png",
   video:CreateIcon("23"),

@@ -3,12 +3,9 @@
 $bf_bg1: #080808;//to change
 $bf_bg2: #161616;
 $bf_bg3: #262626;
-//to change
-$bf_bg4: #2b3038;//to change
-$bf_bg5: #2d333c;//to change
-$bf_icon: #e5e5e5;
-$bf_accent: #01a9ea;//to change
-$bf_border_clr: #363739;//to change
+$bf_icon: #e5e5e5c0;
+$bf_accent: #F16522;//to change
+$bf_border_clr: #55555555;//to change
 $bf_border: 1px solid $bf_border_clr;//to change
 $bf_border2: 1px solid rgba($bf_icon,.5);//to change
 $bf_p: #dedede;//to change
@@ -17,19 +14,180 @@ $bf_borderrad: .35rem;//to change
   *,&{
     -ms-overflow-style: none;
     scrollbar-width: none;
+    box-sizing: border-box;
+    // position: relative;
     &::-webkit-scrollbar { 
       display: none;
     }
   }
+  position: absolute;
   height: 100%;
   width: 100%;
-  position: absolute;
   top: 50%;
   left: 50%;
   translate: -50% -50%;
   background: $bf_bg1;
   padding: 3px;
   box-sizing: content-box;
+  .panel {
+    height: 100%;
+    // background: pink;
+    width: calc(100% - 3rem);
+    top: 50%;
+    right: 0%;
+    // background: pink;
+    position: absolute;
+    translate: 0% -50%;
+    padding: 1rem;
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+    flex-direction: column;
+    #HomepageTabs {
+      width: 100%;
+      height: fit-content;
+      min-height: 5rem;
+      // background: pink;
+      margin-top: .5rem;
+      .hpp {
+        width: 100%;
+        height: fit-content;
+        min-height: 5rem;
+        // background: pink;
+        padding: 1rem 0;
+      }
+      .hpl {
+        width: 100%;
+        height: 2rem;
+        // background: pink;
+        display: flex;
+        justify-content: flex-start;
+        align-items: flex-end;
+        position: relative;
+        // flex-direction: row;
+        border-bottom: $bf_border;
+        .hpi {
+          background: $bf_accent;
+          height: 2px;
+          width: var(--active-tab-width);
+          translate: 0% 1px;
+          left: var(--active-tab-left);
+          bottom: 0%;
+          position: absolute;
+        }
+        .hptab {
+          width: fit-content;
+          height: 100%;
+          padding: .5rem 1rem;
+          box-sizing: border-box;
+          line-height: 0;
+          text-align: center;
+          vertical-align: middle;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          background: transparent;
+          border: none;
+          outline: none;
+          color: $bf_p;
+          font-size: .875rem;
+        }
+      }
+    }
+    .bf_topBar {
+      height: 2.5rem;
+      width: 100%;
+      // background: pink;
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+      flex-direction: row;
+      #userAccount {
+        width: 150px;
+        height: calc(100% - .5rem);
+        background: $bf_bg3;
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+        flex-direction: row;
+        padding: .5rem;
+        gap: .5rem;
+        #userProfilePicture {
+          height: 1rem;
+          aspect-ratio: 1 / 1;
+          background: white;
+          background-position: center;
+          background-size: cover;
+          background-repeat: no-repeat;
+        }
+        #userName {
+          color: $bf_p;
+          font-size: .875rem;
+        }
+      }
+      .seperator {
+        height: calc(100% - .5rem);
+        $sepMarg: .5rem;
+        
+        width: calc($sepMarg * 1.5);
+        // background: pink;
+        margin-left: $sepMarg;
+        border-left: $bf_border;
+      }
+      #searchbarWrapper {
+        width: fit-content;
+        height: 100%;
+        padding: .25rem;
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+        flex-grow: 1;
+        position: relative;
+        #icon {
+          color: $bf_icon;
+          position: absolute;
+          left: .5rem;
+          font-size: 1rem;
+          // background: pink;
+          top: 50%;
+          translate: 0% -50%;
+          height: 1.5rem;
+          aspect-ratio: 1 / 1;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          text-align: center;
+          vertical-align: middle;
+          line-height: 0;
+          z-index: 9;
+        }
+        input {
+          height: 100%;
+          width: 100%;
+          background: $bf_bg3;
+          // border: $bf_border;
+          border: none;
+          outline: none;
+          padding: .5rem;
+          color: $bf_p;
+          padding-left: 2rem;
+          font-size: .875rem;
+          ::placeholder {
+            color: $bf_icon;
+          }
+        }
+      }
+      #mclogo {
+        width: 120px;
+        height: 2rem;
+        // translate: 0% 12.5%;
+        background-image: url("/apps/beanforged/mcl.png");
+        background-size: contain;
+        background-position: top center;
+        background-repeat: no-repeat;
+      }
+    }
+  }
   #bf_sidebar {
     height: 100%;
     width: 3rem;
@@ -41,9 +199,22 @@ $bf_borderrad: .35rem;//to change
     left: 0%;
     top: 50%;
     translate: 0% -50%;
-    gap: .5rem;
-    padding: .5rem;
+    // gap: .5rem;
+    // padding: .5rem;
     background: $bf_bg2;
+    #spacer {
+      flex-grow: 1 !important;
+    }
+    #indicator {
+      width: calc(100%);
+      position: absolute;
+      top: var(--active-tab-top);
+      left: 50%;
+      translate: -50% 0%;
+      aspect-ratio: 1 / 1;
+      background: #ffffff15;
+      transition: .35s;
+    }
     .bf_sb_icon {
       width: 100%;
       aspect-ratio: 1 / 1;
@@ -51,12 +222,22 @@ $bf_borderrad: .35rem;//to change
       border: none;
       display: flex;
       justify-content: center;
+      position: relative;
       align-items: center;
+      text-align: center;
+      vertical-align: middle;
+      line-height: 0;
       cursor: pointer;
       font-size: 1.25rem;
       color: $bf_icon;
       border-radius: 50%;
       // margin-bottom: .5rem;
+      .icon {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        translate: -50% -50%;
+      }
     }
   }
   * {
@@ -66,4 +247,31 @@ $bf_borderrad: .35rem;//to change
     font-weight: 300;
     font-style: normal;
   }
+}
+#mpt_toolbar {
+  height: 2rem;
+  width: 100%;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 1rem;
+  .button {
+    width: fit-content;
+    height: 100%;
+    padding: .5rem 0;
+    background: transparent;
+    border: none;
+    outline: none;
+    font-size: .875rem;
+    color: $bf_p;
+    transition: .35s;
+  }
+}
+.backdrop {
+  width: 100%;
+  height: 100%;
+  translate: -50% -50%;
+  top: 50%;
+  left: 50%;
+  background: #08080890;
 }

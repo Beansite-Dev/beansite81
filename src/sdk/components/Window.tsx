@@ -1,7 +1,7 @@
 import { atom, useAtom } from "jotai";
 // @ts-ignore
 import React, { Children, Suspense, useEffect, useRef, useState, type ComponentType, type CSSProperties, type ReactElement } from "react";
-import { DerivedWinAtom, DerivedWinModifierAtom, type IWinObj } from "../store";
+import { DerivedWinAtom, DerivedWinModifierAtom, ExpressDerivedWinModifierAtom, type IWinObj } from "../store";
 // @ts-ignore
 import { isMotionComponent, motion, AnimatePresence, easeInOut } from "motion/react";
 import { generateId } from "../Lib";
@@ -74,6 +74,7 @@ export const Window=({
 }:IWindow):ReactElement=>{
   const[_windows,setWindow]=useAtom(DerivedWinAtom);
   const[,updateWindow]=useAtom(DerivedWinModifierAtom);
+  const[,updateWindow2]=useAtom(ExpressDerivedWinModifierAtom);
   const[isMax,setIsMax]=useState<boolean>(maximized);
   const[isMin,setIsMin]=useState<boolean|null>(false);
   const[isOpen,setIsOpen]=useState<boolean|null>(true);
@@ -87,10 +88,20 @@ export const Window=({
   const uuid=generateId(10); //Universally Unique Identifier
   const ids=`${id}_${uuid}`;
   const MoveWinToTop=()=>{
+    let not:string[]=[];
     document.querySelectorAll(".winRnd").forEach(x=>{
-      if(x.id!==`${ids}_rnd`)(x as HTMLElement).style.zIndex="-1";
-      else(x as HTMLElement).style.zIndex="10";
+      if(x.id!==`${ids}_rnd`){
+        (x as HTMLElement).style.zIndex="-1";
+        not.push(x.id);
+      }
+      else{
+        (x as HTMLElement).style.zIndex="10";
+      }
     });
+    updateWindow2([
+      (not.map(x=>[x,"focused",false]) as [string,keyof IWinObj,any]),
+      [id,"focused",true],
+    ]);
   }
   useEffect(()=>{
     console.log(`win-${id}loaded`);
@@ -98,6 +109,7 @@ export const Window=({
       title,
       uuid, 
       id:id,
+      focused:false,
       icon:(icon as string),
       open: !closed,
       minimized:!!minimized,

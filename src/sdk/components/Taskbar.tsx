@@ -112,7 +112,7 @@ export const Taskbar=({mb81ref}:{mb81ref:React.RefObject<HTMLDivElement>}):React
           e.preventDefault();
           updateWindow([id,"minimized",!windows2.filter(i=>i.id==id)[0].minimized]);
         }}
-        className="item">
+        className={`item ${windows2.filter(i=>i.id==id)[0].focused?"focused":""}`}>
           <motion.div className="preview">
             
           </motion.div>
