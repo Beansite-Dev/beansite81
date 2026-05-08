@@ -4,13 +4,14 @@ import { useEffect, useRef, useState, type ReactElement } from "react";
 import "./style.scss";
 import { Tabs } from "@base-ui/react/tabs";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faArrowRightToBracket, faFileImport, faFolderPlus, faGear, faHome, faInbox, faPlus, faSearch, faTrash } from "@fortawesome/free-solid-svg-icons";
+import { faArrowRightToBracket, faFileImport, faFolderPlus, faGear, faHome, faInbox, faPlay, faPlus, faSearch, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { WindowSymbols } from "../../sdk/components/Enum";
 import { MD5 } from "crypto-js";
 import { Dialog } from "@base-ui/react/dialog";
 import { Popover } from "@base-ui/react/popover";
-import { bfdb } from "./db";
+import { bfdb, defaultInstances } from "./db";
 import { generateId } from "../../sdk/Lib";
+import { Tooltip } from "@base-ui/react";
 const Beanforged=({}):ReactElement=>{
   const generateUsername=()=>{
     const adjectives=["Cool","Brave","Clever","Swift","Quiet","Sunny","Wild","Calm","Bold","Sharp"];
@@ -73,9 +74,11 @@ const Beanforged=({}):ReactElement=>{
                     const id=generateId(10);
                     await bfdb.savedInstances.put({
                       id:id,
-                      name:"New Instance",
+                      name:file.name,
                       isFile:true,
                       src:file,
+                      version:"Custom",
+                      icon:"/apps/beanforged/eagler.png",
                     });
                   }
                 }} type="file" id="file"/>
@@ -85,16 +88,20 @@ const Beanforged=({}):ReactElement=>{
                     document.getElementById("file")!.click();
                   }} className="button b2">Upload File</motion.button>
                 <motion.input 
+                  style={{display:"none",}}
                   onKeyDown={async(e)=>{try{
                     if(e.key==="Enter"){
                       const url=(e.target as HTMLInputElement).value;
                       const response=await fetch(url);
                       const blob=await response.blob();
+                      bfdb.savedInstances
                       await bfdb.savedInstances.put({
                         id:generateId(10),
                         name:"New Instance: "+url,
                         isFile:true,
                         src:blob,
+                        version:"Custom",
+                        icon:"/apps/beanforged/eagler.png",
                       });
                     }
                   }catch(error){
@@ -120,15 +127,42 @@ const Beanforged=({}):ReactElement=>{
           </motion.button>
         </motion.div><br/>
         <motion.div id="instances">
-          {savedInstances?savedInstances!.map((x)=>
+          {savedInstances?[...defaultInstances,...savedInstances]!.map((x)=>
             <motion.div key={x.id} className="instanceWrapper">
-              <motion.div className="cover"></motion.div>
-              <motion.h1>{x.name}</motion.h1>
-              <motion.div className="rowWrapper">
+              <motion.div 
+                style={{backgroundImage:`url("${x.icon}")`,}}
+                className="cover"></motion.div>
+              <Tooltip.Provider>
+                <Tooltip.Root>
+                  <Tooltip.Trigger className="h1">{x.name}</Tooltip.Trigger>
+                  <Tooltip.Portal container={containerRef}>
+                    <Tooltip.Positioner sideOffset={10}>
+                      <Tooltip.Popup className="ttpopup">
+                        {x.name}
+                      </Tooltip.Popup>
+                    </Tooltip.Positioner>
+                  </Tooltip.Portal>
+                </Tooltip.Root>
+              </Tooltip.Provider>
+              <motion.div className="rowWrapper" style={{gap:"0 !important",margin:"0 .5rem",}}>
                 <motion.button 
                   onClick={(e)=>{
                     e.preventDefault();
-                    bfdb.savedInstances.filter(i=>i==x).delete();
+                    window.open(
+                      (x.src instanceof Blob)?URL.createObjectURL(x.src):x.src,x.name,
+                      "toolbar=no,location=no,directories=no,status=no,menubar=no,scrollbars=yes,resizable=yes,width=640,height=360,top=100,left=100"); 
+                  }}
+                  className="action">
+                    <FontAwesomeIcon icon={faPlay}/>
+                </motion.button>
+                <motion.button 
+                  onClick={(e)=>{
+                    e.preventDefault();
+                    bfdb.transaction('rw',bfdb.savedInstances,function*(){
+                      bfdb.savedInstances.filter(i=>i.id==x.id).toArray().then(z=>console.log(z));
+                      yield bfdb.savedInstances.filter(i=>i.id==x.id).delete();
+                      bfdb.savedInstances.toArray().then(z=>console.log(z));
+                    }).catch(e=>{console.error(e);});
                   }}
                   className="action">
                     <FontAwesomeIcon icon={faTrash}/>

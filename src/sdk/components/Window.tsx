@@ -140,6 +140,8 @@ export const Window=({
   // maximize scripts
   useEffect(()=>{
     console.log(isMax);
+    window.onresize=()=>{if(isMax)
+      setDim({x:0,y:0,height:innerHeight-40,width:innerWidth,});};
     if(rndRef.current){
       if(isMax){
         MoveWinToTop();

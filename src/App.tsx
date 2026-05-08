@@ -14,7 +14,7 @@ export const CHANGELOG:{
   comment:string,
   changes:string[],
 }={
-  versionName:"0.36.27",
+  versionName:"0.36.44",
   releaseDate:"May 8, 2026",
   comment: "sorry about the break",
   changes:[
@@ -24,6 +24,9 @@ export const CHANGELOG:{
     "TODO: implement selector",
     "TODO: Work on Dosbox pages",
     "Fixed Window MoveWinToTop() constant rerun issue",
+    "Added beanforged html Blob runner",
+    "Added 4 eagler clients",
+    "Added window code to detect window resizes and acount for maximized windows (possible nonworking)",
     "Added highlighting for focused apps in taskbar with special winatom key",
     "Implemented beanforged",
     "Implemented local db for storing eagler instances and settings easier using dexie (this most likely will be the basis for the saved wallpapers as well)",

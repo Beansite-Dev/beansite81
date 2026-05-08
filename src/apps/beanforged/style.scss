@@ -31,6 +31,7 @@ $bf_borderrad: .35rem;//to change
   box-sizing: content-box;
   .panel {
     height: 100%;
+    overflow: hidden auto;
     // background: pink;
     width: calc(100% - 3rem);
     top: 50%;
@@ -368,6 +369,7 @@ $bf_borderrad: .35rem;//to change
     .action {
       height: .75rem;
       aspect-ratio: 1 / 1;
+      padding: 0 !important;
       line-height: 0;
       font-size: .75rem;
       color: $bf_p;
@@ -376,7 +378,7 @@ $bf_borderrad: .35rem;//to change
       outline: none;
       cursor: pointer;
     }
-    h1 {
+    .h1 {
       font-size: .875rem;
       color: $bf_p;
       padding: 0 .5rem;
@@ -384,6 +386,9 @@ $bf_borderrad: .35rem;//to change
       text-wrap: nowrap;
       text-overflow: ellipsis;
       width: 100%;
+      background: transparent;
+      border: none;
+      text-align: left;
     }
     .cover {
       width: 100%;
@@ -393,5 +398,28 @@ $bf_borderrad: .35rem;//to change
       background-repeat: no-repeat;
       background-size: cover;
     }
+  }
+}
+.ttpopup {
+  box-sizing: border-box;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  padding: .5rem .65rem;
+  background-color: $bf_bg3;
+  filter: drop-shadow(0 0 5px rgba($bf_bg1,.5));
+  color: $bf_p;
+  transform-origin: var(--transform-origin);
+  transition:
+    transform 150ms,
+    opacity 150ms;
+  &[data-starting-style],
+  &[data-ending-style] {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  &[data-instant] {
+    transition: none;
   }
 }
