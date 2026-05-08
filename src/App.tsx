@@ -14,7 +14,7 @@ export const CHANGELOG:{
   comment:string,
   changes:string[],
 }={
-  versionName:"0.36.44",
+  versionName:"0.36.47",
   releaseDate:"May 8, 2026",
   comment: "sorry about the break",
   changes:[
@@ -25,6 +25,8 @@ export const CHANGELOG:{
     "TODO: Work on Dosbox pages",
     "Fixed Window MoveWinToTop() constant rerun issue",
     "Added beanforged html Blob runner",
+    "Added taskbar and desktop icons for new apps",
+    "actually minimized beanforged",
     "Added 4 eagler clients",
     "Added window code to detect window resizes and acount for maximized windows (possible nonworking)",
     "Added highlighting for focused apps in taskbar with special winatom key",
@@ -132,8 +134,8 @@ const App=({}):ReactElement=>{
         height={450}
         width={450*(16/10)}
         customContentBoxStyling={{overflow:"hidden"}}
-        // closed
-        maximized
+        closed
+        // maximized
         // darkIcon
         icon={Icons.beanforged}
         title="Beanforged">

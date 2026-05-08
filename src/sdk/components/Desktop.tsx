@@ -66,6 +66,16 @@ export const Desktop=({}):ReactElement=>{
       title:"Settings",
       target:"settings",
       icon:Icons.configApplication
+    },{
+      id:"i3",
+      title:"Beanpowered",
+      target:"beanpowered",
+      icon:Icons.beanpowered
+    },{
+      id:"i4",
+      title:"Beanforged",
+      target:"beanforged",
+      icon:Icons.beanforged
     },
   ]
   return(<>
