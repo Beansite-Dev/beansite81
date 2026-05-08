@@ -161,6 +161,7 @@
       transparent,
       transparent);
     transition: 
+      // all .35s,
       --t1 .35s, 
       --p1 1s;
     &::after {
@@ -172,6 +173,10 @@
       @include FadedOutline;
       left: 0%;
       opacity: 0;
+    }
+    &.focused {
+      background-color: #ffffff15;
+      border-radius: .25rem;
     }
     &.focused:hover{filter: brightness(125%);}
     &:hover,&.focused {

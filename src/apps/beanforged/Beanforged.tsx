@@ -1,13 +1,16 @@
 import { motion } from "motion/react";
-import { useState, type ReactElement } from "react";
+import { useLiveQuery } from "dexie-react-hooks";
+import { useEffect, useRef, useState, type ReactElement } from "react";
 import "./style.scss";
 import { Tabs } from "@base-ui/react/tabs";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faArrowRightToBracket, faFileImport, faFolderPlus, faGear, faHome, faInbox, faPlus, faSearch } from "@fortawesome/free-solid-svg-icons";
+import { faArrowRightToBracket, faFileImport, faFolderPlus, faGear, faHome, faInbox, faPlus, faSearch, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { WindowSymbols } from "../../sdk/components/Enum";
 import { MD5 } from "crypto-js";
 import { Dialog } from "@base-ui/react/dialog";
 import { Popover } from "@base-ui/react/popover";
+import { bfdb } from "./db";
+import { generateId } from "../../sdk/Lib";
 const Beanforged=({}):ReactElement=>{
   const generateUsername=()=>{
     const adjectives=["Cool","Brave","Clever","Swift","Quiet","Sunny","Wild","Calm","Bold","Sharp"];
@@ -25,6 +28,7 @@ const Beanforged=({}):ReactElement=>{
   }
   interface ITabListPage{arr?:any[];}
   const TabListPage=({arr}:ITabListPage):ReactElement=>{
+    const savedInstances=useLiveQuery(()=>bfdb.savedInstances.toArray());
     const TopBar=({}):ReactElement=>{
       return(<motion.div className="bf_topBar">
         <motion.div id="mclogo"></motion.div>
@@ -46,28 +50,67 @@ const Beanforged=({}):ReactElement=>{
         </motion.div>
       </motion.div>);
     }
+    const containerRef=useRef(null);
     const ModpacksTab=({}):ReactElement=>{
-      // const[open,setOpen]=useState(false);
+      const[open,setOpen]=useState(false);
+      useEffect(()=>{if(savedInstances){
+        console.warn(savedInstances);
+      }},[savedInstances]);
       const CreateButton=({}):ReactElement=>{
-        return(<Popover.Root>
-          <Popover.Trigger className="button">
+        return(<Dialog.Root open={open} onOpenChange={setOpen}>
+          <Dialog.Trigger className="button">
             <FontAwesomeIcon icon={faPlus}/> Create
-          </Popover.Trigger>
-          <Popover.Portal>
-            <Popover.Backdrop />
-            <Popover.Positioner>
-              <Popover.Popup>
-                <Popover.Arrow />
-                <Popover.Viewport>
-                  
-                </Popover.Viewport>
-              </Popover.Popup>
-            </Popover.Positioner>
-          </Popover.Portal>
-        </Popover.Root>);
+          </Dialog.Trigger>
+          <Dialog.Portal container={containerRef!.current}>
+            <Dialog.Backdrop className="backdrop"/>
+            <Dialog.Popup className="popup">
+              <Dialog.Title>Create/Import Instance</Dialog.Title>
+              <motion.p>Import a modpack from file or from url, or create a new blank instance</motion.p>
+              <motion.div className="rowWrapper">
+                <input onChange={async(e)=>{
+                  const file=(e.target as HTMLInputElement).files![0];
+                  if(file){
+                    const id=generateId(10);
+                    await bfdb.savedInstances.put({
+                      id:id,
+                      name:"New Instance",
+                      isFile:true,
+                      src:file,
+                    });
+                  }
+                }} type="file" id="file"/>
+                <motion.button 
+                  onClick={(e)=>{
+                    e.preventDefault();
+                    document.getElementById("file")!.click();
+                  }} className="button b2">Upload File</motion.button>
+                <motion.input 
+                  onKeyDown={async(e)=>{try{
+                    if(e.key==="Enter"){
+                      const url=(e.target as HTMLInputElement).value;
+                      const response=await fetch(url);
+                      const blob=await response.blob();
+                      await bfdb.savedInstances.put({
+                        id:generateId(10),
+                        name:"New Instance: "+url,
+                        isFile:true,
+                        src:blob,
+                      });
+                    }
+                  }catch(error){
+                    console.error('Failed to download or store file:', error);
+                  }}}
+                  type="text" 
+                  id="text" 
+                  placeholder="File URL"/>
+              </motion.div>
+              <Dialog.Close className="button b2">Close</Dialog.Close>
+            </Dialog.Popup>
+          </Dialog.Portal>
+        </Dialog.Root>);
       }
       return(<>
-        <motion.div id="mpt_toolbar">
+        <motion.div id="mpt_toolbar" ref={containerRef}>
           <CreateButton/>
           <motion.button className="button">
             <FontAwesomeIcon style={{rotate:"90deg"}} icon={faArrowRightToBracket}/> Import
@@ -75,6 +118,23 @@ const Beanforged=({}):ReactElement=>{
           <motion.button className="button">
             <FontAwesomeIcon icon={faFolderPlus}/> Create Group
           </motion.button>
+        </motion.div><br/>
+        <motion.div id="instances">
+          {savedInstances?savedInstances!.map((x)=>
+            <motion.div key={x.id} className="instanceWrapper">
+              <motion.div className="cover"></motion.div>
+              <motion.h1>{x.name}</motion.h1>
+              <motion.div className="rowWrapper">
+                <motion.button 
+                  onClick={(e)=>{
+                    e.preventDefault();
+                    bfdb.savedInstances.filter(i=>i==x).delete();
+                  }}
+                  className="action">
+                    <FontAwesomeIcon icon={faTrash}/>
+                </motion.button>
+              </motion.div>
+            </motion.div>):null}
         </motion.div>
       </>);
     }

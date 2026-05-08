@@ -265,13 +265,133 @@ $bf_borderrad: .35rem;//to change
     font-size: .875rem;
     color: $bf_p;
     transition: .35s;
+    cursor: pointer;
+    &.b2 {
+      background: $bf_bg3;
+      padding: .5rem 2rem !important;
+    }
   }
 }
 .backdrop {
-  width: 100%;
   height: 100%;
-  translate: -50% -50%;
+  width: 100%;
   top: 50%;
   left: 50%;
-  background: #08080890;
+  translate: -50% -50%;
+  position: absolute;
+  background: #00000090;
+  backdrop-filter: blur(.5rem);
+  opacity: 1;
+  transition: 1s;
+  z-index: 99;
+  &[data-starting-style],
+  &[data-ending-style] {
+    opacity: 0;
+  }
+}
+.popup {
+  box-sizing: border-box;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 24rem;
+  max-width: calc(100% - 3rem);
+  margin-top: -2rem;
+  padding: 1.5rem;
+  z-index: 159;
+  background-color: $bf_bg2;
+  color: $bf_p;
+  transition: all 150ms;
+  touch-action: none;
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+  flex-direction: column;
+  gap: .5rem;
+  p {
+    font-size: .875rem;
+    opacity: .8;
+  }
+  #file {
+    display: none;
+    visibility: hidden;
+    height: 0;
+    width: 0;
+  }
+  #text {
+    width: 10rem;
+    flex-grow: 1;
+    height: 100%;
+    padding: .5rem;
+    background: $bf_bg3;
+    border: none;
+    outline: none;
+    color: $bf_p;
+  }
+  &[data-starting-style],
+  &[data-ending-style] {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.9);
+  }
+}
+.rowWrapper {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  flex-direction: row;
+  gap: .5rem;
+  width: 100%;
+  max-width: 100%;
+}
+#instances{
+  width: 100%;
+  height: fit-content;
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: .5rem;
+  .instanceWrapper {
+    min-width: 6rem;
+    max-width: 8.5rem;
+    width: auto;
+    flex: 1;
+    aspect-ratio: 17.5 / 25;
+    background: $bf_bg3;
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+    flex-direction: column;
+    gap: .5rem;
+    .action {
+      height: .75rem;
+      aspect-ratio: 1 / 1;
+      line-height: 0;
+      font-size: .75rem;
+      color: $bf_p;
+      background: transparent;
+      border: none;
+      outline: none;
+      cursor: pointer;
+    }
+    h1 {
+      font-size: .875rem;
+      color: $bf_p;
+      padding: 0 .5rem;
+      overflow: hidden;
+      text-wrap: nowrap;
+      text-overflow: ellipsis;
+      width: 100%;
+    }
+    .cover {
+      width: 100%;
+      aspect-ratio: 1 / 1;
+      background: #fff;
+      background-position: center;
+      background-repeat: no-repeat;
+      background-size: cover;
+    }
+  }
 }

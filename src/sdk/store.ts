@@ -6,7 +6,7 @@ export interface IWinObj{
   id:string;
   title:string;
   icon:string;
-  focused?:boolean;
+  focused:boolean;
   open:boolean;//|null;
   minimized:boolean;//|null;
   // component:typeof Window;

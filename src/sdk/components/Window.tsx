@@ -87,22 +87,27 @@ export const Window=({
   const dragRef=useRef<any>(null);
   const uuid=generateId(10); //Universally Unique Identifier
   const ids=`${id}_${uuid}`;
-  const MoveWinToTop=()=>{
+  const MoveWinToTop=()=>{if(
+    _windows.filter(x=>x.id==id)[0]
+    &&!_windows.filter(x=>x.id==id)[0].focused
+  ){
     let not:string[]=[];
     document.querySelectorAll(".winRnd").forEach(x=>{
       if(x.id!==`${ids}_rnd`){
         (x as HTMLElement).style.zIndex="-1";
-        not.push(x.id);
+        not.push(x.id.substring(0,x.id.indexOf("_")));
       }
       else{
         (x as HTMLElement).style.zIndex="10";
       }
     });
-    updateWindow2([
-      (not.map(x=>[x,"focused",false]) as [string,keyof IWinObj,any]),
+    let toChange=[
+      ...(not.map(x=>[x,"focused",false]) as [string,keyof IWinObj,any]),
       [id,"focused",true],
-    ]);
-  }
+    ];
+    // console.warn(toChange);
+    updateWindow2(toChange as [string,keyof IWinObj,any][]);
+  }};
   useEffect(()=>{
     console.log(`win-${id}loaded`);
     return setWindow([{
