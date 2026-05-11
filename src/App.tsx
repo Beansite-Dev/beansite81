@@ -14,8 +14,8 @@ export const CHANGELOG:{
   comment:string,
   changes:string[],
 }={
-  versionName:"0.36.47",
-  releaseDate:"May 8, 2026",
+  versionName:"0.37.9",
+  releaseDate:"May 11, 2026",
   comment: "sorry about the break",
   changes:[
     // "TODO: Implement Beanforged",
@@ -23,6 +23,7 @@ export const CHANGELOG:{
     "TODO: Add background presets",
     "TODO: implement selector",
     "TODO: Work on Dosbox pages",
+    "Implemented PWA",
     "Fixed Window MoveWinToTop() constant rerun issue",
     "Added beanforged html Blob runner",
     "Added taskbar and desktop icons for new apps",
