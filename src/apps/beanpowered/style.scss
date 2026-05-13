@@ -263,6 +263,7 @@ $bp_borderrad: .35rem;
           overflow: hidden;
           text-overflow: ellipsis;
           white-space: nowrap;
+          user-select: none;
           line-clamp: 1;
         }
         .bpsbi_icon {
@@ -539,5 +540,29 @@ $bp_borderrad: .35rem;
         }
       }
     }
+  }
+}
+.bfttpopup {
+  box-sizing: border-box;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  padding: .5rem .65rem;
+  background-color: $bp_bg3;
+  filter: drop-shadow(0 0 5px rgba($bp_bg1,.5));
+  color: $bp_p;
+  transform-origin: var(--transform-origin);
+  transition:
+    transform 150ms,
+    opacity 150ms;
+  z-index: 99999;
+  &[data-starting-style],
+  &[data-ending-style] {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  &[data-instant] {
+    transition: none;
   }
 }

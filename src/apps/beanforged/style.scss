@@ -366,6 +366,20 @@ $bf_borderrad: .35rem;//to change
     align-items: flex-start;
     flex-direction: column;
     gap: .5rem;
+    position: relative;
+    .version {
+      top: .25rem;
+      right: .25rem;
+      padding: .125rem .25rem;
+      position: absolute;
+      background: #00000090;
+      font-size: .75rem;
+      color: $bf_p;
+      color: #e0e0e0;
+      width: fit-content;
+      height: fit-content;
+      z-index: 999;
+    }
     .action {
       height: .75rem;
       aspect-ratio: 1 / 1;
@@ -422,4 +436,14 @@ $bf_borderrad: .35rem;//to change
   &[data-instant] {
     transition: none;
   }
+}
+.bflstxt {
+  color: $bf_p;
+  font-size: .875rem;
+  animation: 2s flash infinite;
+}
+@keyframes flash{
+0%{opacity:1;}
+50%{opacity:0;}
+100%{opacity:1;}
 }

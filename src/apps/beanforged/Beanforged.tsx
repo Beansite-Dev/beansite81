@@ -1,6 +1,6 @@
 import { motion } from "motion/react";
 import { useLiveQuery } from "dexie-react-hooks";
-import { useEffect, useRef, useState, type ReactElement } from "react";
+import { Suspense, useEffect, useRef, useState, type ReactElement } from "react";
 import "./style.scss";
 import { Tabs } from "@base-ui/react/tabs";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -116,7 +116,7 @@ const Beanforged=({}):ReactElement=>{
           </Dialog.Portal>
         </Dialog.Root>);
       }
-      return(<>
+      return(<><Tooltip.Provider>
         <motion.div id="mpt_toolbar" ref={containerRef}>
           <CreateButton/>
           <motion.button className="button">
@@ -132,18 +132,17 @@ const Beanforged=({}):ReactElement=>{
               <motion.div 
                 style={{backgroundImage:`url("${x.icon}")`,}}
                 className="cover"></motion.div>
-              <Tooltip.Provider>
-                <Tooltip.Root>
-                  <Tooltip.Trigger className="h1">{x.name}</Tooltip.Trigger>
-                  <Tooltip.Portal container={containerRef}>
-                    <Tooltip.Positioner sideOffset={10}>
-                      <Tooltip.Popup className="ttpopup">
-                        {x.name}
-                      </Tooltip.Popup>
-                    </Tooltip.Positioner>
-                  </Tooltip.Portal>
-                </Tooltip.Root>
-              </Tooltip.Provider>
+              <motion.div className="version">{x.version}</motion.div>
+              <Tooltip.Root>
+                <Tooltip.Trigger className="h1">{x.name}</Tooltip.Trigger>
+                <Tooltip.Portal container={containerRef}>
+                  <Tooltip.Positioner sideOffset={10}>
+                    <Tooltip.Popup className="ttpopup">
+                      {x.name}
+                    </Tooltip.Popup>
+                  </Tooltip.Positioner>
+                </Tooltip.Portal>
+              </Tooltip.Root>
               <motion.div className="rowWrapper" style={{gap:"0 !important",margin:"0 .5rem",}}>
                 <motion.button 
                   onClick={(e)=>{
@@ -168,9 +167,9 @@ const Beanforged=({}):ReactElement=>{
                     <FontAwesomeIcon icon={faTrash}/>
                 </motion.button>
               </motion.div>
-            </motion.div>):null}
+            </motion.div>):<motion.h1 className="bflstxt">Loading...</motion.h1>}
         </motion.div>
-      </>);
+      </Tooltip.Provider></>);
     }
     const HomePageTabs=({}):ReactElement=>{
       return(<>

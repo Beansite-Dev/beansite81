@@ -1,10 +1,15 @@
 import "./styles/Settings.scss";
 import type { ReactElement } from "react";
-import { useEffect, useRef } from "react";
+import { Suspense, useEffect, useRef, useState } from "react";
 import { atom, useAtom } from "jotai";
 import { isMotionComponent, motion, AnimatePresence } from "motion/react";
 import { DerivedSetttingsAtom } from "../store";
 import{ useDropzone } from "react-dropzone";
+import { defaultBackgrounds, sbgdb, type IsavedBackgrounds } from "./store/savedbg.db";
+import { generateId } from "../Lib";
+import { useLiveQuery } from "dexie-react-hooks";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faTrash } from "@fortawesome/free-solid-svg-icons";
 const Settings=({}):ReactElement=>{
   const[settings,setSettings]=useAtom(DerivedSetttingsAtom);
   useEffect(()=>{
@@ -16,9 +21,18 @@ const Settings=({}):ReactElement=>{
       onDrop:(files:any):void=>{
         console.log(files[0]);
         const x=new FileReader();
-        x.onload=(e)=>{
+        x.onload=async(e)=>{
           const result=e.target?.result;
-          if(typeof result==="string"){setSettings(["backgroundImage",result]);}
+          try{
+            let res:IsavedBackgrounds={
+              id:generateId(10),
+              name:files[0].name,
+              src:files[0],
+            };
+            console.log(res);
+            setSettings(["backgroundImage",result])
+            await sbgdb.saved.put(res);
+          }catch(e){};
         }
         x.readAsDataURL(files[0]);
       },
@@ -32,6 +46,39 @@ const Settings=({}):ReactElement=>{
       </motion.div>
     </>);
   }
+  const SavedBackgrounds=({}):ReactElement=>{
+    const savedBackgrounds=useLiveQuery(()=>sbgdb.saved.toArray());
+    useEffect(()=>{
+      console.warn(savedBackgrounds);
+    },[savedBackgrounds]);
+    const SavedBackground=({x}:{x:IsavedBackgrounds}):ReactElement=>{
+      const[deleting,setDeleting]=useState<boolean>(false);
+      return(<motion.div onClick={()=>{
+        setSettings(["backgroundImage",x.src instanceof Blob?URL.createObjectURL(x.src):x.src]);
+      }} key={x.id} className="savedBg">
+        {deleting?<motion.div className="deleting">Deleting...</motion.div>:null}
+        <motion.div className="bg" style={{
+          backgroundImage:`url("${x.src instanceof Blob?URL.createObjectURL(x.src):x.src}")`,
+        }}></motion.div>
+        <motion.button className="trashButton" onClick={()=>{
+          setDeleting(true);
+          sbgdb.transaction('rw',sbgdb.saved,function*(){
+            sbgdb.saved.filter(i=>i.id==x.id).toArray().then(z=>console.log(z));
+            yield sbgdb.saved.filter(i=>i.id==x.id).delete();
+            sbgdb.saved.toArray().then(z=>console.log(z));
+          }).catch(e=>{console.error(e);});
+        }}><FontAwesomeIcon icon={faTrash}/></motion.button>
+      </motion.div>);
+    }
+    return(<><Suspense fallback={<motion.h1>Loading Saved Backgrounds...</motion.h1>}>
+      <motion.div className="backgroundSelector">
+        {savedBackgrounds
+          ?[...defaultBackgrounds,...savedBackgrounds]!
+            .map((x:IsavedBackgrounds)=><SavedBackground key={x.id} x={x}/>)
+          :<motion.h2>Loading...</motion.h2>}
+      </motion.div>
+    </Suspense></>);
+  };
   return(<>
     <motion.div id="Settings">
       <h1>Settings</h1>
@@ -69,7 +116,11 @@ const Settings=({}):ReactElement=>{
       </motion.div><br/>
       <motion.div id="background">
         <motion.h2>Background</motion.h2>
+        <motion.h3>Upload a background</motion.h3>
         <DragAndDrop/>
+        <motion.h3>Saved background</motion.h3>
+        <p>Saved backgrounds may take a moment to delete</p>
+        <SavedBackgrounds/>
       </motion.div>
       <motion.div id="dangerzone">
         <motion.h2>Danger Zone</motion.h2>

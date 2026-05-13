@@ -14,15 +14,16 @@ export const CHANGELOG:{
   comment:string,
   changes:string[],
 }={
-  versionName:"0.37.09",
-  releaseDate:"May 11, 2026",
+  versionName:"0.38.07",
+  releaseDate:"May 13, 2026",
   comment: "sorry about the break",
   changes:[
     // "TODO: Implement Beanforged",
     "TODO: Add more games",
-    "TODO: Add background presets",
-    "TODO: implement selector",
     "TODO: Work on Dosbox pages",
+    "TODO: Implement @base-ui/tooltip in desktop",
+    "Implemented background selector with saved backgrounds",
+    "Failed implementation of tooltips in beanpowered",
     "Implemented PWA",
     "Fixed Window MoveWinToTop() constant rerun issue",
     "Added beanforged html Blob runner",
@@ -90,6 +91,8 @@ const App=({}):ReactElement=>{
                 ["settings","minimized",false],
                 ["beanpowered","open",true],
                 ["beanpowered","minimized",false],
+                ["beanforged","open",true],
+                ["beanforged","minimized",false],
               ]);
             }}>Open All Windows</motion.button>
           <motion.button
@@ -99,6 +102,7 @@ const App=({}):ReactElement=>{
                 ["changelog","open",false],
                 ["settings","open",false],
                 ["beanpowered","open",false],
+                ["beanforged","open",false],
               ]);
             }}>Close All Windows</motion.button><br/>
           <motion.a href="/extwr">ExtWindowRenderer</motion.a>
