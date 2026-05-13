@@ -14,7 +14,7 @@ export const CHANGELOG:{
   comment:string,
   changes:string[],
 }={
-  versionName:"0.38.07",
+  versionName:"0.38.11",
   releaseDate:"May 13, 2026",
   comment: "sorry about the break",
   changes:[
@@ -22,6 +22,7 @@ export const CHANGELOG:{
     "TODO: Add more games",
     "TODO: Work on Dosbox pages",
     "TODO: Implement @base-ui/tooltip in desktop",
+    "Migrated to vite 8",
     "Implemented background selector with saved backgrounds",
     "Failed implementation of tooltips in beanpowered",
     "Implemented PWA",

@@ -2,4 +2,6 @@ allowBuilds:
   '@parcel/watcher': false
   '@tsparticles/engine': false
   esbuild: false
+  protobufjs: false
+  re2: false
   sharp: false
