@@ -194,6 +194,11 @@ export const StartMenu=({mb81ref}:{mb81ref:React.RefObject<HTMLDivElement>}):Rea
               background={"#1da1f2"}
               icon={Icons.beanforged}
               target="beanforged"/>
+            <StartMenuItem 
+              name="Blog"
+              background={"#95ff00"}
+              icon={Icons.text}
+              target="blog"/>
           </motion.div>
       </motion.div>:null}
     </AnimatePresence></>,

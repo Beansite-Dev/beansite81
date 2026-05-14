@@ -8,21 +8,25 @@ import { ExpressDerivedWinModifierAtom } from './sdk/store';
 const Settings=lazy(()=>import('./sdk/components/Settings'));
 const Beanpowered=lazy(()=>import('./apps/beanpowered/Beanpowered.tsx'));
 const Beanforged=lazy(()=>import('./apps/beanforged/Beanforged.tsx'));
+const Blog=lazy(()=>import('./apps/blog/Blog.tsx'));
 export const CHANGELOG:{
   versionName:string,
   releaseDate:string,
   comment:string,
   changes:string[],
 }={
-  versionName:"0.38.11",
+  versionName:"0.39.14",
   releaseDate:"May 13, 2026",
   comment: "sorry about the break",
   changes:[
-    // "TODO: Implement Beanforged",
     "TODO: Add more games",
+    "TODO: Replace TestWin with a welcome message instead",
     "TODO: Work on Dosbox pages",
     "TODO: Implement @base-ui/tooltip in desktop",
     "Migrated to vite 8",
+    "Added Blog",
+    "Fixed bug with desktop icon wrapping",
+    "Added wallpapers from 7",
     "Implemented background selector with saved backgrounds",
     "Failed implementation of tooltips in beanpowered",
     "Implemented PWA",
@@ -94,6 +98,8 @@ const App=({}):ReactElement=>{
                 ["beanpowered","minimized",false],
                 ["beanforged","open",true],
                 ["beanforged","minimized",false],
+                ["blog","open",true],
+                ["blog","minimized",false],
               ]);
             }}>Open All Windows</motion.button>
           <motion.button
@@ -104,6 +110,7 @@ const App=({}):ReactElement=>{
                 ["settings","open",false],
                 ["beanpowered","open",false],
                 ["beanforged","open",false],
+                ["blog","open",false],
               ]);
             }}>Close All Windows</motion.button><br/>
           <motion.a href="/extwr">ExtWindowRenderer</motion.a>
@@ -146,6 +153,18 @@ const App=({}):ReactElement=>{
         icon={Icons.beanforged}
         title="Beanforged">
           <Beanforged/>
+      </Window>
+      <Window
+        id="blog"
+        y={30}
+        x={380}
+        height={450}
+        width={450*(16/10)}
+        customContentBoxStyling={{overflow:"hidden"}}
+        closed
+        icon={Icons.text}
+        title="Blog">
+          <Blog/>
       </Window>
       <Window
         id="settings"

@@ -15,7 +15,8 @@
   flex-wrap: wrap;
   justify-content: flex-start;
   align-items: flex-start;
-  flex: 0;
+  align-content: flex-start;
+  flex: 0 0 auto;
   .DesktopIcon {
     height: 6rem;
     aspect-ratio: 3 / 4;
@@ -24,6 +25,7 @@
     justify-content: center;
     flex-direction: column;
     align-items: center;
+    flex: 0 0 auto;
     position: relative;
     cursor: pointer;
     text-align: center;

@@ -76,6 +76,11 @@ export const Desktop=({}):ReactElement=>{
       title:"Beanforged",
       target:"beanforged",
       icon:Icons.beanforged
+    },{
+      id:"i5",
+      title:"Blog",
+      target:"blog",
+      icon:Icons.text
     },
   ]
   return(<>
