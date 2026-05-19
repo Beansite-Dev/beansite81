@@ -80,5 +80,40 @@
     "src":"/g/src/ss.html",
     "id":"subways",
     "working":true
+  },{
+    "name":"Drive Made",
+    "src":"/g/src/drivem.html",
+    "id":"drivem",
+    "working":true
+  },{
+    "name":"Ovo",
+    "src":"/g/src/ovo.html",
+    "id":"ovo",
+    "working":true
+  },{
+    "name":"Doki Doki Literature Club",
+    "src":"/g/src/ddlc.html",
+    "id":"ddlc",
+    "working":true
+  },{
+    "name":"CrazyCattle3D",
+    "src":"/g/src/cc3d.html",
+    "id":"cc3d",
+    "working":true
+  },{
+    "name":"Pokemon Emerald",
+    "src":"/g/src/pkem.html",
+    "id":"pkem",
+    "working":true
+  },{
+    "name":"Burrito Bison: Launcha Libre",
+    "src":"/g/src/bbll.html",
+    "id":"burritobll",
+    "working":true
+  },{
+    "name":"Deltarune",
+    "src":"/g/src/dr.html",
+    "id":"dr",
+    "working":true
   }]
 }

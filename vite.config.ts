@@ -1,14 +1,22 @@
-import { defineConfig } from 'vite'
-import react from '@vitejs/plugin-react'
+import { defineConfig, type PluginOption } from 'vite'
+// import react from '@vitejs/plugin-react'
+import react from "@vitejs/plugin-react-swc"
+import { visualizer } from "rollup-plugin-visualizer";
 import json5Plugin from 'vite-plugin-json5'
 import { ViteImageOptimizer } from "vite-plugin-image-optimizer";
 import findUnusedFiles from "vite-plugin-unused-files";
 import { VitePWA } from 'vite-plugin-pwa';
+import viteConvertImages from 'vite-convert-images';
 // https://vite.dev/config/
 export default defineConfig({
   plugins:[
-    react({babel:{plugins:[['babel-plugin-react-compiler']],},}),
+    react(),
     json5Plugin(),
+		viteConvertImages({
+      formats:["png","jpg"],
+      enableLogs:true,
+      assetsDir:"/public/",
+    }),
     findUnusedFiles({
       include:['src/**/*'],
       exclude:['src/**/*.test.ts','src/**/*.d.ts'],
@@ -39,10 +47,20 @@ export default defineConfig({
       webp:{quality:80},
       avif:{quality:70},
       svg:{plugins:[
-        {name:'removeViewBox',active:false},
+        // {name:'removeViewBox',params:{active:false}},
         {name:'sortAttrs'},
+        {name:"cleanupAttrs",params:{newlines:true,trim:true}},
+        {name:"removeComments"},
+        {name:"removeDoctype"},
       ],},
+      cache:true,
+      cacheLocation:"/.imgcache/",
     }),
+    visualizer({
+      // filename:"/public/stats.html",
+      gzipSize:true,
+      brotliSize:true,
+    }) as PluginOption,
   ],
   build:{manifest: true,}
 });
