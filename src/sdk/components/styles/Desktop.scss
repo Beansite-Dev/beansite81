@@ -31,10 +31,13 @@
     text-align: center;
     user-select: none;
     // background: green;
-    span {
+    .title {
       font-size: .875rem;
       line-height: 1;
       color: white;
+      background: none;
+      outline: none;
+      border: none;
       text-shadow: 
         0 0 5px rgba(black,.5),
         0 0 2.5px black,
@@ -58,5 +61,32 @@
       // background: pink;
       @include Lib.bgContain;
     }
+  }
+}
+.dttpopup {
+
+  box-sizing: border-box;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  background-color: white;
+  color: #454545;
+  box-shadow: 0.25rem 0.25rem 0 rgb(0 0 0 / 12%);
+  padding: 0 .125rem;
+  transform-origin: var(--transform-origin);
+  transition:
+    scale 100ms ease-out,
+    opacity 100ms ease-out;
+
+  &[data-starting-style],
+  &[data-ending-style] {
+    opacity: 0;
+    scale: 0.98;
+  }
+
+  &[data-instant] {
+    transition: none;
   }
 }

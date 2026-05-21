@@ -1,20 +1,39 @@
-@use "./vars.scss" as *;
-
+//fonts
+@import url('https://fonts.cdnfonts.com/css/motiva-sans');
+//vars
+$bp_bg1: #171d25;
+$bp_bg2: #181e26;
+$bp_bg3: #24282f;
+$bp_bg4: #2b3038;
+$bp_bg5: #2d333c;
+$bp_bg_accent1: #323a4b;
+$bp_bg_accent2: #3d4450;
+$bp_bg_accent3: #292f3b;
+$bp_icon: #95989d;
+$bp_accent: #01a9ea;
+$bp_border_clr: #363739;
+$bp_border: 1px solid $bp_border_clr;
+$bp_border2: 1px solid rgba($bp_icon,.5);
+$bp_p: #dedede;
+$bp_borderrad: .35rem;
 #bp_appwrapper {
   *,&{
     -ms-overflow-style: none;
     scrollbar-width: none;
+    &,*{position: relative;}
+    // box-sizing: border-box;
     &::-webkit-scrollbar { 
       display: none;
     }
   }
   height: 100%;
   width: 100%;
-  position: absolute;
+  position: absolute !important;
   top: 50%;
   left: 50%;
   translate: -50% -50%;
   background: $bp_bg1;
+  // background: pink;
   padding: 3px;
   box-sizing: content-box;
   * {
@@ -29,7 +48,7 @@
     align-items: center;
     padding: 2px 8px;
     height: 2.5rem;
-    position: absolute;
+    position: absolute !important;
     top: 0%;
     left: 0%;
     br{width: .5rem;height: 100%;}
@@ -69,7 +88,7 @@
     align-items: center;
     padding: 2px 8px;
     height: 2.5rem;
-    position: absolute;
+    position: absolute !important;
     bottom: 0%;
     left: 0%;
     border-top: $bp_border;
@@ -86,7 +105,7 @@
       appearance: none;
       border: none;
       background: transparent;
-      position: absolute;
+      position: absolute !important;
       top: 50%;
       translate: 0% -60%;
       color: $bp_icon;
@@ -108,8 +127,10 @@
         justify-items: center;
         align-items: center;
         color: $bp_bg1;
+        // color: pink;
         border-radius: .2rem;
         font-size: .65rem;
+        position: relative !important;
         svg {
           position: absolute;
           top: 50%;
@@ -132,7 +153,7 @@
   #bpsb_searchbar {
     height: 2.5rem;
     width: calc(10rem + .1rem);
-    position: absolute;
+    position: absolute !important;
     top: 2rem;
     left: 0%;
     background: $bp_bg1;
@@ -143,7 +164,7 @@
     align-items: center;
     &::after {
       content: "";
-      position: absolute;
+      position: absolute !important;
       bottom: -.5rem;
       height: .5rem;
       width: 100%;
@@ -165,14 +186,14 @@
   .bp_tabs {
     height: calc(100% - 5rem);
     width: 100%;
-    position: absolute;
+    position: absolute !important;
     top: 50%;
     left: 50%;
     translate: -50% -50%;
     .bp_panel {
       height: 100%;
       width: calc(100% - 10rem - 2px);
-      position: absolute;
+      position: absolute !important;
       right: 0%;
       top: 50%;
       translate: 0 -50%;
@@ -186,7 +207,7 @@
       padding-inline: 0.25rem;
       width: 10rem;
       height: calc(100% - 2rem);
-      position: absolute; 
+      position: absolute !important; 
       bottom: 0%;
       left: 0%;
       flex-direction: column;
@@ -198,7 +219,7 @@
       padding: .25rem;
       padding-top: .5rem;
       .bp_TabIndicator {
-        position: absolute;
+        position: absolute !important;
         z-index: -1;
         left: 50%;
         top: 0%;
@@ -241,18 +262,28 @@
         border: none;
         color: $bp_p;
         flex-shrink: 0;
+        .bpsb_ttwrap {
+          height: 100%;
+          width: 100%;
+          background: none;
+          all: inherit;
+          background: transparent !important;
+          outline: none !important;
+          border: transparent !important;
+        }
         .bpsbi_txt {
           height: 100%;
           width: calc(100% - 2rem);
           overflow: hidden;
           text-overflow: ellipsis;
           white-space: nowrap;
+          user-select: none;
           line-clamp: 1;
         }
         .bpsbi_icon {
           height: 100%;
           aspect-ratio: 1 / 1;
-          background-position: center;
+          background-position: center !important;
           background-size: contain;
           background-repeat: no-repeat;
           border-radius: $bp_borderrad;
@@ -262,5 +293,74 @@
         // }
       }
     }
+  }
+}
+.bp_panel {
+  overflow: auto;
+  &[hidden]{
+    pointer-events: none;
+  }
+  &:not([hidden]){
+    display: flex;
+    justify-items: flex-start;
+    align-items: flex-start;
+    flex-direction: column;
+  }
+  .GUI_Header {
+    position: absolute !important;
+    top: 0%;
+    left: 0%;
+    height: 15rem;
+    width: 100%;
+    background-position: center !important;
+    background-size: 125% !important;
+    background-repeat: no-repeat !important;
+    // background-attachment: fixed !important;
+    display: flex;
+    transition: .75s;
+    .GUI_BGFade {
+      position: absolute !important;
+      bottom: 0%; 
+      left: 0%;
+      height: 8rem;
+      width: 100%;
+      background: linear-gradient(0deg,$bp_bg4,transparent);
+      /* background: linear-gradient(0deg,
+        $bp_bg4 35%,
+        rgba($bp_bg4,.75) 75%,
+        transparent 100%); */
+    }
+  }
+  /* .GUI_offscreen {
+    position: absolute !important;
+    top: 0%;
+    left: 0%;
+    height: 3rem;
+    width: 100%;
+    background: rgba($bp_bg4,.5);
+  } */
+}
+.bpttpopup {
+  box-sizing: border-box;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  padding: .5rem .65rem;
+  background-color: $bp_bg4;
+  filter: drop-shadow(0 0 5px rgba($bp_bg1,.95)) !important;
+  color: $bp_p;
+  transform-origin: var(--transform-origin);
+  transition:
+    transform 150ms,
+    opacity 150ms;
+  z-index: 99999;
+  &[data-starting-style],
+  &[data-ending-style] {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  &[data-instant] {
+    transition: none;
   }
 }

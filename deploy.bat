@@ -2,6 +2,11 @@
 cls
 set t0=%time: =0%
 echo ---
+echo Pushing to gitea...
+echo =^> git push https://gitea.com/m1dnight/beansite81
+echo ---
+git push https://gitea.com/m1dnight/beansite81
+echo ---
 echo Starting Build...
 echo =^> pnpm i
 echo =^> pnpm build

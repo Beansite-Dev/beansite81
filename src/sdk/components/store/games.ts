@@ -1,8 +1,12 @@
 import ruf from "./ruf.json";
 import gen from "./gen.json";
 import type { CSSProperties } from "react";
-console.table(ruf);
-export interface IGame {
+export declare interface IGames {
+  ruf:IGame[];
+  dos:IGame[];
+  gen:IGame[];
+}
+export declare interface IGame {
   id:string;
   name:string;
   src:string;
@@ -12,11 +16,6 @@ export interface IGame {
   working:boolean;
   status?:string;
   vdate?:string;
-}
-interface IGames {
-  ruf:IGame[];
-  dos:IGame[];
-  gen:IGame[];
 }
 const games:IGames={
   gen:gen.x,

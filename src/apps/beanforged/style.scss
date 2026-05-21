@@ -248,6 +248,14 @@ $bf_borderrad: .35rem;//to change
     font-weight: 300;
     font-style: normal;
   }
+  .settingsInfo {
+    color: $bf_p;
+    opacity: .75;
+    width: 100%;
+    height: fit-content;
+    font-size: .875rem;
+    // background: green;
+  }
 }
 #mpt_toolbar {
   height: 2rem;
@@ -378,7 +386,7 @@ $bf_borderrad: .35rem;//to change
       color: #e0e0e0;
       width: fit-content;
       height: fit-content;
-      z-index: 999;
+      z-index: 80;
     }
     .action {
       height: .75rem;
@@ -421,10 +429,11 @@ $bf_borderrad: .35rem;//to change
   display: flex;
   flex-direction: column;
   padding: .5rem .65rem;
-  background-color: $bf_bg3;
+  background-color: $bf_bg3 !important;
   filter: drop-shadow(0 0 5px rgba($bf_bg1,.5));
   color: $bf_p;
   transform-origin: var(--transform-origin);
+  z-index: 999;
   transition:
     transform 150ms,
     opacity 150ms;
@@ -443,7 +452,7 @@ $bf_borderrad: .35rem;//to change
   animation: 2s flash infinite;
 }
 @keyframes flash{
-0%{opacity:1;}
-50%{opacity:0;}
-100%{opacity:1;}
+  0%{opacity:1;}
+  50%{opacity:0;}
+  100%{opacity:1;}
 }

@@ -105,6 +105,7 @@ const GameUI=({
           </motion.span>
           <motion.span className="GUI_status">Status Message: {gamedata.status?gamedata.status:"Unchecked"}</motion.span>
           <motion.span className="GUI_status">Last Checked: {gamedata.vdate?gamedata.vdate:"Never"}</motion.span>
+          <motion.span className="GUI_status">Beanpowered version: {import.meta.env.VITE_BEANPOWERED_VERSION}</motion.span>
         </motion.div>
         <motion.div className="GUI_postWrapper">
           <motion.div className="GUI_description">

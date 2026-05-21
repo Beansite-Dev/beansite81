@@ -1,9 +1,10 @@
-import { lazy, useState, type ReactElement } from 'react';
+import { lazy, useEffect, useState, type ReactElement } from 'react';
 import { Beansite81, Window } from './sdk/sdk';
 import { Icons } from './sdk/components/Enum';
 import { Helmet } from "react-helmet-async";
 import { motion } from 'motion/react';
 import { useAtom } from 'jotai';
+import "./style.scss";
 import { ExpressDerivedWinModifierAtom } from './sdk/store';
 const Settings=lazy(()=>import('./sdk/components/Settings'));
 const Beanpowered=lazy(()=>import('./apps/beanpowered/Beanpowered.tsx'));
@@ -22,18 +23,54 @@ export const CHANGELOG:{
     "TODO: Add more games",
     "TODO: Replace TestWin with a welcome message instead",
     "TODO: Work on Dosbox pages",
-    "TODO: Implement @base-ui/tooltip in desktop",
     "Massive game drop",
     "Updated react to use swc",
     "Vite image optimizations",
+    "Added git logging to changelog",
+    "Seperated changelog into its own component",
     "Added stats",
     "Added environmental variables",
     "Added build/version info comments to index.html",
     "Migrated to vite 8",
     "Added Blog",
     "Cleaned Changelog",
+    "Updated .sh/.bat files",
+    "Fixed beanforged visual bugs",
+    "Added beanpowered tooltip",
+    "Added desktop tooltip",
   ],
 };
+const Changelog=({}):ReactElement=>{
+  const[previousCommits,setPreviousCommits]=useState<GiteaApiRoot|string>("");
+  const[loading,setLoading]=useState<boolean>(true);
+  useEffect(()=>{
+    fetch("https://gitea.com/api/v1/repos/m1dnight/beansite81/commits")
+      .then(r=>r.json()).then(r=>{setPreviousCommits(r);setLoading(false);})
+      .catch(e=>{setPreviousCommits(e);setLoading(false);})
+  },[]);
+  return(<>
+    <motion.h1>{CHANGELOG.versionName} - {CHANGELOG.releaseDate}</motion.h1>
+    <motion.p>{CHANGELOG.comment}</motion.p>
+    <motion.ul>
+      {CHANGELOG.changes.map((change,index)=>(
+        <motion.li key={index}>{change}</motion.li>
+      ))}
+    </motion.ul>
+    <motion.h1>Commit Log</motion.h1>
+    {loading
+      ?<motion.p>Loading commits...</motion.p>
+      :Array.isArray(previousCommits)
+      ?<motion.ul>
+        {previousCommits.map((commitData)=>(<>
+          <motion.li key={commitData.sha}>
+            {commitData.commit.message}<br/>
+            <motion.span className="sub">commited on {commitData.commit.committer.date} by {commitData.author?.full_name}/{commitData.author?.username}</motion.span>
+          </motion.li>
+        </>))}
+      </motion.ul>
+      :<motion.p>Received error: {previousCommits}</motion.p>}
+  </>);
+}
 const App=({}):ReactElement=>{
   const[,setWindow]=useAtom(ExpressDerivedWinModifierAtom);
   return(<>
@@ -96,13 +133,7 @@ const App=({}):ReactElement=>{
         y={240}
         icon={Icons.text}
         title="Changelog">
-          <motion.h1>{CHANGELOG.versionName} - {CHANGELOG.releaseDate}</motion.h1>
-          <motion.p>{CHANGELOG.comment}</motion.p>
-          <motion.ul>
-            {CHANGELOG.changes.map((change,index)=>(
-              <motion.li key={index}>{change}</motion.li>
-            ))}
-          </motion.ul>
+          <Changelog/>
       </Window>
       <Window
         id="beanpowered"

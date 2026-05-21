@@ -1,12 +1,14 @@
 import { useSortable } from '@dnd-kit/react/sortable';
 import { motion } from 'motion/react';
-import { useEffect, useState, type CSSProperties, type ReactElement } from 'react';
+import { useEffect, useRef, useState, type CSSProperties, type ReactElement } from 'react';
 import "./styles/Desktop.scss";
 import { Icons } from './Enum';
 import { useAtom } from 'jotai';
 import { ExpressDerivedWinModifierAtom, SettingsAtom } from '../store';
+import { Tooltip } from '@base-ui/react/tooltip';
 export const Desktop=({}):ReactElement=>{
   const[settings,]=useAtom(SettingsAtom);
+  const containerRef=useRef(null);
   const[textColor,setTextColor]=useState<string>("#000");
   const DesktopIcon=({
     id,target,index,title,icon
@@ -37,7 +39,18 @@ export const Desktop=({}):ReactElement=>{
               color:textColor,
             }}
             className='icon'></motion.div>
-          <motion.span>{title}</motion.span>
+          <Tooltip.Root>
+            <Tooltip.Trigger className="title">
+              {title}
+            </Tooltip.Trigger>
+            <Tooltip.Portal container={containerRef}>
+              <Tooltip.Positioner sideOffset={2} align='start' side="bottom">
+                <Tooltip.Popup className="dttpopup">
+                  C:\BeansitesFiles\{target}\{target}.exe
+                </Tooltip.Popup>
+              </Tooltip.Positioner>
+            </Tooltip.Portal>
+          </Tooltip.Root>
       </motion.div>
     </>);
   }
@@ -84,16 +97,18 @@ export const Desktop=({}):ReactElement=>{
     },
   ]
   return(<>
-    <motion.div id="Desktop">
-      {icons.map((data,index)=>
-        <DesktopIcon 
-          key={data.id} 
-          id={data.id} 
-          target={data.target} 
-          icon={data.icon} 
-          title={data.title} 
-          index={index} />
-      )}
+    <motion.div id="Desktop" ref={containerRef}>
+      <Tooltip.Provider>
+        {icons.map((data,index)=>
+          <DesktopIcon 
+            key={data.id} 
+            id={data.id} 
+            target={data.target} 
+            icon={data.icon} 
+            title={data.title} 
+            index={index} />
+        )}    
+      </Tooltip.Provider>
     </motion.div>
   </>);
 }

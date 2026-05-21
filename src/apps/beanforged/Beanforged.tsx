@@ -117,7 +117,7 @@ const Beanforged=({}):ReactElement=>{
         </Dialog.Root>);
       }
       return(<><Tooltip.Provider>
-        <motion.div id="mpt_toolbar" ref={containerRef}>
+        <motion.div id="mpt_toolbar">
           <CreateButton/>
           <motion.button className="button">
             <FontAwesomeIcon style={{rotate:"90deg"}} icon={faArrowRightToBracket}/> Import
@@ -126,7 +126,7 @@ const Beanforged=({}):ReactElement=>{
             <FontAwesomeIcon icon={faFolderPlus}/> Create Group
           </motion.button>
         </motion.div><br/>
-        <motion.div id="instances">
+        <motion.div id="instances" ref={containerRef}>
           {savedInstances?[...defaultInstances,...savedInstances]!.map((x)=>
             <motion.div key={x.id} className="instanceWrapper">
               <motion.div 
@@ -207,6 +207,10 @@ const Beanforged=({}):ReactElement=>{
       </Tabs.List>
       <Tabs.Panel className="panel" value="home">
         <TabListPage/>
+      </Tabs.Panel>
+      <Tabs.Panel className="panel" value="settings">
+        <motion.span className="settingsInfo">Current Version: {import.meta.env.VITE_BEANFORGED_VERSION}</motion.span>
+        <motion.span className="settingsInfo">Build Date: {import.meta.env.VITE_APP_BUILD_DATE}</motion.span>
       </Tabs.Panel>
       {/* <Tabs.Panel value="create"></Tabs.Panel> */}
     </Tabs.Root>
