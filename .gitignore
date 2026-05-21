@@ -16,6 +16,8 @@ dist-ssr
 # cahce files
 *.cache
 .firebase/hosting.*.cache
+**.cache
+.firebase/*.*.cache
 
 # Editor directories and files
 .vscode/*
