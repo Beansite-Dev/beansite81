@@ -64,12 +64,12 @@ const Beanpowered=({launchFunc=true}:{launchFunc?:boolean;}):ReactElement=>{
               .map((g)=>(
                 <Tabs.Tab key={g.id} className={`bpsb_item ${!g.working?"nonfunc":""}`} value={g.id}>
                   <Tooltip.Root>
-                    <Tooltip.Trigger className="bpsb_ttwrap">
+                    <Tooltip.Trigger render={<motion.span>
                       <motion.div
                         className="bpsbi_icon"
                         style={{backgroundImage:`url("/apps/beanpowered/gicon/${g.id}.png")`}}></motion.div>
                       <span className="bpsbi_txt">{g.name}</span>
-                    </Tooltip.Trigger>
+                    </motion.span>} className="bpsb_ttwrap"></Tooltip.Trigger>
                     <Tooltip.Portal container={containerRef}>
                       <Tooltip.Positioner 
                         sideOffset={6} 

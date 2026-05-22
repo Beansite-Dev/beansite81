@@ -10,6 +10,7 @@ const Settings=lazy(()=>import('./sdk/components/Settings'));
 const Beanpowered=lazy(()=>import('./apps/beanpowered/Beanpowered.tsx'));
 const Beanforged=lazy(()=>import('./apps/beanforged/Beanforged.tsx'));
 const Blog=lazy(()=>import('./apps/blog/Blog.tsx'));
+const Beanshell=lazy(()=>import('./apps/beanshell/Beanshell.tsx'));
 export const CHANGELOG:{
   versionName:string,
   releaseDate:string,
@@ -21,6 +22,8 @@ export const CHANGELOG:{
   comment: "sorry about the break",
   changes:[
     "TODO: Add more games",
+    "TODO: Add Beanshell",
+    "TODO: Add Explorer",
     "TODO: Replace TestWin with a welcome message instead",
     "TODO: Work on Dosbox pages",
     "Massive game drop",
@@ -38,6 +41,8 @@ export const CHANGELOG:{
     "Fixed beanforged visual bugs",
     "Added beanpowered tooltip",
     "Added desktop tooltip",
+    "Beanforged button nesting bug fixed",
+    "Window icon styling fixed",
   ],
 };
 const Changelog=({}):ReactElement=>{
@@ -182,6 +187,18 @@ const App=({}):ReactElement=>{
         title="Settings">
           {/* @ts-ignore */}
           <Settings />
+      </Window>
+      <Window
+        id="beanshell"
+        y={30}
+        x={30}
+        width={425}
+        height={275}
+        // closed
+        icon={Icons.beanshell}
+        title="Beanshell">
+          {/* @ts-ignore */}
+          <Beanshell/>
       </Window>
     </Beansite81>
   </>);

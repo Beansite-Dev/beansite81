@@ -143,6 +143,7 @@ export const Icons:IIcons={
   beanpowered:"/apps/beanpowered/bp.png",
   beanforgedDark:"/apps/beanforged/beanforge.png",
   beanforged:"/apps/beanforged/bfl.png",
+  beanshell:"/apps/beanshell/beanshell.png",
   // multibeanmc:"/apps/mbmc/logo.png",
   // firebean:"/apps/firebean/favicon.png",
   video:CreateIcon("23"),
