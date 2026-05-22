@@ -1,0 +1,18 @@
+@use "sass:map";
+$ColorMap:("Black": #0C0C0C,"Gray": #767676,
+"White":#CCCCCC,"BrightWhite":#F2F2F2,
+"Blue":#0037DA,"DarkBlue":#012456,"BrightBlue":#3B78FF,
+"Green":#13A10E,"DarkGreen":#0D700A,"BrightGreen":#16C60C,
+"Cyan":#3A96DD,"DarkCyan":#2D6EA0,"BrightCyan":#61D6D6,
+"Red":#FF0015,"DarkRed":#C50F1F,"BrightRed":#E74856,
+"Magenta":#881798,"DarkMagenta":#530D5C,"BrightMagenta":#B4009E,
+"Yellow":#FFCC00,"DarkYellow":#C19C00,"BrightYellow":#F9F1A5);
+#bsWrapper{
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  translate: -50% -50%;
+  background: map.get($ColorMap,"DarkBlue");
+}
