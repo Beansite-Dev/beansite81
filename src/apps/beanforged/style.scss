@@ -179,11 +179,12 @@ $bf_borderrad: .35rem;//to change
         }
       }
       #mclogo {
-        width: 120px;
+        width: 150px;
         height: 2rem;
         // translate: 0% 12.5%;
-        background-image: url("/apps/beanforged/mcl.png");
+        background-image: url("/apps/beanforged/eagl.png");
         background-size: contain;
+        scale: 1.1;
         background-position: top center;
         background-repeat: no-repeat;
       }
