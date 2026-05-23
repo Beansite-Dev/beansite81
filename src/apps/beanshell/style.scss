@@ -1,12 +1,15 @@
 @use "sass:map";
+@import "https://www.nerdfonts.com/assets/css/webfont.css";
 $ColorMap:("Black": #0C0C0C,"Gray": #767676,
 "White":#CCCCCC,"BrightWhite":#F2F2F2,
 "Blue":#0037DA,"DarkBlue":#012456,"BrightBlue":#3B78FF,
-"Green":#13A10E,"DarkGreen":#0D700A,"BrightGreen":#16C60C,
-"Cyan":#3A96DD,"DarkCyan":#2D6EA0,"BrightCyan":#61D6D6,
-"Red":#FF0015,"DarkRed":#C50F1F,"BrightRed":#E74856,
+"Green":#13A10E,"DarkGreen":#0b5308,"BrightGreen":#16C60C,
+"Cyan":#3A96DD,"DarkCyan":#235981,"BrightCyan":#61D6D6,
+"Red":#FF0015,"DarkRed":#860a14,"BrightRed":#E74856,
+"Orange":#ff7b00,"DarkOrange":#86370a,"BrightOrange":#e77548,
 "Magenta":#881798,"DarkMagenta":#530D5C,"BrightMagenta":#B4009E,
-"Yellow":#FFCC00,"DarkYellow":#C19C00,"BrightYellow":#F9F1A5);
+"Yellow":#FFCC00,"DarkYellow":#C19C00,"BrightYellow":#F9F1A5,
+"Transparent":transparent);
 #bsWrapper{
   height: 100%;
   width: 100%;
@@ -15,4 +18,113 @@ $ColorMap:("Black": #0C0C0C,"Gray": #767676,
   left: 50%;
   translate: -50% -50%;
   background: map.get($ColorMap,"DarkBlue");
+  overflow: hidden auto;
+  white-space: break-spaces;
+  word-break: break-all;
+  &,*{line-height: 1.19 !important;}
+  scrollbar-width: none; 
+  -ms-overflow-style: none; 
+  &::-webkit-scrollbar{display: none;}
+  @each $ColorMapName,$ColorMapValue in $ColorMap{
+    .clr#{$ColorMapName}{
+      color:$ColorMapValue;
+    }
+  }
+  @each $ColorMapName,$ColorMapValue in $ColorMap{
+    .bg#{$ColorMapName}{
+      background-color:$ColorMapValue;
+    }
+  }
+  .bshl{
+    display: inline;
+    font-size: 1rem/1 monospace;
+    width: fit-content;
+    line-height: 1;
+    &,*:not(.nf){font-family: 'Source Code Pro' !important;}
+    margin: 0;
+    padding: 0;
+    &.input {
+      width: fit-content;
+      display: inline-block;
+      min-width: 10ch !important;
+      color: map.get($ColorMap, "White") !important;
+      outline: none;
+    }
+    &.ohmybsh {
+      &,*{position: relative;}
+      user-select: none;
+      .startBlock {
+        border-top-left-radius: 1rem;
+        border-bottom-left-radius: 1rem;
+        margin-right: .25rem;
+        height: 1rem;
+        background: map.get($ColorMap, "Yellow") !important;
+        color: map.get($ColorMap, "White") !important;
+        color: map.get($ColorMap, "Black") !important;
+        &::after {
+          content: " ";
+          width: .75rem;
+          height: 100%;
+          position: absolute;
+          top: 50%;
+          transform: translateY(-50%);
+          left: 99%;
+          background: map.get($ColorMap, "Yellow") !important;
+          clip-path: polygon(0% 0%, 20% 0, 100% 50%, 20% 100%, 0% 100%);
+        }
+      }
+      .midBlock {
+        margin-left: 1rem;
+        margin-right: 1rem;
+        height: 1rem;
+        background: map.get($ColorMap, "Orange") !important;
+        color: map.get($ColorMap, "White") !important;
+        &::before {
+          content: " ";
+          width: .75rem;
+          height: 100%;
+          position: absolute;
+          top: 0%;
+          right: 99%;
+          background: map.get($ColorMap, "Orange") !important;
+          clip-path: polygon(100% 0, 100% 100%, 0% 100%, 80% 50%, 0% 0%);
+        }
+        &::after {
+          content: " ";
+          width: .75rem;
+          height: 100%;
+          position: absolute;
+          top: 0%;
+          left: 98%;
+          background: map.get($ColorMap, "Orange") !important;
+          clip-path: polygon(0% 0%, 20% 0, 100% 50%, 20% 100%, 0% 100%);
+        }
+      }
+      .endBlock {
+        border-top-right-radius: 1rem;
+        border-bottom-right-radius: 1rem;
+        height: 1rem;
+        margin-left: .25rem;
+        background: map.get($ColorMap, "BrightBlue");
+        color: map.get($ColorMap, "White") !important;
+        &.error {
+          background: map.get($ColorMap, "BrightRed") !important;
+          &::before {
+            background: map.get($ColorMap, "BrightRed") !important;
+          }
+        }
+        &::before {
+          content: " ";
+          width: .75rem;
+          // height: 100%;
+          height: 100%;
+          position: absolute;
+          top: 0%;
+          right: 99%;
+          background: map.get($ColorMap, "BrightBlue");
+          clip-path: polygon(100% 0, 100% 100%, 0% 100%, 80% 50%, 0% 0%);
+        }
+      }
+    }
+  }
 }

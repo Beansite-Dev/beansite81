@@ -43,6 +43,7 @@ export const CHANGELOG:{
     "Added desktop tooltip",
     "Beanforged button nesting bug fixed",
     "Window icon styling fixed",
+    "Started beanshell work",
   ],
 };
 const Changelog=({}):ReactElement=>{
@@ -118,6 +119,8 @@ const App=({}):ReactElement=>{
                 ["beanforged","minimized",false],
                 ["blog","open",true],
                 ["blog","minimized",false],
+                ["beanshell","open",true],
+                ["beanshell","minimized",false],
               ]);
             }}>Open All Windows</motion.button>
           <motion.button
@@ -129,6 +132,7 @@ const App=({}):ReactElement=>{
                 ["beanpowered","open",false],
                 ["beanforged","open",false],
                 ["blog","open",false],
+                ["beanshell","open",false],
               ]);
             }}>Close All Windows</motion.button><br/>
           <motion.a href="/extwr">ExtWindowRenderer</motion.a>
@@ -192,8 +196,8 @@ const App=({}):ReactElement=>{
         id="beanshell"
         y={30}
         x={30}
-        width={425}
-        height={275}
+        width={450}
+        height={300}
         // closed
         icon={Icons.beanshell}
         title="Beanshell">
