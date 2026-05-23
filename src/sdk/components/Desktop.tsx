@@ -94,6 +94,11 @@ export const Desktop=({}):ReactElement=>{
       title:"Blog",
       target:"blog",
       icon:Icons.text
+    },{
+      id:"i6",
+      title:"beanshell",
+      target:"beanshell",
+      icon:Icons.beanshell
     },
   ]
   return(<>

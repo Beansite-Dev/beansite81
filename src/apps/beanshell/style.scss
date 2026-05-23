@@ -19,7 +19,7 @@ $ColorMap:("Black": #0C0C0C,"Gray": #767676,
   translate: -50% -50%;
   background: map.get($ColorMap,"DarkBlue");
   overflow: hidden auto;
-  white-space: break-spaces;
+  white-space: pre-wrap;
   word-break: break-all;
   &,*{line-height: 1.19 !important;}
   scrollbar-width: none; 
@@ -40,6 +40,7 @@ $ColorMap:("Black": #0C0C0C,"Gray": #767676,
     font-size: 1rem/1 monospace;
     width: fit-content;
     line-height: 1;
+    &.noWordBreak{word-break: normal;}
     &,*:not(.nf){font-family: 'Source Code Pro' !important;}
     margin: 0;
     padding: 0;

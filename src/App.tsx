@@ -26,6 +26,12 @@ export const CHANGELOG:{
     "TODO: Add Explorer",
     "TODO: Replace TestWin with a welcome message instead",
     "TODO: Work on Dosbox pages",
+    "TODO: Add command line method to enable debug mode",
+    "TODO: Create debug window",
+    "TODO: Allow commandline to open windows",
+    "TODO: add cd/dir/ls commands to beanshell (byfar the hardest part of beanshell)",
+    "TODO: Add nano editor to beanshell",
+    "TODO: Make file system use dexie db to store files",
     "Massive game drop",
     "Updated react to use swc",
     "Vite image optimizations",
@@ -44,6 +50,8 @@ export const CHANGELOG:{
     "Beanforged button nesting bug fixed",
     "Window icon styling fixed",
     "Started beanshell work",
+    "Added beanshell command history",
+    "Added basic commands to beanshell",
   ],
 };
 const Changelog=({}):ReactElement=>{
@@ -196,9 +204,9 @@ const App=({}):ReactElement=>{
         id="beanshell"
         y={30}
         x={30}
-        width={450}
-        height={300}
-        // closed
+        height={450}
+        width={450*(16/10)}
+        closed
         icon={Icons.beanshell}
         title="Beanshell">
           {/* @ts-ignore */}
