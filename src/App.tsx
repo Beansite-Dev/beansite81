@@ -27,9 +27,6 @@ export const CHANGELOG:{
     "TODO: Add command line method to enable debug mode",
     "TODO: Create debug window",
     "TODO: Allow commandline to open windows",
-    "TODO: add cd/dir/ls commands to beanshell (byfar the hardest part of beanshell)",
-    "TODO: Add nano editor to beanshell",
-    "TODO: Make file system use dexie db to store files",
     "Massive game drop",
     "Updated react to use swc",
     "Vite image optimizations",
@@ -53,6 +50,11 @@ export const CHANGELOG:{
     "Fixed arrow key navigation in beanshell",
     "Added nano editor basics",
     "Introduced new pkSmp client",
+    "Added file system to beanshell",
+    "Fixed desktop imbalance bug",
+    "Added command line directory navigation to beanshell",
+    "Updated nano to use local file system",
+    "Added cat, tac, and mkdir",
   ],
 };
 const Changelog=({}):ReactElement=>{
@@ -76,12 +78,10 @@ const Changelog=({}):ReactElement=>{
       ?<motion.p>Loading commits...</motion.p>
       :Array.isArray(previousCommits)
       ?<motion.ul>
-        {previousCommits.map((commitData)=>(<>
-          <motion.li key={commitData.sha}>
-            {commitData.commit.message}<br/>
-            <motion.span className="sub">commited on {commitData.commit.committer.date} by {commitData.author?.full_name}/{commitData.author?.username}</motion.span>
-          </motion.li>
-        </>))}
+        {previousCommits.map((commitData)=>(<motion.li key={commitData.sha}>
+          {commitData.commit.message}<br/>
+          <motion.span className="sub">commited on {commitData.commit.committer.date} by {commitData.author?.full_name}/{commitData.author?.username}</motion.span>
+        </motion.li>))}
       </motion.ul>
       :<motion.p>Received error: {previousCommits}</motion.p>}
   </>);

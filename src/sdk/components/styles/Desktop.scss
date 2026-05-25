@@ -20,6 +20,7 @@
   .DesktopIcon {
     height: 6rem;
     aspect-ratio: 3 / 4;
+    max-width: calc(6rem * (3 / 4));
     // background: pink;
     display: flex;
     justify-content: center;
@@ -34,6 +35,10 @@
     .title {
       font-size: .875rem;
       line-height: 1;
+      width: 100%;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
       color: white;
       background: none;
       outline: none;

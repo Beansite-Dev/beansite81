@@ -4,6 +4,7 @@ import { motion } from "motion/react";
 import { generateId } from "../../sdk/Lib";
 import { ExpressDerivedWinModifierAtom } from "../../sdk/store";
 import { atom, useAtom } from "jotai";
+import { FileCreatorAtom, FilePropertyModifierAtom, FileSystemAtom, type Directory, type DirectoryBase, type File } from "./fs";
 // type Abbreviated<T,M>={[K in keyof T as K|{[P in keyof M]:M[P]extends K?P:never}[keyof M]]:T[K];};
 type Colors=
   "Black"|"BrightBlack"|"Gray"|"DarkGray"|"BrightGray"|"White"|"BrightWhite"|
@@ -113,17 +114,62 @@ const Beanshell=({}):ReactElement=>{
         :null}
     </>);
   };
-  const Nano=({}):ReactElement=>{
+  const[FileSystem,setFileSystem]=useAtom(FileSystemAtom);
+  useEffect(()=>{console.log("FileSystem:",FileSystem);},[FileSystem]);
+  const[,setFileProperty]=useAtom(FilePropertyModifierAtom);
+  const[,createFile]=useAtom(FileCreatorAtom);
+  const[directoryTree,setDirectoryTree]=useState<string[]>([]);
+  const getScope=():DirectoryBase=>{
+    var scope:DirectoryBase=FileSystem;
+    for(const dir of directoryTree){
+      if(scope[dir]&&scope[dir].isDirectory)scope=(scope[dir] as Directory).children;
+    }
+    return scope;
+  };
+  const Nano=({
+    file,
+    fileName,
+    fileKey,
+    creating,
+    currentDirectoryTree
+  }:{
+    file:string;
+    fileName:string;
+    fileKey:string;
+    creating:boolean;
+    currentDirectoryTree: string[];
+  }):ReactElement=>{
     const nanoRef=useRef<HTMLDivElement>(null);
     useEffect(()=>{setTimeout(()=>nanoRef?.current?.focus(),0);},[]);
     function saveFile(){
-      const a=document.createElement("a");
-      const file=new Blob([nanoRef?.current?.innerText||""],{type:"text/plain"});
-      a.href=URL.createObjectURL(file);
-      a.download="nano_export.txt";
-      a.click();
-      URL.revokeObjectURL(a.href);
-      a.remove();
+      // export file to local machine
+      // const a=document.createElement("a");
+      // const file=new Blob([nanoRef?.current?.innerText||""],{type:"text/plain"});
+      // a.href=URL.createObjectURL(file);
+      // a.download="nano_export.txt";
+      // a.click();
+      // URL.revokeObjectURL(a.href);
+      // a.remove();
+      if(!creating)
+        setFileProperty([
+          currentDirectoryTree,
+          fileKey,
+          "content",
+          nanoRef?.current?.innerText||""
+        ]);
+      else{
+        createFile([
+          currentDirectoryTree,
+          fileKey||"newfile.txt",
+          {
+            name:fileName||"newfile",
+            id:generateId(10),
+            isDirectory:false,
+            type:fileKey.split(".").pop()||"txt",
+            content:nanoRef?.current?.innerText||"",
+          }
+        ]);
+      }
       setTimeout(()=>nanoRef?.current?.focus(),0);
     }
     return(<div className="bgDarkBlue" style={{
@@ -148,7 +194,7 @@ const Beanshell=({}):ReactElement=>{
           position:"absolute",
           left:"50%",
           transform:"translateX(-50%)",
-        }}>File: {}</motion.span>
+        }}>File: {fileName||"new file"}</motion.span>
         <motion.span>Modified  </motion.span>
       </motion.div>
       <motion.div
@@ -185,7 +231,7 @@ const Beanshell=({}):ReactElement=>{
         autoCapitalize="off" 
         contentEditable
         ref={nanoRef}
-        className="bshl input"></motion.div>
+        className="bshl input">{file||""}</motion.div>
       <motion.div style={{
         width:"100%",
       }} className="bshl">
@@ -234,11 +280,108 @@ const Beanshell=({}):ReactElement=>{
             {t:"l",m:"    echo --clr?=<color> --bg?=<color> <message> - Display a message with optional color and background"},
             {t:"l",m:"    exit (alias: quit) - Exit the Beanshell"},
             {t:"l",m:"    nano - Open the nano text editor"},
-            {t:"l",m:"    *.exe - Open an executable file"},
+            {t:"l",m:"    dir (alias: ls) - List directory contents"},
+            {t:"l",m:"    cd <directory> - Change directory"},
             {t:"nl",}
           ]);
         break;
+        case "mkdir":
+          if(inputArray.length<2){
+            setLogs(x=>[...x,Header,{t:"l",m:"mkdir : missing argument",...stylePresets.error}]);
+            break;}
+          setLogs(x=>[...x,Header,]);
+          createFile([
+            directoryTree,
+            inputArray[1],
+            {
+              name:inputArray[1],
+              id:generateId(10),
+              isDirectory:true,
+              // @ts-expect-error
+              children:{},
+            }
+          ]);  
+        break;
         case "cls":case "clear":setLogs([]);break;
+        case "dir":case "ls":
+          var scope:DirectoryBase=getScope();
+          console.table(scope);
+          setLogs(x=>[...x,Header,{t:"nl"},
+            {t:"l",m:[
+              {c:"    "},{c:"Directory: B:/"+directoryTree.join("/")+(directoryTree.length>0?"/":""),}
+            ]},{t:"nl"},
+            {t:"l",m:"Mode".padEnd(8," ")+"Name",clr:"Green"},
+            {t:"l",m:"----".padEnd(8," ")+"----",clr:"Green"},
+            ...Object.keys(scope).filter((key)=>scope[key].isDirectory).map((key):BeanshellLogs=>({
+              t:"l",
+              m:[
+                {c:"d-r--".padEnd(8," ")},
+                {c:(scope[key].name as string),bg:"BrightBlue"},
+              ],
+            })),
+            ...Object.keys(scope).filter((key)=>!scope[key].isDirectory).map((key):BeanshellLogs=>({
+              t:"l",
+              m:[
+                {c:"-a---".padEnd(8," ")},
+                {c:`${(scope[key].name as string)}.${((scope[key] as File).type as string)}`,},
+              ],
+            }))
+          ]);
+        break;
+        case "cd..":
+          setLogs(x=>[...x,Header,]);
+          if(directoryTree.length>0){
+            setDirectoryTree(x=>x.slice(0,-1));
+            setOhMyBshDir(x=>x.split("/").slice(0,-1).join("/")||"~");
+          }
+        break;
+        case "cd":
+          if(inputArray.length<2){setLogs(x=>[...x,Header,]);break;}
+          var scope:DirectoryBase=getScope();
+          if(inputArray[1]===".."){
+            setLogs(x=>[...x,Header,]);
+            if(directoryTree.length>0){
+              setDirectoryTree(x=>x.slice(0,-1));
+              setOhMyBshDir(x=>x.split("/").slice(0,-1).join("/")||"~");
+            }
+          }else if(scope[inputArray[1]]&&scope[inputArray[1]].isDirectory){
+            setLogs(x=>[...x,Header,]);
+            setOhMyBshDir(x=>x+"/"+inputArray[1]);
+            setDirectoryTree(x=>[...x,inputArray[1]]);
+          }else if(inputArray[1]==="~"){
+            setLogs(x=>[...x,Header,]);
+            setOhMyBshDir("~");
+            setDirectoryTree([]);
+          }else if(inputArray[1].includes("/")){
+            let directoryArray=inputArray[1].split("/").filter((v)=>!!v);
+            var scope:DirectoryBase=getScope();
+            let res:boolean=true;
+            for(const dir of directoryArray){
+              if(scope[dir]&&scope[dir].isDirectory){
+                scope=(scope[dir] as Directory).children;
+              }else{
+                res=false;
+                setLogs(x=>[...x,Header,{
+                  t:"l",
+                  m:`Set-Location: Cannot find path '${"B:/"+directoryTree.join("/")+(directoryTree.length>0?"/":"")+inputArray[1]+"/"}' because it does not exist.`,
+                  ...stylePresets.error
+                }]);
+                break;
+              }
+            }
+            if(res){
+              setLogs(x=>[...x,Header,])
+              setDirectoryTree(x=>[...x,...directoryArray]);
+              setOhMyBshDir(x=>x+"/"+directoryArray.join("/"));
+            }
+          }else{
+            setLogs(x=>[...x,Header,{
+              t:"l",
+              m:`Set-Location: Cannot find path '${"B:/"+directoryTree.join("/")+(directoryTree.length>0?"/":"")+inputArray[1]+"/"}' because it does not exist.`,
+              ...stylePresets.error
+            }]);
+          }
+        break;
         case "echo":
           if(inputArray.length<2){
             setLogs(x=>[...x,Header,{t:"l",m:"echo : missing argument",...stylePresets.error}]);
@@ -268,7 +411,53 @@ const Beanshell=({}):ReactElement=>{
             setLogs([]);
             setWindow([["beanshell","open",false]]);
           },1000);break;
-        case "nano":setLogs([<Nano/>]);break;
+        case "nano":
+          if(inputArray.length<2){
+            setLogs(x=>[...x,Header,{t:"l",m:"nano : missing argument",...stylePresets.error}]);
+            break;}
+          if(!/(.*)\.(.*)/.test(inputArray[1])){
+            setLogs(x=>[...x,Header,{t:"l",m:"nano : invalid file name",...stylePresets.error}]);
+            break;}
+          var scope:DirectoryBase=getScope();
+          if(scope[inputArray[1]]&&!scope[inputArray[1]].isDirectory)
+            setLogs([<Nano 
+              creating={false}
+              currentDirectoryTree={directoryTree}
+              file={(scope[inputArray[1]] as File).content}
+              fileKey={inputArray[1]}
+              fileName={(scope[inputArray[1]] as File).name}/>]);
+          else setLogs([<Nano
+            creating={true}
+            currentDirectoryTree={directoryTree}
+            file=""
+            fileKey={inputArray[1]}
+            fileName={inputArray[1].split(".")[0]}
+          />]);
+          break;
+        case "cat":
+          if(inputArray.length<2){
+            setLogs(x=>[...x,Header,{t:"l",m:"cat : missing argument",...stylePresets.error}]);
+            break;}
+          var scope:DirectoryBase=getScope();
+          if(scope[inputArray[1]]&&!scope[inputArray[1]].isDirectory)
+            setLogs(x=>[...x,Header,
+              ...(scope[inputArray[1]] as File).content.split("\n")
+                .map((line,)=>({t:"l",m:(line||"")} as BeanshellLogs)),
+            ]);
+          else setLogs(x=>[...x,Header,{t:"l",m:`cat : ${inputArray[1]} : No such file`,...stylePresets.error}]);
+        break;
+        case "tac":
+          if(inputArray.length<2){
+            setLogs(x=>[...x,Header,{t:"l",m:"cat : missing argument",...stylePresets.error}]);
+            break;}
+          var scope:DirectoryBase=getScope();
+          if(scope[inputArray[1]]&&!scope[inputArray[1]].isDirectory)
+            setLogs(x=>[...x,Header,
+              ...(scope[inputArray[1]] as File).content.split("\n").reverse()
+                .map((line,)=>({t:"l",m:(line||"")} as BeanshellLogs)),
+            ]);
+          else setLogs(x=>[...x,Header,{t:"l",m:`cat : ${inputArray[1]} : No such file`,...stylePresets.error}]);
+        break;
         default:
           if(inputArray[0].endsWith(".exe")){
             setLogs(x=>[...x,Header]);
@@ -318,6 +507,7 @@ const Beanshell=({}):ReactElement=>{
           e.preventDefault();
           bshEval(e.currentTarget.innerText);
           e.currentTarget.textContent="";
+          setCurrentPositionInCommandHistory(-1);
         }else if(e.key==="ArrowUp"){
           e.preventDefault();
           e.stopPropagation();
@@ -361,7 +551,7 @@ const Beanshell=({}):ReactElement=>{
       )}
       <motion.div className="bshl ohmybsh">
         <motion.span className="startBlock">  Admin </motion.span>
-        <motion.span className="midBlock"> <NerdFontIcon name="cod-folder"/>{OhMyBshDir} </motion.span>
+        <motion.span className="midBlock"> <NerdFontIcon name="cod-folder"/> {OhMyBshDir} </motion.span>
         <motion.span className={`endBlock ${OhMyBshStatus?"":"error"}`}> 
           &nbsp;<NerdFontIcon name={OhMyBshStatus?"fa-check":"oct-x"}/>&nbsp;
         </motion.span>
