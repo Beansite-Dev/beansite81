@@ -1,4 +1,4 @@
-import { isValidElement, useEffect, useRef, useState, type ReactElement } from "react";
+import { isValidElement, useEffect, useRef, useState, type CSSProperties, type ReactElement } from "react";
 import "./style.scss";
 import { motion } from "motion/react";
 import { generateId } from "../../sdk/Lib";
@@ -6,7 +6,7 @@ import { ExpressDerivedWinModifierAtom } from "../../sdk/store";
 import { atom, useAtom } from "jotai";
 // type Abbreviated<T,M>={[K in keyof T as K|{[P in keyof M]:M[P]extends K?P:never}[keyof M]]:T[K];};
 type Colors=
-  "Black"|"Gray"|"White"|"BrightWhite"|
+  "Black"|"BrightBlack"|"Gray"|"DarkGray"|"BrightGray"|"White"|"BrightWhite"|
   "Blue"|"DarkBlue"|"BrightBlue"|
   "Green"|"DarkGreen"|"BrightGreen"|
   "Cyan"|"DarkCyan"|"BrightCyan"|
@@ -30,6 +30,7 @@ interface BeanshellLogs extends ColorTypes{
     "NerdFontIcon"|"nf";
   includeNewline?:boolean;
   noWordBreak?:boolean;
+  customStyling?:CSSProperties;
 };
 const stylePresets:{[str:string]:ColorTypes|BeanshellLogs}={
   error:{
@@ -77,11 +78,12 @@ const Beanshell=({}):ReactElement=>{
           bshl 
           clr${data2.clr||"White"} 
           bg${data2.bg||"Transparent"} 
-          ${data2.noWordBreak?"noWordBreak":""}`.trim()} 
+          ${data2.noWordBreak?"noWordBreak":""}`.replace(/(\r\n|\n|\r)/gm, "").replace(/\s+/g, ' ').trim()} 
         style={{
           fontStyle:data2.i?"italic":"normal",
           fontWeight:data2.b?"bold":"normal",
           textDecoration:data2.u?"underline":"none",
+          ...data2.customStyling,
         }}>{data2.m as string}</motion.span>);
     };
     return(<>
@@ -111,6 +113,105 @@ const Beanshell=({}):ReactElement=>{
         :null}
     </>);
   };
+  const Nano=({}):ReactElement=>{
+    const nanoRef=useRef<HTMLDivElement>(null);
+    useEffect(()=>{setTimeout(()=>nanoRef?.current?.focus(),0);},[]);
+    function saveFile(){
+      const a=document.createElement("a");
+      const file=new Blob([nanoRef?.current?.innerText||""],{type:"text/plain"});
+      a.href=URL.createObjectURL(file);
+      a.download="nano_export.txt";
+      a.click();
+      URL.revokeObjectURL(a.href);
+      a.remove();
+      setTimeout(()=>nanoRef?.current?.focus(),0);
+    }
+    return(<div className="bgDarkBlue" style={{
+      position:"absolute",
+      height: "100%",
+      top:"50%",
+      left:"50%",
+      transform:"translate(-50%,-50%)",
+      width:"100%",
+      zIndex:9999,
+    }}>
+      <motion.div style={{
+        width:"100%",
+        height:"1rem",
+        display:"flex",
+        justifyContent:"space-between",
+        alignItems:"center",
+        position:"relative",
+      }} className="bshl clrDarkBlue bgBrightGray">
+        <motion.span>  BS nano 0.1.0</motion.span>
+        <motion.span style={{
+          position:"absolute",
+          left:"50%",
+          transform:"translateX(-50%)",
+        }}>File: {}</motion.span>
+        <motion.span>Modified  </motion.span>
+      </motion.div>
+      <motion.div
+        style={{
+          height:"calc(100% - 1rem - 3rem)",
+          width:"100%",
+          overflowY:"auto",
+          overflowX:"hidden",
+        }}
+        onKeyDown={(e)=>{
+          if(e.key==="Tab"){
+            e.preventDefault();
+            var sel=(e.currentTarget as HTMLDivElement).ownerDocument.defaultView!.getSelection();
+            var range=sel!.getRangeAt(0);
+            var tabNode=document.createTextNode("\u00a0\u00a0\u00a0\u00a0");
+            range.insertNode(tabNode);
+            range.setStartAfter(tabNode);
+            range.setEndAfter(tabNode); 
+            sel!.removeAllRanges();
+            sel!.addRange(range);
+          }else if(e.key==='x'&&(e.ctrlKey||e.metaKey)){
+            e.preventDefault();
+            console.log("ctrl+x pressed => exiting nano");
+            setLogs([]);
+            setTimeout(()=>inputRef?.current?.focus(),0);
+          }else if(e.key==='o'&&(e.ctrlKey||e.metaKey)){
+            e.preventDefault();
+            console.log("ctrl+o pressed => saving file");
+            saveFile();
+          }
+        }}
+        spellCheck="false" 
+        autoCorrect="off" 
+        autoCapitalize="off" 
+        contentEditable
+        ref={nanoRef}
+        className="bshl input"></motion.div>
+      <motion.div style={{
+        width:"100%",
+      }} className="bshl">
+        <motion.span className="clrDarkBlue bgBrightGray">^G</motion.span>
+        <motion.span className="clrWhite"> Get Help  </motion.span>
+        <motion.span className="clrDarkBlue bgBrightGray">^O</motion.span>
+        <motion.span className="clrWhite"> Write Out </motion.span>
+        <motion.span className="clrDarkBlue bgBrightGray">^W</motion.span>
+        <motion.span className="clrWhite"> Where Is  </motion.span>
+        <motion.span className="clrDarkBlue bgBrightGray">^K</motion.span>
+        <motion.span className="clrWhite"> Cut Text  </motion.span>
+        <motion.span className="clrDarkBlue bgBrightGray">^J</motion.span>
+        <motion.span className="clrWhite"> Justify   </motion.span>
+        <motion.span className="clrDarkBlue bgBrightGray">^X</motion.span>
+        <motion.span className="clrWhite"> Exit      </motion.span>
+        <motion.span className="clrDarkBlue bgBrightGray">^R</motion.span>
+        <motion.span className="clrWhite"> Read File </motion.span>
+        <motion.span className="clrDarkBlue bgBrightGray">^\</motion.span>
+        <motion.span className="clrWhite"> Replace   </motion.span>
+        <motion.span className="clrDarkBlue bgBrightGray">^U</motion.span>
+        <motion.span className="clrWhite"> Paste Text</motion.span>
+        <motion.span className="clrDarkBlue bgBrightGray">^T</motion.span>
+        <motion.span className="clrWhite"> To Spell  </motion.span>
+      </motion.div>
+    </div>);
+  };
   const[,setWindow]=useAtom(ExpressDerivedWinModifierAtom);
   const bshEval=(input:string):void=>{
     let inputTrimmed=input.trim();
@@ -132,13 +233,12 @@ const Beanshell=({}):ReactElement=>{
             {t:"l",m:"    clear (alias: cls) - Clear the screen"},
             {t:"l",m:"    echo --clr?=<color> --bg?=<color> <message> - Display a message with optional color and background"},
             {t:"l",m:"    exit (alias: quit) - Exit the Beanshell"},
+            {t:"l",m:"    nano - Open the nano text editor"},
+            {t:"l",m:"    *.exe - Open an executable file"},
             {t:"nl",}
           ]);
-          break;
-        case "cls":
-        case "clear":
-          setLogs([]);
-          break;
+        break;
+        case "cls":case "clear":setLogs([]);break;
         case "echo":
           if(inputArray.length<2){
             setLogs(x=>[...x,Header,{t:"l",m:"echo : missing argument",...stylePresets.error}]);
@@ -161,45 +261,47 @@ const Beanshell=({}):ReactElement=>{
             m:inputArray.slice(1).filter((v)=>!v.startsWith('--')).join(" "),
             ...styleArgs
           }]);
-          break;
-        case "quit":
-        case "exit":
+        break;
+        case "quit":case "exit":
           setLogs(x=>[...x,Header,{t:"l",m:"Exiting Beanshell..."}]);
           setTimeout(()=>{
             setLogs([]);
             setWindow([["beanshell","open",false]]);
-          },1000);
-          break;
+          },1000);break;
+        case "nano":setLogs([<Nano/>]);break;
         default:
-          
-          setLogs(x=>[...x,Header,
-            {
-              t:"l",
-              m:`${inputArray[0]} : the term '${inputArray[0]}' is not recognized as the name of a cmdlet, function, script file, or operable program. Check the spelling of the name, or if a path was included, verify that the path is correct and try again.`,
-              ...stylePresets.error,
-            },{
-              t:"l",
-              m:"At line:1 char:1",
-              ...stylePresets.error,
-            },{
-              t:"l",
-              m:`+ ${inputArray[0]}`,
-              ...stylePresets.error,
-            },{
-              t:"l",
-              m:`+ ${"~".repeat(inputArray[0].length)}`,
-              ...stylePresets.error,
-            },{
-              t:"l",
-              m:"    + CategoryInfo          : ObjectNotFound: (echo:String) [], CommandNotFoundException",
-              ...stylePresets.error,
-            },{
-              t:"l",
-              m:"    + FullyQualifiedErrorId : CommandNotFoundException",
-              ...stylePresets.error,
-            },
-          ]);
-          break;
+          if(inputArray[0].endsWith(".exe")){
+            setLogs(x=>[...x,Header]);
+          }else{
+            setLogs(x=>[...x,Header,
+              {
+                t:"l",
+                m:`${inputArray[0]} : the term '${inputArray[0]}' is not recognized as the name of a cmdlet, function, script file, or operable program. Check the spelling of the name, or if a path was included, verify that the path is correct and try again.`,
+                ...stylePresets.error,
+              },{
+                t:"l",
+                m:"At line:1 char:1",
+                ...stylePresets.error,
+              },{
+                t:"l",
+                m:`+ ${inputArray[0]}`,
+                ...stylePresets.error,
+              },{
+                t:"l",
+                m:`+ ${"~".repeat(inputArray[0].length)}`,
+                ...stylePresets.error,
+              },{
+                t:"l",
+                m:"    + CategoryInfo          : ObjectNotFound: (echo:String) [], CommandNotFoundException",
+                ...stylePresets.error,
+              },{
+                t:"l",
+                m:"    + FullyQualifiedErrorId : CommandNotFoundException",
+                ...stylePresets.error,
+              },
+            ]);
+          }
+        break;
       }
     }
   }
@@ -230,38 +332,42 @@ const Beanshell=({}):ReactElement=>{
         }
         setTimeout(()=>{
           inputRef.current?.focus();
-          let range=document.createRange();
-          let selection=window.getSelection();
-          range.selectNodeContents(inputRef.current as Node);
-          range.collapse(false);
-          selection?.removeAllRanges();
-          selection?.addRange(range);
+          if(e.key==="ArrowDown"||e.key==="ArrowUp"){
+            let range=document.createRange();
+            let selection=window.getSelection();
+            range.selectNodeContents(inputRef.current as Node);
+            range.collapse(false);
+            selection?.removeAllRanges();
+            selection?.addRange(range);
+          }
         },0);
       }}
       contentEditable>{commandHistory[currentPositionInCommandHistory]||""}</motion.div>);
   };
-  return(<><motion.div id="bsWrapper">
-    {logs.map((log,index)=>
-      isValidElement(log)?log:(log.t==="l"||log.t==="log")
-        ?<Log key={generateId(10)} data={log}/>
-      :(log.t==="nl"||log.t==="newline")?<br key={generateId(10)}/>
-      :(log.t==="nf"||log.t==="NerdFontIcon")?<motion.span 
-        key={generateId(10)}
-        className={`bshl clr${log.clr||"White"} bg${log.bg||"Transparent"}`} 
-        style={{
-          fontStyle:log.i?"italic":"normal",
-          textDecoration:log.u?"underline":"none",
-        }}><NerdFontIcon name={log.m as string}/></motion.span>
-      :null
-    )}
-    <motion.div className="bshl ohmybsh">
-      <motion.span className="startBlock">  Admin </motion.span>
-      <motion.span className="midBlock"> <NerdFontIcon name="cod-folder"/>{OhMyBshDir} </motion.span>
-      <motion.span className={`endBlock ${OhMyBshStatus?"":"error"}`}> 
-        &nbsp;<NerdFontIcon name={OhMyBshStatus?"fa-check":"oct-x"}/>&nbsp;
-      </motion.span>
-    </motion.div>&nbsp;
-    <Input/><br/>
-  </motion.div></>);
+  return(<>
+    <motion.div id="bsWrapper">
+      {logs.map((log,index)=>
+        isValidElement(log)?log:(log.t==="l"||log.t==="log")
+          ?<Log key={generateId(10)} data={log}/>
+        :(log.t==="nl"||log.t==="newline")?<br key={generateId(10)}/>
+        :(log.t==="nf"||log.t==="NerdFontIcon")?<motion.span 
+          key={generateId(10)}
+          className={`bshl clr${log.clr||"White"} bg${log.bg||"Transparent"}`} 
+          style={{
+            fontStyle:log.i?"italic":"normal",
+            textDecoration:log.u?"underline":"none",
+          }}><NerdFontIcon name={log.m as string}/></motion.span>
+        :null
+      )}
+      <motion.div className="bshl ohmybsh">
+        <motion.span className="startBlock">  Admin </motion.span>
+        <motion.span className="midBlock"> <NerdFontIcon name="cod-folder"/>{OhMyBshDir} </motion.span>
+        <motion.span className={`endBlock ${OhMyBshStatus?"":"error"}`}> 
+          &nbsp;<NerdFontIcon name={OhMyBshStatus?"fa-check":"oct-x"}/>&nbsp;
+        </motion.span>
+      </motion.div>&nbsp;
+      <Input/><br/>
+    </motion.div>
+  </>);
 };
 export default Beanshell;

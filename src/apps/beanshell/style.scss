@@ -1,6 +1,7 @@
 @use "sass:map";
 @import "https://www.nerdfonts.com/assets/css/webfont.css";
-$ColorMap:("Black": #0C0C0C,"Gray": #767676,
+$ColorMap:("Black": #0C0C0C,"BrightBlack": #252525,
+"Gray": #767676,"DarkGray": #454545,"BrightGray": #999,
 "White":#CCCCCC,"BrightWhite":#F2F2F2,
 "Blue":#0037DA,"DarkBlue":#012456,"BrightBlue":#3B78FF,
 "Green":#13A10E,"DarkGreen":#0b5308,"BrightGreen":#16C60C,
@@ -21,10 +22,12 @@ $ColorMap:("Black": #0C0C0C,"Gray": #767676,
   overflow: hidden auto;
   white-space: pre-wrap;
   word-break: break-all;
-  &,*{line-height: 1.19 !important;}
-  scrollbar-width: none; 
-  -ms-overflow-style: none; 
-  &::-webkit-scrollbar{display: none;}
+  &,*{
+    line-height: 1.19 !important;
+    scrollbar-width: none; 
+    -ms-overflow-style: none; 
+    &::-webkit-scrollbar{display: none;}
+  }
   @each $ColorMapName,$ColorMapValue in $ColorMap{
     .clr#{$ColorMapName}{
       color:$ColorMapValue;

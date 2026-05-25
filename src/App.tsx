@@ -21,8 +21,6 @@ export const CHANGELOG:{
   releaseDate:import.meta.env.VITE_APP_BUILD_DATE,
   comment: "sorry about the break",
   changes:[
-    "TODO: Add more games",
-    "TODO: Add Beanshell",
     "TODO: Add Explorer",
     "TODO: Replace TestWin with a welcome message instead",
     "TODO: Work on Dosbox pages",
@@ -52,6 +50,9 @@ export const CHANGELOG:{
     "Started beanshell work",
     "Added beanshell command history",
     "Added basic commands to beanshell",
+    "Fixed arrow key navigation in beanshell",
+    "Added nano editor basics",
+    "Introduced new pkSmp client",
   ],
 };
 const Changelog=({}):ReactElement=>{
