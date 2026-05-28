@@ -50,6 +50,7 @@ export interface ISettingsAtom {
   backgroundRepeat: "repeat"|"norepeat"|number|string;
   theme: "default"|"lib"|"dark";
   font: "segoe"|"tahoma"|"comic"|"time"|"mono",
+  scale:number;
 };
 export const SettingsAtom=atom<ISettingsAtom>(
   localStorage.getItem("mb81-settings")&&(()=>{
@@ -60,6 +61,7 @@ export const SettingsAtom=atom<ISettingsAtom>(
         "backgroundSize",
         "backgroundRepeat",
         "theme",
+        "scale",
         "font",
       ].every(key=>Object.keys(settings).includes(key));
   })()?JSON.parse(localStorage.getItem("mb81-settings")!):{
@@ -68,6 +70,7 @@ export const SettingsAtom=atom<ISettingsAtom>(
     backgroundRepeat:"no-repeat",
     theme:"default",
     font:"segoe",
+    scale:100,
 });
 export const DerivedSetttingsAtom=atom(
   (get)=>get(SettingsAtom),

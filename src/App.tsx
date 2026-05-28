@@ -28,6 +28,7 @@ export const CHANGELOG:{
     "TODO: Create debug window",
     "TODO: Add taskbar preview",
     "TODO: Add files to filesystem",
+    "TODO: Add commands mv, cp, and rm",
     "Massive game drop",
     "Updated react to use swc",
     "Vite image optimizations",
@@ -65,6 +66,8 @@ export const CHANGELOG:{
     "Added 404 page",
     "Reversed hash router",
     "Updates stats",
+    "Added pwd, neofetch",
+    "updated help command",
   ],
 };
 const Changelog=({}):ReactElement=>{
@@ -154,7 +157,7 @@ const App=({}):ReactElement=>{
                 ["beanshell","open",false],
               ]);
             }}>Close All Windows</motion.button><br/>
-          <motion.a href="/#/extwr">ExtWindowRenderer</motion.a>
+          <motion.a href="/extwr">ExtWindowRenderer</motion.a>
       </Window>
       <Window
         id="changelog"

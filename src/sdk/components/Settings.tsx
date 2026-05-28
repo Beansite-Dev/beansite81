@@ -15,6 +15,7 @@ const Settings=({}):ReactElement=>{
   useEffect(()=>{
     localStorage.setItem("mb81-settings",JSON.stringify(settings));
     console.table(settings);
+    document.body.style.zoom=`${settings.scale}%`;
   },[settings]);
   const DragAndDrop=({}):ReactElement=>{
     const{acceptedFiles,getRootProps,getInputProps}=useDropzone({
@@ -82,6 +83,20 @@ const Settings=({}):ReactElement=>{
   return(<>
     <motion.div id="Settings">
       <h1>Settings</h1>
+      {/* <motion.div id="general">
+        <motion.h2>General</motion.h2>
+        <motion.p>App scaling</motion.p>
+        <motion.input 
+          type="range"
+          onChange={(e)=>{
+            setSettings(["scale",e.target.value]);
+          }}
+          min={50} 
+          max={200}
+          defaultValue={settings.scale}
+          name="Scale"
+          id="scaleSelector"/>
+      </motion.div> */}
       <motion.div id="font">
         <motion.h2>Font</motion.h2>
         <motion.p>Select a font: </motion.p>

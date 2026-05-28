@@ -51,7 +51,7 @@ const Header=():ReactElement=>{
         transition={{duration:.25,delay:.15}}
         className="Logo">Beansite</motion.span>
       <motion.div className="rowWrapper">
-        <a href="/#/app" onClick={()=>{
+        <a href="/app" onClick={()=>{
           // startTransition(()=>{
             // navigate("/app");
           // });

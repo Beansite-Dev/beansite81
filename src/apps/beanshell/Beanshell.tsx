@@ -12,6 +12,7 @@ type Colors=
   "Green"|"DarkGreen"|"BrightGreen"|
   "Cyan"|"DarkCyan"|"BrightCyan"|
   "Red"|"DarkRed"|"BrightRed"|
+  "Orange"|"DarkOrange"|"BrightOrange"|
   "Magenta"|"DarkMagenta"|"BrightMagenta"|
   "Yellow"|"DarkYellow"|"BrightYellow"|
   "Transparent";
@@ -284,11 +285,21 @@ const Beanshell=({}):ReactElement=>{
             {t:"l",m:"    clear (alias: cls) - Clear the screen"},
             {t:"l",m:"    echo --clr?=<color> --bg?=<color> <message> - Display a message with optional color and background"},
             {t:"l",m:"    exit (alias: quit) - Exit the Beanshell"},
-            {t:"l",m:"    nano - Open the nano text editor"},
             {t:"l",m:"    dir (alias: ls) - List directory contents"},
             {t:"l",m:"    cd <directory> - Change directory"},
+            {t:"l",m:"    pwd - Print working directory"},
+            {t:"l",m:"    mkdir <directory> - Create a new directory"},
+            {t:"l",m:"    touch <file> - Create a new file"},
+            {t:"l",m:"    stat <file> - Display file information"},
+            {t:"l",m:"    cat <file> - Print the contents of a file"},
+            {t:"l",m:"    tac <file> - Print the contents of a file in reverse order"},
+            {t:"l",m:"    neofetch - Print out os information"},
+            {t:"l",m:"    nano - Open the nano text editor"},
             {t:"nl",}
           ]);
+        break;
+        case "pwd":
+          setLogs(x=>[...x,Header,{t:"l",m:"B:/"+directoryTree.join("/")+(directoryTree.length>0?"/":""),}]);
         break;
         case "mkdir":
           if(inputArray.length<2){
@@ -300,7 +311,7 @@ const Beanshell=({}):ReactElement=>{
             inputArray[1],
             {
               name:inputArray[1],
-              id:generateId(10),
+              
               isDirectory:true,
               // @ts-expect-error
               children:{},
@@ -498,6 +509,81 @@ const Beanshell=({}):ReactElement=>{
                 .map((line,)=>({t:"l",m:(line||"")} as BeanshellLogs)),
             ]);
           else setLogs(x=>[...x,Header,{t:"l",m:`cat : ${inputArray[1]} : No such file`,...stylePresets.error}]);
+        break;
+        case "neofetch":
+          setLogs(x=>[...x,Header,
+            {t:"l",m:[
+              {c:`         %%%%%       `,clr: "Red",},
+              {c:`Admin`,clr:"Cyan"},
+              {c:`@`,clr:"BrightGray"},
+              {c:`mb81`,clr:"Cyan"},
+            ],},
+            {t:"l",m:[
+              {c:`        % %%%%%      `,clr:"Red",},
+              {c:`----------`,clr:"Gray"},
+            ],},
+            {t:"l",m:[
+              {c:`  %%%%%%`,clr:"Cyan",},{c:`%% %%%%%     `,clr:"Red",},
+              {c:`OS: `,clr:"Cyan"},
+              {c:`Beansite 81 x64`,clr:"BrightGray"},
+            ],},
+            {t:"l",m:[
+              {c:` %%%%% %%`,clr:"Cyan",},{c:`%%%%%%%%    `,clr:"Red",},
+              {c:`Kernel: `,clr:"Cyan"},
+              {c:`bs${import.meta.env.VITE_APP_VERSION}-zen-01`,clr:"BrightGray"},
+            ],},
+            {t:"l",m:[
+              {c:`%%%%% %%  `,clr:"Cyan",},{c:`%%%%%%%    `,clr:"Red",},
+              {c:`Packages: `,clr:"Cyan"},
+              {c:`1172 (Beanman)`,clr:"BrightGray"},
+            ],},
+            {t:"l",m:[
+              {c:`%%%%%%    `,clr:"Cyan",},{c:`%%%%%%     `,clr:"Red",},
+              {c:`Shell: `,clr:"Cyan"},
+              {c:`bsh ${import.meta.env.VITE_BEANSHELL_VERSION}`,clr:"BrightGray"},
+            ],},
+            {t:"l",m:[
+              {c:`%%%%%% `,clr: "Cyan",},{c:`%%%%`,clr: "Green",},{c:`%%%%      `,clr:"Red"},
+              {c:`DE: `,clr:"Cyan"},
+              {c:`GBEANE ${import.meta.env.VITE_HOMEPAGE_VERSION}`,clr:"BrightGray"},
+            ],},
+            {t:"l",m:[
+              {c:`  %%% `,clr:"Cyan",},{c:`%   %%%%%%%    `,clr:"Green",},
+              {c:`CPU: `,clr:"Cyan"},
+              {c:`shItel Celeron N4120`,clr:"BrightGray"},
+            ],},
+            {t:"l",m:[
+              {c:`      %    %%    %   `,clr: "Green",},
+              {c:`GPU: `,clr:"Cyan"},
+              {c:`shItel UHD Graphics 600`,clr:"BrightGray"},
+            ],},
+            {t:"l",m:[
+              {c:`      %%%       %    `,clr:"Green",},
+              {c:`Memory: `,clr:"Cyan"},
+              {c:`3578MiB / 2048Mib`,clr:"BrightGray"},
+            ],},
+            {t:"l",m:[
+              {c:`        %%%%%%%%     `,clr:"Green",},
+            ],},
+            {t:"l",m:[
+              {c:`                     `,},
+              {c:"   ",bg:"Red"},
+              {c:"   ",bg:"Orange"},
+              {c:"   ",bg:"Yellow"},
+              {c:"   ",bg:"Green"},
+              {c:"   ",bg:"Cyan"},
+              {c:"   ",bg:"Magenta"},
+            ],},
+            {t:"l",m:[
+              {c:`                     `},
+              {c:"   ",bg:"Black"},
+              {c:"   ",bg:"BrightBlack"},
+              {c:"   ",bg:"DarkGray"},
+              {c:"   ",bg:"Gray"},
+              {c:"   ",bg:"BrightGray"},
+              {c:"   ",bg:"White"},
+            ],},
+          ]);
         break;
         default:
           if(inputArray[0].endsWith(".exe")){
