@@ -38,6 +38,7 @@ export const CHANGELOG:{
     "Fixed content editable children warning",
     "Cleaned Changelog",
     "Added rm, rmdir, cp, and mv commands",
+    "Repushed",
   ],
 };
 const Changelog=({}):ReactElement=>{
