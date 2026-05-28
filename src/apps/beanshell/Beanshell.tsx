@@ -4,7 +4,8 @@ import { m, motion } from "motion/react";
 import { generateId } from "../../sdk/Lib";
 import { ExpressDerivedWinModifierAtom } from "../../sdk/store";
 import { atom, useAtom } from "jotai";
-import { FileCreatorAtom, FilePropertyModifierAtom, FileSystemAtom, type Directory, type DirectoryBase, type File } from "./fs";
+import { FileCopierAtom, FileCreatorAtom, FileDeletorAtom, FileMoverAtom, FilePropertyModifierAtom, FileSystemAtom, type Directory, type DirectoryBase, type File } from "./fs";
+import { errorAtom } from "../../sdk/components/ErrorBoundary";
 // type Abbreviated<T,M>={[K in keyof T as K|{[P in keyof M]:M[P]extends K?P:never}[keyof M]]:T[K];};
 type Colors=
   "Black"|"BrightBlack"|"Gray"|"DarkGray"|"BrightGray"|"White"|"BrightWhite"|
@@ -133,6 +134,9 @@ const Beanshell=({}):ReactElement=>{
   useEffect(()=>{console.log("FileSystem:",FileSystem);},[FileSystem]);
   const[,setFileProperty]=useAtom(FilePropertyModifierAtom);
   const[,createFile]=useAtom(FileCreatorAtom);
+  const[,deleteFile]=useAtom(FileDeletorAtom);
+  const[,moveFile]=useAtom(FileMoverAtom);
+  const[,copyFile]=useAtom(FileCopierAtom);
   const[directoryTree,setDirectoryTree]=useAtom(directoryTreeAtom);
   const getScope=():DirectoryBase=>{
     var scope:DirectoryBase=FileSystem;
@@ -265,9 +269,10 @@ const Beanshell=({}):ReactElement=>{
     </div>);
   };
   const[,setWindow]=useAtom(ExpressDerivedWinModifierAtom);
+  const[,setError]=useAtom(errorAtom);
   const bshEval=(input:string):void=>{
     let inputTrimmed=input.trim();
-    setCommandHistory(x=>[input,...x,]);
+    if(!!inputTrimmed)setCommandHistory(x=>[input,...x,]);
     const Header=
       <><motion.div className="bshl ohmybsh">
         <motion.span className="startBlock">  Admin </motion.span>
@@ -277,7 +282,7 @@ const Beanshell=({}):ReactElement=>{
     else{
       //setLogs(x=>[...x,Header]);
       let inputArray=inputTrimmed.split(" ");
-      switch(inputArray[0]){
+      bshSwitch:switch(inputArray[0]){
         case "help":
           setLogs(x=>[...x,Header,
             {t:"l",m:"Avaliable Commands",b:true,u:true},
@@ -298,9 +303,6 @@ const Beanshell=({}):ReactElement=>{
             {t:"nl",}
           ]);
         break;
-        case "pwd":
-          setLogs(x=>[...x,Header,{t:"l",m:"B:/"+directoryTree.join("/")+(directoryTree.length>0?"/":""),}]);
-        break;
         case "mkdir":
           if(inputArray.length<2){
             setLogs(x=>[...x,Header,{t:"l",m:"mkdir : missing argument",...stylePresets.error}]);
@@ -311,7 +313,7 @@ const Beanshell=({}):ReactElement=>{
             inputArray[1],
             {
               name:inputArray[1],
-              
+              id:generateId(10),
               isDirectory:true,
               // @ts-expect-error
               children:{},
@@ -338,18 +340,98 @@ const Beanshell=({}):ReactElement=>{
             }
           ]);
         break;
+        case "cp":
+          if(inputArray.length<3){
+            setLogs(x=>[...x,Header,{t:"l",m:"cp : missing argument",...stylePresets.error}]);
+            break;}
+          var scope:DirectoryBase=getScope();
+          if(scope[inputArray[1].replace(/^\/|\/$/g,"")]){
+            if(inputArray[2].replace(/^\/|\/$/g,"").includes("/")){
+              let directoryArray=inputArray[2].replace(/^\/|\/$/g,"").split("/").filter((v)=>!!v);
+              let res:boolean=true;
+              for(const dir of directoryArray){
+                if(scope[dir]&&scope[dir].isDirectory){
+                  scope=(scope[dir] as Directory).children;
+                }else{
+                  res=false;
+                  setLogs(x=>[...x,Header,{
+                    t:"l",
+                    m:`Set-Location: Cannot find path '${"B:/"+directoryTree.join("/")+(directoryTree.length>0?"/":"")+inputArray[1]+"/"}' because it does not exist.`,
+                    ...stylePresets.error
+                  }]);
+                  break bshSwitch;
+                }
+              }
+              if(res){
+                setLogs(x=>[...x,Header,{t:"l",m:`cp : copying ${inputArray[1]} to ${inputArray[2]}`,}]);
+                copyFile([
+                  directoryTree,
+                  inputArray[1].replace(/^\/|\/$/g,""),
+                  directoryTree.concat(inputArray[2].replace(/^\/|\/$/g,"").split("/").filter((v)=>!!v))
+                ]);
+              }
+            }else if(scope[inputArray[2].replace(/^\/|\/$/g,"")]&&scope[inputArray[2].replace(/^\/|\/$/g,"")].isDirectory){
+              setLogs(x=>[...x,Header,{t:"l",m:`cp : copying ${inputArray[1]} to ${inputArray[2]}`,}]);
+              copyFile([
+                directoryTree,
+                inputArray[1].replace(/^\/|\/$/g,""),
+                directoryTree.concat(inputArray[2].replace(/^\/|\/$/g,"").split("/").filter((v)=>!!v))
+              ]);
+            }else setLogs(x=>[...x,Header,{t:"l",m:"cp : destination is not a directory",...stylePresets.error}]);
+          }else setLogs(x=>[...x,Header,{t:"l",m:"cp : file not found",...stylePresets.error}]);
+        break;
+        case "mv":
+          if(inputArray.length<3){
+            setLogs(x=>[...x,Header,{t:"l",m:"mv : missing argument",...stylePresets.error}]);
+            break;}
+          var scope:DirectoryBase=getScope();
+          if(scope[inputArray[1].replace(/^\/|\/$/g,"")]){
+            if(inputArray[2].replace(/^\/|\/$/g,"").includes("/")){
+              let directoryArray=inputArray[2].replace(/^\/|\/$/g,"").split("/").filter((v)=>!!v);
+              let res:boolean=true;
+              for(const dir of directoryArray){
+                if(scope[dir]&&scope[dir].isDirectory){
+                  scope=(scope[dir] as Directory).children;
+                }else{
+                  res=false;
+                  setLogs(x=>[...x,Header,{
+                    t:"l",
+                    m:`Set-Location: Cannot find path '${"B:/"+directoryTree.join("/")+(directoryTree.length>0?"/":"")+inputArray[1]+"/"}' because it does not exist.`,
+                    ...stylePresets.error
+                  }]);
+                  break bshSwitch;
+                }
+              }
+              if(res){
+                setLogs(x=>[...x,Header,{t:"l",m:`mv : moving ${inputArray[1]} to ${inputArray[2]}`,}]);
+                moveFile([
+                  directoryTree,
+                  inputArray[1].replace(/^\/|\/$/g,""),
+                  directoryTree.concat(inputArray[2].replace(/^\/|\/$/g,"").split("/").filter((v)=>!!v))
+                ]);
+              }
+            }else if(scope[inputArray[2].replace(/^\/|\/$/g,"")]&&scope[inputArray[2].replace(/^\/|\/$/g,"")].isDirectory){
+              setLogs(x=>[...x,Header,{t:"l",m:`mv : moving ${inputArray[1]} to ${inputArray[2]}`,}]);
+              moveFile([
+                directoryTree,
+                inputArray[1].replace(/^\/|\/$/g,""),
+                directoryTree.concat(inputArray[2].replace(/^\/|\/$/g,"").split("/").filter((v)=>!!v))
+              ]);
+            }else setLogs(x=>[...x,Header,{t:"l",m:"mv : destination is not a directory",...stylePresets.error}]);
+          }else setLogs(x=>[...x,Header,{t:"l",m:"mv : file not found",...stylePresets.error}]);
+        break;
         case "stat":
           if(inputArray.length<2){
             setLogs(x=>[...x,Header,{t:"l",m:"stat : missing argument",...stylePresets.error}]);
             break;}
           var scope:DirectoryBase=getScope();
-          if(scope[inputArray[1]])setLogs(x=>[...x,Header,
-            ...Object.keys(scope[inputArray[1]]).map((key:string)=>{return{
+          if(scope[inputArray[1].replace(/^\/|\/$/g,"")])setLogs(x=>[...x,Header,
+            ...Object.keys(scope[inputArray[1].replace(/^\/|\/$/g,"")]).map((key:string)=>{return{
               t:"l",
               m:[
                 {c:`${(key+":").padEnd(13)}`,b:true,clr:"BrightCyan"},
                 //@ts-expect-error
-                {c:JSON.stringify(scope[inputArray[1]][key])}
+                {c:JSON.stringify(scope[inputArray[1].replace(/^\/|\/$/g,"")][key])}
               ],
             };})as BeanshellLogs[],
           ]);else setLogs(x=>[...x,Header,{t:"l",m:"stat : file not found",...stylePresets.error}]);
@@ -418,7 +500,7 @@ const Beanshell=({}):ReactElement=>{
                   m:`Set-Location: Cannot find path '${"B:/"+directoryTree.join("/")+(directoryTree.length>0?"/":"")+inputArray[1]+"/"}' because it does not exist.`,
                   ...stylePresets.error
                 }]);
-                break;
+                break bshSwitch;
               }
             }
             if(res){
@@ -457,6 +539,7 @@ const Beanshell=({}):ReactElement=>{
             ...styleArgs
           }]);
         break;
+        case "pwd":setLogs(x=>[...x,Header,{t:"l",m:"B:/"+directoryTree.join("/")+(directoryTree.length>0?"/":""),}]);break;
         case "quit":case "exit":
           setLogs(x=>[...x,Header,{t:"l",m:"Exiting Beanshell..."}]);
           setTimeout(()=>{
@@ -509,6 +592,35 @@ const Beanshell=({}):ReactElement=>{
                 .map((line,)=>({t:"l",m:(line||"")} as BeanshellLogs)),
             ]);
           else setLogs(x=>[...x,Header,{t:"l",m:`cat : ${inputArray[1]} : No such file`,...stylePresets.error}]);
+        break;
+        case "rm":
+          if(inputArray.length<2){
+            setLogs(x=>[...x,Header,{t:"l",m:"rm : missing argument",...stylePresets.error}]);
+            break;}
+          var scope:DirectoryBase=getScope();
+          if(scope[inputArray[1]]){
+            deleteFile([directoryTree,inputArray[1]]);
+            setLogs(x=>[...x,Header,{t:"l",m:`rm : ${inputArray[1]} : File deleted`}]);
+          }else if(inputArray[1].startsWith("-")){
+            if(inputArray[1]==="-rf"&&inputArray.length>2){
+              if(scope[inputArray[2]]){
+                deleteFile([directoryTree,inputArray[2]]);
+                setLogs(x=>[...x,Header,{t:"l",m:`rm : ${inputArray[2]} : ${scope[inputArray[2]].isDirectory?"Directory":"File"} deleted`}]);
+              }if(inputArray[2]==="/"||inputArray[2]==="~"||inputArray[2]==="System81")setError(true);
+            }
+          }else setLogs(x=>[...x,Header,{t:"l",m:`rm : ${inputArray[1]} : No such file`,...stylePresets.error}]);
+        break;
+        case "rmdir":
+          if(inputArray.length<2){
+            setLogs(x=>[...x,Header,{t:"l",m:"rm : missing argument",...stylePresets.error}]);
+            break;}
+          var scope:DirectoryBase=getScope();
+          if(scope[inputArray[1]]&&scope[inputArray[1]].isDirectory){
+            if(!Object.keys((scope[inputArray[1]] as Directory).children).length){
+              deleteFile([directoryTree,inputArray[1]]);
+              setLogs(x=>[...x,Header,{t:"l",m:`rm : ${inputArray[1]} : Directory deleted`}]);
+            }else setLogs(x=>[...x,Header,{t:"l",m:`rm : ${inputArray[1]} : Directory not empty`,...stylePresets.error}]);
+          }else setLogs(x=>[...x,Header,{t:"l",m:`rm : ${inputArray[1]} : No such directory`,...stylePresets.error}]);
         break;
         case "neofetch":
           setLogs(x=>[...x,Header,

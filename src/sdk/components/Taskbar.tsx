@@ -1,4 +1,4 @@
-import { useEffect, useState, type ReactElement } from "react";
+import { useEffect, useState, type ReactElement, useRef, useCallback } from "react";
 import "./styles/Taskbar.scss";
 import { AnimatePresence, motion, Reorder } from "motion/react";
 import { atom, useAtom } from "jotai";
@@ -9,11 +9,11 @@ import { StartMenu, startMenuAtom } from "./StartMenu";
 import { useTime } from "react-timer-hook";
 import { Dialog } from "./Dialog";
 import Clock from "react-clock";
+import { toSvg } from "html-to-image";
 // import Calendar from "react-calendar";
-type ValuePiece = Date | null;
-type Value = ValuePiece | [ValuePiece, ValuePiece];
-export const DerivedTaskbarWinAtom=atom(
-  (get)=>get(WinAtom).map(item=>item.id),
+type ValuePiece=Date|null;
+type Value=ValuePiece|[ValuePiece,ValuePiece];
+export const DerivedTaskbarWinAtom=atom((get)=>get(WinAtom).map(item=>item.id),
   // (get,set,update:IWinObj[])=>set(WinAtom,update),
 );
 // export const DerivedTaskbarItemWinAtom=atom(
@@ -21,6 +21,63 @@ export const DerivedTaskbarWinAtom=atom(
 //   (get,set,update:IWinObj[])=>set(WinAtom,uniqueById([...get(WinAtom),...update]))
 // );
 // https://www.npmjs.com/package/react-timer-hook
+interface LiveSvgPreviewProps{
+  targetId:string;
+  refreshInterval?:number;
+}
+interface Size{
+  width:number;
+  height:number;
+}
+const LiveSvgPreview=({targetId,refreshInterval=500}:LiveSvgPreviewProps)=>{
+  const containerRef=useRef<HTMLDivElement>(null);
+  const[svgUrl,setSvgUrl]=useState<string|null>(null);
+  const[containerSize,setContainerSize]=useState<Size>({ width: 0, height: 0 });
+  const[targetSize,setTargetSize]=useState<Size>({ width: 1, height: 1 });
+  useEffect(()=>{
+    const observer=new ResizeObserver(([entry]:ResizeObserverEntry[])=>{
+      const{width,height}=entry.contentRect;
+      setContainerSize({width,height});
+    });
+    if(containerRef.current)observer.observe(containerRef.current);
+    return ()=>observer.disconnect();
+  },[]);
+  const capture=useCallback(async()=>{
+    const target=document.getElementById(targetId);
+    if(!target||!containerRef.current)return;
+    const{width,height}=target.getBoundingClientRect();
+    if(!width||!height)return;
+    setTargetSize({width,height});
+    try{
+      const url=await toSvg(target,{backgroundColor:undefined,width,height,});
+      setSvgUrl(url);
+    }catch(err){console.error("Capture failed:",err);}
+  },[targetId]);
+  useEffect(()=>{
+    capture();
+    const id=setInterval(capture,refreshInterval);
+    return ()=>clearInterval(id);
+  },[capture,refreshInterval]);
+  const scale=Math.min(
+    containerSize.width/targetSize.width,
+    containerSize.height/targetSize.height);
+  return(<div
+    style={{flexGrow:"1",aspectRatio:"16 / 10"}}
+    ref={containerRef}>
+      {svgUrl&&(
+        <img
+          src={svgUrl}
+          alt="live preview"
+          style={{
+            width: targetSize.width * scale,
+            height: targetSize.height * scale,
+            display: "block",
+            margin: "auto",
+          }}
+        />
+      )}
+  </div>);
+}
 const TaskbarClock=({mb81ref}:{mb81ref:React.RefObject<HTMLDivElement>}):ReactElement=>{
   const{ 
     minutes,
@@ -114,6 +171,7 @@ export const Taskbar=({mb81ref}:{mb81ref:React.RefObject<HTMLDivElement>}):React
         }}
         className={`item ${windows2.filter(i=>i.id==id)[0].focused?"focused":""}`}>
           <motion.div className="preview">
+            {/* <LiveSvgPreview targetId={`${windows2[windows.findIndex((win)=>{return win===id;})].id}_${windows2[windows.findIndex((win)=>{return win===id;})].uuid}_rnd`}/> */}
             <motion.h1>{windows2[windows.findIndex((win)=>{return win===id;})].title}</motion.h1>
           </motion.div>
           <motion.div
@@ -125,9 +183,7 @@ export const Taskbar=({mb81ref}:{mb81ref:React.RefObject<HTMLDivElement>}):React
     <StartMenu mb81ref={mb81ref} />
     <motion.div id="Taskbar">
       <motion.div 
-        onClick={(e)=>{
-          setStartMenuOpen(true);
-        }}
+        onClick={(e)=>{setStartMenuOpen(true);}}
         className="Start item">
           <motion.div className="icon"></motion.div>
       </motion.div>

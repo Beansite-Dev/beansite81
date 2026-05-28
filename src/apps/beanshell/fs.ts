@@ -221,8 +221,7 @@ const FileSystemData:DirectoryBase={
   },
 };
 export const FileSystemAtom=atom<DirectoryBase>(FileSystemData);
-export const FilePropertyModifierAtom=atom(
-  (get)=>get(FileSystemAtom),
+export const FilePropertyModifierAtom=atom((get)=>get(FileSystemAtom),
   (get,set,update:[string[],string,string,any])=>{
     const[parentDirs,fileName,property,value]=update;
     console.table(update);
@@ -241,17 +240,13 @@ export const FilePropertyModifierAtom=atom(
       const dir=current[head]as Directory;
       return{
         ...current,
-        [head]:{
-          ...dir,
-          children:updateNested(dir.children, tail),
-        }as Directory,
+        [head]:{...dir,children:updateNested(dir.children, tail),}as Directory,
       };
     };
     set(FileSystemAtom,updateNested(get(FileSystemAtom),parentDirs));
   }
 );
-export const FileCreatorAtom=atom(
-  (get)=>get(FileSystemAtom),
+export const FileCreatorAtom=atom((get)=>get(FileSystemAtom),
   (get,set,update:[string[],string,File])=>{
     const[parentDirs,fileKey,newFile]=update;
     const insertNested=(current:DirectoryBase,pathSegments:string[]):DirectoryBase=>{
@@ -265,5 +260,84 @@ export const FileCreatorAtom=atom(
       };
     };
     set(FileSystemAtom,insertNested(get(FileSystemAtom),parentDirs));
+  }
+);
+export const FileDeletorAtom=atom((get)=>get(FileSystemAtom),
+  (get,set,update:[string[],string])=>{
+    const [parentDirs, fileKey] = update;
+    const deleteNested=(current:DirectoryBase,pathSegments:string[]):DirectoryBase=>{
+      if(pathSegments.length===0){
+        const{[fileKey]:_,...rest}=current;
+        return rest;
+      }
+      const[head,...tail]=pathSegments;
+      const dir=current[head]as Directory;
+      return{
+        ...current,
+        [head]:{...dir,children: deleteNested(dir.children, tail),}as Directory,
+      };
+    };
+    set(FileSystemAtom,deleteNested(get(FileSystemAtom),parentDirs));
+  }
+);
+export const FileMoverAtom=atom((get)=>get(FileSystemAtom),
+  (get,set,update:[string[],string,string[]])=>{
+    const[sourceDirs,fileKey,destDirs]=update;
+    const getTarget=(current:DirectoryBase,pathSegments:string[]):File|Directory=>{
+      if(pathSegments.length===0)return current[fileKey]as File|Directory;
+      const[head,...tail]=pathSegments;
+      return getTarget((current[head]as Directory).children,tail);
+    };
+    const deleteNested=(current:DirectoryBase,pathSegments:string[]):DirectoryBase=>{
+      if(pathSegments.length===0){const{[fileKey]:_,...rest}=current;return rest;}
+      const[head,...tail]=pathSegments;
+      const dir=current[head]as Directory;
+      return{...current,[head]:{...dir,children:deleteNested(dir.children,tail),}as Directory,};
+    };
+    const insertNested=(current:DirectoryBase,pathSegments:string[],target:File|Directory):DirectoryBase=>{
+      if(pathSegments.length===0)return{...current,[fileKey]:target,};
+      const[head,...tail]=pathSegments;
+      const dir=current[head]as Directory;
+      return{...current,
+        [head]:{...dir,children: insertNested(dir.children, tail, target),}as Directory,
+      };
+    };
+    const fs=get(FileSystemAtom);
+    const target=getTarget(fs,sourceDirs);
+    const afterDelete=deleteNested(fs, sourceDirs);
+    const afterInsert=insertNested(afterDelete, destDirs, target);
+    set(FileSystemAtom,afterInsert);
+  }
+);
+export const FileCopierAtom=atom(
+  (get)=>get(FileSystemAtom),
+  (get,set,update:[string[],string,string[]])=>{
+    const[sourceDirs,fileKey,destDirs]=update;
+    const getTarget=(current:DirectoryBase,pathSegments:string[]):File|Directory=>{
+      if(pathSegments.length===0)return current[fileKey]as File|Directory;
+      const[head,...tail]=pathSegments;
+      return getTarget((current[head]as Directory).children,tail);
+    };
+    const insertNested=(current:DirectoryBase,pathSegments:string[],target:File|Directory):DirectoryBase=>{
+      if(pathSegments.length===0)return{
+        ...current,
+        [fileKey]:{
+          ...target,
+          id:generateId(10),
+        }as File|Directory,
+      };
+      const[head,...tail]=pathSegments;
+      const dir=current[head]as Directory;
+      return{
+        ...current,
+        [head]:{
+          ...dir,
+          children:insertNested(dir.children,tail,target),
+        }as Directory,
+      };
+    };
+    const fs=get(FileSystemAtom);
+    const target=getTarget(fs,sourceDirs);
+    set(FileSystemAtom,insertNested(fs,destDirs,target));
   }
 );
