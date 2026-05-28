@@ -12,5 +12,6 @@ echo -e "\n---\nDeploying firebase/vercel";
 echo -e "=> firebase deploy"
 echo -e "=> vercel --prod\n---\n\n"
 pnpm firebase deploy & pnpm vercel --prod;
+mv stats.html /public/
 echo -e "\n\n---\nFinished!"
 echo "Ran for $SECONDS s"

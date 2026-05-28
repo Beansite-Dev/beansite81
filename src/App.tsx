@@ -61,8 +61,10 @@ export const CHANGELOG:{
     "Fixed losing state on minimize in beanshell",
     "Added text to taskbar preview",
     "Added exe opening",
-    "Switched to hash router",
+    // "Switched to hash router",
     "Added 404 page",
+    "Reversed hash router",
+    "Updates stats",
   ],
 };
 const Changelog=({}):ReactElement=>{

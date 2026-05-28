@@ -56,7 +56,7 @@ const NotFound=({})=>{
 }
 export const DeclarativeRouter=({})=>{
   // const [GlobalAccessKey]=atom(GlobalKeyAccessAtom);
-  return(<><HashRouter>
+  return(<><BrowserRouter>
     <AnimatePresence>
       {/* <Suspense fallback={window.location.pathname=="/"
         ?<HomepageLoading/>
@@ -93,7 +93,7 @@ export const DeclarativeRouter=({})=>{
           </Routes>
       {/* </Suspense> */}
     </AnimatePresence>
-  </HashRouter></>);
+  </BrowserRouter></>);
 }
 export const router=createBrowserRouter([{
   element:<RootLayout/>,

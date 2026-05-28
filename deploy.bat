@@ -28,7 +28,7 @@ call pnpm vercel --prod
 echo.
 echo.
 echo ---
-
+move stats.html /public/
 set t=%time: =0%
 set /a h=1%t0:~0,2%-100
 set /a m=1%t0:~3,2%-100
