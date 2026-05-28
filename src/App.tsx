@@ -29,6 +29,7 @@ export const CHANGELOG:{
     "TODO: Add taskbar preview",
     "TODO: Add files to filesystem",
     "TODO: Add commands mv, cp, and rm",
+    "TODO: Add selector for startup apps",
     "Massive game drop",
     "Updated react to use swc",
     "Vite image optimizations",
@@ -69,6 +70,7 @@ export const CHANGELOG:{
     "Added pwd, neofetch",
     "updated help command",
     "Fixed accidental file creator derived atom deletion",
+    "Fixed content editable children warning"
   ],
 };
 const Changelog=({}):ReactElement=>{
