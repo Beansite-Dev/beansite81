@@ -30,9 +30,9 @@ const Footer=():ReactElement=>{
       </motion.div>
       <motion.div className="linkColumn">
         <motion.h3 {...ani} transition={{duration:.25,delay:.25}}>Beansite 8.1</motion.h3>
-        <motion.a {...ani} transition={{duration:.25,delay:.325}} href="/">Homepage</motion.a>
-        <motion.a {...ani} transition={{duration:.25,delay:.4}} href="/app">App</motion.a>
-        <motion.a {...ani} transition={{duration:.25,delay:.475}} href="/extwr">External Window Renderer</motion.a>
+        <motion.a {...ani} transition={{duration:.25,delay:.325}} href="/#/">Homepage</motion.a>
+        <motion.a {...ani} transition={{duration:.25,delay:.4}} href="/#/app">App</motion.a>
+        <motion.a {...ani} transition={{duration:.25,delay:.475}} href="/#/extwr">External Window Renderer</motion.a>
         <motion.a {...ani} transition={{duration:.25,delay:.55}} href="https://github.com/Beansite-Dev/beansite81">Source Code</motion.a>
       </motion.div>
       <motion.div className="linkColumn">

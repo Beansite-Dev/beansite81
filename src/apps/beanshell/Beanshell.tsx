@@ -1,6 +1,6 @@
 import { isValidElement, useEffect, useRef, useState, type CSSProperties, type ReactElement } from "react";
 import "./style.scss";
-import { motion } from "motion/react";
+import { m, motion } from "motion/react";
 import { generateId } from "../../sdk/Lib";
 import { ExpressDerivedWinModifierAtom } from "../../sdk/store";
 import { atom, useAtom } from "jotai";
@@ -41,7 +41,29 @@ const stylePresets:{[str:string]:ColorTypes|BeanshellLogs}={
   }
 }
 const commandHistoryAtom=atom<string[]>([]);
+const logsAtom=atom<(BeanshellLogs|ReactElement)[]>([
+  //?test code
+  // {t:"l",m:"Hello World"},
+  // {t:"l",m:{c:"Hello World Styled 1",clr:"Cyan",bg:"DarkCyan"}},
+  // {t:"nl",},
+  // {t:"l",m:[
+  //   {c:"Hello World Styled 2",clr:"Red",bg:"DarkRed"},
+  //   {c:" Hello World Styled 3",clr:"Green",bg:"DarkGreen"}
+  // ],clr:"Green",bg:"DarkGreen"},
+  {t:"l",m:"Beansite Beanshell "+import.meta.env.VITE_BEANSHELL_VERSION},
+  {t:"l",m:"Copyright (c) M1dnight. All rights reserved."},
+  {t:"nl",},
+  {t:"nf",m:"fa-warning",clr:"BrightYellow",bg:"DarkYellow"},
+  {t:"l",m:{c:"Beanshell is a work in progress.",clr:"BrightYellow",bg:"DarkYellow"}},
+  {t:"l",m:[
+    {c:"Please report any bugs or issues to the Beansite Discord.",clr:"BrightYellow",bg:"DarkYellow"}
+  ]},
+  {t:"nl",},
+]);
 const currentPositionInCommandHistoryAtom=atom<number>(-1);
+const OhMyBshStatusAtom=atom<boolean>(true);
+const OhMyBshDirAtom=atom<string>("~");
+const directoryTreeAtom=atom<string[]>([]);
 const Beanshell=({}):ReactElement=>{
   const[commandHistory,setCommandHistory]=useAtom(commandHistoryAtom);
   const[currentPositionInCommandHistory,setCurrentPositionInCommandHistory]=useAtom(currentPositionInCommandHistoryAtom);
@@ -49,28 +71,20 @@ const Beanshell=({}):ReactElement=>{
   useEffect(()=>{
     console.log(currentPositionInCommandHistory,commandHistory[currentPositionInCommandHistory],commandHistory);
   },[currentPositionInCommandHistory]);
-  const[OhMyBshStatus,setOhMyBshStatus]=useState<boolean>(true);
-  const[OhMyBshDir,setOhMyBshDir]=useState<string>("~");
+  const[OhMyBshStatus,setOhMyBshStatus]=useAtom(OhMyBshStatusAtom);
+  const[OhMyBshDir,setOhMyBshDir]=useAtom(OhMyBshDirAtom);
   const inputRef=useRef<HTMLDivElement>(null);
-  const[logs,setLogs]=useState<(BeanshellLogs|ReactElement)[]>([
-    //?test code
-    // {t:"l",m:"Hello World"},
-    // {t:"l",m:{c:"Hello World Styled 1",clr:"Cyan",bg:"DarkCyan"}},
-    // {t:"nl",},
-    // {t:"l",m:[
-    //   {c:"Hello World Styled 2",clr:"Red",bg:"DarkRed"},
-    //   {c:" Hello World Styled 3",clr:"Green",bg:"DarkGreen"}
-    // ],clr:"Green",bg:"DarkGreen"},
-    {t:"l",m:"Beansite Beanshell "+import.meta.env.VITE_BEANSHELL_VERSION},
-    {t:"l",m:"Copyright (c) M1dnight. All rights reserved."},
-    {t:"nl",},
-    {t:"nf",m:"fa-warning",clr:"BrightYellow",bg:"DarkYellow"},
-    {t:"l",m:{c:"Beanshell is a work in progress.",clr:"BrightYellow",bg:"DarkYellow"}},
-    {t:"l",m:[
-      {c:"Please report any bugs or issues to the Beansite Discord.",clr:"BrightYellow",bg:"DarkYellow"}
-    ]},
-    {t:"nl",},
-  ]);
+  const[logs,setLogs]=useAtom(logsAtom);
+  const bshRef=useRef<HTMLDivElement>(null);
+  useEffect(()=>{
+    if(bshRef.current){
+      const{scrollHeight,clientHeight}=bshRef.current;
+      bshRef.current.scrollTo({
+        top:scrollHeight-clientHeight,
+        behavior:'smooth'
+      });
+    }
+  },[logs]);
   const NerdFontIcon=({name}:{name:string}):ReactElement=>(<span className={`nf nf-${name}`}/>);
   const Log=({data}:{data:BeanshellLogs}):ReactElement=>{
     const LogBase=({data2}:{data2:BeanshellLogs}):ReactElement=>{
@@ -118,12 +132,11 @@ const Beanshell=({}):ReactElement=>{
   useEffect(()=>{console.log("FileSystem:",FileSystem);},[FileSystem]);
   const[,setFileProperty]=useAtom(FilePropertyModifierAtom);
   const[,createFile]=useAtom(FileCreatorAtom);
-  const[directoryTree,setDirectoryTree]=useState<string[]>([]);
+  const[directoryTree,setDirectoryTree]=useAtom(directoryTreeAtom);
   const getScope=():DirectoryBase=>{
     var scope:DirectoryBase=FileSystem;
-    for(const dir of directoryTree){
+    for(const dir of directoryTree)
       if(scope[dir]&&scope[dir].isDirectory)scope=(scope[dir] as Directory).children;
-    }
     return scope;
   };
   const Nano=({
@@ -131,7 +144,7 @@ const Beanshell=({}):ReactElement=>{
     fileName,
     fileKey,
     creating,
-    currentDirectoryTree
+    currentDirectoryTree,
   }:{
     file:string;
     fileName:string;
@@ -142,14 +155,6 @@ const Beanshell=({}):ReactElement=>{
     const nanoRef=useRef<HTMLDivElement>(null);
     useEffect(()=>{setTimeout(()=>nanoRef?.current?.focus(),0);},[]);
     function saveFile(){
-      // export file to local machine
-      // const a=document.createElement("a");
-      // const file=new Blob([nanoRef?.current?.innerText||""],{type:"text/plain"});
-      // a.href=URL.createObjectURL(file);
-      // a.download="nano_export.txt";
-      // a.click();
-      // URL.revokeObjectURL(a.href);
-      // a.remove();
       if(!creating)
         setFileProperty([
           currentDirectoryTree,
@@ -302,6 +307,42 @@ const Beanshell=({}):ReactElement=>{
             }
           ]);  
         break;
+        case "touch":
+          if(inputArray.length<2){
+            setLogs(x=>[...x,Header,{t:"l",m:"touch : missing argument",...stylePresets.error}]);
+            break;}
+          if(!/(.*)\.(.*)/.test(inputArray[1])){
+            setLogs(x=>[...x,Header,{t:"l",m:"touch : invalid file name",...stylePresets.error}]);
+            break;}
+          setLogs(x=>[...x,Header,]);
+          createFile([
+            directoryTree,
+            inputArray[1],
+            {
+              name:inputArray[1].split(".")[0],
+              id:generateId(10),
+              isDirectory:false,
+              type:inputArray[1].split(".")[1],
+              content:"",
+            }
+          ]);
+        break;
+        case "stat":
+          if(inputArray.length<2){
+            setLogs(x=>[...x,Header,{t:"l",m:"stat : missing argument",...stylePresets.error}]);
+            break;}
+          var scope:DirectoryBase=getScope();
+          if(scope[inputArray[1]])setLogs(x=>[...x,Header,
+            ...Object.keys(scope[inputArray[1]]).map((key:string)=>{return{
+              t:"l",
+              m:[
+                {c:`${(key+":").padEnd(13)}`,b:true,clr:"BrightCyan"},
+                //@ts-expect-error
+                {c:JSON.stringify(scope[inputArray[1]][key])}
+              ],
+            };})as BeanshellLogs[],
+          ]);else setLogs(x=>[...x,Header,{t:"l",m:"stat : file not found",...stylePresets.error}]);
+        break;
         case "cls":case "clear":setLogs([]);break;
         case "dir":case "ls":
           var scope:DirectoryBase=getScope();
@@ -410,7 +451,7 @@ const Beanshell=({}):ReactElement=>{
           setTimeout(()=>{
             setLogs([]);
             setWindow([["beanshell","open",false]]);
-          },1000);break;
+          },500);break;
         case "nano":
           if(inputArray.length<2){
             setLogs(x=>[...x,Header,{t:"l",m:"nano : missing argument",...stylePresets.error}]);
@@ -461,6 +502,40 @@ const Beanshell=({}):ReactElement=>{
         default:
           if(inputArray[0].endsWith(".exe")){
             setLogs(x=>[...x,Header]);
+            const scope:DirectoryBase=getScope();
+            if(scope[inputArray[0]]&&!scope[inputArray[0]].isDirectory&&!!(scope[inputArray[0]] as File).exeLaunchTarget)
+              setWindow([
+                [(scope[inputArray[0]] as File).exeLaunchTarget as string,"open",true],
+                [(scope[inputArray[0]] as File).exeLaunchTarget as string,"minimized",false],
+              ]);
+            else
+              setLogs(x=>[...x,Header,
+                {
+                  t:"l",
+                  m:`${inputArray[0]} : the term '${inputArray[0]}' is not recognized as the name of a cmdlet, function, script file, or operable program. Check the spelling of the name, or if a path was included, verify that the path is correct and try again.`,
+                  ...stylePresets.error,
+                },{
+                  t:"l",
+                  m:"At line:1 char:1",
+                  ...stylePresets.error,
+                },{
+                  t:"l",
+                  m:`+ ${inputArray[0]}`,
+                  ...stylePresets.error,
+                },{
+                  t:"l",
+                  m:`+ ${"~".repeat(inputArray[0].length)}`,
+                  ...stylePresets.error,
+                },{
+                  t:"l",
+                  m:"    + CategoryInfo          : ObjectNotFound: (echo:String) [], CommandNotFoundException",
+                  ...stylePresets.error,
+                },{
+                  t:"l",
+                  m:"    + FullyQualifiedErrorId : CommandNotFoundException",
+                  ...stylePresets.error,
+                },
+              ]);
           }else{
             setLogs(x=>[...x,Header,
               {
@@ -535,7 +610,7 @@ const Beanshell=({}):ReactElement=>{
       contentEditable>{commandHistory[currentPositionInCommandHistory]||""}</motion.div>);
   };
   return(<>
-    <motion.div id="bsWrapper">
+    <motion.div ref={bshRef} id="bsWrapper">
       {logs.map((log,index)=>
         isValidElement(log)?log:(log.t==="l"||log.t==="log")
           ?<Log key={generateId(10)} data={log}/>

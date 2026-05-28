@@ -219,6 +219,18 @@
       filter: drop-shadow(0 0 20px black);
       transition: .5s !important;
       scale: 90%;
+      h1{
+        position: absolute;
+        bottom: .25rem;
+        left: 50%;
+        translate: -50% 0%;
+        width: calc(100% - .5rem);
+        text-overflow: ellipsis;
+        text-wrap: nowrap;
+        color: #909090f0;
+        font-size: .75rem;
+        text-align: center;
+      }
     }
     &:hover > .preview {
       opacity: 1 !important;

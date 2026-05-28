@@ -26,7 +26,8 @@ export const CHANGELOG:{
     "TODO: Work on Dosbox pages",
     "TODO: Add command line method to enable debug mode",
     "TODO: Create debug window",
-    "TODO: Allow commandline to open windows",
+    "TODO: Add taskbar preview",
+    "TODO: Add files to filesystem",
     "Massive game drop",
     "Updated react to use swc",
     "Vite image optimizations",
@@ -55,6 +56,13 @@ export const CHANGELOG:{
     "Added command line directory navigation to beanshell",
     "Updated nano to use local file system",
     "Added cat, tac, and mkdir",
+    "Repushed date",
+    "Added touch, stat",
+    "Fixed losing state on minimize in beanshell",
+    "Added text to taskbar preview",
+    "Added exe opening",
+    "Switched to hash router",
+    "Added 404 page",
   ],
 };
 const Changelog=({}):ReactElement=>{
@@ -144,7 +152,7 @@ const App=({}):ReactElement=>{
                 ["beanshell","open",false],
               ]);
             }}>Close All Windows</motion.button><br/>
-          <motion.a href="/extwr">ExtWindowRenderer</motion.a>
+          <motion.a href="/#/extwr">ExtWindowRenderer</motion.a>
       </Window>
       <Window
         id="changelog"

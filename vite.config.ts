@@ -7,6 +7,7 @@ import { ViteImageOptimizer } from "vite-plugin-image-optimizer";
 import findUnusedFiles from "vite-plugin-unused-files";
 import { VitePWA } from 'vite-plugin-pwa';
 import viteConvertImages from 'vite-convert-images';
+import { viteSingleFile } from "vite-plugin-singlefile";
 // https://vite.dev/config/
 export default defineConfig({
   plugins:[
@@ -61,6 +62,8 @@ export default defineConfig({
       gzipSize:true,
       brotliSize:true,
     }) as PluginOption,
+    //test for possible offline client
+    // viteSingleFile({}),
   ],
   build:{manifest: true,}
 });

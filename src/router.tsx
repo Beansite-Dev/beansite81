@@ -1,5 +1,5 @@
 import { lazy, StrictMode, Suspense, type ReactElement } from 'react';
-import { BrowserRouter, createBrowserRouter, Navigate, Outlet, Route, Routes, useLocation, useNavigation } from 'react-router';
+import { BrowserRouter, createBrowserRouter, HashRouter, Navigate, Outlet, Route, Routes, useLocation, useNavigation } from 'react-router';
 import { Loading } from './sdk/components/LoadingScreen.tsx';
 import { AnimatePresence, motion } from 'motion/react';
 import games from './sdk/components/store/games.ts';
@@ -46,15 +46,24 @@ const RootLayout=()=>{
     </Suspense>
   </AnimatePresence>);
 };
+const NotFound=({})=>{
+  return(<>
+    <motion.div className="s404">
+      <motion.h1>404</motion.h1>
+      <motion.p>Page Not Found</motion.p>
+    </motion.div>
+  </>);
+}
 export const DeclarativeRouter=({})=>{
   // const [GlobalAccessKey]=atom(GlobalKeyAccessAtom);
-  return(<><BrowserRouter>
+  return(<><HashRouter>
     <AnimatePresence>
       {/* <Suspense fallback={window.location.pathname=="/"
         ?<HomepageLoading/>
         :<Loading/>}> */}
           {/* {isNavigating&&<Loading/>} */}
           <Routes>
+            <Route path="*" element={<NotFound />} />
             <Route path="/" element={<Homepage/>} />
             <Route path="/app" element={<App/>} />
             <Route path="/selector" element={<Selector/>} />
@@ -84,7 +93,7 @@ export const DeclarativeRouter=({})=>{
           </Routes>
       {/* </Suspense> */}
     </AnimatePresence>
-  </BrowserRouter></>);
+  </HashRouter></>);
 }
 export const router=createBrowserRouter([{
   element:<RootLayout/>,

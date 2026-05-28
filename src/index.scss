@@ -1,0 +1,27 @@
+body {
+  padding: 0;
+}
+.s404 {
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  flex-direction:column;
+  height:100dvh;
+  width: 100dvw;
+  position: absolute;
+  font-family: "Poppins", sans-serif;
+  top: 50%;
+  left: 50%;
+  translate: -50% -50%;
+  background:#151515;
+  color:#f0f0f0;
+  h1 {
+    margin: 0;
+    font-size: 20rem;
+  }
+  p{
+    opacity: .75;
+    font-size: .875rem;
+    margin: 0;
+  }
+}

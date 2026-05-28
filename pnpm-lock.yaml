@@ -195,6 +195,9 @@ importers:
       vite-plugin-pwa:
         specifier: ^1.3.0
         version: 1.3.0(vite@8.0.12(@types/node@24.10.12)(esbuild@0.28.0)(sass@1.97.3)(terser@5.47.1)(tsx@4.21.0)(yaml@2.9.0))(workbox-build@7.4.1(@types/babel__core@7.20.5))(workbox-window@7.4.1)
+      vite-plugin-singlefile:
+        specifier: ^2.3.3
+        version: 2.3.3(rollup@4.60.3)(vite@8.0.12(@types/node@24.10.12)(esbuild@0.28.0)(sass@1.97.3)(terser@5.47.1)(tsx@4.21.0)(yaml@2.9.0))
       vite-plugin-unused-files:
         specifier: ^0.1.6
         version: 0.1.6
@@ -6600,6 +6603,16 @@ packages:
       workbox-window: ^7.4.1
     peerDependenciesMeta:
       '@vite-pwa/assets-generator':
+        optional: true
+
+  vite-plugin-singlefile@2.3.3:
+    resolution: {integrity: sha512-XVnGH0QzbOa8fxRSsHdCarVN1BSBXNi7uLMQYlrGRN5apdHkk62XQWRJhVever0lnfuyBkwn+kvVChdm/OoOUg==}
+    engines: {node: '>18.0.0'}
+    peerDependencies:
+      rollup: ^4.59.0
+      vite: ^5.4.21 || ^6.0.0 || ^7.0.0 || ^8.0.0
+    peerDependenciesMeta:
+      rollup:
         optional: true
 
   vite-plugin-unused-files@0.1.6:
@@ -13809,6 +13822,13 @@ snapshots:
       workbox-window: 7.4.1
     transitivePeerDependencies:
       - supports-color
+
+  vite-plugin-singlefile@2.3.3(rollup@4.60.3)(vite@8.0.12(@types/node@24.10.12)(esbuild@0.28.0)(sass@1.97.3)(terser@5.47.1)(tsx@4.21.0)(yaml@2.9.0)):
+    dependencies:
+      micromatch: 4.0.8
+      vite: 8.0.12(@types/node@24.10.12)(esbuild@0.28.0)(sass@1.97.3)(terser@5.47.1)(tsx@4.21.0)(yaml@2.9.0)
+    optionalDependencies:
+      rollup: 4.60.3
 
   vite-plugin-unused-files@0.1.6:
     dependencies:

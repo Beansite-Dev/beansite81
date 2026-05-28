@@ -247,7 +247,7 @@ export const FilePropertyModifierAtom=atom(
         }as Directory,
       };
     };
-    set(FileSystemAtom, updateNested(get(FileSystemAtom), parentDirs));
+    set(FileSystemAtom,updateNested(get(FileSystemAtom),parentDirs));
   }
 );
 export const FileCreatorAtom=atom(
@@ -264,6 +264,6 @@ export const FileCreatorAtom=atom(
         [head]:{...dir,children:insertNested(dir.children, tail),}as Directory,
       };
     };
-    set(FileSystemAtom, insertNested(get(FileSystemAtom), parentDirs));
+    set(FileSystemAtom,insertNested(get(FileSystemAtom),parentDirs));
   }
 );

@@ -74,6 +74,7 @@
     "vite": "8.0.12",
     "vite-plugin-json5": "^1.2.0",
     "vite-plugin-pwa": "^1.3.0",
+    "vite-plugin-singlefile": "^2.3.3",
     "vite-plugin-unused-files": "^0.1.6"
   },
   "pnpm": {

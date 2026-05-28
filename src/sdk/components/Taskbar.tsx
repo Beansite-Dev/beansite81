@@ -114,7 +114,7 @@ export const Taskbar=({mb81ref}:{mb81ref:React.RefObject<HTMLDivElement>}):React
         }}
         className={`item ${windows2.filter(i=>i.id==id)[0].focused?"focused":""}`}>
           <motion.div className="preview">
-            
+            <motion.h1>{windows2[windows.findIndex((win)=>{return win===id;})].title}</motion.h1>
           </motion.div>
           <motion.div
             style={{backgroundImage:`url(${windows2[windows.findIndex((win)=>{return win===id;})].icon})`,}} 
