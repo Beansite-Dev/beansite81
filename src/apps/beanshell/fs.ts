@@ -250,3 +250,20 @@ export const FilePropertyModifierAtom=atom(
     set(FileSystemAtom,updateNested(get(FileSystemAtom),parentDirs));
   }
 );
+export const FileCreatorAtom=atom(
+  (get)=>get(FileSystemAtom),
+  (get,set,update:[string[],string,File])=>{
+    const[parentDirs,fileKey,newFile]=update;
+    const insertNested=(current:DirectoryBase,pathSegments:string[]):DirectoryBase=>{
+      if(pathSegments.length===0)
+        return{...current,[fileKey]: newFile,};
+      const[head,...tail]=pathSegments;
+      const dir=current[head]as Directory;
+      return{
+        ...current,
+        [head]:{...dir,children:insertNested(dir.children, tail),}as Directory,
+      };
+    };
+    set(FileSystemAtom,insertNested(get(FileSystemAtom),parentDirs));
+  }
+);

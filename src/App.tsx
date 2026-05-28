@@ -68,6 +68,7 @@ export const CHANGELOG:{
     "Updates stats",
     "Added pwd, neofetch",
     "updated help command",
+    "Fixed accidental file creator derived atom deletion",
   ],
 };
 const Changelog=({}):ReactElement=>{
