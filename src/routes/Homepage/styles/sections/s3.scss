@@ -49,6 +49,20 @@
     width: 50%;
     height: 100% !important;
     padding: 3.5rem !important;
+    transition: .65s;
+    perspective: 1500px !important;
+    transform: 
+      scale(95%)
+      rotateY(-20deg) 
+      rotateX(15deg) 
+      rotateZ(-2.5deg);
+    &:hover {
+      transform: 
+        scale(105%)
+        rotateY(0deg) 
+        rotateX(0deg) 
+        rotateZ(0deg);
+    }
   }
   .shade {
     height: 100%;

@@ -204,6 +204,11 @@ export const StartMenu=({mb81ref}:{mb81ref:React.RefObject<HTMLDivElement>}):Rea
               background={"#FF5722"}
               icon={Icons.beanshell}
               target="beanshell"/>
+            <StartMenuItem 
+              name="Explorer"
+              background={"rgb(242,13,94)"}
+              icon={Icons.directory}
+              target="explorer"/>
           </motion.div>
       </motion.div>:null}
     </AnimatePresence></>,
