@@ -51,6 +51,7 @@ export interface ISettingsAtom {
   theme: "default"|"lib"|"dark";
   font: "segoe"|"tahoma"|"comic"|"time"|"mono",
   scale:number;
+  defaultOpenApps:{[key:string]:boolean;};
 };
 export const SettingsAtom=atom<ISettingsAtom>(
   localStorage.getItem("mb81-settings")&&(()=>{
@@ -63,6 +64,7 @@ export const SettingsAtom=atom<ISettingsAtom>(
         "theme",
         "scale",
         "font",
+        "defaultOpenApps",
       ].every(key=>Object.keys(settings).includes(key));
   })()?JSON.parse(localStorage.getItem("mb81-settings")!):{
     backgroundImage:"/wallpaper/1.jpg",
@@ -71,6 +73,16 @@ export const SettingsAtom=atom<ISettingsAtom>(
     theme:"default",
     font:"segoe",
     scale:100,
+    defaultOpenApps:{
+      win1:true,
+      changelog:true,
+      settings:false,
+      beanpowered:true,
+      beanforged:false,
+      blog:false,
+      beanshell:false,
+      explorer:false,
+    },
 });
 export const DerivedSetttingsAtom=atom(
   (get)=>get(SettingsAtom),

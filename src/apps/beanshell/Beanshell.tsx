@@ -4,37 +4,8 @@ import { m, motion } from "motion/react";
 import { generateId } from "../../sdk/Lib";
 import { ExpressDerivedWinModifierAtom } from "../../sdk/store";
 import { atom, useAtom } from "jotai";
-import { FileCopierAtom, FileCreatorAtom, FileDeletorAtom, FileMoverAtom, FilePropertyModifierAtom, FileSystemAtom, type Directory, type DirectoryBase, type File } from "./fs";
+import { FileCopierAtom, FileCreatorAtom, FileDeletorAtom, FileMoverAtom, FilePropertyModifierAtom, FileSystemAtom } from "./fs";
 import { errorAtom } from "../../sdk/components/ErrorBoundary";
-// type Abbreviated<T,M>={[K in keyof T as K|{[P in keyof M]:M[P]extends K?P:never}[keyof M]]:T[K];};
-type Colors=
-  "Black"|"BrightBlack"|"Gray"|"DarkGray"|"BrightGray"|"White"|"BrightWhite"|
-  "Blue"|"DarkBlue"|"BrightBlue"|
-  "Green"|"DarkGreen"|"BrightGreen"|
-  "Cyan"|"DarkCyan"|"BrightCyan"|
-  "Red"|"DarkRed"|"BrightRed"|
-  "Orange"|"DarkOrange"|"BrightOrange"|
-  "Magenta"|"DarkMagenta"|"BrightMagenta"|
-  "Yellow"|"DarkYellow"|"BrightYellow"|
-  "Transparent";
-interface ColorTypes{
-  /*color*/clr?:Colors;
-  /*background*/bg?:Colors;
-  /*italics*/i?:boolean;
-  /*bold*/b?:boolean;
-  /*underline*/u?:boolean;
-};
-interface BeanshellStyledText extends ColorTypes{/*contents*/c?:string;};
-interface BeanshellLogs extends ColorTypes{
-  /*message*/m?:BeanshellStyledText|BeanshellStyledText[]|string;
-  /*type*/t:
-    "log"|"l"|
-    "newline"|"nl"|
-    "NerdFontIcon"|"nf";
-  includeNewline?:boolean;
-  noWordBreak?:boolean;
-  customStyling?:CSSProperties;
-};
 const stylePresets:{[str:string]:ColorTypes|BeanshellLogs}={
   error:{
     clr:"Red",
@@ -138,10 +109,10 @@ const Beanshell=({}):ReactElement=>{
   const[,moveFile]=useAtom(FileMoverAtom);
   const[,copyFile]=useAtom(FileCopierAtom);
   const[directoryTree,setDirectoryTree]=useAtom(directoryTreeAtom);
-  const getScope=():DirectoryBase=>{
-    var scope:DirectoryBase=FileSystem;
+  const getScope=():fs.DirectoryBase=>{
+    var scope:fs.DirectoryBase=FileSystem;
     for(const dir of directoryTree)
-      if(scope[dir]&&scope[dir].isDirectory)scope=(scope[dir] as Directory).children;
+      if(scope[dir]&&scope[dir].isDirectory)scope=(scope[dir] as fs.Directory).children;
     return scope;
   };
   const Nano=({
@@ -258,7 +229,7 @@ const Beanshell=({}):ReactElement=>{
         <motion.span className="clrDarkBlue bgBrightGray">^X</motion.span>
         <motion.span className="clrWhite"> Exit      </motion.span>
         <motion.span className="clrDarkBlue bgBrightGray">^R</motion.span>
-        <motion.span className="clrWhite"> Read File </motion.span>
+        <motion.span className="clrWhite"> Read fs.File </motion.span>
         <motion.span className="clrDarkBlue bgBrightGray">^\</motion.span>
         <motion.span className="clrWhite"> Replace   </motion.span>
         <motion.span className="clrDarkBlue bgBrightGray">^U</motion.span>
@@ -344,14 +315,14 @@ const Beanshell=({}):ReactElement=>{
           if(inputArray.length<3){
             setLogs(x=>[...x,Header,{t:"l",m:"cp : missing argument",...stylePresets.error}]);
             break;}
-          var scope:DirectoryBase=getScope();
+          var scope:fs.DirectoryBase=getScope();
           if(scope[inputArray[1].replace(/^\/|\/$/g,"")]){
             if(inputArray[2].replace(/^\/|\/$/g,"").includes("/")){
               let directoryArray=inputArray[2].replace(/^\/|\/$/g,"").split("/").filter((v)=>!!v);
               let res:boolean=true;
               for(const dir of directoryArray){
                 if(scope[dir]&&scope[dir].isDirectory){
-                  scope=(scope[dir] as Directory).children;
+                  scope=(scope[dir] as fs.Directory).children;
                 }else{
                   res=false;
                   setLogs(x=>[...x,Header,{
@@ -384,14 +355,14 @@ const Beanshell=({}):ReactElement=>{
           if(inputArray.length<3){
             setLogs(x=>[...x,Header,{t:"l",m:"mv : missing argument",...stylePresets.error}]);
             break;}
-          var scope:DirectoryBase=getScope();
+          var scope:fs.DirectoryBase=getScope();
           if(scope[inputArray[1].replace(/^\/|\/$/g,"")]){
             if(inputArray[2].replace(/^\/|\/$/g,"").includes("/")){
               let directoryArray=inputArray[2].replace(/^\/|\/$/g,"").split("/").filter((v)=>!!v);
               let res:boolean=true;
               for(const dir of directoryArray){
                 if(scope[dir]&&scope[dir].isDirectory){
-                  scope=(scope[dir] as Directory).children;
+                  scope=(scope[dir] as fs.Directory).children;
                 }else{
                   res=false;
                   setLogs(x=>[...x,Header,{
@@ -424,7 +395,7 @@ const Beanshell=({}):ReactElement=>{
           if(inputArray.length<2){
             setLogs(x=>[...x,Header,{t:"l",m:"stat : missing argument",...stylePresets.error}]);
             break;}
-          var scope:DirectoryBase=getScope();
+          var scope:fs.DirectoryBase=getScope();
           if(scope[inputArray[1].replace(/^\/|\/$/g,"")])setLogs(x=>[...x,Header,
             ...Object.keys(scope[inputArray[1].replace(/^\/|\/$/g,"")]).map((key:string)=>{return{
               t:"l",
@@ -438,11 +409,11 @@ const Beanshell=({}):ReactElement=>{
         break;
         case "cls":case "clear":setLogs([]);break;
         case "dir":case "ls":
-          var scope:DirectoryBase=getScope();
+          var scope:fs.DirectoryBase=getScope();
           console.table(scope);
           setLogs(x=>[...x,Header,{t:"nl"},
             {t:"l",m:[
-              {c:"    "},{c:"Directory: B:/"+directoryTree.join("/")+(directoryTree.length>0?"/":""),}
+              {c:"    "},{c:"fs.Directory: B:/"+directoryTree.join("/")+(directoryTree.length>0?"/":""),}
             ]},{t:"nl"},
             {t:"l",m:"Mode".padEnd(8," ")+"Name",clr:"Green"},
             {t:"l",m:"----".padEnd(8," ")+"----",clr:"Green"},
@@ -457,7 +428,7 @@ const Beanshell=({}):ReactElement=>{
               t:"l",
               m:[
                 {c:"-a---".padEnd(8," ")},
-                {c:`${(scope[key].name as string)}.${((scope[key] as File).type as string)}`,},
+                {c:`${(scope[key].name as string)}.${((scope[key] as fs.File).type as string)}`,},
               ],
             }))
           ]);
@@ -471,7 +442,7 @@ const Beanshell=({}):ReactElement=>{
         break;
         case "cd":
           if(inputArray.length<2){setLogs(x=>[...x,Header,]);break;}
-          var scope:DirectoryBase=getScope();
+          var scope:fs.DirectoryBase=getScope();
           if(inputArray[1]===".."){
             setLogs(x=>[...x,Header,]);
             if(directoryTree.length>0){
@@ -488,11 +459,11 @@ const Beanshell=({}):ReactElement=>{
             setDirectoryTree([]);
           }else if(inputArray[1].includes("/")){
             let directoryArray=inputArray[1].split("/").filter((v)=>!!v);
-            var scope:DirectoryBase=getScope();
+            var scope:fs.DirectoryBase=getScope();
             let res:boolean=true;
             for(const dir of directoryArray){
               if(scope[dir]&&scope[dir].isDirectory){
-                scope=(scope[dir] as Directory).children;
+                scope=(scope[dir] as fs.Directory).children;
               }else{
                 res=false;
                 setLogs(x=>[...x,Header,{
@@ -553,14 +524,14 @@ const Beanshell=({}):ReactElement=>{
           if(!/(.*)\.(.*)/.test(inputArray[1])){
             setLogs(x=>[...x,Header,{t:"l",m:"nano : invalid file name",...stylePresets.error}]);
             break;}
-          var scope:DirectoryBase=getScope();
+          var scope:fs.DirectoryBase=getScope();
           if(scope[inputArray[1]]&&!scope[inputArray[1]].isDirectory)
             setLogs([<Nano 
               creating={false}
               currentDirectoryTree={directoryTree}
-              file={(scope[inputArray[1]] as File).content}
+              file={(scope[inputArray[1]] as fs.File).content}
               fileKey={inputArray[1]}
-              fileName={(scope[inputArray[1]] as File).name}/>]);
+              fileName={(scope[inputArray[1]] as fs.File).name}/>]);
           else setLogs([<Nano
             creating={true}
             currentDirectoryTree={directoryTree}
@@ -573,10 +544,10 @@ const Beanshell=({}):ReactElement=>{
           if(inputArray.length<2){
             setLogs(x=>[...x,Header,{t:"l",m:"cat : missing argument",...stylePresets.error}]);
             break;}
-          var scope:DirectoryBase=getScope();
+          var scope:fs.DirectoryBase=getScope();
           if(scope[inputArray[1]]&&!scope[inputArray[1]].isDirectory)
             setLogs(x=>[...x,Header,
-              ...(scope[inputArray[1]] as File).content.split("\n")
+              ...(scope[inputArray[1]] as fs.File).content.split("\n")
                 .map((line,)=>({t:"l",m:(line||"")} as BeanshellLogs)),
             ]);
           else setLogs(x=>[...x,Header,{t:"l",m:`cat : ${inputArray[1]} : No such file`,...stylePresets.error}]);
@@ -585,10 +556,10 @@ const Beanshell=({}):ReactElement=>{
           if(inputArray.length<2){
             setLogs(x=>[...x,Header,{t:"l",m:"cat : missing argument",...stylePresets.error}]);
             break;}
-          var scope:DirectoryBase=getScope();
+          var scope:fs.DirectoryBase=getScope();
           if(scope[inputArray[1]]&&!scope[inputArray[1]].isDirectory)
             setLogs(x=>[...x,Header,
-              ...(scope[inputArray[1]] as File).content.split("\n").reverse()
+              ...(scope[inputArray[1]] as fs.File).content.split("\n").reverse()
                 .map((line,)=>({t:"l",m:(line||"")} as BeanshellLogs)),
             ]);
           else setLogs(x=>[...x,Header,{t:"l",m:`cat : ${inputArray[1]} : No such file`,...stylePresets.error}]);
@@ -597,7 +568,7 @@ const Beanshell=({}):ReactElement=>{
           if(inputArray.length<2){
             setLogs(x=>[...x,Header,{t:"l",m:"rm : missing argument",...stylePresets.error}]);
             break;}
-          var scope:DirectoryBase=getScope();
+          var scope:fs.DirectoryBase=getScope();
           if(scope[inputArray[1]]){
             deleteFile([directoryTree,inputArray[1]]);
             setLogs(x=>[...x,Header,{t:"l",m:`rm : ${inputArray[1]} : File deleted`}]);
@@ -605,7 +576,7 @@ const Beanshell=({}):ReactElement=>{
             if(inputArray[1]==="-rf"&&inputArray.length>2){
               if(scope[inputArray[2]]){
                 deleteFile([directoryTree,inputArray[2]]);
-                setLogs(x=>[...x,Header,{t:"l",m:`rm : ${inputArray[2]} : ${scope[inputArray[2]].isDirectory?"Directory":"File"} deleted`}]);
+                setLogs(x=>[...x,Header,{t:"l",m:`rm : ${inputArray[2]} : ${scope[inputArray[2]].isDirectory?"fs.Directory":"fs.File"} deleted`}]);
               }if(inputArray[2]==="/"||inputArray[2]==="~"||inputArray[2]==="System81")setError(true);
             }
           }else setLogs(x=>[...x,Header,{t:"l",m:`rm : ${inputArray[1]} : No such file`,...stylePresets.error}]);
@@ -614,9 +585,9 @@ const Beanshell=({}):ReactElement=>{
           if(inputArray.length<2){
             setLogs(x=>[...x,Header,{t:"l",m:"rm : missing argument",...stylePresets.error}]);
             break;}
-          var scope:DirectoryBase=getScope();
+          var scope:fs.DirectoryBase=getScope();
           if(scope[inputArray[1]]&&scope[inputArray[1]].isDirectory){
-            if(!Object.keys((scope[inputArray[1]] as Directory).children).length){
+            if(!Object.keys((scope[inputArray[1]] as fs.Directory).children).length){
               deleteFile([directoryTree,inputArray[1]]);
               setLogs(x=>[...x,Header,{t:"l",m:`rm : ${inputArray[1]} : Directory deleted`}]);
             }else setLogs(x=>[...x,Header,{t:"l",m:`rm : ${inputArray[1]} : Directory not empty`,...stylePresets.error}]);
@@ -700,11 +671,11 @@ const Beanshell=({}):ReactElement=>{
         default:
           if(inputArray[0].endsWith(".exe")){
             setLogs(x=>[...x,Header]);
-            const scope:DirectoryBase=getScope();
-            if(scope[inputArray[0]]&&!scope[inputArray[0]].isDirectory&&!!(scope[inputArray[0]] as File).exeLaunchTarget)
+            const scope:fs.DirectoryBase=getScope();
+            if(scope[inputArray[0]]&&!scope[inputArray[0]].isDirectory&&!!(scope[inputArray[0]] as fs.File).exeLaunchTarget)
               setWindow([
-                [(scope[inputArray[0]] as File).exeLaunchTarget as string,"open",true],
-                [(scope[inputArray[0]] as File).exeLaunchTarget as string,"minimized",false],
+                [(scope[inputArray[0]] as fs.File).exeLaunchTarget as string,"open",true],
+                [(scope[inputArray[0]] as fs.File).exeLaunchTarget as string,"minimized",false],
               ]);
             else
               setLogs(x=>[...x,Header,

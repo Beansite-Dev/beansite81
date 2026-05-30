@@ -83,9 +83,28 @@ const Settings=({}):ReactElement=>{
   return(<>
     <motion.div id="Settings">
       <h1>Settings</h1>
-      {/* <motion.div id="general">
-        <motion.h2>General</motion.h2>
-        <motion.p>App scaling</motion.p>
+      <motion.div id="general">
+        <motion.h2>Startup Apps</motion.h2>
+        {Object.keys(settings.defaultOpenApps)
+          .map(key=><motion.div style={{
+            display:"flex",
+            alignItems:"center",
+            justifyContent:"space-between",
+            position:"relative"
+          }} key={generateId(10)}>
+            <motion.p>{key}</motion.p>
+            <motion.input 
+              defaultChecked={settings.defaultOpenApps[key]} 
+              type="checkbox" 
+              onChange={(e)=>{
+                setSettings(["defaultOpenApps",{
+                  ...settings.defaultOpenApps,
+                  [key]:e.target.checked
+                }]);
+              }} 
+              name={key}/>
+          </motion.div>)}
+        {/* <motion.p>App scaling</motion.p>
         <motion.input 
           type="range"
           onChange={(e)=>{
@@ -95,8 +114,8 @@ const Settings=({}):ReactElement=>{
           max={200}
           defaultValue={settings.scale}
           name="Scale"
-          id="scaleSelector"/>
-      </motion.div> */}
+          id="scaleSelector"/> */}
+      </motion.div>
       <motion.div id="font">
         <motion.h2>Font</motion.h2>
         <motion.p>Select a font: </motion.p>

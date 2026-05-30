@@ -96,9 +96,14 @@ export const Desktop=({}):ReactElement=>{
       icon:Icons.text
     },{
       id:"i6",
-      title:"beanshell",
+      title:"Beanshell",
       target:"beanshell",
       icon:Icons.beanshell
+    },{
+      id:"i7",
+      title:"Explorer",
+      target:"explorer",
+      icon:Icons.directory
     },
   ]
   return(<>

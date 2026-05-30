@@ -5,12 +5,13 @@ import { Helmet } from "react-helmet-async";
 import { motion } from 'motion/react';
 import { useAtom } from 'jotai';
 import "./style.scss";
-import { ExpressDerivedWinModifierAtom } from './sdk/store';
+import { ExpressDerivedWinModifierAtom, SettingsAtom } from './sdk/store';
 const Settings=lazy(()=>import('./sdk/components/Settings'));
 const Beanpowered=lazy(()=>import('./apps/beanpowered/Beanpowered.tsx'));
 const Beanforged=lazy(()=>import('./apps/beanforged/Beanforged.tsx'));
 const Blog=lazy(()=>import('./apps/blog/Blog.tsx'));
 const Beanshell=lazy(()=>import('./apps/beanshell/Beanshell.tsx'));
+const Explorer=lazy(()=>import('./apps/beanshell/explorer/Explorer.tsx'));
 export const CHANGELOG:{
   versionName:string,
   releaseDate:string,
@@ -21,16 +22,15 @@ export const CHANGELOG:{
   releaseDate:import.meta.env.VITE_APP_BUILD_DATE,
   comment: "sorry about the break",
   changes:[
-    "TODO: Add Explorer",
+    "TODO: Continue to add Explorer",
+    "TODO: Add Task Manager",
     "TODO: Replace TestWin with a welcome message instead",
     "TODO: Work on Dosbox pages",
     "TODO: Add command line method to enable debug mode",
     "TODO: Create debug window",
-    "TODO: Add taskbar preview",
     "TODO: Add files to filesystem",
-    "TODO: Add selector for startup apps",
     "Added 404 page",
-    "Reversed hash router",
+    "Reverted hash router",
     "Updates stats",
     "Added pwd, neofetch",
     "updated help command",
@@ -39,6 +39,9 @@ export const CHANGELOG:{
     "Cleaned Changelog",
     "Added rm, rmdir, cp, and mv commands",
     "Repushed",
+    "Added startup app selector",
+    "Began explorer implementation",
+    "Set up proper ambient typing and namespaces in Typescript",
   ],
 };
 const Changelog=({}):ReactElement=>{
@@ -72,6 +75,7 @@ const Changelog=({}):ReactElement=>{
 }
 const App=({}):ReactElement=>{
   const[,setWindow]=useAtom(ExpressDerivedWinModifierAtom);
+  const[settings,]=useAtom(SettingsAtom);
   return(<>
     <Helmet>
       <meta charSet="UTF-8" />
@@ -83,6 +87,7 @@ const App=({}):ReactElement=>{
       <Window
         id="win1"
         // maximized
+        closed={!settings.defaultOpenApps["win1"]}
         icon={Icons.configApplication}
         title="Test Win 1">
           <motion.h1>Test Window</motion.h1>
@@ -132,6 +137,7 @@ const App=({}):ReactElement=>{
       </Window>
       <Window
         id="changelog"
+        closed={!settings.defaultOpenApps["changelog"]}
         y={240}
         icon={Icons.text}
         title="Changelog">
@@ -142,6 +148,7 @@ const App=({}):ReactElement=>{
         y={10}
         x={360}
         height={450}
+        closed={!settings.defaultOpenApps["beanpowered"]}
         width={450*(16/10)}
         customContentBoxStyling={{overflow:"hidden"}}
         // closed
@@ -155,8 +162,8 @@ const App=({}):ReactElement=>{
         x={370}
         height={450}
         width={450*(16/10)}
+        closed={!settings.defaultOpenApps["beanforged"]}
         customContentBoxStyling={{overflow:"hidden"}}
-        closed
         // maximized
         // darkIcon
         icon={Icons.beanforged}
@@ -169,8 +176,8 @@ const App=({}):ReactElement=>{
         x={380}
         height={450}
         width={450*(16/10)}
+        closed={!settings.defaultOpenApps["blog"]}
         customContentBoxStyling={{overflow:"hidden"}}
-        closed
         icon={Icons.text}
         title="Blog">
           <Blog/>
@@ -179,8 +186,8 @@ const App=({}):ReactElement=>{
         id="settings"
         y={20}
         x={20}
-        closed
         icon={Icons.configApplication}
+        closed={!settings.defaultOpenApps["settings"]}
         title="Settings">
           {/* @ts-ignore */}
           <Settings />
@@ -191,11 +198,23 @@ const App=({}):ReactElement=>{
         x={30}
         height={450}
         width={450*(16/10)}
-        closed
+        closed={!settings.defaultOpenApps["beanshell"]}
         icon={Icons.beanshell}
         title="Beanshell">
           {/* @ts-ignore */}
           <Beanshell/>
+      </Window>
+      <Window
+        id="explorer"
+        y={40}
+        x={40}
+        height={350}
+        width={350*(16/10)}
+        closed={!settings.defaultOpenApps["explorer"]}
+        icon={Icons.directory}
+        title="Explorer">
+          {/* @ts-ignore */}
+          <Explorer/>
       </Window>
     </Beansite81>
   </>);
