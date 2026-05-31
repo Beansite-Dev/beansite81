@@ -1,11 +1,12 @@
 import { motion } from "motion/react";
-import { useEffect, type ReactElement } from "react";
+import React, { useEffect, type ReactElement } from "react";
 import "./style.scss";
 import { atom, useAtom } from "jotai";
 import { errorAtom } from "../../../sdk/components/ErrorBoundary";
 import { ExpressDerivedWinModifierAtom } from "../../../sdk/store";
 import { FileSystemAtom, FilePropertyModifierAtom, FileCreatorAtom, FileDeletorAtom, FileMoverAtom, FileCopierAtom } from "../fs";
 import { Tabs } from "@base-ui/react";
+import { Icons } from "../../../sdk/components/Enum";
 const directoryTreeAtom=atom<string[]>([]);
 const Explorer=({}):ReactElement=>{
   const[,setWindow]=useAtom(ExpressDerivedWinModifierAtom);
@@ -23,20 +24,59 @@ const Explorer=({}):ReactElement=>{
       if(scope[dir]&&scope[dir].isDirectory)scope=(scope[dir] as fs.Directory).children;
     return scope;
   };
-  return(<motion.div id="explorer">
-    <motion.div id="explorerHeader">
+  const Header=({}):ReactElement=>{
+    return(<motion.div id="explorerHeader">
       <Tabs.Root defaultValue="home">
         <Tabs.List className="list">
-          <Tabs.Tab className="tab" value="file">File</Tabs.Tab>
+          <Tabs.Tab className="tab file" value="file">File</Tabs.Tab>
           <Tabs.Tab className="tab" value="home">Home</Tabs.Tab>
           <Tabs.Indicator className="indicator"/>
         </Tabs.List>
         <Tabs.Panel className="panel" value="file">
+          
         </Tabs.Panel>
         <Tabs.Panel className="panel" value="home">
+          
         </Tabs.Panel>
       </Tabs.Root>
-    </motion.div>
+    </motion.div>);
+  }
+  const Body=({}):ReactElement=>{
+    return(<motion.div id="explorerBody">
+      <motion.div id="actionbar">
+        <motion.button 
+          className="actionButton">
+            <motion.div 
+              style={{backgroundImage:`url("${Icons.back}")`}}
+              className="icon" 
+              id="back"></motion.div>
+        </motion.button>
+        <motion.button 
+          className="actionButton">
+            <motion.div 
+              style={{backgroundImage:`url("${Icons.forward}")`}}
+              className="icon" 
+              id="forward"></motion.div>
+        </motion.button>
+        <motion.button 
+          className="actionButton">
+            <motion.div 
+              style={{backgroundImage:`url("${Icons.goUp}")`,scale:"65%",}}
+              className="icon" 
+              id="up"></motion.div>
+        </motion.button>
+        <motion.div id="directoryTree">
+
+        </motion.div>
+        <motion.input
+          placeholder={`Search ${directoryTree[directoryTree.length-1]||"This PC"} ⌕`}
+          id="search"/>
+      </motion.div>
+    </motion.div>)
+  }
+  return(<motion.div id="explorer">
+    <Header/>
+    <Body/>
   </motion.div>);
 }
 export default Explorer;

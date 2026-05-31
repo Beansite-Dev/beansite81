@@ -6,12 +6,14 @@
   left: 50%;
   translate: -50% -50%;
   #explorerHeader {
-    height: 7.5rem;
+    height: 6.5rem;
     width: 100%;
     position: absolute;
     left: 50%;
     translate: -50% 0%;
-    background: #e5e5e5;
+    background: #f5f6f8;
+    border-bottom: 1px solid #dadbdd;
+    z-index: 9;
     .list {
       width: 100%;
       height: 1.5rem;
@@ -24,6 +26,7 @@
       justify-content: flex-start;
       align-items: flex-start;
       flex-direction: row;
+      border-bottom: 1px solid #dadbdd;
       .tab {
         height: 1.5rem;
         width: fit-content;
@@ -32,22 +35,104 @@
         background: transparent;
         border: none;
         outline: none;
-        z-index: 2;
+        z-index: 20;
+        &.file {
+          background: #1a79cb;
+          color: #fff;
+          padding: 0 1.5rem;
+        }
       }
       .indicator {
         position: absolute;
-        z-index: 99;
-        background: #e5e5e5;
+        z-index: 10;
+        background: #f5f6f8;
         width: var(--active-tab-width);
         left: var(--active-tab-left);
         top: 0%;
-        height: 100%;
+        height: calc(100% + 1px);
         transition: all 0.2s ease-in-out;
+        border: 1px solid #dadbdd;
+        border-bottom: none;
 
       }
     }
     .panel {
-
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      flex-direction: row;
+      padding: .5rem;
+      box-sizing: border-box;
+      position: absolute;
+    }
+  }
+  #explorerBody {
+    height: calc(100% - 6.5rem);
+    width: 100%;
+    position: absolute;
+    left: 50%;
+    bottom: 0%;
+    translate: -50% 0%;
+    background: #fff;
+    box-sizing: border-box;
+    #actionbar {
+      position: absolute;
+      top: 0%;
+      left: 50%;
+      translate: -50% 0%;
+      height: 2rem;
+      box-sizing: border-box;
+      width: 100%;
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+      flex-direction: row;
+      padding: .25rem .5rem;
+      gap: .5rem;
+      .actionButton {
+        height: 100%;
+        aspect-ratio: 1 / 1;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border: none;
+        outline: none;
+        cursor: pointer;
+        position: relative;
+        background: transparent;
+        padding: 0 !important;
+        .icon {
+          height: 100%;
+          aspect-ratio: 1 / 1;
+          background-position: center;
+          background-size: contain;
+          background-repeat: no-repeat;
+        }
+      }
+      #directoryTree {
+        height: 90%;
+        width: 60%;
+        border: 1px solid #dadbdd;
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+        flex-direction: row;
+        padding: 2px;
+        box-sizing: border-box;
+      }
+      #search {
+        height: 90%;
+        flex: 1;
+        border: 1px solid #dadbdd;
+        padding: 2px;
+        box-sizing: border-box;
+        font-size: .825rem;
+        position: relative;
+        outline: none;
+        &::placeholder {
+          color: #7f7f7f;
+        }
+      }
     }
   }
 }

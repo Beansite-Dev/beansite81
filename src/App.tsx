@@ -1,6 +1,6 @@
 import { lazy, useEffect, useState, type ReactElement } from 'react';
 import { Beansite81, Window } from './sdk/sdk';
-import { Icons } from './sdk/components/Enum';
+import { Icons, IconsOld } from './sdk/components/Enum';
 import { Helmet } from "react-helmet-async";
 import { motion } from 'motion/react';
 import { useAtom } from 'jotai';
@@ -211,7 +211,7 @@ const App=({}):ReactElement=>{
         height={350}
         width={350*(16/10)}
         closed={!settings.defaultOpenApps["explorer"]}
-        icon={Icons.directory}
+        icon={Icons.fileManager}
         title="Explorer">
           {/* @ts-ignore */}
           <Explorer/>

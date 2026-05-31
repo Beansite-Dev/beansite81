@@ -1,10 +1,9 @@
-export const defaultIconPath="/icons/";
+export const defaultIconPath="/icons/256x256/";
+export const oldIconPath="/icons_old/";
+export const CreateIconOld=(standardName:string):string=>{
+  return `${oldIconPath}${standardName}.ico`;}
 export const CreateIcon=(standardName:string):string=>{
-  return `${defaultIconPath}${standardName}.ico`; 
-}
-export const CreateIconPNG=(standardName:string):string=>{
-  return `${defaultIconPath}${standardName}.png`; 
-}
+  return `${defaultIconPath}${standardName}.png`; }
 export interface IWindowSymbols{
   close:string;
   min:string;
@@ -20,227 +19,248 @@ export const WindowSymbols:IWindowSymbols={
   unmax:"🗗︎",
   search:"⌕",
 }
-export interface IIcons {
-  file: string;
-  application: string;
-  installer: string;
-  text: string;
-  mail: string;
-  imageAlt: string;
-  music: string;
-  camcorder: string;
-  phoneDeviceOld: string;
-  video: string;
-  internet: string;
-  printer: string;
-  printSuccess: string;
-  networkPrinter: string;
-  networkPrinterSuccess: string;
-  internetPrinter: string;
-  controlPanel: string;
-  floppyDiskDrive: string;
-  disketteDrive: string;
-  cdDrive: string;
-  drive: string;
-  windowsDrive: string;
-  dvdDrive: string;
-  unknownDrive: string;
-  dvd: string;
-  dvdr: string;
-  dvdram: string;
-  dvdrom: string;
-  dvdrw: string;
-  cd: string;
-  cdr: string;
-  cdrom: string;
-  cdrw: string;
-  music2: string;
-  recyclingBinFull: string;
-  recyclingBinEmpty: string;
-  ipod: string;
-  search: string;
-  configFile: string;
-  configApplication: string;
-  configTextFile: string;
-  drawing: string;
-  image: string;
-  painting: string;
-  transparentImage: string;
-  fax: string;
-  directory: string;
-  fontDirectory: string;
-  musicDirectory: string;
-  documentDirectory: string;
-  imageDirectory: string;
-  starredDirectory: string;
-  userDirectory: string;
-  desktopDirectory: string;
-  downloadsDirectory: string;
-  shortcutsDirectory: string;
-  administrator: string;
-  users: string;
-  info: string;
-  warning: string;
-  error: string;
-  help: string;
-  xmark: string;
-  restart: string;
-  run: string;
-  rename: string;
-  mobileDevice: string;
-  screensaver: string;
-  sdCard: string;
-  presentation: string;
-  registry: string;
-  computer: string;
-  fontFile: string;
-  trueTypeFontFile: string;
-  openTypeFontFile: string;
-  musicFile: string;
-  imageFile: string;
-  videoFile: string;
-  multimediaFile: string;
-  musicDvd: string;
-  videoDvd: string;
-  bluerayDrive: string;
-  videoCdDrive: string;
-  burningDisc: string;
-  superVideoCdDrive: string;
-  properties: string;
-  missingDiscDrive: string;
-  taskManager: string;
-  verified: string;
-  shortcut: string;
-  zipFile: string;
-  internet2: string;
-  peripheral: string;
-  gamesDirectory: string;
-  videoDirectory: string;
-  videoFrame169: string;
-  videoFrame43: string;
-  blocked: string;
-  user: string;
-  bitlockerDisabled: string;
-  bitlocker: string;
-  bitlockerError: string;
-  bitlockerCDrive: string;
-  bitlockerErrorCDrive: string;
-  pin: string;
-  sheild: string;
-  [key:string]:any;
-}
+interface IIcons{[key:string]:string;}
 export const Icons:IIcons={
-  file:CreateIcon("2"),
-  application:CreateIcon("15"),
-  installer:CreateIcon("87"),
-  text:CreateIcon("19"),
-  mail:CreateIcon("20"),
-  imageAlt:CreateIcon("21"),
-  music:CreateIcon("22"),
-  camcorder:CreateIcon("46"),
-  phoneDeviceOld:CreateIcon("48"),
-  // commandPrompt:CreateIconPNG("d1f5fcw-533b556a-a161-4cc6-b9d7-67037b797373"),
+  beanpowered:"/apps/beanpowered/bp.png",
+  beanforgedDark:"/apps/beanforged/beanforge.png",
+  beanforged:"/apps/beanforged/bfl.png",
+  beanshell:"/apps/beanshell/beanshell.png",
+  file:CreateIcon("mimetypes/empty"),
+  application:CreateIcon("mimetypes/exec"),
+  installer:CreateIcon("apps/system-software-install"),
+  systemInstaller:CreateIcon("apps/system-installer"),
+  text:CreateIcon("mimetypes/txt"),
+  image:CreateIcon("mimetypes/image"),
+  music:CreateIcon("mimetypes/sound"),
+  video:CreateIcon("mimetypes/video"),
+  camcorder:CreateIcon("devices/camera-video"),
+  internet:CreateIcon("categories/stock_internet"),
+  internetAlt:CreateIcon("places/network_local"),
+  printer:CreateIcon("devices/printer"),
+  printerSuccess:CreateIcon("status/filequickprint"),
+  printerNetwork:CreateIcon("devices/printer-network"),
+  controlPanel:CreateIcon("prefrences/prefrences-system"),
+  floppyDiskDrive:CreateIcon("devices/system-floppy"),
+  cdDrive:CreateIcon("devices/drive-cdrom"),
+  drive:CreateIcon("devices/drive-harddisk"),
+  windowsDrive:CreateIcon("devices/drive-harddisk-system"),
+  dvdDrive:CreateIcon("devices/media-optical-dvd"),
+  unknownDrive:CreateIconOld("75"),
+  dvd:CreateIconOld("56"),
+  dvdr:CreateIconOld("38"),
+  dvdram:CreateIconOld("39"),
+  dvdrom:CreateIconOld("40"),
+  dvdrw:CreateIconOld("41"),
+  cd:CreateIcon("devices/cdrom_unmount"),
+  cdr:CreateIconOld("62"),
+  cdrom:CreateIconOld("63"),
+  cdrw:CreateIconOld("64"),
+  music2:CreateIconOld("85"),
+  recyclingBinFull:CreateIcon("places/user-trash"),
+  recyclingBinEmpty:CreateIcon("status/user-trash-full"),
+  ipod:CreateIcon("devices/multimedia-player"),
+  search:CreateIcon("actions/system-search"),
+  configFile:CreateIconOld("67"),
+  configApplication:CreateIconOld("68"),
+  configTextFile:CreateIconOld("69"),
+  drawing:CreateIconOld("70"),
+  painting:CreateIconOld("71"),
+  transparentImage:CreateIconOld("82"),
+  fax:CreateIconOld("76"),
+  directory:CreateIcon("places/folder"),
+  directoryFont:CreateIconOld("77"),
+  directoryMusic:CreateIcon("places/folder-music"),
+  directoryDocuents:CreateIcon("places/folder-documents"),
+  directoryImages:CreateIcon("places/folder-pictures"),
+  directoryVideos:CreateIcon("places/folder-videos"),
+  directoryStarred:CreateIcon("places/user-bookmarks"),
+  directoryUser:CreateIcon("places/user-home"),
+  directoryDesktop:CreateIcon("places/user-desktop"),
+  directoryDownloads:CreateIcon("places/folder-downloads"),
+  directoryFonts:CreateIcon("apps/fonts"),
+  directoryGames:CreateIconOld("186"),
+  administrator:CreateIcon("status/dialog-password"),
+  users:CreateIcon("apps/system-users"),
+  info:CreateIcon("status/dialog-information"),
+  warning:CreateIcon("status/dialog-warning"),
+  error:CreateIcon("status/dialog-error"),
+  help:CreateIcon("status/dialog-question"),
+  delete:CreateIcon("actions/edit-delete"),
+  undo:CreateIcon("actions/document-revert"),
+  redo:CreateIcon("actions/document-revert-rtl"),
+  back:CreateIcon("actions/back"),
+  forward:CreateIcon("actions/forward"),
+  save:CreateIcon("actions/filesave"),
+  exit:CreateIcon("actions/exit"),
+  restart:CreateIcon("apps/access"),
+  run:CreateIcon("actions/system-run"),
+  find:CreateIcon("actions/edit-find"),
+  rename:CreateIconOld("94"),
+  mobileDevice:CreateIcon("devices/phone-apple-iphone"),
+  mobileDeviceApple:CreateIcon("devices/phone-apple-iphone"),
+  mobileDeviceSamsung:CreateIcon("devices/phone-samsung-galaxy-s"),
+  screensaver:CreateIcon("apps/screensaver"),
+  sdCard:CreateIconOld("96"),
+  presentation:CreateIcon("mimetypes/x-office-presentation"),
+  spreadsheet:CreateIcon("mimetypes/x-office-spreadsheet"),
+  document:CreateIcon("mimetypes/x-office-document"),
+  presentationTemplate:CreateIcon("mimetypes/x-office-presentation-template"),
+  spreadsheetTemplate:CreateIcon("mimetypes/x-office-spreadsheet-template"),
+  documentTemplate:CreateIcon("mimetypes/x-office-document-template"),
+  shellscript:CreateIcon("mimetypes/shellscript"),
+  html:CreateIcon("mimetypes/text-html"),
+  registry:CreateIconOld("111"),
+  computer:CreateIcon("devices/system"),
+  font:CreateIcon("mimetypes/font"),
+  trueTypeFontFile:CreateIconOld("125"),
+  openTypeFontFile:CreateIconOld("127"),
+  multimediaFile:CreateIconOld("134"),
+  musicDvd:CreateIconOld("135"),
+  videoDvd:CreateIconOld("136"),
+  bluerayDrive:CreateIconOld("140"),
+  videoCdDrive:CreateIconOld("141"),
+  superVideoCdDrive:CreateIconOld("142"),
+  missingDiscDrive:CreateIconOld("146"),
+  burningDisc:CreateIconOld("155"),
+  taskManager:CreateIconOld("150"),
+  verified:CreateIconOld("157"),
+  shortcut:CreateIconOld("163"),
+  zip:CreateIcon("mimetypes/zip"),
+  peripheral:CreateIcon("devices/input-keyboard"),
+  peripheralKeyboard:CreateIcon("devices/input-keyboard"),
+  peripheralMouse:CreateIcon("devices/input-mouse"),
+  videoFrame169:CreateIconOld("194"),
+  videoFrame43:CreateIconOld("193"),
+  user:CreateIconOld("1029"),
+  bitlockerDisabled:CreateIconOld("1035"),
+  bitlocker:CreateIconOld("1036"),
+  bitlockerError:CreateIconOld("1037"),
+  bitlockerCDrive:CreateIconOld("1033"),
+  bitlockerErrorCDrive:CreateIconOld("1034"),
+  pin:CreateIconOld("5100"),
+  sheild:CreateIconOld("SHIDI_SHIELD_INTERNAL"),
+  fileManager:CreateIcon("apps/file-manager"),
+  properties:CreateIcon("actions/document-properties"),
+  open:CreateIcon("actions/document-open"),
+  findReplace:CreateIcon("actions/edit-find-replace"),
+  selectAll:CreateIcon("actions/edit-select-all"),
+  goUp:CreateIcon("actions/go-up"),
+  goDown:CreateIcon("actions/go-down"),
+  goFirst:CreateIcon("actions/go-first"),
+  goLast:CreateIcon("actions/go-last"),
+}
+export const IconsOld:IIcons={
+  file:CreateIconOld("2"),
+  application:CreateIconOld("15"),
+  installer:CreateIconOld("87"),
+  text:CreateIconOld("19"),
+  mail:CreateIconOld("20"),
+  imageAlt:CreateIconOld("21"),
+  music:CreateIconOld("22"),
+  camcorder:CreateIconOld("46"),
+  phoneDeviceOld:CreateIconOld("48"),
+  // commandPrompt:CreateIcon("d1f5fcw-533b556a-a161-4cc6-b9d7-67037b797373"),
   beanpowered:"/apps/beanpowered/bp.png",
   beanforgedDark:"/apps/beanforged/beanforge.png",
   beanforged:"/apps/beanforged/bfl.png",
   beanshell:"/apps/beanshell/beanshell.png",
   // multibeanmc:"/apps/mbmc/logo.png",
   // firebean:"/apps/firebean/favicon.png",
-  video:CreateIcon("23"),
-  internet:CreateIcon("25"),
-  printer:CreateIcon("51"),
-  printSuccess:CreateIcon("49"),
-  networkPrinter:CreateIcon("53"),
-  networkPrinterSuccess:CreateIcon("50"),
-  internetPrinter:CreateIcon("45"),
-  controlPanel:CreateIcon("27"),
-  floppyDiskDrive:CreateIcon("28"),
-  disketteDrive:CreateIcon("29"),
-  cdDrive:CreateIcon("30"),
-  drive:CreateIcon("35"),
-  windowsDrive:CreateIcon("36"),
-  dvdDrive:CreateIcon("37"),
-  unknownDrive:CreateIcon("75"),
-  dvd:CreateIcon("56"),
-  dvdr:CreateIcon("38"),
-  dvdram:CreateIcon("39"),
-  dvdrom:CreateIcon("40"),
-  dvdrw:CreateIcon("41"),
-  cd:CreateIcon("61"),
-  cdr:CreateIcon("62"),
-  cdrom:CreateIcon("63"),
-  cdrw:CreateIcon("64"),
-  music2:CreateIcon("85"),
-  recyclingBinFull:CreateIcon("54"),
-  recyclingBinEmpty:CreateIcon("55"),
-  ipod:CreateIcon("66"),
-  search:CreateIcon("177"),
-  configFile:CreateIcon("67"),
-  configApplication:CreateIcon("68"),
-  configTextFile:CreateIcon("69"),
-  drawing:CreateIcon("70"),
-  image:CreateIcon("72"),
-  painting:CreateIcon("71"),
-  transparentImage:CreateIcon("82"),
-  fax:CreateIcon("76"),
-  directory:CreateIcon("3"),
-  fontDirectory:CreateIcon("77"),
-  musicDirectory:CreateIcon("108"),
-  documentDirectory:CreateIcon("112"),
-  imageDirectory:CreateIcon("113"),
-  starredDirectory:CreateIcon("115"),
-  userDirectory:CreateIcon("123"),
-  desktopDirectory:CreateIcon("183"),
-  downloadsDirectory:CreateIcon("184"),
-  shortcutsDirectory:CreateIcon("185"),
-  administrator:CreateIcon("78"),
-  users:CreateIcon("88"),
-  info:CreateIcon("81"),
-  warning:CreateIcon("84"),
-  error:CreateIcon("98"),
-  help:CreateIcon("99"),
-  xmark:CreateIcon("89"),
-  restart:CreateIcon("86"),
-  run:CreateIcon("100"),
-  rename:CreateIcon("94"),
-  mobileDevice:CreateIcon("93"),
-  screensaver:CreateIcon("101"),
-  sdCard:CreateIcon("96"),
-  presentation:CreateIcon("103"),
-  registry:CreateIcon("111"),
-  computer:CreateIcon("109"),
-  fontFile:CreateIcon("124"),
-  trueTypeFontFile:CreateIcon("125"),
-  openTypeFontFile:CreateIcon("127"),
-  musicFile:CreateIcon("131"),
-  imageFile:CreateIcon("132"),
-  videoFile:CreateIcon("133"),
-  multimediaFile:CreateIcon("134"),
-  musicDvd:CreateIcon("135"),
-  videoDvd:CreateIcon("136"),
-  bluerayDrive:CreateIcon("140"),
-  videoCdDrive:CreateIcon("141"),
-  burningDisc:CreateIcon("155"),
-  superVideoCdDrive:CreateIcon("142"),
-  properties:CreateIcon("145"),
-  missingDiscDrive:CreateIcon("146"),
-  taskManager:CreateIcon("150"),
-  verified:CreateIcon("157"),
-  shortcut:CreateIcon("163"),
-  zipFile:CreateIcon("174"),
-  internet2:CreateIcon("179"),
-  peripheral:CreateIcon("182"),
-  gamesDirectory:CreateIcon("186"),
-  videoDirectory:CreateIcon("189"),
-  videoFrame169:CreateIcon("194"),
-  videoFrame43:CreateIcon("193"),
-  blocked:CreateIcon("1027"),
-  user:CreateIcon("1029"),
-  bitlockerDisabled:CreateIcon("1035"),
-  bitlocker:CreateIcon("1036"),
-  bitlockerError:CreateIcon("1037"),
-  bitlockerCDrive:CreateIcon("1033"),
-  bitlockerErrorCDrive:CreateIcon("1034"),
-  pin:CreateIcon("5100"),
-  sheild:CreateIcon("SHIDI_SHIELD_INTERNAL"),
+  video:CreateIconOld("23"),
+  internet:CreateIconOld("25"),
+  printer:CreateIconOld("51"),
+  printSuccess:CreateIconOld("49"),
+  networkPrinter:CreateIconOld("53"),
+  networkPrinterSuccess:CreateIconOld("50"),
+  internetPrinter:CreateIconOld("45"),
+  controlPanel:CreateIconOld("27"),
+  floppyDiskDrive:CreateIconOld("28"),
+  disketteDrive:CreateIconOld("29"),
+  cdDrive:CreateIconOld("30"),
+  drive:CreateIconOld("35"),
+  windowsDrive:CreateIconOld("36"),
+  dvdDrive:CreateIconOld("37"),
+  unknownDrive:CreateIconOld("75"),
+  dvd:CreateIconOld("56"),
+  dvdr:CreateIconOld("38"),
+  dvdram:CreateIconOld("39"),
+  dvdrom:CreateIconOld("40"),
+  dvdrw:CreateIconOld("41"),
+  cd:CreateIconOld("61"),
+  cdr:CreateIconOld("62"),
+  cdrom:CreateIconOld("63"),
+  cdrw:CreateIconOld("64"),
+  music2:CreateIconOld("85"),
+  recyclingBinFull:CreateIconOld("54"),
+  recyclingBinEmpty:CreateIconOld("55"),
+  ipod:CreateIconOld("66"),
+  search:CreateIconOld("177"),
+  configFile:CreateIconOld("67"),
+  configApplication:CreateIconOld("68"),
+  configTextFile:CreateIconOld("69"),
+  drawing:CreateIconOld("70"),
+  image:CreateIconOld("72"),
+  painting:CreateIconOld("71"),
+  transparentImage:CreateIconOld("82"),
+  fax:CreateIconOld("76"),
+  directory:CreateIconOld("3"),
+  fontDirectory:CreateIconOld("77"),
+  musicDirectory:CreateIconOld("108"),
+  documentDirectory:CreateIconOld("112"),
+  imageDirectory:CreateIconOld("113"),
+  starredDirectory:CreateIconOld("115"),
+  userDirectory:CreateIconOld("123"),
+  desktopDirectory:CreateIconOld("183"),
+  downloadsDirectory:CreateIconOld("184"),
+  shortcutsDirectory:CreateIconOld("185"),
+  administrator:CreateIconOld("78"),
+  users:CreateIconOld("88"),
+  info:CreateIconOld("81"),
+  warning:CreateIconOld("84"),
+  error:CreateIconOld("98"),
+  help:CreateIconOld("99"),
+  xmark:CreateIconOld("89"),
+  restart:CreateIconOld("86"),
+  run:CreateIconOld("100"),
+  rename:CreateIconOld("94"),
+  mobileDevice:CreateIconOld("93"),
+  screensaver:CreateIconOld("101"),
+  sdCard:CreateIconOld("96"),
+  presentation:CreateIconOld("103"),
+  registry:CreateIconOld("111"),
+  computer:CreateIconOld("109"),
+  fontFile:CreateIconOld("124"),
+  trueTypeFontFile:CreateIconOld("125"),
+  openTypeFontFile:CreateIconOld("127"),
+  musicFile:CreateIconOld("131"),
+  imageFile:CreateIconOld("132"),
+  videoFile:CreateIconOld("133"),
+  multimediaFile:CreateIconOld("134"),
+  musicDvd:CreateIconOld("135"),
+  videoDvd:CreateIconOld("136"),
+  bluerayDrive:CreateIconOld("140"),
+  videoCdDrive:CreateIconOld("141"),
+  burningDisc:CreateIconOld("155"),
+  superVideoCdDrive:CreateIconOld("142"),
+  properties:CreateIconOld("145"),
+  missingDiscDrive:CreateIconOld("146"),
+  taskManager:CreateIconOld("150"),
+  verified:CreateIconOld("157"),
+  shortcut:CreateIconOld("163"),
+  zipFile:CreateIconOld("174"),
+  internet2:CreateIconOld("179"),
+  peripheral:CreateIconOld("182"),
+  gamesDirectory:CreateIconOld("186"),
+  videoDirectory:CreateIconOld("189"),
+  videoFrame169:CreateIconOld("194"),
+  videoFrame43:CreateIconOld("193"),
+  blocked:CreateIconOld("1027"),
+  user:CreateIconOld("1029"),
+  bitlockerDisabled:CreateIconOld("1035"),
+  bitlocker:CreateIconOld("1036"),
+  bitlockerError:CreateIconOld("1037"),
+  bitlockerCDrive:CreateIconOld("1033"),
+  bitlockerErrorCDrive:CreateIconOld("1034"),
+  pin:CreateIconOld("5100"),
+  sheild:CreateIconOld("SHIDI_SHIELD_INTERNAL"),
 }

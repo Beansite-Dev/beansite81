@@ -207,7 +207,7 @@ export const StartMenu=({mb81ref}:{mb81ref:React.RefObject<HTMLDivElement>}):Rea
             <StartMenuItem 
               name="Explorer"
               background={"rgb(242,13,94)"}
-              icon={Icons.directory}
+              icon={Icons.fileManager}
               target="explorer"/>
           </motion.div>
       </motion.div>:null}

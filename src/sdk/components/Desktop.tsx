@@ -103,7 +103,7 @@ export const Desktop=({}):ReactElement=>{
       id:"i7",
       title:"Explorer",
       target:"explorer",
-      icon:Icons.directory
+      icon:Icons.fileManager
     },
   ]
   return(<>
