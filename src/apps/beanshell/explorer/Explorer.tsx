@@ -1,5 +1,5 @@
 import { motion } from "motion/react";
-import React, { useEffect, type ReactElement } from "react";
+import React, { Fragment, useEffect, type ReactElement } from "react";
 import "./style.scss";
 import { atom, useAtom } from "jotai";
 import { errorAtom } from "../../../sdk/components/ErrorBoundary";
@@ -8,6 +8,7 @@ import { FileSystemAtom, FilePropertyModifierAtom, FileCreatorAtom, FileDeletorA
 import { Tabs } from "@base-ui/react";
 import { Icons } from "../../../sdk/components/Enum";
 const directoryTreeAtom=atom<string[]>([]);
+const searchResAtom=atom<fs.DirectoryBase>({});
 const Explorer=({}):ReactElement=>{
   const[,setWindow]=useAtom(ExpressDerivedWinModifierAtom);
   const[,setError]=useAtom(errorAtom);
@@ -42,6 +43,7 @@ const Explorer=({}):ReactElement=>{
     </motion.div>);
   }
   const Body=({}):ReactElement=>{
+    const[searchRes,setSearchRes]=useAtom(searchResAtom);
     return(<motion.div id="explorerBody">
       <motion.div id="actionbar">
         <motion.button 
@@ -66,7 +68,9 @@ const Explorer=({}):ReactElement=>{
               id="up"></motion.div>
         </motion.button>
         <motion.div id="directoryTree">
-
+          {directoryTree.map((x,i)=><Fragment key={x+i}>
+            <motion.span></motion.span>
+          </Fragment>)}
         </motion.div>
         <motion.input
           placeholder={`Search ${directoryTree[directoryTree.length-1]||"This PC"} ⌕`}
