@@ -1,5 +1,5 @@
-import { motion } from "motion/react";
-import React, { Fragment, useEffect, type ReactElement } from "react";
+import { motion, Reorder } from "motion/react";
+import React, { Fragment, useEffect, useState, type ReactElement } from "react";
 import "./style.scss";
 import { atom, useAtom } from "jotai";
 import { errorAtom } from "../../../sdk/components/ErrorBoundary";
@@ -9,6 +9,8 @@ import { Tabs } from "@base-ui/react";
 import { Icons } from "../../../sdk/components/Enum";
 const directoryTreeAtom=atom<string[]>([]);
 const searchResAtom=atom<fs.DirectoryBase>({});
+const historyAtom=atom<string[][]>([]);
+const historyIndexAtom=atom<number>(0);
 const Explorer=({}):ReactElement=>{
   const[,setWindow]=useAtom(ExpressDerivedWinModifierAtom);
   const[,setError]=useAtom(errorAtom);
@@ -19,6 +21,8 @@ const Explorer=({}):ReactElement=>{
   const[,moveFile]=useAtom(FileMoverAtom);
   const[,copyFile]=useAtom(FileCopierAtom);
   const[directoryTree,setDirectoryTree]=useAtom(directoryTreeAtom);
+  const[history,setHistory]=useAtom(historyAtom);
+  const[historyIndex,setHistoryIndex]=useAtom(historyIndexAtom);
   const getScope=():fs.DirectoryBase=>{
     var scope:fs.DirectoryBase=FileSystem;
     for(const dir of directoryTree)
@@ -43,10 +47,18 @@ const Explorer=({}):ReactElement=>{
     </motion.div>);
   }
   const Body=({}):ReactElement=>{
-    const[searchRes,setSearchRes]=useAtom(searchResAtom);
+    const[searchRes,setSearchRes]=useState<fs.DirectoryBase>(getScope());//useAtom(searchResAtom);
+    useEffect(()=>{setSearchRes(getScope());},[directoryTree]);
+    // useEffect(()=>{setDirectoryTree(history[historyIndex]||[])},[historyIndex])
     return(<motion.div id="explorerBody">
       <motion.div id="actionbar">
         <motion.button 
+          onClick={()=>{
+            if(historyIndex<=0)return;
+            setDirectoryTree(history[historyIndex-1]);
+            setHistoryIndex(x=>x-1);
+          }}
+          style={historyIndex<=0?{opacity:".5",pointerEvents:"none"}:{}}
           className="actionButton">
             <motion.div 
               style={{backgroundImage:`url("${Icons.back}")`}}
@@ -54,6 +66,15 @@ const Explorer=({}):ReactElement=>{
               id="back"></motion.div>
         </motion.button>
         <motion.button 
+          onClick={()=>{
+            if(historyIndex>=history.length)return;
+            console.log(history);
+            console.log(history[historyIndex+1]);
+            console.log(historyIndex+1);
+            setDirectoryTree(history[historyIndex+1]);
+            setHistoryIndex(x=>x+1);
+          }}
+          style={historyIndex>=history.length?{opacity:".5",pointerEvents:"none"}:{}}
           className="actionButton">
             <motion.div 
               style={{backgroundImage:`url("${Icons.forward}")`}}
@@ -61,6 +82,8 @@ const Explorer=({}):ReactElement=>{
               id="forward"></motion.div>
         </motion.button>
         <motion.button 
+          onClick={(e)=>{
+            setDirectoryTree(x=>!!x.slice(0,-1)?x.slice(0,-1):[]);}}
           className="actionButton">
             <motion.div 
               style={{backgroundImage:`url("${Icons.goUp}")`,scale:"65%",}}
@@ -75,6 +98,31 @@ const Explorer=({}):ReactElement=>{
         <motion.input
           placeholder={`Search ${directoryTree[directoryTree.length-1]||"This PC"} ⌕`}
           id="search"/>
+      </motion.div>
+      <motion.div id="content">
+        {Object.keys(searchRes).map((x,i)=>(
+          <motion.div 
+            onClick={()=>{
+              if(searchRes[x]&&searchRes[x].isDirectory){
+                setDirectoryTree([...directoryTree,x]);
+                setHistory(x=>[...x,directoryTree]);
+                setHistoryIndex(x=>x+1);
+              }else{
+                
+              }
+            }}
+            className="file" 
+            key={i}>
+              <motion.div
+                style={{backgroundImage:`url(${searchRes[x]?
+                  searchRes[x].isDirectory?Icons.directory
+                  :(searchRes[x]as fs.File).type=="txt"?Icons.text
+                  :(searchRes[x]as fs.File).type=="json"?Icons.shellscript
+                  :Icons.file:Icons.file})`}}
+                className="icon"></motion.div>
+              <motion.span>{x}</motion.span>
+          </motion.div>
+        ))}
       </motion.div>
     </motion.div>)
   }
