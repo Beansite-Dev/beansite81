@@ -11,7 +11,8 @@ const Beanpowered=lazy(()=>import('./apps/beanpowered/Beanpowered.tsx'));
 const Beanforged=lazy(()=>import('./apps/beanforged/Beanforged.tsx'));
 const Blog=lazy(()=>import('./apps/blog/Blog.tsx'));
 const Beanshell=lazy(()=>import('./apps/beanshell/Beanshell.tsx'));
-const Explorer=lazy(()=>import('./apps/beanshell/explorer/Explorer.tsx'));
+export const Explorer=lazy(()=>import('./apps/beanshell/explorer/Explorer.tsx'));
+export const Notepad=lazy(()=>import('./apps/beanshell/notepad/Notepad.tsx'));
 export const CHANGELOG:{
   versionName:string,
   releaseDate:string,
@@ -216,6 +217,8 @@ const App=({}):ReactElement=>{
           {/* @ts-ignore */}
           <Explorer/>
       </Window>
+      {/* @ts-ignore */}
+      <Notepad/>
     </Beansite81>
   </>);
 }

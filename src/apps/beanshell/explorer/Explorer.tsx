@@ -9,7 +9,7 @@ import { Tabs } from "@base-ui/react";
 import { Icons } from "../../../sdk/components/Enum";
 const directoryTreeAtom=atom<string[]>([]);
 const searchResAtom=atom<fs.DirectoryBase>({});
-const historyAtom=atom<string[][]>([]);
+const historyAtom=atom<string[][]>([[],]);
 const historyIndexAtom=atom<number>(0);
 const Explorer=({}):ReactElement=>{
   const[,setWindow]=useAtom(ExpressDerivedWinModifierAtom);
@@ -68,10 +68,10 @@ const Explorer=({}):ReactElement=>{
         <motion.button 
           onClick={()=>{
             if(historyIndex>=history.length)return;
-            console.log(history);
+            console.warn(history);
+            console.log(historyIndex+1,historyIndex);
             console.log(history[historyIndex+1]);
-            console.log(historyIndex+1);
-            setDirectoryTree(history[historyIndex+1]);
+            setDirectoryTree(history[historyIndex+1]||[]);
             setHistoryIndex(x=>x+1);
           }}
           style={historyIndex>=history.length?{opacity:".5",pointerEvents:"none"}:{}}
@@ -91,8 +91,19 @@ const Explorer=({}):ReactElement=>{
               id="up"></motion.div>
         </motion.button>
         <motion.div id="directoryTree">
+          <motion.span onClick={(e)=>{
+            setHistory(h=>h.concat([[]]));
+            setDirectoryTree([]);
+            setHistoryIndex(x=>x+1);
+          }} className="directory">{"C:"}</motion.span>
+          <motion.span className="arrow">{">"}</motion.span>
           {directoryTree.map((x,i)=><Fragment key={x+i}>
-            <motion.span></motion.span>
+            <motion.span onClick={()=>{
+              setHistory(y=>y.concat([directoryTree.slice(0,i+1)]));
+              setDirectoryTree(directoryTree.slice(0,i+1));
+              setHistoryIndex(x=>x+1);
+            }} className="directory">{`${x}`}</motion.span>
+            <motion.span className="arrow">{">"}</motion.span>
           </Fragment>)}
         </motion.div>
         <motion.input
@@ -103,12 +114,20 @@ const Explorer=({}):ReactElement=>{
         {Object.keys(searchRes).map((x,i)=>(
           <motion.div 
             onClick={()=>{
-              if(searchRes[x]&&searchRes[x].isDirectory){
-                setDirectoryTree([...directoryTree,x]);
-                setHistory(x=>[...x,directoryTree]);
-                setHistoryIndex(x=>x+1);
-              }else{
-                
+              if(searchRes[x]){
+                if(searchRes[x].isDirectory){
+                  setHistory(y=>y.concat([[...directoryTree,x]]));
+                  setDirectoryTree([...directoryTree,x]);
+                  setHistoryIndex(x=>x+1);
+                }else{
+                  if((searchRes[x] as fs.File).type=="exe"
+                  ||!!(searchRes[x] as fs.File).attributes.exeLaunchTarget){
+                    setWindow([
+                      [(searchRes[x] as fs.File).attributes.exeLaunchTarget!,"open",true],
+                      [(searchRes[x] as fs.File).attributes.exeLaunchTarget!,"minimized",false],
+                    ]);
+                  }
+                }
               }
             }}
             className="file" 
@@ -118,6 +137,7 @@ const Explorer=({}):ReactElement=>{
                   searchRes[x].isDirectory?Icons.directory
                   :(searchRes[x]as fs.File).type=="txt"?Icons.text
                   :(searchRes[x]as fs.File).type=="json"?Icons.shellscript
+                  :(searchRes[x]as fs.File).type=="exe"?Icons.shellscript
                   :Icons.file:Icons.file})`}}
                 className="icon"></motion.div>
               <motion.span>{x}</motion.span>

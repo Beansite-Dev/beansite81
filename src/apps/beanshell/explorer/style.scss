@@ -121,6 +121,21 @@
         flex-direction: row;
         padding: 2px;
         box-sizing: border-box;
+        gap: 4px;
+        span {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          flex-direction: row;
+          line-height: 0;
+        }
+        .directory {
+          font-size: .875rem;
+          cursor: pointer;
+        }
+        .arrow {
+          font-size: .75rem;
+        }
       }
       #search {
         height: 90%;

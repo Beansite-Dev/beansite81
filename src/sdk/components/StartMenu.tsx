@@ -209,6 +209,11 @@ export const StartMenu=({mb81ref}:{mb81ref:React.RefObject<HTMLDivElement>}):Rea
               background={"rgb(242,13,94)"}
               icon={Icons.fileManager}
               target="explorer"/>
+            <StartMenuItem 
+              name="Notepad"
+              background={"rgb(0,212,255)"}
+              icon={Icons.notepad}
+              target="notepad"/>
           </motion.div>
       </motion.div>:null}
     </AnimatePresence></>,

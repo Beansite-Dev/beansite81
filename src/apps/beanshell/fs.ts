@@ -7,16 +7,31 @@ const FileSystemData:fs.DirectoryBase={
     id:generateId(10),
     children:{},
     isDirectory:true,
+    attributes:{
+      dateCreated:new Date(),
+      dateModified:new Date(),
+      openWithNotepad:false,
+    }
   },
   "ProgramFiles":{
     name:"ProgramFiles",
     id:generateId(10),
     isDirectory:true,
+    attributes:{
+      dateCreated:new Date(),
+      dateModified:new Date(),
+      openWithNotepad:false,
+    },
     children:{
       "win1":{
         name:"win1",
         id:generateId(10),
         isDirectory:true,
+        attributes:{
+          dateCreated:new Date(),
+          dateModified:new Date(),
+          openWithNotepad:false,
+        },
         children:{
           "win1.exe":{
             name:"win1",
@@ -24,7 +39,12 @@ const FileSystemData:fs.DirectoryBase={
             type:"exe",
             content:"",
             id:generateId(10),
-            exeLaunchTarget:"win1",
+            attributes:{
+              dateCreated:new Date(),
+              dateModified:new Date(),
+              openWithNotepad:false,
+              exeLaunchTarget:"win1",
+            },
           },
         },
       },
@@ -32,6 +52,11 @@ const FileSystemData:fs.DirectoryBase={
         name:"changelog",
         id:generateId(10),
         isDirectory:true,
+        attributes:{
+          dateCreated:new Date(),
+          dateModified:new Date(),
+          openWithNotepad:false,
+        },
         children:{
           "changelog.exe":{
             name:"changelog",
@@ -39,7 +64,12 @@ const FileSystemData:fs.DirectoryBase={
             type:"exe",
             content:"",
             id:generateId(10),
-            exeLaunchTarget:"changelog",
+            attributes:{
+              dateCreated:new Date(),
+              dateModified:new Date(),
+              openWithNotepad:false,
+              exeLaunchTarget:"changelog",
+            },
           },
           "data.json":{
             name:"data",
@@ -47,6 +77,11 @@ const FileSystemData:fs.DirectoryBase={
             type:"json",
             content:JSON.stringify(CHANGELOG),
             id:generateId(10),
+            attributes:{
+              dateCreated:new Date(),
+              dateModified:new Date(),
+              openWithNotepad:true,
+            },
           },
         },
       },
@@ -54,6 +89,11 @@ const FileSystemData:fs.DirectoryBase={
         name:"settings",
         id:generateId(10),
         isDirectory:true,
+        attributes:{
+          dateCreated:new Date(),
+          dateModified:new Date(),
+          openWithNotepad:false,
+        },
         children:{
           "settings.exe":{
             name:"settings",
@@ -61,7 +101,12 @@ const FileSystemData:fs.DirectoryBase={
             type:"exe",
             content:"",
             id:generateId(10),
-            exeLaunchTarget:"settings",
+            attributes:{
+              dateCreated:new Date(),
+              dateModified:new Date(),
+              openWithNotepad:false,
+              exeLaunchTarget:"settings",
+            },
           },
         },
       },
@@ -69,6 +114,11 @@ const FileSystemData:fs.DirectoryBase={
         name:"beanpowered",
         id:generateId(10),
         isDirectory:true,
+        attributes:{
+          dateCreated:new Date(),
+          dateModified:new Date(),
+          openWithNotepad:false,
+        },
         children:{
           "beanpowered.exe":{
             name:"beanpowered",
@@ -76,7 +126,12 @@ const FileSystemData:fs.DirectoryBase={
             type:"exe",
             content:"",
             id:generateId(10),
-            exeLaunchTarget:"beanpowered",
+            attributes:{
+              dateCreated:new Date(),
+              dateModified:new Date(),
+              openWithNotepad:false,
+              exeLaunchTarget:"beanpowered",
+            },
           },
         },
       },
@@ -84,6 +139,11 @@ const FileSystemData:fs.DirectoryBase={
         name:"beanforged",
         id:generateId(10),
         isDirectory:true,
+        attributes:{
+          dateCreated:new Date(),
+          dateModified:new Date(),
+          openWithNotepad:false,
+        },
         children:{
           "beanforged.exe":{
             name:"beanforged",
@@ -91,7 +151,12 @@ const FileSystemData:fs.DirectoryBase={
             type:"exe",
             content:"",
             id:generateId(10),
-            exeLaunchTarget:"beanforged",
+            attributes:{
+              dateCreated:new Date(),
+              dateModified:new Date(),
+              openWithNotepad:false,
+              exeLaunchTarget:"beanforged",
+            },
           },
         },
       },
@@ -99,6 +164,11 @@ const FileSystemData:fs.DirectoryBase={
         name:"blog",
         id:generateId(10),
         isDirectory:true,
+        attributes:{
+          dateCreated:new Date(),
+          dateModified:new Date(),
+          openWithNotepad:false,
+        },
         children:{
           "blog.exe":{
             name:"blog",
@@ -106,7 +176,37 @@ const FileSystemData:fs.DirectoryBase={
             type:"exe",
             content:"",
             id:generateId(10),
-            exeLaunchTarget:"blog",
+            attributes:{
+              dateCreated:new Date(),
+              dateModified:new Date(),
+              openWithNotepad:false,
+              exeLaunchTarget:"blog",
+            },
+          },
+        },
+      },
+      "explorer":{
+        name:"explorer",
+        id:generateId(10),
+        isDirectory:true,
+        attributes:{
+          dateCreated:new Date(),
+          dateModified:new Date(),
+          openWithNotepad:false,
+        },
+        children:{
+          "explorer.exe":{
+            name:"explorer",
+            isDirectory:false,
+            type:"exe",
+            content:"",
+            id:generateId(10),
+            attributes:{
+              dateCreated:new Date(),
+              dateModified:new Date(),
+              openWithNotepad:false,
+              exeLaunchTarget:"exploere",
+            },
           },
         },
       },
@@ -114,6 +214,11 @@ const FileSystemData:fs.DirectoryBase={
         name:"beanshell",
         id:generateId(10),
         isDirectory:true,
+        attributes:{
+          dateCreated:new Date(),
+          dateModified:new Date(),
+          openWithNotepad:false,
+        },
         children:{
           "beanshell.exe":{
             name:"beanshell",
@@ -121,7 +226,37 @@ const FileSystemData:fs.DirectoryBase={
             type:"exe",
             content:"",
             id:generateId(10),
-            exeLaunchTarget:"beanshell",
+            attributes:{
+              dateCreated:new Date(),
+              dateModified:new Date(),
+              openWithNotepad:false,
+              exeLaunchTarget:"beanshell",
+            },
+          },
+        },
+      },
+      "notepad":{
+        name:"notepad",
+        id:generateId(10),
+        isDirectory:true,
+        attributes:{
+          dateCreated:new Date(),
+          dateModified:new Date(),
+          openWithNotepad:false,
+        },
+        children:{
+          "notepad.exe":{
+            name:"notepad",
+            isDirectory:false,
+            type:"exe",
+            content:"",
+            id:generateId(10),
+            attributes:{
+              dateCreated:new Date(),
+              dateModified:new Date(),
+              openWithNotepad:false,
+              exeLaunchTarget:"notepad",
+            },
           },
         },
       },
@@ -131,12 +266,22 @@ const FileSystemData:fs.DirectoryBase={
     name:"Downloads",
     id:generateId(10),
     isDirectory:true,
-    children:{}
+    children:{},
+    attributes:{
+      dateCreated:new Date(),
+      dateModified:new Date(),
+      openWithNotepad:false,
+    }
   },
   "Desktop":{
     name:"Desktop",
     id:generateId(10),
     isDirectory:true,
+    attributes:{
+      dateCreated:new Date(),
+      dateModified:new Date(),
+      openWithNotepad:false,
+    },
     children:{
       "win1.lnk":{
         name:"win1",
@@ -144,7 +289,12 @@ const FileSystemData:fs.DirectoryBase={
         type:"lnk",
         content:"",
         id:generateId(10),
-        exeLaunchTarget:"win1",
+        attributes:{
+          dateCreated:new Date(),
+          dateModified:new Date(),
+          openWithNotepad:false,
+          exeLaunchTarget:"win1",
+        },
       },
       "changelog.lnk":{
         name:"changelog",
@@ -152,7 +302,12 @@ const FileSystemData:fs.DirectoryBase={
         type:"lnk",
         content:"",
         id:generateId(10),
-        exeLaunchTarget:"changelog",
+        attributes:{
+          dateCreated:new Date(),
+          dateModified:new Date(),
+          openWithNotepad:false,
+          exeLaunchTarget:"changelog",
+        },
       },
       "settings.lnk":{
         name:"settings",
@@ -160,7 +315,12 @@ const FileSystemData:fs.DirectoryBase={
         type:"lnk",
         content:"",
         id:generateId(10),
-        exeLaunchTarget:"settings",
+        attributes:{
+          dateCreated:new Date(),
+          dateModified:new Date(),
+          openWithNotepad:false,
+          exeLaunchTarget:"settings",
+        },
       },
       "beanpowered.lnk":{
         name:"beanpowered",
@@ -168,7 +328,12 @@ const FileSystemData:fs.DirectoryBase={
         type:"lnk",
         content:"",
         id:generateId(10),
-        exeLaunchTarget:"beanpowered",
+        attributes:{
+          dateCreated:new Date(),
+          dateModified:new Date(),
+          openWithNotepad:false,
+          exeLaunchTarget:"beanpowered",
+        },
       },
       "beanforged.lnk":{
         name:"beanforged",
@@ -176,7 +341,12 @@ const FileSystemData:fs.DirectoryBase={
         type:"lnk",
         content:"",
         id:generateId(10),
-        exeLaunchTarget:"beanforged",
+        attributes:{
+          dateCreated:new Date(),
+          dateModified:new Date(),
+          openWithNotepad:false,
+          exeLaunchTarget:"beanforged",
+        },
       },
       "blog.lnk":{
         name:"blog",
@@ -184,15 +354,51 @@ const FileSystemData:fs.DirectoryBase={
         type:"lnk",
         content:"",
         id:generateId(10),
-        exeLaunchTarget:"blog",
+        attributes:{
+          dateCreated:new Date(),
+          dateModified:new Date(),
+          openWithNotepad:false,
+          exeLaunchTarget:"blog",
+        },
       },
-      "beanshell.exe":{
+      "beanshell.lnk":{
         name:"beanshell",
         isDirectory:false,
         type:"lnk",
         content:"",
         id:generateId(10),
-        exeLaunchTarget:"beanshell",
+        attributes:{
+          dateCreated:new Date(),
+          dateModified:new Date(),
+          openWithNotepad:false,
+          exeLaunchTarget:"beanshell",
+        },
+      },
+      "explorer.lnk":{
+        name:"explorer",
+        isDirectory:false,
+        type:"lnk",
+        content:"",
+        id:generateId(10),
+        attributes:{
+          dateCreated:new Date(),
+          dateModified:new Date(),
+          openWithNotepad:false,
+          exeLaunchTarget:"explorer",
+        },
+      },
+      "notepad.lnk":{
+        name:"notepad",
+        isDirectory:false,
+        type:"lnk",
+        content:"",
+        id:generateId(10),
+        attributes:{
+          dateCreated:new Date(),
+          dateModified:new Date(),
+          openWithNotepad:false,
+          exeLaunchTarget:"notepad",
+        },
       },
     },
   },

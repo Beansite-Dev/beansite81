@@ -148,6 +148,10 @@ const Beanshell=({}):ReactElement=>{
             isDirectory:false,
             type:fileKey.split(".").pop()||"txt",
             content:nanoRef?.current?.innerText||"",
+            attributes:{
+              dateCreated:new Date(),
+              openWithNotepad:true,
+            }
           }
         ]);
       }
@@ -308,6 +312,9 @@ const Beanshell=({}):ReactElement=>{
               isDirectory:false,
               type:inputArray[1].split(".")[1],
               content:"",
+              attributes:{
+                dateCreated:new Date(),
+              }
             }
           ]);
         break;
@@ -672,10 +679,10 @@ const Beanshell=({}):ReactElement=>{
           if(inputArray[0].endsWith(".exe")){
             setLogs(x=>[...x,Header]);
             const scope:fs.DirectoryBase=getScope();
-            if(scope[inputArray[0]]&&!scope[inputArray[0]].isDirectory&&!!(scope[inputArray[0]] as fs.File).exeLaunchTarget)
+            if(scope[inputArray[0]]&&!scope[inputArray[0]].isDirectory&&!!(scope[inputArray[0]] as fs.File).attributes.exeLaunchTarget)
               setWindow([
-                [(scope[inputArray[0]] as fs.File).exeLaunchTarget as string,"open",true],
-                [(scope[inputArray[0]] as fs.File).exeLaunchTarget as string,"minimized",false],
+                [(scope[inputArray[0]] as fs.File).attributes.exeLaunchTarget!,"open",true],
+                [(scope[inputArray[0]] as fs.File).attributes.exeLaunchTarget!,"minimized",false],
               ]);
             else
               setLogs(x=>[...x,Header,

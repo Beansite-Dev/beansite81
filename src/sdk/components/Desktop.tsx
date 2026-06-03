@@ -104,6 +104,11 @@ export const Desktop=({}):ReactElement=>{
       title:"Explorer",
       target:"explorer",
       icon:Icons.fileManager
+    },{
+      id:"i8",
+      title:"Notepad",
+      target:"notepad",
+      icon:Icons.notepad
     },
   ]
   return(<>

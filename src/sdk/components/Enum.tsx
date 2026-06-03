@@ -25,6 +25,7 @@ export const Icons:IIcons={
   beanforgedDark:"/apps/beanforged/beanforge.png",
   beanforged:"/apps/beanforged/bfl.png",
   beanshell:"/apps/beanshell/beanshell.png",
+  notepad:CreateIcon("apps/text-editor"),
   file:CreateIcon("mimetypes/empty"),
   application:CreateIcon("mimetypes/exec"),
   installer:CreateIcon("apps/system-software-install"),

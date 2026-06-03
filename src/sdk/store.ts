@@ -82,6 +82,7 @@ export const SettingsAtom=atom<ISettingsAtom>(
       blog:false,
       beanshell:false,
       explorer:false,
+      // settings:false,
     },
 });
 export const DerivedSetttingsAtom=atom(

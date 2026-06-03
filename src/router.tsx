@@ -63,7 +63,7 @@ export const DeclarativeRouter=({})=>{
         :<Loading/>}> */}
           {/* {isNavigating&&<Loading/>} */}
           <Routes>
-            <Route path="*" element={<NotFound />} />
+            <Route path="*" element={<NotFound/>} />
             <Route path="/" element={<Homepage/>} />
             <Route path="/app" element={<App/>} />
             <Route path="/selector" element={<Selector/>} />
