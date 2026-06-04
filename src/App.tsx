@@ -11,8 +11,10 @@ const Beanpowered=lazy(()=>import('./apps/beanpowered/Beanpowered.tsx'));
 const Beanforged=lazy(()=>import('./apps/beanforged/Beanforged.tsx'));
 const Blog=lazy(()=>import('./apps/blog/Blog.tsx'));
 const Beanshell=lazy(()=>import('./apps/beanshell/Beanshell.tsx'));
+const Debug=lazy(()=>import('./apps/debug/Debug.tsx'));
 export const Explorer=lazy(()=>import('./apps/beanshell/explorer/Explorer.tsx'));
 export const Notepad=lazy(()=>import('./apps/beanshell/notepad/Notepad.tsx'));
+export const Photos=lazy(()=>import('./apps/beanshell/photos/Photos.tsx'));
 export const CHANGELOG:{
   versionName:string,
   releaseDate:string,
@@ -23,26 +25,20 @@ export const CHANGELOG:{
   releaseDate:import.meta.env.VITE_APP_BUILD_DATE,
   comment: "sorry about the break",
   changes:[
-    "TODO: Continue to add Explorer",
+    "TODO: Finish Explorer",
     "TODO: Add Task Manager",
-    "TODO: Replace TestWin with a welcome message instead",
     "TODO: Work on Dosbox pages",
     "TODO: Add command line method to enable debug mode",
     "TODO: Create debug window",
     "TODO: Add files to filesystem",
-    "Added 404 page",
-    "Reverted hash router",
-    "Updates stats",
-    "Added pwd, neofetch",
-    "updated help command",
-    "Fixed accidental file creator derived atom deletion",
-    "Fixed content editable children warning",
-    "Cleaned Changelog",
-    "Added rm, rmdir, cp, and mv commands",
-    "Repushed",
-    "Added startup app selector",
-    "Began explorer implementation",
-    "Set up proper ambient typing and namespaces in Typescript",
+    "Fixed desktop icon double click not working because of @dnd-kit sortable's drag activation radius being too low",
+    "Added file opening to explorer",
+    "Added notepad",
+    "Added environment variables for other apps",
+    "Started replacing test win with a welcome page",
+    "Added debug app only accessible through files and commandline",
+    "Extended Enum",
+    "Added photos app with image viewing (cred to react-iv-viewer for the image viewer component)",
   ],
 };
 const Changelog=({}):ReactElement=>{
@@ -75,7 +71,6 @@ const Changelog=({}):ReactElement=>{
   </>);
 }
 const App=({}):ReactElement=>{
-  const[,setWindow]=useAtom(ExpressDerivedWinModifierAtom);
   const[settings,]=useAtom(SettingsAtom);
   return(<>
     <Helmet>
@@ -91,50 +86,7 @@ const App=({}):ReactElement=>{
         closed={!settings.defaultOpenApps["win1"]}
         icon={Icons.configApplication}
         title="Test Win 1">
-          <motion.h1>Test Window</motion.h1>
-          <motion.h2>Debug</motion.h2>
-          <motion.p>Check game win</motion.p>
-          <motion.input id="checkwin" type="text" />
-          <motion.button
-            onClick={()=>{
-              const input=document.getElementById("checkwin");
-              if(input)window.open(
-                (input as HTMLInputElement).value,
-                "TEST WINDOW - BEANSITE 81 GAMELOADER",
-                "toolbar=no,location=no,directories=no,status=no,menubar=no,scrollbars=yes,resizable=yes,width=640,height=360,top=100,left=100");
-            }}>Submit</motion.button><br/><br/>
-          <motion.button
-            onClick={()=>{
-              setWindow([
-                ["win1","open",true],
-                ["win1","minimized",false],
-                ["changelog","open",true],
-                ["changelog","minimized",false],
-                ["settings","open",true],
-                ["settings","minimized",false],
-                ["beanpowered","open",true],
-                ["beanpowered","minimized",false],
-                ["beanforged","open",true],
-                ["beanforged","minimized",false],
-                ["blog","open",true],
-                ["blog","minimized",false],
-                ["beanshell","open",true],
-                ["beanshell","minimized",false],
-              ]);
-            }}>Open All Windows</motion.button>
-          <motion.button
-            onClick={()=>{
-              setWindow([
-                ["win1","open",false],
-                ["changelog","open",false],
-                ["settings","open",false],
-                ["beanpowered","open",false],
-                ["beanforged","open",false],
-                ["blog","open",false],
-                ["beanshell","open",false],
-              ]);
-            }}>Close All Windows</motion.button><br/>
-          <motion.a href="/extwr">ExtWindowRenderer</motion.a>
+          <motion.h1>Welcome to Beansite 8.1</motion.h1>
       </Window>
       <Window
         id="changelog"
@@ -218,7 +170,17 @@ const App=({}):ReactElement=>{
           <Explorer/>
       </Window>
       {/* @ts-ignore */}
-      <Notepad/>
+      <Notepad/><Photos/>
+      <Window
+        id="debug"
+        y={60}
+        x={60}
+        closed={!settings.defaultOpenApps["debug"]}
+        icon={Icons.fileManager}
+        title="Debug">
+          {/* @ts-ignore */}
+          <Debug/>
+      </Window>
     </Beansite81>
   </>);
 }

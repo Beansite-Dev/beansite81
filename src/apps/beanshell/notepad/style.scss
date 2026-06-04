@@ -1,0 +1,18 @@
+#npWrapper{
+  height: 100% !important;
+  width: 100% !important;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  translate: -50% -50%;
+  background: white;
+  overflow: hidden auto;
+  white-space: pre-wrap;
+  word-break: break-all;
+  padding: .25rem;
+  font-family: 'Source Code Pro', monospace;
+  font-size: .875rem;
+  outline: none;
+  border: none;
+  box-sizing: border-box;
+}

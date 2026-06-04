@@ -1,4 +1,5 @@
 import { useSortable } from '@dnd-kit/react/sortable';
+import { PointerActivationConstraints, PointerSensor } from '@dnd-kit/dom';
 import { motion } from 'motion/react';
 import { useEffect, useRef, useState, type CSSProperties, type ReactElement } from 'react';
 import "./styles/Desktop.scss";
@@ -20,7 +21,15 @@ export const Desktop=({}):ReactElement=>{
     target:string
   }):ReactElement=>{
     // const{ref}=useDraggable({id:num,});
-    const{ref}=useSortable({id,index});
+    const{ref}=useSortable({id,index,
+      sensors:[
+        PointerSensor.configure({
+          activationConstraints:[
+            new PointerActivationConstraints.Distance({ value: 8 }),
+          ],
+        }),
+      ],
+    });
     const[_windows,updateWindow]=useAtom(ExpressDerivedWinModifierAtom);
     return(<>
       <motion.div 
@@ -110,20 +119,20 @@ export const Desktop=({}):ReactElement=>{
       target:"notepad",
       icon:Icons.notepad
     },
-  ]
+  ];
   return(<>
     <motion.div id="Desktop" ref={containerRef}>
-      <Tooltip.Provider>
-        {icons.map((data,index)=>
-          <DesktopIcon 
-            key={data.id} 
-            id={data.id} 
-            target={data.target} 
-            icon={data.icon} 
-            title={data.title} 
-            index={index} />
-        )}    
-      </Tooltip.Provider>
+        <Tooltip.Provider>
+          {icons.map((data,index)=>
+            <DesktopIcon 
+              key={data.id} 
+              id={data.id} 
+              target={data.target} 
+              icon={data.icon} 
+              title={data.title} 
+              index={index} />
+          )}    
+        </Tooltip.Provider>
     </motion.div>
   </>);
 }

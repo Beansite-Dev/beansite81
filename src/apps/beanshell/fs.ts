@@ -1,17 +1,43 @@
 import { atom } from "jotai";
 import { CHANGELOG } from "../../App";
 import { generateId } from "../../sdk/Lib";
+import { Icons } from "../../sdk/components/Enum";
 const FileSystemData:fs.DirectoryBase={
   "System81":{
     name:"System81",
     id:generateId(10),
-    children:{},
     isDirectory:true,
     attributes:{
       dateCreated:new Date(),
       dateModified:new Date(),
       openWithNotepad:false,
-    }
+    },
+    children:{
+      "icons":{
+        name:"icons",
+        id:generateId(10),
+        isDirectory:true,
+        attributes:{
+          dateCreated:new Date(),
+          dateModified:new Date(),
+          openWithNotepad:false,
+        },
+        children:{
+          ...Object.fromEntries(Object.entries(Icons).map(([icon,src])=>[`${icon}.png`,{
+            name:icon,
+            isDirectory:false,
+            type:"image",
+            content:src,
+            id:generateId(10),
+            attributes:{
+              dateCreated:new Date(),
+              dateModified:new Date(),
+              openWithNotepad:false,
+            },
+          }as fs.File])),
+        },
+      }, 
+    },
   },
   "ProgramFiles":{
     name:"ProgramFiles",
@@ -260,6 +286,31 @@ const FileSystemData:fs.DirectoryBase={
           },
         },
       },
+      "debug":{
+        name:"debug",
+        id:generateId(10),
+        isDirectory:true,
+        attributes:{
+          dateCreated:new Date(),
+          dateModified:new Date(),
+          openWithNotepad:false,
+        },
+        children:{
+          "debug.exe":{
+            name:"debug",
+            isDirectory:false,
+            type:"exe",
+            content:"",
+            id:generateId(10),
+            attributes:{
+              dateCreated:new Date(),
+              dateModified:new Date(),
+              openWithNotepad:false,
+              exeLaunchTarget:"debug",
+            },
+          },
+        },
+      },
     },
   },
   "Downloads":{
@@ -400,6 +451,28 @@ const FileSystemData:fs.DirectoryBase={
           exeLaunchTarget:"notepad",
         },
       },
+    },
+  },
+  "help.txt":{
+    name:"help",
+    isDirectory:false,
+    type:"txt",
+    content:`Welcome to Beansite 8.1's Explorer/Beanshell module!
+This is a virtual file system that you can interact with. 
+It contains some system files and directories to get you started, and you can create your own as well.
+
+If you are in the Explorer, you can navigate through the directories by clicking on them.
+You can also use the search bar to quickly find files and directories. Just type in the name and it will show you the results as you type!
+To open a file, just click on it! If it's an executable file, it will run. If it's a text file, it will open in Notepad. You can also create new files and directories by right-clicking in the Explorer and selecting "New File" or "New Directory".
+
+As for commandline users, all commands can be found by using the "help" command. This will outline usage of all commands you will need to use for navigating and manipulating the file system using commandline, among other commands. Useful commands inlude cd, mv, dir, cp, rm, rmdir, and more.
+You may be required to use a command, such as nano, cat, or tac to edit and view file contents. 
+`,
+    id:generateId(10),
+    attributes:{
+      dateCreated:new Date(),
+      dateModified:new Date(),
+      openWithNotepad:true,
     },
   },
 };

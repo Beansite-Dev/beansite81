@@ -7,6 +7,8 @@ import { ExpressDerivedWinModifierAtom } from "../../../sdk/store";
 import { FileSystemAtom, FilePropertyModifierAtom, FileCreatorAtom, FileDeletorAtom, FileMoverAtom, FileCopierAtom } from "../fs";
 import { Tabs } from "@base-ui/react";
 import { Icons } from "../../../sdk/components/Enum";
+import { notepadAtom } from "../notepad/Notepad";
+import { photosAtom } from "../photos/Photos";
 const directoryTreeAtom=atom<string[]>([]);
 const searchResAtom=atom<fs.DirectoryBase>({});
 const historyAtom=atom<string[][]>([[],]);
@@ -48,6 +50,8 @@ const Explorer=({}):ReactElement=>{
   }
   const Body=({}):ReactElement=>{
     const[searchRes,setSearchRes]=useState<fs.DirectoryBase>(getScope());//useAtom(searchResAtom);
+    const[notepad,setNotepad]=useAtom(notepadAtom);
+    const[photos,setPhotos]=useAtom(photosAtom);
     useEffect(()=>{setSearchRes(getScope());},[directoryTree]);
     // useEffect(()=>{setDirectoryTree(history[historyIndex]||[])},[historyIndex])
     return(<motion.div id="explorerBody">
@@ -126,6 +130,26 @@ const Explorer=({}):ReactElement=>{
                       [(searchRes[x] as fs.File).attributes.exeLaunchTarget!,"open",true],
                       [(searchRes[x] as fs.File).attributes.exeLaunchTarget!,"minimized",false],
                     ]);
+                  }else if((searchRes[x] as fs.File).attributes.openWithNotepad){
+                    setNotepad({
+                      ...notepad,
+                      file:searchRes[x] as fs.File,
+                      directoryTree,
+                    });
+                    setWindow([
+                      ["notepad","open",true],
+                      ["notepad","minimized",false],
+                    ]);
+                  }else if((searchRes[x] as fs.File).type=="image"){
+                    setPhotos({
+                      ...photos,
+                      file:searchRes[x] as fs.File,
+                      directoryTree,
+                    });
+                    setWindow([
+                      ["photos","open",true],
+                      ["photos","minimized",false],
+                    ]);
                   }
                 }
               }
@@ -138,6 +162,7 @@ const Explorer=({}):ReactElement=>{
                   :(searchRes[x]as fs.File).type=="txt"?Icons.text
                   :(searchRes[x]as fs.File).type=="json"?Icons.shellscript
                   :(searchRes[x]as fs.File).type=="exe"?Icons.shellscript
+                  :(searchRes[x]as fs.File).type=="image"?Icons.image
                   :Icons.file:Icons.file})`}}
                 className="icon"></motion.div>
               <motion.span>{x}</motion.span>
