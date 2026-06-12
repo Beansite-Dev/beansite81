@@ -1,6 +1,6 @@
 @use "../../Theme.scss";
 @use "../lib.scss" as *;
-.s3{@include Section(round(80vh,2px));
+.s3{@include Section(round(80vh,2px),20rem);
   overflow: hidden;
   .rowWrapper {
     height: 100% !important;

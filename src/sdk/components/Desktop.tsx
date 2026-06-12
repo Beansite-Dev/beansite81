@@ -3,7 +3,7 @@ import { PointerActivationConstraints, PointerSensor } from '@dnd-kit/dom';
 import { motion } from 'motion/react';
 import { useEffect, useRef, useState, type CSSProperties, type ReactElement } from 'react';
 import "./styles/Desktop.scss";
-import { Icons } from './Enum';
+import { Icons, DesktopIcons as icons } from './Enum';
 import { useAtom } from 'jotai';
 import { ExpressDerivedWinModifierAtom, SettingsAtom } from '../store';
 import { Tooltip } from '@base-ui/react/tooltip';
@@ -72,54 +72,6 @@ export const Desktop=({}):ReactElement=>{
     //   setTextColor(res=="dark"?"#fff":"#000");
     // });
   },[]);
-  const icons:{
-    id:string,
-    target:string,
-    icon:string,
-    title:string
-  }[]=[
-    {
-      id:"i1",
-      title:"Test Window",
-      target:"win1",
-      icon:Icons.configApplication
-    },{
-      id:"i2",
-      title:"Settings",
-      target:"settings",
-      icon:Icons.configApplication
-    },{
-      id:"i3",
-      title:"Beanpowered",
-      target:"beanpowered",
-      icon:Icons.beanpowered
-    },{
-      id:"i4",
-      title:"Beanforged",
-      target:"beanforged",
-      icon:Icons.beanforged
-    },{
-      id:"i5",
-      title:"Blog",
-      target:"blog",
-      icon:Icons.text
-    },{
-      id:"i6",
-      title:"Beanshell",
-      target:"beanshell",
-      icon:Icons.beanshell
-    },{
-      id:"i7",
-      title:"Explorer",
-      target:"explorer",
-      icon:Icons.fileManager
-    },{
-      id:"i8",
-      title:"Notepad",
-      target:"notepad",
-      icon:Icons.notepad
-    },
-  ];
   return(<>
     <motion.div id="Desktop" ref={containerRef}>
         <Tooltip.Provider>

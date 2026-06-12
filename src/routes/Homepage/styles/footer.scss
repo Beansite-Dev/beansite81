@@ -1,6 +1,6 @@
 @use "../Theme.scss";
 @use "lib.scss" as *;
-footer{@include Section(round(65dvh,2px));
+footer{@include Section(round(65dvh,2px),28rem);
   align-items: flex-start !important;
   flex-direction: row !important;
   justify-content: space-between !important;

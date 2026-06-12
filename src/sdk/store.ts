@@ -65,7 +65,19 @@ export const SettingsAtom=atom<ISettingsAtom>(
         "scale",
         "font",
         "defaultOpenApps",
-      ].every(key=>Object.keys(settings).includes(key));
+      ].every(key=>Object.keys(settings).includes(key))
+      &&[
+        "win1",
+        "changelog",
+        "settings",
+        "beanpowered",
+        "beanforged",
+        "blog",
+        "beanshell",
+        "explorer",
+        "notepad",
+        "taskmgr",
+      ].every(key=>Object.keys(settings.defaultOpenApps!).includes(key));
   })()?JSON.parse(localStorage.getItem("mb81-settings")!):{
     backgroundImage:"/wallpaper/1.jpg",
     backgroundSize:"cover",
@@ -83,6 +95,7 @@ export const SettingsAtom=atom<ISettingsAtom>(
       beanshell:false,
       explorer:false,
       notepad:false,
+      taskmgr:false,
     },
 });
 export const DerivedSetttingsAtom=atom(

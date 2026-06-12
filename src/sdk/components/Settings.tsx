@@ -90,7 +90,8 @@ const Settings=({}):ReactElement=>{
             display:"flex",
             alignItems:"center",
             justifyContent:"space-between",
-            position:"relative"
+            position:"relative",
+            maxWidth: "25rem",
           }} key={generateId(10)}>
             <motion.p>{key}</motion.p>
             <motion.input 
@@ -115,7 +116,7 @@ const Settings=({}):ReactElement=>{
           defaultValue={settings.scale}
           name="Scale"
           id="scaleSelector"/> */}
-      </motion.div>
+      </motion.div><br/>
       <motion.div id="font">
         <motion.h2>Font</motion.h2>
         <motion.p>Select a font: </motion.p>

@@ -7,8 +7,6 @@ import { Icons } from "../../../sdk/components/Enum";
 import { lazy, startTransition } from 'react';
 import { useNavigate } from 'react-router';
 const FunctionlessWindow=lazy(()=>import("../WindowExample.tsx"));
-//! to fix
-//! issue: window wrapper doesnt show up
 const ani={
   initial:{opacity:0,y:15,},
   whileInView:{opacity:1,y:0,},
@@ -50,6 +48,7 @@ const Header=():ReactElement=>{
         {...ani}
         transition={{duration:.25,delay:.15}}
         className="Logo">Beansite</motion.span>
+      <br/>
       <motion.div className="rowWrapper">
         <a href="/app" onClick={()=>{
           // startTransition(()=>{

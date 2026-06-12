@@ -1,6 +1,6 @@
 @use "../Theme.scss";
 @use "lib.scss" as *;
-header{@include Section(round(80dvh,2px));
+header{@include Section(round(80dvh,2px),32rem);
   align-items: flex-start !important;
   border: 0px transparent solid;
   overflow: hidden;

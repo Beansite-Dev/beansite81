@@ -7,25 +7,25 @@ import { createPortal } from "react-dom";
 import Particles, { initParticlesEngine } from "@tsparticles/react";
 import type { ISourceOptions } from "@tsparticles/engine";
 import { loadSlim } from "@tsparticles/slim";
-import { Icons } from "./Enum";
+import { Icons, StartMenuIcon } from "./Enum";
 export const startMenuAtom=atom<boolean>(false);
 const variants={
   open:{
     opacity: 1,
     y:0,
     scale: "100%",
-    transition: {
+    transition:{
       duration: .25,
       staggerChildren: .25,
       ease: easeInOut,
-    }
+    },
   },
   closed:{
     opacity: 0,
     y:50,
     scale: "90%",
   },
-}
+};
 interface IStartMenuItem {
   name:string;
   icon?:string;
@@ -169,51 +169,8 @@ export const StartMenu=({mb81ref}:{mb81ref:React.RefObject<HTMLDivElement>}):Rea
               name="Back to Desktop"
               background={"url(/wallpaper/1.jpg)"}
               renderIcon={false}/>
-            <StartMenuItem 
-              name="Win1"
-              background={"#0CA2FF"}
-              icon={Icons.configApplication}
-              target="win1"/>
-            <StartMenuItem 
-              name="Changelog"
-              background={"#27D260"}
-              icon={Icons.text}
-              target="changelog"/>
-            <StartMenuItem 
-              name="Settings"
-              background={"#D653E7"}
-              icon={Icons.configApplication}
-              target="settings"/>
-            <StartMenuItem 
-              name="Beanpowered"
-              background={"#3b5998"}
-              icon={Icons.beanpowered}
-              target="beanpowered"/>
-            <StartMenuItem 
-              name="Beanforged"
-              background={"#1da1f2"}
-              icon={Icons.beanforged}
-              target="beanforged"/>
-            <StartMenuItem 
-              name="Blog"
-              background={"#95ff00"}
-              icon={Icons.text}
-              target="blog"/>
-            <StartMenuItem 
-              name="Beanshell"
-              background={"#FF5722"}
-              icon={Icons.beanshell}
-              target="beanshell"/>
-            <StartMenuItem 
-              name="Explorer"
-              background={"rgb(242,13,94)"}
-              icon={Icons.fileManager}
-              target="explorer"/>
-            <StartMenuItem 
-              name="Notepad"
-              background={"rgb(0,212,255)"}
-              icon={Icons.notepad}
-              target="notepad"/>
+            {StartMenuIcon.map((x,i)=>
+              <StartMenuItem key={i}{...x}/>)}
           </motion.div>
       </motion.div>:null}
     </AnimatePresence></>,
