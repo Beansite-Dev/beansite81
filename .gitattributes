@@ -1,1 +1,2 @@
-public/** linguist-vendored
+public/g/** linguist-vendored
+*.html linguist-detectable=false
