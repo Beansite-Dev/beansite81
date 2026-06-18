@@ -1,6 +1,6 @@
 @use "../../Theme.scss";
 @use "../lib.scss" as *;
-.s2{@include Section(round(90dvh,2px));
+.s2{@include Section(round(90dvh,2px),35rem);
   justify-content: flex-start !important;
   .shade {
     height: 100%;

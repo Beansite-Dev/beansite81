@@ -85,7 +85,11 @@
           var(--c1) 35%,
           );
         mask-image: url("/assets/favicon_modern.svg");
+        mask-size: contain;
         mask-repeat: no-repeat;
+        -webkit-mask-image: url("/assets/favicon_modern.svg");
+        -webkit-mask-size: contain;
+        -webkit-mask-repeat: no-repeat;
         animation-delay: 1s;
       }
     }

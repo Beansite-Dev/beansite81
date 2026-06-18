@@ -420,7 +420,7 @@ const Beanshell=({}):ReactElement=>{
           console.table(scope);
           setLogs(x=>[...x,Header,{t:"nl"},
             {t:"l",m:[
-              {c:"    "},{c:"fs.Directory: B:/"+directoryTree.join("/")+(directoryTree.length>0?"/":""),}
+              {c:"    "},{c:"Directory: B:/"+directoryTree.join("/")+(directoryTree.length>0?"/":""),}
             ]},{t:"nl"},
             {t:"l",m:"Mode".padEnd(8," ")+"Name",clr:"Green"},
             {t:"l",m:"----".padEnd(8," ")+"----",clr:"Green"},

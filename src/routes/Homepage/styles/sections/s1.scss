@@ -1,7 +1,7 @@
 @use "../../Theme.scss";
 @use "../lib.scss" as *;
 
-.s1{@include Section(round(60vh,2px));
+.s1{@include Section(round(60vh,2px),20rem);
   h1 {
     font-size: 2.5rem;
     color: Theme.$h1;

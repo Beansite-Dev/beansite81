@@ -12,9 +12,10 @@ const Beanforged=lazy(()=>import('./apps/beanforged/Beanforged.tsx'));
 const Blog=lazy(()=>import('./apps/blog/Blog.tsx'));
 const Beanshell=lazy(()=>import('./apps/beanshell/Beanshell.tsx'));
 const Debug=lazy(()=>import('./apps/debug/Debug.tsx'));
-export const Explorer=lazy(()=>import('./apps/beanshell/explorer/Explorer.tsx'));
-export const Notepad=lazy(()=>import('./apps/beanshell/notepad/Notepad.tsx'));
-export const Photos=lazy(()=>import('./apps/beanshell/photos/Photos.tsx'));
+const TaskMgr=lazy(()=>import('./apps/taskmgr/TaskMgr.tsx'));
+const Explorer=lazy(()=>import('./apps/beanshell/explorer/Explorer.tsx'));
+const Notepad=lazy(()=>import('./apps/beanshell/notepad/Notepad.tsx'));
+const Photos=lazy(()=>import('./apps/beanshell/photos/Photos.tsx'));
 export const CHANGELOG:{
   versionName:string,
   releaseDate:string,
@@ -39,6 +40,11 @@ export const CHANGELOG:{
     "Added debug app only accessible through files and commandline",
     "Extended Enum",
     "Added photos app with image viewing (cred to react-iv-viewer for the image viewer component)",
+    "Moved desktop and start menu icons to enum to unify adding shortcuts",
+    "Fixed settings styling",
+    "Fixed minimum sizes for homepages",
+    "Patched style issues on older chrome versions",
+    "Fixed some spelling issues",
   ],
 };
 const Changelog=({}):ReactElement=>{
@@ -180,6 +186,18 @@ const App=({}):ReactElement=>{
         title="Debug">
           {/* @ts-ignore */}
           <Debug/>
+      </Window>
+      <Window
+        id="taskmgr"
+        y={70}
+        x={70}
+        height={350}
+        width={350*(16/10)}
+        closed={!settings.defaultOpenApps["taskmgr"]}
+        icon={Icons.taskManager}
+        title="Task Management">
+          {/* @ts-ignore */}
+          <TaskMgr/>
       </Window>
     </Beansite81>
   </>);

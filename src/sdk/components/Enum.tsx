@@ -1,16 +1,16 @@
 export const defaultIconPath="/icons/256x256/";
 export const oldIconPath="/icons_old/";
 export const CreateIconOld=(standardName:string):string=>{
-  return `${oldIconPath}${standardName}.ico`;}
+  return`${oldIconPath}${standardName}.ico`;};
 export const CreateIcon=(standardName:string):string=>{
-  return `${defaultIconPath}${standardName}.png`; }
+  return`${defaultIconPath}${standardName}.png`;};
 export interface IWindowSymbols{
   close:string;
   min:string;
   max:string;
   unmax:string;
   search:string;
-}
+};
 export const WindowSymbols:IWindowSymbols={
   //🗙︎🗕🗖︎🗗︎
   close:"🗙︎",
@@ -18,7 +18,7 @@ export const WindowSymbols:IWindowSymbols={
   max:"🗖︎",
   unmax:"🗗︎",
   search:"⌕",
-}
+};
 interface IIcons{[key:string]:string;}
 export const Icons:IIcons={
   beanpowered:"/apps/beanpowered/bp.png",
@@ -128,7 +128,9 @@ export const Icons:IIcons={
   superVideoCdDrive:CreateIconOld("142"),
   missingDiscDrive:CreateIconOld("146"),
   burningDisc:CreateIconOld("155"),
-  taskManager:CreateIconOld("150"),
+  taskManagerOld:CreateIconOld("150"),
+  taskManager:CreateIcon("apps/gnome-monitor"),
+  bluetooth:CreateIcon("apps/bluetooth"),
   verified:CreateIconOld("157"),
   shortcut:CreateIconOld("163"),
   zip:CreateIcon("mimetypes/zip"),
@@ -154,7 +156,113 @@ export const Icons:IIcons={
   goDown:CreateIcon("actions/go-down"),
   goFirst:CreateIcon("actions/go-first"),
   goLast:CreateIcon("actions/go-last"),
-}
+};
+export const DesktopIcons:{
+  id:string,
+  target:string,
+  icon:string,
+  title:string
+}[]=[
+  {
+    id:"i1",
+    title:"Test Window",
+    target:"win1",
+    icon:Icons.configApplication
+  },{
+    id:"i2",
+    title:"Settings",
+    target:"settings",
+    icon:Icons.configApplication
+  },{
+    id:"i3",
+    title:"Beanpowered",
+    target:"beanpowered",
+    icon:Icons.beanpowered
+  },{
+    id:"i4",
+    title:"Beanforged",
+    target:"beanforged",
+    icon:Icons.beanforged
+  },{
+    id:"i5",
+    title:"Blog",
+    target:"blog",
+    icon:Icons.text
+  },{
+    id:"i6",
+    title:"Beanshell",
+    target:"beanshell",
+    icon:Icons.beanshell
+  },{
+    id:"i7",
+    title:"Explorer",
+    target:"explorer",
+    icon:Icons.fileManager
+  },{
+    id:"i8",
+    title:"Notepad",
+    target:"notepad",
+    icon:Icons.notepad
+  },{
+    id:"i9",
+    title:"Task Manager",
+    target:"taskmgr",
+    icon:Icons.taskManager
+  },
+];
+export const StartMenuIcon:{
+  name:string;
+  background:string;
+  icon:string;
+  target:string;
+}[]=[
+  {
+    name:"Win1",
+    background:"#0CA2FF",
+    icon:Icons.configApplication,
+    target:"win1",
+  },{
+    name:"Changelog",
+    background:"#27D260",
+    icon:Icons.text,
+    target:"changelog",
+  },{
+    name:"Settings",
+    background:"#D653E7",
+    icon:Icons.configApplication,
+    target:"settings",
+  },{
+    name:"Beanpowered",
+    background:"#3b5998",
+    icon:Icons.beanpowered,
+    target:"beanpowered",
+  },{
+    name:"Beanforged",
+    background:"#1DA1f2",
+    icon:Icons.beanforged,
+    target:"beanforged",
+  },{
+    name:"Blog",
+    background:"#95FF00",
+    icon:Icons.text,
+    target:"blog",
+  },{
+    name:"Beanshell",
+    background:"#FF5722",
+    icon:Icons.beanshell,
+    target:"beanshell",
+  },{
+    name:"Explorer",
+    background:"#F20D5E",
+    icon:Icons.fileManager,
+    target:"explorer",
+  },{
+    name:"Notepad",
+    background:"rgb(0,212,255)",
+    icon:Icons.notepad,
+    target:"notepad",
+  },
+];
 export const IconsOld:IIcons={
   file:CreateIconOld("2"),
   application:CreateIconOld("15"),
@@ -269,4 +377,4 @@ export const IconsOld:IIcons={
   bitlockerErrorCDrive:CreateIconOld("1034"),
   pin:CreateIconOld("5100"),
   sheild:CreateIconOld("SHIDI_SHIELD_INTERNAL"),
-}
+};
