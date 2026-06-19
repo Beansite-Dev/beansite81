@@ -39,6 +39,7 @@ export const CHANGELOG:{
     "Fixed incorrect language reporting on github linguist",
     "Added advanced file selection",
     "Added Beancord using https://widgetbot.io (login may not work)",
+    "Bugfix: Fixed IIcons type not being exported",
   ],
 };
 const Changelog=({}):ReactElement=>{

@@ -19,7 +19,7 @@ export const WindowSymbols:IWindowSymbols={
   unmax:"🗗︎",
   search:"⌕",
 };
-interface IIcons{[key:string]:string;}
+export interface IIcons{[key:string]:string;}
 export const Icons:IIcons={
   beanpowered:"/apps/beanpowered/bp.png",
   beanforgedDark:"/apps/beanforged/beanforge.png",
