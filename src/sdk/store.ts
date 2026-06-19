@@ -77,6 +77,7 @@ export const SettingsAtom=atom<ISettingsAtom>(
         "explorer",
         "notepad",
         "taskmgr",
+        "beancord",
       ].every(key=>Object.keys(settings.defaultOpenApps!).includes(key));
   })()?JSON.parse(localStorage.getItem("mb81-settings")!):{
     backgroundImage:"/wallpaper/1.jpg",
@@ -96,6 +97,7 @@ export const SettingsAtom=atom<ISettingsAtom>(
       explorer:false,
       notepad:false,
       taskmgr:false,
+      beancord:false,
     },
 });
 export const DerivedSetttingsAtom=atom(

@@ -16,6 +16,7 @@ const TaskMgr=lazy(()=>import('./apps/taskmgr/TaskMgr.tsx'));
 const Explorer=lazy(()=>import('./apps/beanshell/explorer/Explorer.tsx'));
 const Notepad=lazy(()=>import('./apps/beanshell/notepad/Notepad.tsx'));
 const Photos=lazy(()=>import('./apps/beanshell/photos/Photos.tsx'));
+const Beancord=lazy(()=>import('./apps/beancord/Beancord.tsx'));
 export const CHANGELOG:{
   versionName:string,
   releaseDate:string,
@@ -24,27 +25,20 @@ export const CHANGELOG:{
 }={
   versionName:import.meta.env.VITE_APP_VERSION,
   releaseDate:import.meta.env.VITE_APP_BUILD_DATE,
-  comment: "sorry about the break",
+  comment: "summer grind begins",
   changes:[
     "TODO: Finish Explorer",
     "TODO: Add Task Manager",
     "TODO: Work on Dosbox pages",
-    "TODO: Add command line method to enable debug mode",
-    "TODO: Create debug window",
+    "TODO: Add context menu functionality",
+    "TODO: Add header action buttons",
     "TODO: Add files to filesystem",
-    "Fixed desktop icon double click not working because of @dnd-kit sortable's drag activation radius being too low",
-    "Added file opening to explorer",
-    "Added notepad",
-    "Added environment variables for other apps",
-    "Started replacing test win with a welcome page",
-    "Added debug app only accessible through files and commandline",
-    "Extended Enum",
-    "Added photos app with image viewing (cred to react-iv-viewer for the image viewer component)",
-    "Moved desktop and start menu icons to enum to unify adding shortcuts",
-    "Fixed settings styling",
-    "Fixed minimum sizes for homepages",
-    "Patched style issues on older chrome versions",
-    "Fixed some spelling issues",
+    "TODO: Add property viewing to explorer",
+    "Added context menu to file explorer",
+    "Added file actions",
+    "Fixed incorrect language reporting on github linguist",
+    "Added advanced file selection",
+    "Added Beancord using https://widgetbot.io (login may not work)",
   ],
 };
 const Changelog=({}):ReactElement=>{
@@ -195,9 +189,21 @@ const App=({}):ReactElement=>{
         width={350*(16/10)}
         closed={!settings.defaultOpenApps["taskmgr"]}
         icon={Icons.taskManager}
-        title="Task Management">
+        title="Task Manager">
           {/* @ts-ignore */}
           <TaskMgr/>
+      </Window>
+      <Window
+        id="beancord"
+        y={90}
+        x={90}
+        height={350}
+        width={350*(16/10)}
+        closed={!settings.defaultOpenApps["beancord"]}
+        icon={Icons.text}
+        title="Beancord">
+          {/* @ts-ignore */}
+          <Beancord/>
       </Window>
     </Beansite81>
   </>);
