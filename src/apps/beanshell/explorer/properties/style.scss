@@ -1,0 +1,39 @@
+.winproperties{
+  table {
+    border-collapse: collapse;
+    font-size: .85rem;
+    width: 100%;
+    tr{
+      td{
+        padding-bottom: .25rem !important;
+        .attribute {
+          display: flex;
+          justify-content: flex-start;
+          align-items: center;
+          flex-direction: row;
+        }
+      }
+      td:first-of-type{
+        padding-right: 1rem;
+        text-wrap: nowrap;
+        word-break: keep-all;
+        width: min-content !important;
+      }
+      td:nth-child(2){
+        width: 100%;
+        text-align: left !important;
+      }
+    }
+    .divider{
+      padding: 0;
+      .dividerLine{
+        border: 0;
+        border-bottom: 1px solid #a0a0a0;
+      } 
+    }
+  }
+  .icon{
+    height: 2rem;
+    aspect-ratio: 1 / 1;
+  }
+}

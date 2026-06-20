@@ -63,9 +63,18 @@
       flex-direction: column !important;
       height: 3.5rem !important;
       aspect-ratio: 1 / 1;
+      position: relative;
       // width: 3rem;
       // background: pink;
       @include Lib.bgContain;
+      .shortcutIcon {
+        height: 2rem !important;
+        aspect-ratio: 1 / 1;
+        position: absolute;
+        bottom: 0%;
+        left: 0%;
+        @include Lib.bgContain;
+      }
     }
   }
 }

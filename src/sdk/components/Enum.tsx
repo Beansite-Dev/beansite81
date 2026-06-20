@@ -1,9 +1,12 @@
-export const defaultIconPath="/icons/256x256/";
+import { motion } from "motion/react";
+import type { ReactElement } from "react";
+
+export const defaultIconPath="/icons/";
 export const oldIconPath="/icons_old/";
 export const CreateIconOld=(standardName:string):string=>{
   return`${oldIconPath}${standardName}.ico`;};
-export const CreateIcon=(standardName:string):string=>{
-  return`${defaultIconPath}${standardName}.png`;};
+export const CreateIcon=(standardName:string,size:string="256"):string=>{
+  return`${defaultIconPath}${size}x${size}/${standardName}.png`;};
 export interface IWindowSymbols{
   close:string;
   min:string;
@@ -23,6 +26,8 @@ export interface IIcons{[key:string]:string;}
 export const Icons:IIcons={
   beanpowered:"/apps/beanpowered/bp.png",
   beanforgedDark:"/apps/beanforged/beanforge.png",
+  beancord:"/apps/beancord/beancord.png",
+  beancordDark:"/apps/beancord/beancord-black.png",
   beanforged:"/apps/beanforged/bfl.png",
   beanshell:"/apps/beanshell/beanshell.png",
   notepad:CreateIcon("apps/text-editor"),
@@ -91,6 +96,8 @@ export const Icons:IIcons={
   error:CreateIcon("status/dialog-error"),
   help:CreateIcon("status/dialog-question"),
   delete:CreateIcon("actions/edit-delete"),
+  copy:CreateIcon("actions/edit-copy","48"),
+  paste:CreateIcon("actions/edit-paste","48"),
   undo:CreateIcon("actions/document-revert"),
   redo:CreateIcon("actions/document-revert-rtl"),
   back:CreateIcon("actions/back"),
@@ -157,6 +164,15 @@ export const Icons:IIcons={
   goFirst:CreateIcon("actions/go-first"),
   goLast:CreateIcon("actions/go-last"),
 };
+export const Icon=(props:{icon:keyof IIcons;[key:string]:any}):ReactElement=>{
+  return(<motion.div {...props} style={{
+    backgroundImage:`url(${Icons[props.icon]})`,
+    backgroundPosition:"center",
+    backgroundSize:"contain",
+    backgroundRepeat:"no-repeat"
+  }}></motion.div>)
+}
+export const iconPathToIcon=(x:string):string=>Object.keys(Icons).find(i=>Icons[i]===x)as string;
 export const DesktopIcons:{
   id:string,
   target:string,
@@ -208,6 +224,11 @@ export const DesktopIcons:{
     title:"Task Manager",
     target:"taskmgr",
     icon:Icons.taskManager
+  },{
+    id:"i10",
+    title:"Beancord",
+    target:"beancord",
+    icon:Icons.beancord
   },
 ];
 export const StartMenuIcon:{
@@ -258,9 +279,19 @@ export const StartMenuIcon:{
     target:"explorer",
   },{
     name:"Notepad",
-    background:"rgb(0,212,255)",
+    background:"#00d4ff",
     icon:Icons.notepad,
     target:"notepad",
+  },{
+    name:"Task Manager",
+    background:"#00BFA5",
+    icon:Icons.taskManager,
+    target:"taskmgr",
+  },{
+    name:"Beancord",
+    background:"#FDD835",
+    icon:Icons.beancord,
+    target:"beancord",
   },
 ];
 export const IconsOld:IIcons={

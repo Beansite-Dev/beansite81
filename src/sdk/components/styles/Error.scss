@@ -1,0 +1,40 @@
+.errorWrapper {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 1.5rem;
+  .ewL, .ewR {
+    width: fit-content;
+    height: fit-content;
+  }
+  .errorIcon {
+    height: 2.5rem;
+    aspect-ratio: 1 / 1;
+  }
+}
+.error_actionWrapper {
+  background: #f0f0f0;
+  width: 100%;
+  height: 3rem;
+  box-sizing: border-box;
+  position: absolute;
+  bottom: 0%;
+  left: 50%;
+  translate: -50% 0%;
+  border-top: 1px #dbdbdb solid;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-end;
+  padding: .5rem;
+  button {
+    padding: .125rem 1.75rem;
+    border: 1px #4192ea solid;
+    border-radius: 0;
+    background: #dddddd;
+    font-size: .875rem;
+    cursor: pointer;
+  }
+}

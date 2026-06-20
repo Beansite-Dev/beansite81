@@ -1,6 +1,6 @@
 import { lazy, useEffect, useState, type ReactElement } from 'react';
 import { Beansite81, Window } from './sdk/sdk';
-import { Icons, IconsOld } from './sdk/components/Enum';
+import { Icon, Icons, IconsOld } from './sdk/components/Enum';
 import { Helmet } from "react-helmet-async";
 import { motion } from 'motion/react';
 import { useAtom } from 'jotai';
@@ -11,12 +11,13 @@ const Beanpowered=lazy(()=>import('./apps/beanpowered/Beanpowered.tsx'));
 const Beanforged=lazy(()=>import('./apps/beanforged/Beanforged.tsx'));
 const Blog=lazy(()=>import('./apps/blog/Blog.tsx'));
 const Beanshell=lazy(()=>import('./apps/beanshell/Beanshell.tsx'));
+const Beancord=lazy(()=>import('./apps/beancord/Beancord.tsx'));
 const Debug=lazy(()=>import('./apps/debug/Debug.tsx'));
 const TaskMgr=lazy(()=>import('./apps/taskmgr/TaskMgr.tsx'));
 const Explorer=lazy(()=>import('./apps/beanshell/explorer/Explorer.tsx'));
 const Notepad=lazy(()=>import('./apps/beanshell/notepad/Notepad.tsx'));
 const Photos=lazy(()=>import('./apps/beanshell/photos/Photos.tsx'));
-const Beancord=lazy(()=>import('./apps/beancord/Beancord.tsx'));
+const Properties=lazy(()=>import('./apps/beanshell/explorer/properties/Properties.tsx'));
 export const CHANGELOG:{
   versionName:string,
   releaseDate:string,
@@ -27,19 +28,36 @@ export const CHANGELOG:{
   releaseDate:import.meta.env.VITE_APP_BUILD_DATE,
   comment: "summer grind begins",
   changes:[
-    "TODO: Finish Explorer",
     "TODO: Add Task Manager",
     "TODO: Work on Dosbox pages",
     "TODO: Add context menu functionality",
-    "TODO: Add header action buttons",
-    "TODO: Add files to filesystem",
+    "TODO: Add header action buttons to explorer",
     "TODO: Add property viewing to explorer",
     "Added context menu to file explorer",
     "Added file actions",
     "Fixed incorrect language reporting on github linguist",
     "Added advanced file selection",
-    "Added Beancord using https://widgetbot.io (login may not work)",
+    "Added Beancord using https://widgetbot.io",
     "Bugfix: Fixed IIcons type not being exported",
+    "Fixed bash/batch files",
+    "Added beancord logos",
+    "Added beanord desktop icons and start menu icons",
+    "Added guest mode to beancord",
+    "Added copying and pasting",
+    "Added file deletion",
+    "Added error messages",
+    "Added window selective titlebar button display",
+    "Added icon component to enum",
+    "Added backbone for properties window",
+    "Added types and modification dates to explorer",
+    "Added header to explorer list",
+    "Added explorer header section outline",
+    "Added properties window with full function",
+    "Added functions for parsing custom names and icons for file types",
+    "Added more icons",
+    "Added basic header functionality to explorer",
+    "Finished explorer",
+    "Added a shortcut icon",
   ],
 };
 const Changelog=({}):ReactElement=>{
@@ -73,6 +91,7 @@ const Changelog=({}):ReactElement=>{
 }
 const App=({}):ReactElement=>{
   const[settings,]=useAtom(SettingsAtom);
+  const[,setWindow]=useAtom(ExpressDerivedWinModifierAtom);
   return(<>
     <Helmet>
       <meta charSet="UTF-8" />
@@ -171,7 +190,7 @@ const App=({}):ReactElement=>{
           <Explorer/>
       </Window>
       {/* @ts-ignore */}
-      <Notepad/><Photos/>
+      <Notepad/><Photos/><Properties/>
       <Window
         id="debug"
         y={60}
@@ -200,11 +219,41 @@ const App=({}):ReactElement=>{
         x={90}
         height={350}
         width={350*(16/10)}
+        customContentBoxStyling={{background:"#2e3036"}}
         closed={!settings.defaultOpenApps["beancord"]}
-        icon={Icons.text}
+        icon={Icons.beancord}
         title="Beancord">
           {/* @ts-ignore */}
           <Beancord/>
+      </Window>
+
+
+
+      {/*//! errors */}
+      <Window
+        id="protectionError"
+        y={(window.innerHeight/2)-(180/2)-(42/4)}
+        x={(window.innerWidth/2)-(480/2)}
+        height={180}
+        width={480}
+        closed
+        includeButton={[true,false,false]}
+        icon={Icons.warning}
+        title="Error">
+          <motion.div className='errorWrapper'>
+            <motion.div className='ewL'>
+              <Icon icon="warning" className="errorIcon"/>
+            </motion.div>
+            <motion.div className='ewR'>
+              <motion.p>An error occurred while deleting file</motion.p>
+              <motion.p>The media is write protected.</motion.p>
+            </motion.div>
+          </motion.div>
+          <motion.div className='error_actionWrapper'>
+            <motion.button onClick={(e)=>{
+              setWindow([["protectionError","open",false],]);
+            }}>OK</motion.button>
+          </motion.div>
       </Window>
     </Beansite81>
   </>);

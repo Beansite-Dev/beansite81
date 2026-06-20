@@ -25,6 +25,7 @@ export interface IWindow{
   minimized?:boolean|null;
   // darkIcon?:boolean;
   closed?:boolean|null;
+  includeButton?:[boolean,boolean,boolean];
   customContentBoxStyling?:CSSProperties;
   CustomLoadingScreen?:ComponentType;
 };
@@ -71,6 +72,7 @@ export const Window=({
   // darkIcon=false,
   closed=false,
   CustomLoadingScreen=LoadingScreen,
+  includeButton=[true,true,true],
 }:IWindow):ReactElement=>{
   const[_windows,setWindow]=useAtom(DerivedWinAtom);
   const[,updateWindow]=useAtom(DerivedWinModifierAtom);
@@ -204,7 +206,7 @@ export const Window=({
             exit={"closed"}
             key={0}
             transition={{duration:isResizing?0:.25,}}
-            className={`Window ${isResizing?"noAni":""}`} 
+            className={`Window ${isResizing?"noAni":""} win${id}`} 
             layout
             id={ids}>
               <motion.div 
@@ -221,8 +223,8 @@ export const Window=({
                         if(dragRef.current&&lastPos){
                           const dRect=dragRef.current.getBoundingClientRect();
                           setLastPos({
-                            x:e.clientX - (dRect.left),
-                            y:e.clientY - (dRect.top),
+                            x:e.clientX-(dRect.left),
+                            y:e.clientY-(dRect.top),
                           });
                           setIsMax(false);
                         }
@@ -231,6 +233,7 @@ export const Window=({
                     className={`Title ${id}_draghandle`}>{title}</motion.h1>
                   <motion.div className="ButtonWrapper">
                     <motion.button 
+                      style={includeButton[0]?{}:{display:"none"}}
                       onClick={(e)=>{
                         e.preventDefault();
                         console.log("~ close");
@@ -238,6 +241,7 @@ export const Window=({
                       }}
                       className="Button x">{WindowSymbols.close}</motion.button>
                     <motion.button 
+                      style={includeButton[1]?{}:{display:"none"}}
                       onClick={(e)=>{
                         e.preventDefault();
                         setIsMax(!isMax);
@@ -246,6 +250,7 @@ export const Window=({
                       id={`${id}_max`}
                       className="Button max">{isMax?WindowSymbols.unmax:WindowSymbols.max}</motion.button>
                     <motion.button 
+                      style={includeButton[2]?{}:{display:"none"}}
                       onClick={(e)=>{
                         e.preventDefault();
                         console.log("~ min");

@@ -19,7 +19,7 @@ echo.
 echo ---
 echo Deploying firebase/vercel
 echo =^> firebase deploy
-echo =^> vercel --prod
+echo =^> vercel --prod --archive=tgz
 echo ---
 echo.
 echo.

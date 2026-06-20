@@ -1,6 +1,7 @@
 // library
 @use "./Lib.scss";
 @use "./themes/ThemeLib.scss";
+@use "./components/styles/Error.scss";
 // themes
 @use "./themes/Default.scss";
 @use "./themes/Dark.scss";

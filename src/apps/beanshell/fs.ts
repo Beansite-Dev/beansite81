@@ -11,6 +11,8 @@ const FileSystemData:fs.DirectoryBase={
       dateCreated:new Date(),
       dateModified:new Date(),
       openWithNotepad:false,
+      system:true,
+      readOnly:true,
     },
     children:{
       "icons":{
@@ -21,12 +23,14 @@ const FileSystemData:fs.DirectoryBase={
           dateCreated:new Date(),
           dateModified:new Date(),
           openWithNotepad:false,
+          system:true,
+          readOnly:true,
         },
         children:{
           ...Object.fromEntries(Object.entries(Icons).map(([icon,src])=>[`${icon}.png`,{
             name:icon,
             isDirectory:false,
-            type:"image",
+            type:"png",
             content:src,
             id:generateId(10),
             attributes:{
@@ -47,6 +51,7 @@ const FileSystemData:fs.DirectoryBase={
       dateCreated:new Date(),
       dateModified:new Date(),
       openWithNotepad:false,
+      readOnly:true,
     },
     children:{
       "win1":{
@@ -57,6 +62,7 @@ const FileSystemData:fs.DirectoryBase={
           dateCreated:new Date(),
           dateModified:new Date(),
           openWithNotepad:false,
+          readOnly:true,
         },
         children:{
           "win1.exe":{
@@ -70,6 +76,7 @@ const FileSystemData:fs.DirectoryBase={
               dateModified:new Date(),
               openWithNotepad:false,
               exeLaunchTarget:"win1",
+              readOnly:true,
             },
           },
         },
@@ -82,6 +89,7 @@ const FileSystemData:fs.DirectoryBase={
           dateCreated:new Date(),
           dateModified:new Date(),
           openWithNotepad:false,
+          readOnly:true,
         },
         children:{
           "changelog.exe":{
@@ -95,6 +103,7 @@ const FileSystemData:fs.DirectoryBase={
               dateModified:new Date(),
               openWithNotepad:false,
               exeLaunchTarget:"changelog",
+              readOnly:true,
             },
           },
           "data.json":{
@@ -107,6 +116,7 @@ const FileSystemData:fs.DirectoryBase={
               dateCreated:new Date(),
               dateModified:new Date(),
               openWithNotepad:true,
+              readOnly:true,
             },
           },
         },
@@ -119,6 +129,7 @@ const FileSystemData:fs.DirectoryBase={
           dateCreated:new Date(),
           dateModified:new Date(),
           openWithNotepad:false,
+          readOnly:true,
         },
         children:{
           "settings.exe":{
@@ -132,6 +143,7 @@ const FileSystemData:fs.DirectoryBase={
               dateModified:new Date(),
               openWithNotepad:false,
               exeLaunchTarget:"settings",
+              readOnly:true,
             },
           },
         },
@@ -144,6 +156,7 @@ const FileSystemData:fs.DirectoryBase={
           dateCreated:new Date(),
           dateModified:new Date(),
           openWithNotepad:false,
+          readOnly:true,
         },
         children:{
           "beanpowered.exe":{
@@ -157,6 +170,7 @@ const FileSystemData:fs.DirectoryBase={
               dateModified:new Date(),
               openWithNotepad:false,
               exeLaunchTarget:"beanpowered",
+              readOnly:true,
             },
           },
         },
@@ -169,6 +183,7 @@ const FileSystemData:fs.DirectoryBase={
           dateCreated:new Date(),
           dateModified:new Date(),
           openWithNotepad:false,
+          readOnly:true,
         },
         children:{
           "beanforged.exe":{
@@ -182,6 +197,7 @@ const FileSystemData:fs.DirectoryBase={
               dateModified:new Date(),
               openWithNotepad:false,
               exeLaunchTarget:"beanforged",
+              readOnly:true,
             },
           },
         },
@@ -194,6 +210,7 @@ const FileSystemData:fs.DirectoryBase={
           dateCreated:new Date(),
           dateModified:new Date(),
           openWithNotepad:false,
+          readOnly:true,
         },
         children:{
           "blog.exe":{
@@ -207,6 +224,7 @@ const FileSystemData:fs.DirectoryBase={
               dateModified:new Date(),
               openWithNotepad:false,
               exeLaunchTarget:"blog",
+              readOnly:true,
             },
           },
         },
@@ -219,6 +237,7 @@ const FileSystemData:fs.DirectoryBase={
           dateCreated:new Date(),
           dateModified:new Date(),
           openWithNotepad:false,
+          readOnly:true,
         },
         children:{
           "explorer.exe":{
@@ -232,6 +251,7 @@ const FileSystemData:fs.DirectoryBase={
               dateModified:new Date(),
               openWithNotepad:false,
               exeLaunchTarget:"exploere",
+              readOnly:true,
             },
           },
         },
@@ -244,6 +264,7 @@ const FileSystemData:fs.DirectoryBase={
           dateCreated:new Date(),
           dateModified:new Date(),
           openWithNotepad:false,
+          readOnly:true,
         },
         children:{
           "beanshell.exe":{
@@ -257,6 +278,7 @@ const FileSystemData:fs.DirectoryBase={
               dateModified:new Date(),
               openWithNotepad:false,
               exeLaunchTarget:"beanshell",
+              readOnly:true,
             },
           },
         },
@@ -269,6 +291,7 @@ const FileSystemData:fs.DirectoryBase={
           dateCreated:new Date(),
           dateModified:new Date(),
           openWithNotepad:false,
+          readOnly:true,
         },
         children:{
           "notepad.exe":{
@@ -282,6 +305,7 @@ const FileSystemData:fs.DirectoryBase={
               dateModified:new Date(),
               openWithNotepad:false,
               exeLaunchTarget:"notepad",
+              readOnly:true,
             },
           },
         },
@@ -294,6 +318,7 @@ const FileSystemData:fs.DirectoryBase={
           dateCreated:new Date(),
           dateModified:new Date(),
           openWithNotepad:false,
+          readOnly:true,
         },
         children:{
           "debug.exe":{
@@ -307,6 +332,34 @@ const FileSystemData:fs.DirectoryBase={
               dateModified:new Date(),
               openWithNotepad:false,
               exeLaunchTarget:"debug",
+              readOnly:true,
+            },
+          },
+        },
+      },
+      "beancord":{
+        name:"beancord",
+        id:generateId(10),
+        isDirectory:true,
+        attributes:{
+          dateCreated:new Date(),
+          dateModified:new Date(),
+          openWithNotepad:false,
+          readOnly:true,
+        },
+        children:{
+          "Update.exe":{
+            name:"Update",
+            isDirectory:false,
+            type:"exe",
+            content:"",
+            id:generateId(10),
+            attributes:{
+              dateCreated:new Date(),
+              dateModified:new Date(),
+              openWithNotepad:false,
+              exeLaunchTarget:"beancord",
+              readOnly:true,
             },
           },
         },
@@ -332,6 +385,7 @@ const FileSystemData:fs.DirectoryBase={
       dateCreated:new Date(),
       dateModified:new Date(),
       openWithNotepad:false,
+      readOnly:true,
     },
     children:{
       "win1.lnk":{
@@ -345,6 +399,7 @@ const FileSystemData:fs.DirectoryBase={
           dateModified:new Date(),
           openWithNotepad:false,
           exeLaunchTarget:"win1",
+          readOnly:true,
         },
       },
       "changelog.lnk":{
@@ -358,6 +413,7 @@ const FileSystemData:fs.DirectoryBase={
           dateModified:new Date(),
           openWithNotepad:false,
           exeLaunchTarget:"changelog",
+          readOnly:true,
         },
       },
       "settings.lnk":{
@@ -371,6 +427,7 @@ const FileSystemData:fs.DirectoryBase={
           dateModified:new Date(),
           openWithNotepad:false,
           exeLaunchTarget:"settings",
+          readOnly:true,
         },
       },
       "beanpowered.lnk":{
@@ -384,6 +441,7 @@ const FileSystemData:fs.DirectoryBase={
           dateModified:new Date(),
           openWithNotepad:false,
           exeLaunchTarget:"beanpowered",
+          readOnly:true,
         },
       },
       "beanforged.lnk":{
@@ -397,6 +455,7 @@ const FileSystemData:fs.DirectoryBase={
           dateModified:new Date(),
           openWithNotepad:false,
           exeLaunchTarget:"beanforged",
+          readOnly:true,
         },
       },
       "blog.lnk":{
@@ -410,6 +469,7 @@ const FileSystemData:fs.DirectoryBase={
           dateModified:new Date(),
           openWithNotepad:false,
           exeLaunchTarget:"blog",
+          readOnly:true,
         },
       },
       "beanshell.lnk":{
@@ -423,6 +483,7 @@ const FileSystemData:fs.DirectoryBase={
           dateModified:new Date(),
           openWithNotepad:false,
           exeLaunchTarget:"beanshell",
+          readOnly:true,
         },
       },
       "explorer.lnk":{
@@ -436,6 +497,7 @@ const FileSystemData:fs.DirectoryBase={
           dateModified:new Date(),
           openWithNotepad:false,
           exeLaunchTarget:"explorer",
+          readOnly:true,
         },
       },
       "notepad.lnk":{
@@ -449,6 +511,7 @@ const FileSystemData:fs.DirectoryBase={
           dateModified:new Date(),
           openWithNotepad:false,
           exeLaunchTarget:"notepad",
+          readOnly:true,
         },
       },
     },

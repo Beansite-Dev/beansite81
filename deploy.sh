@@ -11,7 +11,7 @@ pnpm build
 echo -e "\n---\nDeploying firebase/vercel";
 echo -e "=> firebase deploy"
 echo -e "=> vercel --prod\n---\n\n"
-pnpm firebase deploy & pnpm vercel --prod;
+pnpm firebase deploy & pnpm vercel --prod --archive=tgz;
 mv stats.html /public/
 echo -e "\n\n---\nFinished!"
 echo "Ran for $SECONDS s"

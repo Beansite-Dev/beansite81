@@ -6,9 +6,10 @@ import { errorAtom } from "../../../sdk/components/ErrorBoundary";
 import { ExpressDerivedWinModifierAtom } from "../../../sdk/store";
 import { FileSystemAtom, FilePropertyModifierAtom, FileCreatorAtom, FileDeletorAtom, FileMoverAtom, FileCopierAtom } from "../fs";
 import { ContextMenu, Tabs } from "@base-ui/react";
-import { Icons } from "../../../sdk/components/Enum";
+import { Icon, Icons } from "../../../sdk/components/Enum";
 import { notepadAtom } from "../notepad/Notepad";
 import { photosAtom } from "../photos/Photos";
+import { propertiesAtom } from "./properties/Properties";
 const directoryTreeAtom=atom<string[]>([]);
 // const searchResAtom=atom<fs.DirectoryBase>({});
 const historyAtom=atom<string[][]>([[],]);
@@ -16,6 +17,31 @@ const historyIndexAtom=atom<number>(0);
 const clipboardAtom=atom<
   (fs.File|fs.Directory|fs.DirectoryBase|null)
   |(fs.File|fs.Directory|fs.DirectoryBase|null)[]>(null);
+export const fileNameToEnglish=(x:fs.File|fs.Directory|fs.DirectoryBase):string=>{
+  if(!x)return "File";
+  if(x.isDirectory)return"File folder";
+  else switch((x as fs.File).type){
+    case"txt":return"Text Document";
+    case"json":return"JSON Source File";
+    case"exe":return"Beansite Executable";
+    case"png":return"Image File";
+    default:return`${(x as fs.File).type.toUpperCase()} File`;
+  }
+};
+export const fileNameToIcon=(x:fs.File|fs.Directory|fs.DirectoryBase,showImagePreview=false):string=>{
+  if(!x)return Icons.file;
+  if(x.name=="DESKTOP-BS726")return(Icons.computer);
+  if(x.isDirectory)return(Icons.directory);
+  else switch((x as fs.File).type){
+    case"txt":return Icons.text;
+    case"json":return Icons.shellscript;
+    case"exe":return Icons.application;
+    case"png":
+      if(showImagePreview){return((x as fs.File).content)}
+      else return Icons.image;
+    default:return Icons.file;
+  }
+};
 const Explorer=({}):ReactElement=>{
   const[,setWindow]=useAtom(ExpressDerivedWinModifierAtom);
   const[,setError]=useAtom(errorAtom);
@@ -29,9 +55,11 @@ const Explorer=({}):ReactElement=>{
   const[history,setHistory]=useAtom(historyAtom);
   const[historyIndex,setHistoryIndex]=useAtom(historyIndexAtom);
   const[clipboard,setClipboard]=useAtom(clipboardAtom);
-  const getScope=():fs.DirectoryBase=>{
+  const[,setProperties]=useAtom(propertiesAtom);
+  useEffect(()=>{console.warn(clipboard)},[clipboard]);
+  const getScope=(directoryTree2=directoryTree):fs.DirectoryBase=>{
     var scope:fs.DirectoryBase=FileSystem;
-    for(const dir of directoryTree)
+    for(const dir of directoryTree2)
       if(scope[dir]&&scope[dir].isDirectory)scope=(scope[dir] as fs.Directory).children;
     return scope;
   };
@@ -41,13 +69,18 @@ const Explorer=({}):ReactElement=>{
   const fileActions:{
     open:(x2:string)=>void;
     cleanSelected:()=>void;
-    cut:()=>void;
+    cut:(x2:string)=>void;
+    copy:(x2:string)=>void;
+    paste:()=>void;
+    delete:(x2:string)=>void;
+    getProperties:(x2:string)=>void;
+    getPropertiesOfParent:()=>void;
   }={
     open:(x2:string)=>{if(searchRes[x2]){
-        if(searchRes[x2].isDirectory){
-          setHistory(y=>y.concat([[...directoryTree,x2]]));
-          setDirectoryTree([...directoryTree,x2]);
-          setHistoryIndex(x=>x+1);
+      if(searchRes[x2].isDirectory){
+        setHistory(y=>y.concat([[...directoryTree,x2]]));
+        setDirectoryTree([...directoryTree,x2]);
+        setHistoryIndex(x=>x+1);
       }else{
         if((searchRes[x2] as fs.File).type=="exe"
         ||!!(searchRes[x2] as fs.File).attributes.exeLaunchTarget){
@@ -65,7 +98,7 @@ const Explorer=({}):ReactElement=>{
             ["notepad","open",true],
             ["notepad","minimized",false],
           ]);
-        }else if((searchRes[x2] as fs.File).type=="image"){
+        }else if((searchRes[x2] as fs.File).type=="png"){
           setPhotos({
             ...photos,
             file:searchRes[x2] as fs.File,
@@ -81,7 +114,10 @@ const Explorer=({}):ReactElement=>{
     cleanSelected:()=>{
       document.querySelectorAll("#content .file.selected")
         .forEach(el=>el.classList.remove("selected"));},
+    //!wip
     cut:()=>{
+      document.querySelectorAll("#content .file.cut")
+        .forEach(el=>el.classList.remove("cut"));
       document.querySelectorAll("#content .file.cut")
         .forEach(el=>el.classList.remove("cut"));
       document.querySelectorAll("#content .file.selected")
@@ -93,6 +129,71 @@ const Explorer=({}):ReactElement=>{
           :null,
       ));
       fileActions.cleanSelected();
+    },
+    copy:(x2:string)=>{if(searchRes[x2]){
+      setClipboard(searchRes[x2]);}},
+    paste:()=>{
+      if(!clipboard)return;
+      const scope=getScope();
+      const getKey=(base:string,ext?:string):string=>{
+        const full=(ext?`${base}.${ext}`:base);
+        if(!scope[full])return full;
+        let i=2;
+        while(scope[ext?`${base} (${i}).${ext}`:base+` (${i})`])i++;
+        return ext?`${base} (${i}).${ext}`:base+` (${i})`;
+      };
+      const items=Array.isArray(clipboard)?clipboard:[clipboard];
+      items.forEach(item=>{
+        if(!item)return;
+        const file=item as fs.File;
+        const dir=item as fs.Directory;
+        //@ts-expect-error
+        if(item.isDirectory)createFile([directoryTree,getKey(dir.name),dir]);
+        else createFile([directoryTree,getKey(file.name,file.type),file]);
+      });
+    },
+    delete:(x2:string)=>{
+      //@ts-expect-error
+      if(searchRes[x2].attributes.readOnly){
+        setWindow([
+          ["protectionError","open",true],
+          ["protectionError","minimized",false],
+        ]);return;
+      }
+      if(searchRes[x2])deleteFile([directoryTree,x2]);
+    },
+    getProperties:(x2:string)=>{
+      if(!searchRes[x2])return;
+      setProperties({directoryTree,file:(searchRes[x2] as fs.File|fs.Directory),});
+      setWindow([
+        ["properties","open",true],
+        ["properties","minimized",false],
+      ]);
+    },
+    getPropertiesOfParent:()=>{
+      if(directoryTree.length===0){
+        setProperties({directoryTree,file:{
+          name:"DESKTOP-BS726",
+          id:"root",
+          isDirectory:true,
+          children:FileSystem,
+          attributes:{
+            dateCreated:new Date(),
+            dateModified:new Date(),
+            openWithNotepad:false,
+            system:true,
+            readOnly:true,
+          },
+        }as fs.Directory});
+      }else{
+        const parentScope=getScope(directoryTree.slice(0,-1));
+        const key=directoryTree[directoryTree.length-1];
+        setProperties({directoryTree,file:parentScope[key] as fs.Directory});
+      }
+      setWindow([
+        ["properties","open",true],
+        ["properties","minimized",false],
+      ]);
     },
   };
   const Header=({}):ReactElement=>{
@@ -106,7 +207,39 @@ const Explorer=({}):ReactElement=>{
         </Tabs.List>
         <Tabs.Panel className="panel" value="home">
           <motion.div className="section">
+            <motion.div 
+              className="action" 
+              onClick={(e)=>{try{fileActions.copy(document.querySelectorAll(".selected")[0].getAttribute("data-filename") as string);}catch{}}}>
+                <Icon icon="copy" className="icon"/>
+                <motion.span>Copy</motion.span>
+            </motion.div>
+            <motion.div 
+              className="action" 
+              onClick={(e)=>fileActions.paste()}>
+                <Icon icon="paste" className="icon"/>
+                <motion.span>Paste</motion.span>
+            </motion.div>
             <motion.span className="sectHeader">Clipboard</motion.span>
+          </motion.div>
+          <motion.div className="section">
+            <motion.div 
+              className="action" 
+              onClick={(e)=>{try{fileActions.delete(document.querySelectorAll(".selected")[0].getAttribute("data-filename") as string);}catch{}}}>
+                <Icon icon="delete" className="icon"/>
+                <motion.span>Delete</motion.span>
+            </motion.div>
+            <motion.span className="sectHeader">Organize</motion.span>
+          </motion.div>
+          <motion.div className="section">
+            <motion.div className="action">
+              <Icon icon="directory" className="icon"/>
+              <motion.span>Folder</motion.span>
+            </motion.div>
+            <motion.div className="action">
+              <Icon icon="file" className="icon"/>
+              <motion.span>Item</motion.span>
+            </motion.div>
+            <motion.span className="sectHeader">New</motion.span>
           </motion.div>
         </Tabs.Panel>
       </Tabs.Root>
@@ -118,25 +251,28 @@ const Explorer=({}):ReactElement=>{
     const File=({x,i}:{x:string,i:number}):ReactElement=>{
       return(<ContextMenu.Root key={i}>
         <ContextMenu.Trigger  
+          data-filename={x}
           onClick={(e)=>{
-            if(!e.ctrlKey)
-              document.querySelectorAll("#content .file.selected")
-                .forEach(el=>el.classList.remove("selected"));
+            // if(!e.ctrlKey)
+            //   document.querySelectorAll("#content .file.selected")
+            //     .forEach(el=>el.classList.remove("selected"));
             document.getElementById(btoa(x))?.classList.toggle("selected");
           }}
           id={searchRes[x]?btoa(x):""}
           onDoubleClick={()=>{fileActions.open(x);}}
           className="file">
             <motion.div
-              style={{backgroundImage:`url(${searchRes[x]?
-                searchRes[x].isDirectory?Icons.directory
-                :(searchRes[x]as fs.File).type=="txt"?Icons.text
-                :(searchRes[x]as fs.File).type=="json"?Icons.shellscript
-                :(searchRes[x]as fs.File).type=="exe"?Icons.shellscript
-                :(searchRes[x]as fs.File).type=="image"?Icons.image
-                :Icons.file:Icons.file})`}}
-              className="icon"></motion.div>
-            <motion.span>{x}</motion.span>
+              style={{backgroundImage:`url(${fileNameToIcon(searchRes[x])})`}}
+              className="icon li1"></motion.div>
+            <motion.span className="li2">{x}</motion.span>
+            <motion.span className="li3">{new Intl.DateTimeFormat('en-US',{
+              month:'numeric',day:'numeric',year:'numeric',
+              hour:'numeric',minute:'numeric',hour12:true,
+            }).format(searchRes[x]
+              ?(searchRes[x].attributes as fs.FileAttributes).dateModified
+              :new Date())}</motion.span>
+            <motion.span className="li4">{fileNameToEnglish(searchRes[x])}</motion.span>
+            {/* <motion.span className="li5">{JSON.stringify(searchRes[x]).length} KB</motion.span> */}
         </ContextMenu.Trigger>
         <ContextMenu.Portal container={document.getElementById("Beansite81")!}>
           <ContextMenu.Positioner 
@@ -152,12 +288,18 @@ const Explorer=({}):ReactElement=>{
                 {/* <ContextMenu.Item 
                   className="fileCtxItem"
                   onClick={()=>fileActions.cut()}>Cut</ContextMenu.Item> */}
-                <ContextMenu.Item className="fileCtxItem">Copy</ContextMenu.Item>
+                <ContextMenu.Item 
+                  onClick={()=>fileActions.copy(x)}
+                  className="fileCtxItem">Copy</ContextMenu.Item>
                 <ContextMenu.Separator className="fileCtxSeparator"/>
-                <ContextMenu.Item className="fileCtxItem">Delete</ContextMenu.Item>
+                <ContextMenu.Item 
+                  onClick={()=>fileActions.delete(x)}
+                  className="fileCtxItem">Delete</ContextMenu.Item>
                 <ContextMenu.Item className="fileCtxItem">Rename</ContextMenu.Item>
                 <ContextMenu.Separator className="fileCtxSeparator"/>
-                <ContextMenu.Item className="fileCtxItem">Properties</ContextMenu.Item>
+                <ContextMenu.Item 
+                  onClick={()=>fileActions.getProperties(x)}
+                  className="fileCtxItem">Properties</ContextMenu.Item>
               </ContextMenu.Popup>
           </ContextMenu.Positioner>
         </ContextMenu.Portal>
@@ -231,11 +373,37 @@ const Explorer=({}):ReactElement=>{
           }}
           id="search"/>
       </motion.div>
-      <motion.div id="content" onClick={(e)=>{
-        if((e.target as HTMLElement).id=="content")
-          document.querySelectorAll("#content .file.selected")
-            .forEach(el=>el.classList.remove("selected"));
-      }}>{Object.keys(searchRes).map((x,i)=>(<File {...{x,i}}/>))}</motion.div>
+      <ContextMenu.Root>
+        <ContextMenu.Trigger id="content" onClick={(e)=>{
+          if((e.target as HTMLElement).id=="content")
+            document.querySelectorAll("#content .file.selected")
+              .forEach(el=>el.classList.remove("selected"));
+        }}>
+          <motion.div className="file header">
+            <motion.div className="icon li1"></motion.div>
+            <motion.span className="li2">Name</motion.span>
+            <motion.span className="li3">Date Modified</motion.span>
+            <motion.span className="li4">Type</motion.span>
+          </motion.div>
+          {Object.keys(searchRes).map((x,i)=>(<File {...{x,i}}/>))}
+        </ContextMenu.Trigger>
+        <ContextMenu.Portal container={document.getElementById("Beansite81")!}>
+          <ContextMenu.Positioner 
+            className="fileCtxPositioner" 
+            alignOffset={5} 
+            positionMethod="fixed">
+              <ContextMenu.Popup className="fileCtxPopup">
+                <ContextMenu.Item 
+                  onClick={()=>{fileActions.paste()}} 
+                  className="fileCtxItem">Paste</ContextMenu.Item>
+                <ContextMenu.Separator className="fileCtxSeparator"/>
+                <ContextMenu.Item 
+                  onClick={()=>fileActions.getPropertiesOfParent()}
+                  className="fileCtxItem">Properties</ContextMenu.Item>
+              </ContextMenu.Popup>
+          </ContextMenu.Positioner>
+        </ContextMenu.Portal>
+      </ContextMenu.Root>
     </motion.div>)
   }
   return(<motion.div id="explorer">

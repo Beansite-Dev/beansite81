@@ -47,7 +47,9 @@ export const Desktop=({}):ReactElement=>{
               backgroundImage:`url("${icon}")`,
               color:textColor,
             }}
-            className='icon'></motion.div>
+            className='icon'>
+              <motion.div style={{backgroundImage:`url("${Icons.shortcut}")`}} className="shortcutIcon"></motion.div>
+          </motion.div>
           <Tooltip.Root>
             <Tooltip.Trigger className="title">
               {title}
