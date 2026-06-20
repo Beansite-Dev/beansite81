@@ -58,6 +58,7 @@ export const CHANGELOG:{
     "Added basic header functionality to explorer",
     "Finished explorer",
     "Added a shortcut icon",
+    "Quickfix: update batch file",
   ],
 };
 const Changelog=({}):ReactElement=>{

@@ -24,7 +24,7 @@ echo ---
 echo.
 echo.
 call pnpm firebase deploy
-call pnpm vercel --prod
+call pnpm vercel --prod --archive=tgz
 echo.
 echo.
 echo ---
