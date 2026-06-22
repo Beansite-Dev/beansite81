@@ -254,8 +254,9 @@ const Explorer=({}):ReactElement=>{
           data-filename={x}
           onClick={(e)=>{
             // if(!e.ctrlKey)
-            //   document.querySelectorAll("#content .file.selected")
-            //     .forEach(el=>el.classList.remove("selected"));
+            // document.querySelectorAll("#content .file.selected")
+            //   .forEach(el=>el.classList.remove("selected"));
+            fileActions.cleanSelected();
             document.getElementById(btoa(x))?.classList.toggle("selected");
           }}
           id={searchRes[x]?btoa(x):""}

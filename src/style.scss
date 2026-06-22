@@ -2,3 +2,13 @@
   font-size: .75rem;
   color: #454545;
 }
+.link {
+  span {
+    color: blue;
+    text-decoration: underline;
+    cursor: pointer;
+    &:active {
+      color: purple;
+    }
+  }
+}

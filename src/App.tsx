@@ -30,9 +30,8 @@ export const CHANGELOG:{
   changes:[
     "TODO: Add Task Manager",
     "TODO: Work on Dosbox pages",
-    "TODO: Add context menu functionality",
-    "TODO: Add header action buttons to explorer",
-    "TODO: Add property viewing to explorer",
+    "TODO: Add renaming to explorer",
+    "TODO: Add Firebean",
     "Added context menu to file explorer",
     "Added file actions",
     "Fixed incorrect language reporting on github linguist",
@@ -59,6 +58,12 @@ export const CHANGELOG:{
     "Finished explorer",
     "Added a shortcut icon",
     "Quickfix: update batch file",
+    "Updated beancord welcome channel",
+    "Fixed beancord border radius issue",
+    "Fixed explorer selection issues",
+    "Bumped Date",
+    "Added shortcuts to welcome window",
+    "Added fallback for git deploy logs",
   ],
 };
 const Changelog=({}):ReactElement=>{
@@ -84,7 +89,7 @@ const Changelog=({}):ReactElement=>{
       ?<motion.ul>
         {previousCommits.map((commitData)=>(<motion.li key={commitData.sha}>
           {commitData.commit.message}<br/>
-          <motion.span className="sub">commited on {commitData.commit.committer.date} by {commitData.author?.full_name}/{commitData.author?.username}</motion.span>
+          <motion.span className="sub">commited on {commitData.commit.committer.date} by {commitData.author?.full_name||"Tyler"}/{commitData.author?.username||"m1dnight"}</motion.span>
         </motion.li>))}
       </motion.ul>
       :<motion.p>Received error: {previousCommits}</motion.p>}
@@ -108,6 +113,37 @@ const App=({}):ReactElement=>{
         icon={Icons.configApplication}
         title="Test Win 1">
           <motion.h1>Welcome to Beansite 8.1</motion.h1>
+          <motion.p>The best (and probably only) bean-themed virtual desktop</motion.p>
+          <motion.ul>
+            <motion.li className='link' onClick={(e)=>{setWindow([
+              ["beanpowered","open",true],
+              ["beanpowered","minimized",false],
+            ]);}}><motion.span>Check out games on Beanpowered</motion.span></motion.li>
+            <motion.li className='link' onClick={(e)=>{setWindow([
+              ["beanforged","open",true],
+              ["beanforged","minimized",false],
+            ]);}}><motion.span>Try out MC 1.12.2</motion.span></motion.li>
+            <motion.li className='link' onClick={(e)=>{setWindow([
+              ["blog","open",true],
+              ["blog","minimized",false],
+            ]);}}><motion.span>Check out our blog</motion.span></motion.li>
+            <motion.li className='link' onClick={(e)=>{setWindow([
+              ["beancord","open",true],
+              ["beancord","minimized",false],
+            ]);}}><motion.span>Chat with friends</motion.span></motion.li>
+            <motion.li className='link' onClick={(e)=>{setWindow([
+              ["settings","open",true],
+              ["settings","minimized",false],
+            ]);}}><motion.span>Tweak your appearance</motion.span></motion.li>
+            <motion.li className='link' onClick={(e)=>{setWindow([
+              ["beanshell","open",true],
+              ["beanshell","minimized",false],
+            ]);}}><motion.span>Run commands from beanshell</motion.span></motion.li>
+            <motion.li className='link' onClick={(e)=>{setWindow([
+              ["explorer","open",true],
+              ["explorer","minimized",false],
+            ]);}}><motion.span>Explore the beansite files</motion.span></motion.li>
+          </motion.ul>
       </Window>
       <Window
         id="changelog"
@@ -220,7 +256,7 @@ const App=({}):ReactElement=>{
         x={90}
         height={350}
         width={350*(16/10)}
-        customContentBoxStyling={{background:"#2e3036"}}
+        // customContentBoxStyling={{background:"#2e3036"}}
         closed={!settings.defaultOpenApps["beancord"]}
         icon={Icons.beancord}
         title="Beancord">

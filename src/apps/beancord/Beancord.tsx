@@ -7,6 +7,7 @@ const Beancord=({}):ReactElement=>{
   return(<><motion.div>
     <WidgetBot
       className="beancord"
+      style={{borderRadius:"0 !important",}}
       onAPI={(api:WidgetBotEmbed["api"])=>{
         api.emit('login');
         api.on('signIn',(user)=>{
@@ -14,7 +15,7 @@ const Beancord=({}):ReactElement=>{
           console.warn(`Guest signed in as ${user.name}`);
         });
       }}
-      channel="1507852543928303716"
+      channel="1517964180538261504"
       server="1507576793022857366"/>
   </motion.div></>);
 }
