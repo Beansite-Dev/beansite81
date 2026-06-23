@@ -5,8 +5,8 @@ export const defaultIconPath="/icons/";
 export const oldIconPath="/icons_old/";
 export const CreateIconOld=(standardName:string):string=>{
   return`${oldIconPath}${standardName}.ico`;};
-export const CreateIcon=(standardName:string,size:string="256"):string=>{
-  return`${defaultIconPath}${size}x${size}/${standardName}.png`;};
+export const CreateIcon=(standardName:string,size:string="256",fileExtension:string="png"):string=>{
+  return`${defaultIconPath}${size}x${size}/${standardName}.${fileExtension}`;};
 export interface IWindowSymbols{
   close:string;
   min:string;
@@ -30,6 +30,7 @@ export const Icons:IIcons={
   beancordDark:"/apps/beancord/beancord-black.png",
   beanforged:"/apps/beanforged/bfl.png",
   beanshell:"/apps/beanshell/beanshell.png",
+  firebean:"/apps/firebean/firebean.png",
   notepad:CreateIcon("apps/text-editor"),
   file:CreateIcon("mimetypes/empty"),
   application:CreateIcon("mimetypes/exec"),
@@ -96,6 +97,7 @@ export const Icons:IIcons={
   error:CreateIcon("status/dialog-error"),
   help:CreateIcon("status/dialog-question"),
   delete:CreateIcon("actions/edit-delete"),
+  new:CreateIcon("actions/window-new","48"),
   copy:CreateIcon("actions/edit-copy","48"),
   paste:CreateIcon("actions/edit-paste","48"),
   undo:CreateIcon("actions/document-revert"),
@@ -163,10 +165,11 @@ export const Icons:IIcons={
   goDown:CreateIcon("actions/go-down"),
   goFirst:CreateIcon("actions/go-first"),
   goLast:CreateIcon("actions/go-last"),
+  close:CreateIcon("actions/edit-clear-symbolic","scalable","svg"),
 };
 export const Icon=(props:{icon:keyof IIcons;[key:string]:any}):ReactElement=>{
   return(<motion.div {...props} style={{
-    backgroundImage:`url(${Icons[props.icon]})`,
+    backgroundImage:`url(${Icons[props.icon]||props.icon})`,
     backgroundPosition:"center",
     backgroundSize:"contain",
     backgroundRepeat:"no-repeat"
@@ -229,6 +232,11 @@ export const DesktopIcons:{
     title:"Beancord",
     target:"beancord",
     icon:Icons.beancord
+  },{
+    id:"i11",
+    title:"Firebean",
+    target:"firebean",
+    icon:Icons.firebean
   },
 ];
 export const StartMenuIcon:{
@@ -292,6 +300,11 @@ export const StartMenuIcon:{
     background:"#FDD835",
     icon:Icons.beancord,
     target:"beancord",
+  },{
+    name:"Firebean",
+    background:"#C62828",
+    icon:Icons.firebean,
+    target:"firebean",
   },
 ];
 export const IconsOld:IIcons={

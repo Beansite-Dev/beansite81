@@ -14,6 +14,7 @@ const Beanshell=lazy(()=>import('./apps/beanshell/Beanshell.tsx'));
 const Beancord=lazy(()=>import('./apps/beancord/Beancord.tsx'));
 const Debug=lazy(()=>import('./apps/debug/Debug.tsx'));
 const TaskMgr=lazy(()=>import('./apps/taskmgr/TaskMgr.tsx'));
+const Firebean=lazy(()=>import('./apps/firebean/Firebean.tsx'));
 const Explorer=lazy(()=>import('./apps/beanshell/explorer/Explorer.tsx'));
 const Notepad=lazy(()=>import('./apps/beanshell/notepad/Notepad.tsx'));
 const Photos=lazy(()=>import('./apps/beanshell/photos/Photos.tsx'));
@@ -31,7 +32,7 @@ export const CHANGELOG:{
     "TODO: Add Task Manager",
     "TODO: Work on Dosbox pages",
     "TODO: Add renaming to explorer",
-    "TODO: Add Firebean",
+    "TODO: Add Beanhelper (Chat)",
     "Added context menu to file explorer",
     "Added file actions",
     "Fixed incorrect language reporting on github linguist",
@@ -64,6 +65,12 @@ export const CHANGELOG:{
     "Bumped Date",
     "Added shortcuts to welcome window",
     "Added fallback for git deploy logs",
+    "Fully added firebean",
+    "Fixed tab spotaneous unload/refusal bugs from 7",
+    "Quickfix: fixed styling issues with explorer and beancord",
+    "Officially repushed and redeployed",
+    "Updated desktop, welcome window, and start menu shortcuts",
+    "Added more icons to enum",
   ],
 };
 const Changelog=({}):ReactElement=>{
@@ -131,6 +138,10 @@ const App=({}):ReactElement=>{
               ["beancord","open",true],
               ["beancord","minimized",false],
             ]);}}><motion.span>Chat with friends</motion.span></motion.li>
+            <motion.li className='link' onClick={(e)=>{setWindow([
+              ["firebean","open",true],
+              ["firebean","minimized",false],
+            ]);}}><motion.span>Surf the web with Firebean</motion.span></motion.li>
             <motion.li className='link' onClick={(e)=>{setWindow([
               ["settings","open",true],
               ["settings","minimized",false],
@@ -262,6 +273,22 @@ const App=({}):ReactElement=>{
         title="Beancord">
           {/* @ts-ignore */}
           <Beancord/>
+      </Window>
+      <Window
+        id="firebean"
+        y={100}
+        x={100}
+        height={350}
+        width={350*(16/10)}
+        // customContentBoxStyling={{background:"#2e3036"}}
+        closed={!settings.defaultOpenApps["firebean"]}
+        customContentBoxStyling={{
+          height:"calc(100% - 10px - 18px - 2px - (1.75rem * 2))",
+          overflow:"visible",
+        }}
+        icon={Icons.firebean}
+        title="Firebean">
+          <Firebean/>
       </Window>
 
 

@@ -78,6 +78,7 @@ export const SettingsAtom=atom<ISettingsAtom>(
         "notepad",
         "taskmgr",
         "beancord",
+        "firebean",
       ].every(key=>Object.keys(settings.defaultOpenApps!).includes(key));
   })()?JSON.parse(localStorage.getItem("mb81-settings")!):{
     backgroundImage:"/wallpaper/1.jpg",
@@ -98,6 +99,7 @@ export const SettingsAtom=atom<ISettingsAtom>(
       notepad:false,
       taskmgr:false,
       beancord:false,
+      firebean:false,
     },
 });
 export const DerivedSetttingsAtom=atom(
@@ -107,5 +109,5 @@ export const DerivedSetttingsAtom=atom(
     set(SettingsAtom,{
       ...get(SettingsAtom),
       [update[0]]:update[1],
-    } as ISettingsAtom),
+    }as ISettingsAtom),
 );
