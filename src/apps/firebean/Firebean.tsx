@@ -1,24 +1,26 @@
 //url: https://demo.webfuse.com/+iframetest/?url=
-import { useEffect, useRef, useState, type ReactElement } from "react";
+import { use, useEffect, useRef, useState, type ReactElement } from "react";
 import "./style.scss";
 import { motion } from "motion/react";
 import { atom, useAtom } from "jotai";
 import { generateId } from "../../sdk/Lib";
 import { Tabs } from "@base-ui/react";
 import { Icon, Icons } from "../../sdk/components/Enum";
+import { ExpressDerivedWinModifierAtom } from "../../sdk/store";
 interface IfirebeanTabsAtom{title:string;url:string;id:string;icon:string;};
 const NewTab:Omit<IfirebeanTabsAtom,"id">={
   title:"New Tab",
   url:"https://demo.webfuse.com/+iframetest/?url="+encodeURIComponent("https://duckduckgo.com/"),
   icon:"firebean",
 };
-const firebeanTabsAtom=atom<IfirebeanTabsAtom[]>([{...NewTab,id:generateId(10)}]);
 const Firebean=({}):ReactElement=>{
-  const[firebeanTabs,setFirebeanTabs]=useAtom(firebeanTabsAtom);
+  const[firebeanTabs,setFirebeanTabs]=useState<IfirebeanTabsAtom[]>([{...NewTab,id:generateId(10)}]);
   const[currentTab,setCurrentTab]=useState<IfirebeanTabsAtom|undefined>();
+  const[,setWindow]=useAtom(ExpressDerivedWinModifierAtom);
   const listRef=useRef<HTMLDivElement>(null);
   useEffect(()=>{
     listRef.current!.scrollLeft=listRef.current!.scrollWidth;
+    if(firebeanTabs.length<1)setWindow([["firebean","open",false]]);
   },[firebeanTabs]);
   return(<>
     <Tabs.Root 
@@ -28,7 +30,7 @@ const Firebean=({}):ReactElement=>{
           <motion.input
             //placeholder={`Search ${directoryTree[directoryTree.length-1]||"This PC"} ⌕`}
             value={decodeURIComponent(
-              (currentTab?.url||firebeanTabs[0].url)
+              (currentTab?.url||(firebeanTabs[0]?firebeanTabs[0]?.url:""))
               .replace("https://demo.webfuse.com/+iframetest/?url=",""))}
             type="text"
             className="urlBar"/>

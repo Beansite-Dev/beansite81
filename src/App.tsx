@@ -71,7 +71,8 @@ export const CHANGELOG:{
     "Officially repushed and redeployed",
     "Updated desktop, welcome window, and start menu shortcuts",
     "Added more icons to enum",
-    "Quickfix: Updated firebase-tools and vercel cli"
+    "Quickfix: Updated firebase-tools and vercel cli",
+    "Fixed app crash on closing all firebean tabs",
   ],
 };
 const Changelog=({}):ReactElement=>{
