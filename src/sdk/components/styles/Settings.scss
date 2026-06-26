@@ -9,6 +9,44 @@
     cursor: pointer;
     width: 10rem;
   }
+  p{max-width: 30rem;}
+  .error {
+    color: white;
+    box-sizing: border-box;
+    padding: .25rem .5rem;
+    margin: .25rem 0;
+    background: darkred;
+    &:empty{display:none;}
+  }
+  .settingsRow{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: relative;
+    max-width: 30rem;
+    button {
+      margin: .125rem 0 !important;
+    }
+  }
+  .textEditor {
+    max-width: 30rem;
+    max-height: 30rem !important;
+    &.type{max-height: 20rem !important;}
+    flex: 1;
+    height: fit-content;
+    outline: none;
+    border: 1px solid #45454550;
+    background-color: #fcfcfc;
+    overflow: hidden auto;
+    white-space: pre-wrap;
+    word-break: break-all;
+    padding: .25rem;
+    font-family: 'Source Code Pro', monospace;
+    font-size: .875rem;
+    outline: none;
+    box-sizing: border-box;
+    resize: both;
+  }
   .dropzone{
     flex: 1;
     display: flex;

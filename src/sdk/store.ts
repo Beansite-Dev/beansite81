@@ -1,5 +1,6 @@
 import { atom } from "jotai";
 import type { Icons } from "./components/Enum";
+import { z } from "zod";
 // import { Window } from "./sdk";
 export interface IWinObj{
   uuid:string;
@@ -44,68 +45,87 @@ export const ExpressDerivedWinModifierAtom=atom(
     })
   }
 );
-export interface ISettingsAtom {
-  backgroundImage: string;
-  backgroundSize: "cover"|"contain"|number|string;
-  backgroundRepeat: "repeat"|"norepeat"|number|string;
-  theme: "default"|"lib"|"dark";
-  font: "segoe"|"tahoma"|"comic"|"time"|"mono",
-  scale:number;
-  defaultOpenApps:{[key:string]:boolean;};
-};
-export const SettingsAtom=atom<ISettingsAtom>(
-  localStorage.getItem("mb81-settings")&&(()=>{
-    const settings=JSON.parse(localStorage.getItem("mb81-settings")!);
-    return settings&&
-      Array.isArray(Object.keys(settings))&&[
-        "backgroundImage",
-        "backgroundSize",
-        "backgroundRepeat",
-        "theme",
-        "scale",
-        "font",
-        "defaultOpenApps",
-      ].every(key=>Object.keys(settings).includes(key))
-      &&[
-        "win1",
-        "changelog",
-        "settings",
-        "beanpowered",
-        "beanforged",
-        "blog",
-        "beanshell",
-        "explorer",
-        "notepad",
-        "taskmgr",
-        "beancord",
-        "firebean",
-      ].every(key=>Object.keys(settings.defaultOpenApps!).includes(key));
-  })()?JSON.parse(localStorage.getItem("mb81-settings")!):{
-    backgroundImage:"/wallpaper/1.jpg",
-    backgroundSize:"cover",
-    backgroundRepeat:"no-repeat",
-    theme:"default",
-    font:"segoe",
-    scale:100,
-    defaultOpenApps:{
-      win1:true,
-      changelog:true,
-      settings:false,
-      beanpowered:true,
-      beanforged:false,
-      blog:false,
-      beanshell:false,
-      explorer:false,
-      notepad:false,
-      taskmgr:false,
-      beancord:false,
-      firebean:false,
-    },
+export const validAppKeys=[
+  "win1",
+  "changelog",
+  "settings",
+  "beanpowered",
+  "beanforged",
+  "blog",
+  "beanshell",
+  "explorer",
+  "notepad",
+  "taskmgr",
+  "beancord",
+  "firebean"
+]as const;
+export const SettingsAtomSchema=z.object({
+  backgroundImage:z.string(),
+  backgroundSize:z.union([z.literal("cover"),z.literal("contain"),z.number(),z.string()]),
+  backgroundRepeat:z.union([z.literal("repeat"),z.literal("norepeat"),z.number(),z.string()]),
+  theme:z.union([
+    z.literal("default"),
+    z.literal("lib"),
+    z.literal("dark"),
+    z.literal("red"),
+    z.literal("orange"),
+    z.literal("yellow"),
+    z.literal("green"),
+    z.literal("blue"),
+    z.literal("purple"),
+  ]),
+  font:z.union([
+    z.literal("segoe"),
+    z.literal("tahoma"),
+    z.literal("comic"),
+    z.literal("time"),
+    z.literal("mono")
+  ]),
+  defaultOpenApps:z.record(z.enum(validAppKeys),z.boolean()),
+  closeConfirmation:z.boolean(),
+  customCSS:z.string(),
+  scale:z.number().optional(),
+  isReset:z.boolean().optional(),
+  oldSettings:z.object({}).passthrough().optional(),
 });
-export const DerivedSetttingsAtom=atom(
+export type ISettingsAtom=z.infer<typeof SettingsAtomSchema>;
+const defaultSettings:ISettingsAtom={
+  backgroundImage:"/wallpaper/1.jpg",
+  backgroundSize:"cover",
+  backgroundRepeat:"no-repeat",
+  theme:"default",
+  font:"segoe",
+  closeConfirmation:true,
+  customCSS:"/*Type in CSS Here*/",
+  isReset:true,
+  defaultOpenApps:{
+    win1:true,
+    changelog:true,
+    settings:false,
+    beanpowered:true,
+    beanforged:false,
+    blog:false,
+    beanshell:false,
+    explorer:false,
+    notepad:false,
+    taskmgr:false,
+    beancord:false,
+    firebean:false,
+  },
+};
+const loadSettings=():ISettingsAtom=>{
+  const raw=localStorage.getItem("mb81-settings");
+  if(!raw) return defaultSettings;
+  const parsed=JSON.parse(raw);
+  const result=SettingsAtomSchema.safeParse(parsed);
+  if(result.success) return result.data;
+  console.warn("Settings failed validation:",result.error.issues);
+  return {...defaultSettings,isReset:true,oldSettings:parsed};
+}
+export const SettingsAtom=atom<ISettingsAtom>(loadSettings());
+export const DerivedSettingsAtom=atom(
   (get)=>get(SettingsAtom),
-  (get,set,update:[keyof ISettingsAtom,any])=>
-    // @ts-expect-error
+  (get,set,update:[keyof ISettingsAtom,ISettingsAtom[keyof ISettingsAtom]])=>
     set(SettingsAtom,{
       ...get(SettingsAtom),
       [update[0]]:update[1],

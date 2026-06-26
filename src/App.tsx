@@ -1,12 +1,14 @@
-import { lazy, useEffect, useState, type ReactElement } from 'react';
+import { lazy, StrictMode, useEffect, useState, type ReactElement } from 'react';
 import { Beansite81, Window } from './sdk/sdk';
 import { Icon, Icons, IconsOld } from './sdk/components/Enum';
-import { Helmet } from "react-helmet-async";
+import { Helmet, default as HelmetProvider } from "react-helmet-async";
 import { motion } from 'motion/react';
 import { useAtom } from 'jotai';
 import "./style.scss";
-import { ExpressDerivedWinModifierAtom, SettingsAtom } from './sdk/store';
-const Settings=lazy(()=>import('./sdk/components/Settings'));
+import { DerivedSettingsAtom, ExpressDerivedWinModifierAtom, SettingsAtom } from './sdk/store';
+import { DeclarativeRouter } from './router.tsx';
+import Settings from './sdk/components/Settings.tsx';
+// const Settings=lazy(()=>import('./sdk/components/Settings'));
 const Beanpowered=lazy(()=>import('./apps/beanpowered/Beanpowered.tsx'));
 const Beanforged=lazy(()=>import('./apps/beanforged/Beanforged.tsx'));
 const Blog=lazy(()=>import('./apps/blog/Blog.tsx'));
@@ -33,6 +35,7 @@ export const CHANGELOG:{
     "TODO: Work on Dosbox pages",
     "TODO: Add renaming to explorer",
     "TODO: Add Beanhelper (Chat)",
+    "TODO: Add more themes (which is easier now lol)",
     "Added context menu to file explorer",
     "Added file actions",
     "Fixed incorrect language reporting on github linguist",
@@ -73,6 +76,17 @@ export const CHANGELOG:{
     "Added more icons to enum",
     "Quickfix: Updated firebase-tools and vercel cli",
     "Fixed app crash on closing all firebean tabs",
+    "Added close confirmation",
+    "Added direct json setting editing",
+    "Bugfix: Fixed settings not syncing with local storage (because component was unloaded)",
+    "Switched settings to use zod schemas",
+    "cleaned lots of code",
+    "Added custom CSS",
+    "Restructured Settings",
+    "Condensed themes into 1 file",
+    "Added themes: red, orange, yellow, green, purple",
+    "Major version repush",
+    "Added ability to copy current settings as JSON"
   ],
 };
 const Changelog=({}):ReactElement=>{
@@ -105,8 +119,18 @@ const Changelog=({}):ReactElement=>{
   </>);
 }
 const App=({}):ReactElement=>{
-  const[settings,]=useAtom(SettingsAtom);
+  const[settings,setSettings]=useAtom(DerivedSettingsAtom);
   const[,setWindow]=useAtom(ExpressDerivedWinModifierAtom);
+  useEffect(()=>{
+    localStorage.setItem("mb81-settings",JSON.stringify(settings));
+    console.table(settings);
+    document.body.style.zoom=`${settings.scale}%`;
+  },[settings]);
+  useEffect(()=>{
+    const handleBeforeUnload=(e:BeforeUnloadEvent)=>{if(settings.closeConfirmation)e.preventDefault()};
+    window.addEventListener('beforeunload',handleBeforeUnload);
+    return()=>window.removeEventListener('beforeunload',handleBeforeUnload);
+  },[settings]);
   return(<>
     <Helmet>
       <meta charSet="UTF-8" />
@@ -212,8 +236,7 @@ const App=({}):ReactElement=>{
         icon={Icons.configApplication}
         closed={!settings.defaultOpenApps["settings"]}
         title="Settings">
-          {/* @ts-ignore */}
-          <Settings />
+          <Settings/>
       </Window>
       <Window
         id="beanshell"
@@ -224,7 +247,6 @@ const App=({}):ReactElement=>{
         closed={!settings.defaultOpenApps["beanshell"]}
         icon={Icons.beanshell}
         title="Beanshell">
-          {/* @ts-ignore */}
           <Beanshell/>
       </Window>
       <Window
@@ -236,7 +258,6 @@ const App=({}):ReactElement=>{
         closed={!settings.defaultOpenApps["explorer"]}
         icon={Icons.fileManager}
         title="Explorer">
-          {/* @ts-ignore */}
           <Explorer/>
       </Window>
       {/* @ts-ignore */}
@@ -245,10 +266,9 @@ const App=({}):ReactElement=>{
         id="debug"
         y={60}
         x={60}
-        closed={!settings.defaultOpenApps["debug"]}
+        closed
         icon={Icons.fileManager}
         title="Debug">
-          {/* @ts-ignore */}
           <Debug/>
       </Window>
       <Window
@@ -260,7 +280,6 @@ const App=({}):ReactElement=>{
         closed={!settings.defaultOpenApps["taskmgr"]}
         icon={Icons.taskManager}
         title="Task Manager">
-          {/* @ts-ignore */}
           <TaskMgr/>
       </Window>
       <Window
@@ -273,7 +292,6 @@ const App=({}):ReactElement=>{
         closed={!settings.defaultOpenApps["beancord"]}
         icon={Icons.beancord}
         title="Beancord">
-          {/* @ts-ignore */}
           <Beancord/>
       </Window>
       <Window
@@ -292,8 +310,6 @@ const App=({}):ReactElement=>{
         title="Firebean">
           <Firebean/>
       </Window>
-
-
 
       {/*//! errors */}
       <Window
@@ -318,6 +334,36 @@ const App=({}):ReactElement=>{
           <motion.div className='error_actionWrapper'>
             <motion.button onClick={(e)=>{
               setWindow([["protectionError","open",false],]);
+            }}>OK</motion.button>
+          </motion.div>
+      </Window>
+      <Window
+        id="resetError"
+        y={(window.innerHeight/2)-(180/2)-(42/4)}
+        x={(window.innerWidth/2)-(480/2)}
+        height={180}
+        width={480}
+        closed={!settings.isReset||false}
+        includeButton={[true,false,false]}
+        icon={Icons.info}
+        title="Settings Reset">
+          <motion.div className='errorWrapper'>
+            <motion.div className='ewL'>
+              <Icon icon="info" className="errorIcon"/>
+            </motion.div>
+            <motion.div className='ewR'>
+              <motion.p>Your settings have been reset</motion.p>
+              <motion.p style={{fontSize:".875rem",opacity:".65"}}>If this was not manually done, your settings were most likely outdated and lacking in important keys.</motion.p>
+            </motion.div>
+          </motion.div>
+          <motion.div className='error_actionWrapper'>
+            {settings.oldSettings?<motion.button onClick={(e)=>{
+              navigator.clipboard.writeText(JSON.stringify(settings.oldSettings,null,4))
+                .catch(err=>{console.error('Failed to copy text: ',err);});
+              }}>Copy Old Settings (as JSON)</motion.button>:null}
+            <motion.button onClick={(e)=>{
+              setSettings(["isReset",false]);
+              setWindow([["resetError","open",false],]);
             }}>OK</motion.button>
           </motion.div>
       </Window>

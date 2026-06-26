@@ -5,7 +5,7 @@ import "./Global.scss";
 import { ErrorBoundary } from "./components/ErrorBoundary";
 import { Taskbar } from "./components/Taskbar";
 import { useAtom } from "jotai";
-import { DerivedSetttingsAtom } from "./store";
+import { DerivedSettingsAtom } from "./store";
 import { Desktop } from "./components/Desktop";
 interface IBeansite81{
   children:any
@@ -24,7 +24,7 @@ export const Beansite81=({
     });
   };
   const mb81ref=useRef<any>(null);
-  const[settings,]=useAtom(DerivedSetttingsAtom);
+  const[settings,]=useAtom(DerivedSettingsAtom);
   return(<>
     <ErrorBoundary>
       <motion.div ref={mb81ref} id="Beansite81" className={`Beansite81 ${settings.theme} font-${settings.font}`}>

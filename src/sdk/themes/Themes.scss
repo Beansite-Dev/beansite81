@@ -1,0 +1,9 @@
+@use "ThemeLib";
+.default{@include ThemeLib.theme(#ffffff,#959595,black);}
+.dark{@include ThemeLib.theme(#050505,#959595,white);}
+.red{@include ThemeLib.theme(#d13519,#959595,white);}
+.orange{@include ThemeLib.theme(#fa6d2c,#959595,white);}
+.yellow{@include ThemeLib.theme(#fff676,#959595,white);}
+.green{@include ThemeLib.theme(#49e444,#959595,white);}
+.blue{@include ThemeLib.theme(#0000FF,#959595,white);}
+.purple{@include ThemeLib.theme(#7700ff,#959595,white);}
