@@ -86,7 +86,8 @@ export const CHANGELOG:{
     "Condensed themes into 1 file",
     "Added themes: red, orange, yellow, green, purple",
     "Major version repush",
-    "Added ability to copy current settings as JSON"
+    "Added ability to copy current settings as JSON",
+    "Updated pnpm and dependencies"
   ],
 };
 const Changelog=({}):ReactElement=>{
