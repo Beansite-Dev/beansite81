@@ -1,7 +1,7 @@
 import { lazy, StrictMode, useEffect, useState, type ReactElement } from 'react';
 import { Beansite81, Window } from './sdk/sdk';
 import { Icon, Icons, IconsOld } from './sdk/components/Enum';
-import { Helmet, default as HelmetProvider } from "react-helmet-async";
+import { Helmet } from "react-helmet-async";
 import { motion } from 'motion/react';
 import { useAtom } from 'jotai';
 import "./style.scss";
