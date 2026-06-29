@@ -36,6 +36,7 @@ export const CHANGELOG:{
     "TODO: Add renaming to explorer",
     "TODO: Add Beanhelper (Chat)",
     "TODO: Add more themes (which is easier now lol)",
+    "TODO: Migrate window id system to uuid (https://www.npmjs.com/package/uuid)",
     "Added context menu to file explorer",
     "Added file actions",
     "Fixed incorrect language reporting on github linguist",

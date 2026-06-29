@@ -62,11 +62,8 @@ const Beanshell=({}):ReactElement=>{
   const Log=({data}:{data:BeanshellLogs}):ReactElement=>{
     const LogBase=({data2}:{data2:BeanshellLogs}):ReactElement=>{
       return(<motion.span 
-        className={`
-          bshl 
-          clr${data2.clr||"White"} 
-          bg${data2.bg||"Transparent"} 
-          ${data2.noWordBreak?"noWordBreak":""}`.replace(/(\r\n|\n|\r)/gm, "").replace(/\s+/g, ' ').trim()} 
+        className={`bshl clr${data2.clr||"White"} bg${data2.bg||"Transparent"} 
+        ${data2.noWordBreak?"noWordBreak":""}`.replace(/(\r\n|\n|\r)/gm, "").replace(/\s+/g, ' ').trim()} 
         style={{
           fontStyle:data2.i?"italic":"normal",
           fontWeight:data2.b?"bold":"normal",
