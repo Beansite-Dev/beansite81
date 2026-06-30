@@ -65,5 +65,14 @@ export default defineConfig({
     //test for possible offline client
     // viteSingleFile({}),
   ],
-  build:{manifest: true,}
+  build:{
+    manifest: true,
+    sourcemap: true,
+    minify: false, // Disables minification entirely
+    cssMinify: false, // Disables CSS minification
+    terserOptions: {
+      compress: false, // Stops Terser from removing code or rewriting variables
+      mangle: false,   // Stops Terser from shortening variable names
+    }
+  }
 });

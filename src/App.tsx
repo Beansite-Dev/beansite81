@@ -37,6 +37,7 @@ export const CHANGELOG:{
     "TODO: Add Beanhelper (Chat)",
     "TODO: Add more themes (which is easier now lol)",
     "TODO: Migrate window id system to uuid (https://www.npmjs.com/package/uuid)",
+    "TODO: Add GUST reimplementation to react package to replace the current firebean system",
     "Added context menu to file explorer",
     "Added file actions",
     "Fixed incorrect language reporting on github linguist",
@@ -88,7 +89,10 @@ export const CHANGELOG:{
     "Added themes: red, orange, yellow, green, purple",
     "Major version repush",
     "Added ability to copy current settings as JSON",
-    "Updated pnpm and dependencies"
+    "Updated pnpm and dependencies",
+    "Date repush",
+    "Fixed post css build issues",
+    "Removed ode obfuscation on build",
   ],
 };
 const Changelog=({}):ReactElement=>{

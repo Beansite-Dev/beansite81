@@ -13,8 +13,8 @@ import { faTrash } from "@fortawesome/free-solid-svg-icons";
 import z from "zod";
 //@ts-expect-error
 import * as csstree from 'csstree-validator';
-import postcss from "postcss";
-import postcssNesting from "postcss-nesting";
+// import postcss from "postcss";
+// import postcssNesting from "postcss-nesting";
 import { createPortal } from "react-dom";
 type AppKey=typeof validAppKeys[number];
 const Settings=({}):ReactElement=>{
@@ -194,10 +194,10 @@ const Settings=({}):ReactElement=>{
             }else if(e.key==='s'&&(e.ctrlKey||e.metaKey)){
               try{
                 const css=(e.currentTarget as HTMLDivElement).innerText.replace(/\u00a0/g,' ');
-                const expanded=postcss([postcssNesting()]).process(css,{from:undefined});
-                const errors=csstree.validate(expanded.css);
+                // const expanded=postcss([postcssNesting()]).process(css,{from:undefined});
+                const errors=csstree.validate(css);
                 setError("");
-                if(errors.length===0)setSettings(["customCSS",expanded.css]);
+                if(errors.length===0)setSettings(["customCSS",css]);
                 else setError(`Invalid CSS:\n${errors.map((err:any)=>err.message).join("\n")}`);
               }catch(error){setError(`Invalid CSS: ${(error as Error).message}`);}
             }
