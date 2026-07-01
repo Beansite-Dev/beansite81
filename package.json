@@ -24,6 +24,7 @@
     "@tsparticles/react": "^3.0.0",
     "@tsparticles/slim": "^3.9.1",
     "@widgetbot/react-embed": "^1.11.3",
+    "GUST-Firebean": "link:GUST-Firebean",
     "crypto-js": "^4.2.0",
     "csstree-validator": "^4.0.1",
     "date-fns": "^4.4.0",
