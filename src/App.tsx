@@ -21,8 +21,6 @@ const Explorer=lazy(()=>import('./apps/beanshell/explorer/Explorer.tsx'));
 const Notepad=lazy(()=>import('./apps/beanshell/notepad/Notepad.tsx'));
 const Photos=lazy(()=>import('./apps/beanshell/photos/Photos.tsx'));
 const Properties=lazy(()=>import('./apps/beanshell/explorer/properties/Properties.tsx'));
-//@ts-expect-error
-import { GUST } from "GUST-Firebean";
 export const CHANGELOG:{
   versionName:string,
   releaseDate:string,

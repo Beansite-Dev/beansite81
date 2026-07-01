@@ -1,6 +1,6 @@
 import { defineConfig, type PluginOption } from 'vite'
 // import react from '@vitejs/plugin-react'
-import react from "@vitejs/plugin-react-swc"
+import react from "@vitejs/plugin-react"
 import { visualizer } from "rollup-plugin-visualizer";
 import json5Plugin from 'vite-plugin-json5'
 import { ViteImageOptimizer } from "vite-plugin-image-optimizer";
