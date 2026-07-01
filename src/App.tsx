@@ -38,6 +38,8 @@ export const CHANGELOG:{
     "TODO: Add more themes (which is easier now lol)",
     "TODO: Migrate window id system to uuid (https://www.npmjs.com/package/uuid)",
     "TODO: Add GUST reimplementation to react package to replace the current firebean system",
+    "TODO: For gust, id like to use it like baseui, with unstyled components and logic, allowing a person to customize what theyde want",
+    "TODO: Add noscript page",
     "Added context menu to file explorer",
     "Added file actions",
     "Fixed incorrect language reporting on github linguist",
@@ -93,6 +95,8 @@ export const CHANGELOG:{
     "Date repush",
     "Fixed post css build issues",
     "Removed ode obfuscation on build",
+    "Fixed text editors not overwriting save keybind",
+    "Added gust to repoisitory as submodule",
   ],
 };
 const Changelog=({}):ReactElement=>{

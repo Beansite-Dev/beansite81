@@ -192,6 +192,7 @@ const Settings=({}):ReactElement=>{
               sel!.removeAllRanges();
               sel!.addRange(range);
             }else if(e.key==='s'&&(e.ctrlKey||e.metaKey)){
+              e.preventDefault();
               try{
                 const css=(e.currentTarget as HTMLDivElement).innerText.replace(/\u00a0/g,' ');
                 // const expanded=postcss([postcssNesting()]).process(css,{from:undefined});
@@ -242,6 +243,7 @@ const Settings=({}):ReactElement=>{
               sel!.removeAllRanges();
               sel!.addRange(range);
             }else if(e.key==='s'&&(e.ctrlKey||e.metaKey)){
+              e.preventDefault();
               try{
                 const parsed=SettingsAtomSchema.safeParse(JSON.parse((e.currentTarget as HTMLDivElement).innerText));
                 if(parsed.success)setSettingsDirect(parsed.data);
