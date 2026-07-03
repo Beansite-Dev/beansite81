@@ -26,7 +26,7 @@ export const CHANGELOG:{
 
     "Date repush",
     "Fixed post css build issues",
-    "Removed ode obfuscation on build",
+    "Removed code obfuscation on build",
     "Fixed text editors not overwriting save keybind",
     "Added gust to repoisitory as submodule",
     "Fixed no dragging bug",
@@ -240,7 +240,7 @@ const App=({}):ReactElement=>{
         y={70}
         x={70}
         height={350}
-        width={350*(16/10)}
+        width={350*(3/2)}
         closed={!settings.defaultOpenApps["taskmgr"]}
         icon={Icons.taskManager}
         title="Task Manager">
@@ -275,6 +275,8 @@ const App=({}):ReactElement=>{
           <Firebean/>
       </Window>
 
+
+        
       {/*//! errors */}
       <Window
         id="protectionError"
