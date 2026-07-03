@@ -16,6 +16,9 @@ import * as csstree from 'csstree-validator';
 // import postcss from "postcss";
 // import postcssNesting from "postcss-nesting";
 import { createPortal } from "react-dom";
+import { FileSystemAtom } from "../../apps/beanshell/fs";
+const saveFile=(data:string,filename:string)=>
+  document.body.appendChild(Object.assign(document.createElement('a'),{href:'data:text/json;charset=utf-8,'+encodeURIComponent(data),download:filename})).click();
 type AppKey=typeof validAppKeys[number];
 const Settings=({}):ReactElement=>{
   const[settings,setSettings]=useAtom(DerivedSettingsAtom);
@@ -52,6 +55,7 @@ const Settings=({}):ReactElement=>{
       </motion.div>
     </>);
   }
+  const[Filesystem,]=useAtom(FileSystemAtom);
   const SavedBackgrounds=({}):ReactElement=>{
     const savedBackgrounds=useLiveQuery(()=>sbgdb.saved.toArray());
     useEffect(()=>{
@@ -208,11 +212,26 @@ const Settings=({}):ReactElement=>{
           autoCapitalize="off" 
           contentEditable>{settings.customCSS}</motion.div><br/>
         <motion.div className="settingsRow">
-          <motion.p>Copy Settings</motion.p>
+          <motion.p>Copy Settings to Clipboard (as JSON)</motion.p>
           <motion.button onClick={(e)=>{
             navigator.clipboard.writeText(JSON.stringify(settings,null,4))
               .catch(err=>{console.error('Failed to copy text: ',err);});
-            }}>Copy Settings (as JSON)</motion.button>
+            }}>Copy</motion.button>
+        </motion.div>
+        <motion.div className="settingsRow">
+          <motion.p>Export Settings (as JSON)</motion.p>
+          <motion.button onClick={(e)=>{saveFile(JSON.stringify(settings,null,4),'settings.json');}}>Export as JSON</motion.button>
+        </motion.div>
+        <motion.div className="settingsRow">
+          <motion.p>Copy Virtual Filesystem (as JSON)</motion.p>
+          <motion.button onClick={(e)=>{
+            navigator.clipboard.writeText(JSON.stringify(Filesystem,null,4))
+              .catch(err=>{console.error('Failed to copy text: ',err);});
+            }}>Copy</motion.button>
+        </motion.div>
+        <motion.div className="settingsRow">
+          <motion.p>Export Virtual Filesystem (as JSON)</motion.p>
+          <motion.button onClick={(e)=>{saveFile(JSON.stringify(Filesystem,null,4),'filesystem.json');}}>Export as JSON</motion.button>
         </motion.div>
         <motion.div className="settingsRow">
           <motion.p>Debug Menu</motion.p>
@@ -220,6 +239,7 @@ const Settings=({}):ReactElement=>{
             onClick={()=>setWindow([["debug","open",true],["debug","minimized",false]])}>
           Open Debug Menu</motion.button>
         </motion.div>
+        <br/>
         <motion.p>Edit Settings JSON</motion.p>
         <motion.p style={{fontSize:".875rem",opacity:".85"}}>This is for advanced users only. Please follow the type below, or it won't be accepted. Press ctrl+s to save</motion.p>
         <motion.div 

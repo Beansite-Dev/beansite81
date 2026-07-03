@@ -5,10 +5,40 @@ import { Helmet } from "react-helmet-async";
 import { motion } from 'motion/react';
 import { useAtom } from 'jotai';
 import "./style.scss";
-import { DerivedSettingsAtom, ExpressDerivedWinModifierAtom, SettingsAtom } from './sdk/store';
-import { DeclarativeRouter } from './router.tsx';
-import Settings from './sdk/components/Settings.tsx';
-// const Settings=lazy(()=>import('./sdk/components/Settings'));
+import { ExpressDerivedSettingsAtom, ExpressDerivedWinModifierAtom, } from './sdk/store';
+// import { DeclarativeRouter } from './router.tsx';
+export const CHANGELOG:{
+  versionName:string,
+  releaseDate:string,
+  comment:string,
+  changes:string[],
+}={
+  versionName:import.meta.env.VITE_APP_VERSION,
+  releaseDate:import.meta.env.VITE_APP_BUILD_DATE,
+  comment: "summer grind begins",
+  changes:[
+    "TODO: Add Task Manager", //!<- do this already bro
+
+    "TODO: Work on Dosbox pages",
+    "TODO: Add renaming to explorer",
+    "TODO: Add Beanhelper (Chat)",//gemeni api
+    "TODO: Create Mod Store",
+
+    "Date repush",
+    "Fixed post css build issues",
+    "Removed ode obfuscation on build",
+    "Fixed text editors not overwriting save keybind",
+    "Added gust to repoisitory as submodule",
+    "Fixed no dragging bug",
+    "Added noscript",
+    "Added json file export for settings",
+    "Added ability to copy virtual filesystem as JSON",
+    "Cleaned TODO",
+    "Ceaned changelog",
+  ],
+};
+// import Settings from './sdk/components/Settings.tsx';
+const Settings=lazy(()=>import('./sdk/components/Settings'));
 const Beanpowered=lazy(()=>import('./apps/beanpowered/Beanpowered.tsx'));
 const Beanforged=lazy(()=>import('./apps/beanforged/Beanforged.tsx'));
 const Blog=lazy(()=>import('./apps/blog/Blog.tsx'));
@@ -21,84 +51,6 @@ const Explorer=lazy(()=>import('./apps/beanshell/explorer/Explorer.tsx'));
 const Notepad=lazy(()=>import('./apps/beanshell/notepad/Notepad.tsx'));
 const Photos=lazy(()=>import('./apps/beanshell/photos/Photos.tsx'));
 const Properties=lazy(()=>import('./apps/beanshell/explorer/properties/Properties.tsx'));
-export const CHANGELOG:{
-  versionName:string,
-  releaseDate:string,
-  comment:string,
-  changes:string[],
-}={
-  versionName:import.meta.env.VITE_APP_VERSION,
-  releaseDate:import.meta.env.VITE_APP_BUILD_DATE,
-  comment: "summer grind begins",
-  changes:[
-    "TODO: Add Task Manager",
-    "TODO: Work on Dosbox pages",
-    "TODO: Add renaming to explorer",
-    "TODO: Add Beanhelper (Chat)",
-    "TODO: Add more themes (which is easier now lol)",
-    "TODO: Migrate window id system to uuid (https://www.npmjs.com/package/uuid)",
-    "TODO: Add GUST reimplementation to react package to replace the current firebean system",
-    "TODO: For gust, id like to use it like baseui, with unstyled components and logic, allowing a person to customize what theyde want",
-    "TODO: Add noscript page",
-    "Added context menu to file explorer",
-    "Added file actions",
-    "Fixed incorrect language reporting on github linguist",
-    "Added advanced file selection",
-    "Added Beancord using https://widgetbot.io",
-    "Bugfix: Fixed IIcons type not being exported",
-    "Fixed bash/batch files",
-    "Added beancord logos",
-    "Added beanord desktop icons and start menu icons",
-    "Added guest mode to beancord",
-    "Added copying and pasting",
-    "Added file deletion",
-    "Added error messages",
-    "Added window selective titlebar button display",
-    "Added icon component to enum",
-    "Added backbone for properties window",
-    "Added types and modification dates to explorer",
-    "Added header to explorer list",
-    "Added explorer header section outline",
-    "Added properties window with full function",
-    "Added functions for parsing custom names and icons for file types",
-    "Added more icons",
-    "Added basic header functionality to explorer",
-    "Finished explorer",
-    "Added a shortcut icon",
-    "Quickfix: update batch file",
-    "Updated beancord welcome channel",
-    "Fixed beancord border radius issue",
-    "Fixed explorer selection issues",
-    "Bumped Date",
-    "Added shortcuts to welcome window",
-    "Added fallback for git deploy logs",
-    "Fully added firebean",
-    "Fixed tab spotaneous unload/refusal bugs from 7",
-    "Quickfix: fixed styling issues with explorer and beancord",
-    "Officially repushed and redeployed",
-    "Updated desktop, welcome window, and start menu shortcuts",
-    "Added more icons to enum",
-    "Quickfix: Updated firebase-tools and vercel cli",
-    "Fixed app crash on closing all firebean tabs",
-    "Added close confirmation",
-    "Added direct json setting editing",
-    "Bugfix: Fixed settings not syncing with local storage (because component was unloaded)",
-    "Switched settings to use zod schemas",
-    "cleaned lots of code",
-    "Added custom CSS",
-    "Restructured Settings",
-    "Condensed themes into 1 file",
-    "Added themes: red, orange, yellow, green, purple",
-    "Major version repush",
-    "Added ability to copy current settings as JSON",
-    "Updated pnpm and dependencies",
-    "Date repush",
-    "Fixed post css build issues",
-    "Removed ode obfuscation on build",
-    "Fixed text editors not overwriting save keybind",
-    "Added gust to repoisitory as submodule",
-  ],
-};
 const Changelog=({}):ReactElement=>{
   const[previousCommits,setPreviousCommits]=useState<GiteaApiRoot|string>("");
   const[loading,setLoading]=useState<boolean>(true);
@@ -129,7 +81,7 @@ const Changelog=({}):ReactElement=>{
   </>);
 }
 const App=({}):ReactElement=>{
-  const[settings,setSettings]=useAtom(DerivedSettingsAtom);
+  const[settings,setSettings]=useAtom(ExpressDerivedSettingsAtom);
   const[,setWindow]=useAtom(ExpressDerivedWinModifierAtom);
   useEffect(()=>{
     localStorage.setItem("mb81-settings",JSON.stringify(settings));
@@ -153,7 +105,7 @@ const App=({}):ReactElement=>{
         id="win1"
         // maximized
         closed={!settings.defaultOpenApps["win1"]}
-        icon={Icons.configApplication}
+        icon={Icons.application}
         title="Test Win 1">
           <motion.h1>Welcome to Beansite 8.1</motion.h1>
           <motion.p>The best (and probably only) bean-themed virtual desktop</motion.p>
@@ -243,6 +195,8 @@ const App=({}):ReactElement=>{
         id="settings"
         y={20}
         x={20}
+        height={520*(10/16)}
+        width={520}
         icon={Icons.configApplication}
         closed={!settings.defaultOpenApps["settings"]}
         title="Settings">
@@ -372,7 +326,7 @@ const App=({}):ReactElement=>{
                 .catch(err=>{console.error('Failed to copy text: ',err);});
               }}>Copy Old Settings (as JSON)</motion.button>:null}
             <motion.button onClick={(e)=>{
-              setSettings(["isReset",false]);
+              setSettings([["isReset",false],["oldSettings",{}],]);
               setWindow([["resetError","open",false],]);
             }}>OK</motion.button>
           </motion.div>

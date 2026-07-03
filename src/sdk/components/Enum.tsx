@@ -184,9 +184,9 @@ export const DesktopIcons:{
 }[]=[
   {
     id:"i1",
-    title:"Test Window",
+    title:"Welcome",
     target:"win1",
-    icon:Icons.configApplication
+    icon:Icons.application
   },{
     id:"i2",
     title:"Settings",
@@ -246,9 +246,9 @@ export const StartMenuIcon:{
   target:string;
 }[]=[
   {
-    name:"Win1",
+    name:"Welcome",
     background:"#0CA2FF",
-    icon:Icons.configApplication,
+    icon:Icons.application,
     target:"win1",
   },{
     name:"Changelog",

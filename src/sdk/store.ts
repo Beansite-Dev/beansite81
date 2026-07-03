@@ -125,9 +125,8 @@ const loadSettings=():ISettingsAtom=>{
 export const SettingsAtom=atom<ISettingsAtom>(loadSettings());
 export const DerivedSettingsAtom=atom(
   (get)=>get(SettingsAtom),
-  (get,set,update:[keyof ISettingsAtom,ISettingsAtom[keyof ISettingsAtom]])=>
-    set(SettingsAtom,{
-      ...get(SettingsAtom),
-      [update[0]]:update[1],
-    }as ISettingsAtom),
-);
+  (get,set,update:[keyof ISettingsAtom,ISettingsAtom[keyof ISettingsAtom]])=>set(SettingsAtom,{...get(SettingsAtom),[update[0]]:update[1],}as ISettingsAtom),);
+export const ExpressDerivedSettingsAtom=atom(
+  (get)=>get(SettingsAtom),
+  (get,set,update:[keyof ISettingsAtom,ISettingsAtom[keyof ISettingsAtom]][])=>
+    {update.forEach(x=>{set(SettingsAtom, {...get(SettingsAtom),[x[0]]:x[1],}as ISettingsAtom);});},);

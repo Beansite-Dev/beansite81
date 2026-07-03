@@ -7,6 +7,21 @@
   <!-- <script>emulators.pathPrefix="/public/js-dos/";</script> -->
   <body>
     <div id="root"></div>
+    <noscript style="
+      height: 100%;
+      width: 100%;
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      z-index: 9999999;
+      background: black;
+      color: white;
+      justify-content: center;
+      align-items: center;
+      display: flex !important;
+      translate: -50% -50%;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    ">You need to enable JavaScript to run this app.</noscript>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>
