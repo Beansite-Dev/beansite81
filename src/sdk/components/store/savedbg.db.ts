@@ -4,10 +4,8 @@ interface IsavedBackgrounds {
   name:string;
   src:string|Blob;
 }
-const sbgdb=new Dexie("MB81SavedWallpapersDB") as Dexie &{
-  saved:EntityTable<IsavedBackgrounds,"id">};
-sbgdb.version(1).stores({
-  saved:"++id,name,src",});
+const sbgdb=new Dexie("MB81SavedWallpapersDB")as Dexie &{saved:EntityTable<IsavedBackgrounds,"id">};
+sbgdb.version(1).stores({saved:"++id,name,src",});
 export const defaultBackgrounds:IsavedBackgrounds[]=[
   {
     id:"default1",

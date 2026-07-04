@@ -2,6 +2,7 @@ import { atom } from "jotai";
 import { CHANGELOG } from "../../App";
 import { generateId } from "../../sdk/Lib";
 import { Icons } from "../../sdk/components/Enum";
+import { Posts } from "../blog/Posts";
 const FileSystemData:fs.DirectoryBase={
   "System81":{
     name:"System81",
@@ -110,7 +111,7 @@ const FileSystemData:fs.DirectoryBase={
             name:"data",
             isDirectory:false,
             type:"json",
-            content:JSON.stringify(CHANGELOG),
+            content:JSON.stringify(CHANGELOG,null,2),
             id:generateId(10),
             attributes:{
               dateCreated:new Date(),
@@ -224,6 +225,19 @@ const FileSystemData:fs.DirectoryBase={
               dateModified:new Date(),
               openWithNotepad:false,
               exeLaunchTarget:"blog",
+              readOnly:true,
+            },
+          },
+          "data.json":{
+            name:"data",
+            isDirectory:false,
+            type:"json",
+            content:JSON.stringify(Posts,null,2),
+            id:generateId(10),
+            attributes:{
+              dateCreated:new Date(),
+              dateModified:new Date(),
+              openWithNotepad:true,
               readOnly:true,
             },
           },

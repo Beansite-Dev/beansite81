@@ -8,8 +8,11 @@
     margin: .5rem 0;
     cursor: pointer;
     width: 10rem;
+    color: #000;
   }
-  p{max-width: 30rem;}
+  p{
+    max-width: 30rem;
+  }
   .error {
     color: white;
     box-sizing: border-box;
@@ -17,6 +20,9 @@
     margin: .25rem 0;
     background: darkred;
     &:empty{display:none;}
+  }
+  select{
+    color: #000;
   }
   .settingsRow{
     display: flex;

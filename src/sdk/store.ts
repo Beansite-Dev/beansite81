@@ -57,7 +57,8 @@ export const validAppKeys=[
   "notepad",
   "taskmgr",
   "beancord",
-  "firebean"
+  "firebean",
+  "modstore"
 ]as const;
 export const SettingsAtomSchema=z.object({
   backgroundImage:z.string(),
@@ -111,6 +112,7 @@ const defaultSettings:ISettingsAtom={
     taskmgr:false,
     beancord:false,
     firebean:false,
+    modstore:false,
   },
 };
 const loadSettings=():ISettingsAtom=>{

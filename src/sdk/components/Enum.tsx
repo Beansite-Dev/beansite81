@@ -237,6 +237,11 @@ export const DesktopIcons:{
     title:"Firebean",
     target:"firebean",
     icon:Icons.firebean
+  },{
+    id:"i12",
+    title:"Mod Store",
+    target:"modstore",
+    icon:Icons.controlPanel
   },
 ];
 export const StartMenuIcon:{
@@ -305,6 +310,11 @@ export const StartMenuIcon:{
     background:"#C62828",
     icon:Icons.firebean,
     target:"firebean",
+  },{
+    name:"Mod Store",
+    background:"#D653E7",
+    icon:Icons.controlPanel,
+    target:"modstore",
   },
 ];
 export const IconsOld:IIcons={

@@ -282,7 +282,15 @@ const Settings=({}):ReactElement=>{
           if(confirm("Would you really like to reset all settings?")){
             localStorage.clear();
             window.location.reload();}
-        }}>Reset Settings</motion.button>
+        }}>Reset Settings</motion.button><br/>
+        <motion.button onClick={()=>{
+          if(confirm("Would you really like to reset all mods?")){
+            const currentUrl=new URL(window.location.href);
+            currentUrl.searchParams.append("resetMods","");
+            window.history.replaceState({},"",currentUrl.toString());
+            location.reload();
+          }
+        }}>Reset Mods</motion.button>
       </motion.div>
     </motion.div>
   </>);

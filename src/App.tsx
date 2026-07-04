@@ -15,14 +15,15 @@ export const CHANGELOG:{
 }={
   versionName:import.meta.env.VITE_APP_VERSION,
   releaseDate:import.meta.env.VITE_APP_BUILD_DATE,
-  comment: "summer grind begins",
+  comment: "summer grind begins / happy july 4th",
   changes:[
     "TODO: Add Task Manager", //!<- do this already bro
 
+    "TODO: Add Gitea Window",
     "TODO: Work on Dosbox pages",
     "TODO: Add renaming to explorer",
     "TODO: Add Beanhelper (Chat)",//gemeni api
-    "TODO: Create Mod Store",
+    "TODO: Add zod schema checking for css to settings",
 
     "Date repush",
     "Fixed post css build issues",
@@ -35,6 +36,11 @@ export const CHANGELOG:{
     "Added ability to copy virtual filesystem as JSON",
     "Cleaned TODO",
     "Ceaned changelog",
+    "Style Bugfix",
+    "Added ref passthroughs to window component",
+    "Added modding system",
+    "Added mod schema",
+    "Added working mod menu",
   ],
 };
 // import Settings from './sdk/components/Settings.tsx';
@@ -42,11 +48,14 @@ const Settings=lazy(()=>import('./sdk/components/Settings'));
 const Beanpowered=lazy(()=>import('./apps/beanpowered/Beanpowered.tsx'));
 const Beanforged=lazy(()=>import('./apps/beanforged/Beanforged.tsx'));
 const Blog=lazy(()=>import('./apps/blog/Blog.tsx'));
-const Beanshell=lazy(()=>import('./apps/beanshell/Beanshell.tsx'));
 const Beancord=lazy(()=>import('./apps/beancord/Beancord.tsx'));
 const Debug=lazy(()=>import('./apps/debug/Debug.tsx'));
 const TaskMgr=lazy(()=>import('./apps/taskmgr/TaskMgr.tsx'));
 const Firebean=lazy(()=>import('./apps/firebean/Firebean.tsx'));
+// const ModStoreClient=lazy(()=>import('./apps/modstore/ModStoreClient.tsx'));
+import ModStoreClient from './apps/modstore/ModStoreClient.tsx';
+//beanshell components
+const Beanshell=lazy(()=>import('./apps/beanshell/Beanshell.tsx'));
 const Explorer=lazy(()=>import('./apps/beanshell/explorer/Explorer.tsx'));
 const Notepad=lazy(()=>import('./apps/beanshell/notepad/Notepad.tsx'));
 const Photos=lazy(()=>import('./apps/beanshell/photos/Photos.tsx'));
@@ -273,6 +282,18 @@ const App=({}):ReactElement=>{
         icon={Icons.firebean}
         title="Firebean">
           <Firebean/>
+      </Window>
+      <Window
+        id="modstore"
+        y={110}
+        x={110}
+        height={350}
+        width={350*(16/10)}
+        // customContentBoxStyling={{background:"#2e3036"}}
+        closed={!settings.defaultOpenApps["modstore"]}
+        icon={Icons.controlPanel}
+        title="Mod Store">
+          <ModStoreClient/>
       </Window>
 
 

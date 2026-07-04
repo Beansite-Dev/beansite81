@@ -1,6 +1,6 @@
 import { atom, useAtom } from "jotai";
 // @ts-ignore
-import React, { Children, Suspense, useEffect, useRef, useState, type ComponentType, type CSSProperties, type ReactElement } from "react";
+import React, { Children, cloneElement, Suspense, useEffect, useRef, useState, type ComponentType, type CSSProperties, type ReactElement } from "react";
 import { DerivedWinAtom, DerivedWinModifierAtom, ExpressDerivedWinModifierAtom, type IWinObj } from "../store";
 // @ts-ignore
 import { isMotionComponent, motion, AnimatePresence, easeInOut } from "motion/react";
@@ -160,6 +160,16 @@ export const Window=({
     }
   },[isMax]);
   //🗙︎🗕🗖︎🗗︎
+  const contentRef=useRef(null);
+  const renderChildren=()=>{
+    return Children.map(children,(child:ReactElement|any)=>{
+      if(child&&child.type){
+        // console.log(child);
+        if(["div"].includes(child.type))return child;
+        else return cloneElement(child,{contentRef,rndRef});
+      }
+    });
+  };
   return(<>
     <Rnd
       ref={rndRef}
@@ -259,9 +269,9 @@ export const Window=({
                       className="Button min">{WindowSymbols.min}</motion.button>
                   </motion.div>
               </motion.div>
-              <motion.div className="WinContents" style={customContentBoxStyling}>
+              <motion.div className="WinContents" ref={contentRef} style={customContentBoxStyling}>
                 <Suspense fallback={<CustomLoadingScreen/>}>
-                  {!(!isOpen||isMin)?children:null}
+                  {!(!isOpen||isMin)?renderChildren():null}
                 </Suspense>
               </motion.div>
           </motion.div>:null}

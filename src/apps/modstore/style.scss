@@ -1,0 +1,112 @@
+#modstoresearch {
+  height: 1.5rem;
+  width: 100%;
+  border: 1px solid #dadbdd;
+  background: #fff;
+  padding: 2px;
+  box-sizing: border-box;
+  font-size: .825rem;
+  position: relative;
+  outline: none;
+  color: black;
+  &::placeholder {
+    color: #7f7f7f;
+  }
+}
+.modWrapper {
+  margin-bottom: .75rem;
+  display: flex;
+  justify-content: flex-start;
+  width: 100%;
+  height: fit-content;
+  align-items: flex-start;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: .5rem;
+  .mod {
+    min-height: 6.5rem;
+    width: 15rem;
+    border: 1px solid #45454560;
+    box-sizing: border-box;
+    padding: .5rem;
+    h1 {
+      font-size: 1.25rem;
+      margin-bottom: 1px;
+    }
+    .rowWrapper {
+      text-overflow: ellipsis;
+      max-width: 14rem !important;
+      overflow: hidden;
+      white-space: nowrap;
+      font-size: .675rem;
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+      flex-direction: row;
+      gap: .5rem;
+    }
+    .tag {
+      margin: 2px 0;
+      border-radius: 12px;
+      background: #45454590;
+      padding: 0 .35rem;
+      font-size: .55rem;
+      &.true {
+        background: #15b356;
+        color: #fff;
+      }
+      &.false {
+        background: #c5302b;
+        color: #fff;
+      }
+    }
+    .description {
+      font-size: .75rem;
+      color: #000000b0;
+      // margin: .25rem 0;
+    }
+    span.code {
+      font-size: .55rem;
+      font-family: "Source Code Pro", monospace;
+      background: #252525;
+      color: #fff;
+      display: inline-block;
+      padding: 2px;
+      box-sizing: border-box;
+      border-radius: 2px;
+      border: 1px solid #45454560;
+    }
+    .enabledbtn {
+      padding: .25rem 1.75rem;
+      font-size: .75rem;
+      border: 1px solid #45454560;
+      background: #fff;
+      text-align: #45454590;
+      margin-top: .5rem;
+      transition: .35s;
+      cursor: pointer;
+      &:hover {
+        color: #4192ea;
+        border-color: #4192ea;
+      }
+      outline: transparent 1px solid;
+      outline-offset: -2px;
+      &:active{outline-color:#fff;}
+      &.true,&:active {
+        background: #4192ea;
+        border-color: transparent;
+        color: #fff;
+      }
+    }
+  }
+}
+.mscloading {
+  color: #000;
+  font-size: .875rem;
+  animation: 2s flash infinite;
+}
+@keyframes flash{
+  0%{opacity:1;}
+  50%{opacity:0;}
+  100%{opacity:1;}
+}
