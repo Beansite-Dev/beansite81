@@ -58,7 +58,7 @@
     "typewriter-effect": "^2.22.0",
     "usehooks-ts": "^3.1.1",
     "uuid": "^14.0.1",
-    "vercel": "^54.18.2",
+    "vercel": "^54.20.0",
     "vite-convert-images": "^1.0.3",
     "vite-plugin-image-optimizer": "^2.0.3",
     "zod": "^4.4.3"

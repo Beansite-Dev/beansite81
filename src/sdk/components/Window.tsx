@@ -160,7 +160,7 @@ export const Window=({
     }
   },[isMax]);
   //🗙︎🗕🗖︎🗗︎
-  const contentRef=useRef(null);
+  const contentRef=useRef<any>(null);
   const renderChildren=()=>{
     return Children.map(children,(child:ReactElement|any)=>{
       if(child&&child.type){

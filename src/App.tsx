@@ -15,7 +15,7 @@ export const CHANGELOG:{
 }={
   versionName:import.meta.env.VITE_APP_VERSION,
   releaseDate:import.meta.env.VITE_APP_BUILD_DATE,
-  comment: "summer grind begins / happy july 4th",
+  comment: "summer grind begins",
   changes:[
     "TODO: Add Task Manager", //!<- do this already bro
 
@@ -41,6 +41,7 @@ export const CHANGELOG:{
     "Added modding system",
     "Added mod schema",
     "Added working mod menu",
+    "Finished mod configuration",
   ],
 };
 // import Settings from './sdk/components/Settings.tsx';
