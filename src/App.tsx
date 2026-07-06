@@ -17,14 +17,22 @@ export const CHANGELOG:{
   releaseDate:import.meta.env.VITE_APP_BUILD_DATE,
   comment: "summer grind begins",
   changes:[
+    "TODO: Add Gitea Window",
+
+    "TODO: Work on Dosbox pages",
+
+    "TODO: Add renaming to explorer",
     "TODO: Add Task Manager", //!<- do this already bro
 
-    "TODO: Add Gitea Window",
-    "TODO: Work on Dosbox pages",
-    "TODO: Add renaming to explorer",
     "TODO: Add Beanhelper (Chat)",//gemeni api
+
     "TODO: Add zod schema checking for css to settings",
 
+    "TODO: Add mods: visual filters (like grayscale)",
+    "TODO: Add mod file option uploads",
+    "TODO: Add docs for mod development",
+    
+    "Added mods: beanshell custom themer, custom themer",
     "Date repush",
     "Fixed post css build issues",
     "Removed code obfuscation on build",
@@ -42,6 +50,11 @@ export const CHANGELOG:{
     "Added mod schema",
     "Added working mod menu",
     "Finished mod configuration",
+    "Integrated themes repo",
+    "Seperated preinstalled mods and updated their srcs to driectly link to the source code",
+    "Added import/export options for mods",
+    "Addec usto mod uploading",
+    "Added ability to edit colors for mod configs",
   ],
 };
 // import Settings from './sdk/components/Settings.tsx';

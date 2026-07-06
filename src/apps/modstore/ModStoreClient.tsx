@@ -6,6 +6,9 @@ import "./style.scss";
 import { atom, useAtom } from "jotai";
 import { Dialog } from "@base-ui/react";
 import { createPortal } from "react-dom";
+import Markdown from 'react-markdown';
+import { Icon } from "../../sdk/components/Enum";
+import { transform } from "sucrase";
 const runStatusAtom=atom<{[key:string]:boolean}>({});
 const configOpenAtom=atom<[string,boolean]>(["",false]);
 const uAtom=atom<[string,boolean]>(["",false]);
@@ -67,6 +70,12 @@ const ModStoreClient=({contentRef,rndRef}:any):ReactElement=>{
           },1500);
         }});
       };switch(option.type){
+        case "color":return<motion.input
+          ref={r}
+          type="color"
+          className="msccolorinput"
+          onBlur={async(e)=>{upd(e);}}
+          defaultValue={(option.value) as string}/>
         case "select":return<motion.select
           ref={r}
           className="mscinput config"
@@ -79,6 +88,7 @@ const ModStoreClient=({contentRef,rndRef}:any):ReactElement=>{
           defaultValue={(option.value)as number}
           type="number"
           ref={r}
+          onBlur={async(e)=>{upd(e);}}
           className="mscinput config"
           onKeyDown={async(e)=>{if(e.key=="Enter"){upd(e);}}}/>
         case "boolean":return<motion.input
@@ -88,6 +98,8 @@ const ModStoreClient=({contentRef,rndRef}:any):ReactElement=>{
           onChange={async(e)=>{upd(e,"checked");}}/>
         case"text":return<motion.input
           defaultValue={(option.value)as string}
+          type="text"
+          onBlur={async(e)=>{upd(e);}}
           ref={r}
           onKeyDown={async(e)=>{if(e.key=="Enter"){upd(e);}}}
           className="mscinput config"/>;
@@ -98,23 +110,56 @@ const ModStoreClient=({contentRef,rndRef}:any):ReactElement=>{
           <motion.p>
             {option.name}<br/>
             <motion.span style={{opacity:".5",fontSize:".55rem"}}>{option.description}</motion.span>
-          </motion.p>
+          </motion.p><motion.span className="spacer"></motion.span>
           <SelectType/>
         </motion.div>
       </>);
     };
+    const optionsFileRef=useRef<HTMLInputElement>(null);
+    const exportOptions=()=>{
+      if(!mod.options)return;
+      let data=JSON.stringify({id:mod.id,options:mod.options.map(o=>({name:o.name,value:o.value}))},null,2);
+      let blob=new Blob([data],{type:"application/json"});
+      let url=URL.createObjectURL(blob);
+      let a=document.createElement("a");
+      a.href=url;a.download=`${mod.id}-options.json`;a.click();
+      URL.revokeObjectURL(url);
+    };
+    const importOptions=async(file:File)=>{try{
+      let parsed=JSON.parse(await file.text())as{id?:string,options:{name:string,value:any}[]};
+      if(parsed.id&&parsed.id!==mod.id&&!confirm(`This export was for mod "${parsed.id}", apply to "${mod.id}" anyway?`))return;
+      sU([mod.id,true]);
+      let changed:{option:Ioptions,value:any}[]=[];
+      let updated=mod.options?.map(o=>{
+        let match=parsed.options.find(p=>p.name===o.name);
+        if(match&&match.value!==o.value)changed.push({option:o,value:match.value});
+        return match?{...o,value:match.value}:o;
+      });
+      await modstoredb.mods.update(mod.id,{options:updated})
+        .then((newmod)=>{if(newmod){
+          console.warn("Imported options: ",newmod);
+          setTimeout(()=>{
+            sU([mod.id,false]);
+            runStringAsPromise(mod.scripts?.onchange as string,{newmod:mod,newval:changed});
+            changed.forEach(({option,value})=>
+              runStringAsPromise(option.onchange as string,{newmod:mod,newval:value}));
+          },1500);
+        }});
+    }catch(e){sU(["",false]);alert("error: "+e)}};
     return(<><motion.div className="mod">
       {(!!mod.customCSS&&mod.enabled)?createPortal(<style>{mod.customCSS}</style>,document.head):null}
       <motion.h1>{mod.name}&nbsp;</motion.h1>
       <motion.div className="mscrowWrapper">
-        <motion.span className="code">{mod.id}</motion.span>by {mod.authorNick||mod.author}
-        &nbsp;&nbsp;&nbsp;|&nbsp;
-        <motion.span className={`tag ${working}`}>{working?"Working":"Non-Working"}</motion.span>
+        <motion.span className="code">{mod.id}</motion.span>by <a href={`mailto:${mod.author}`}>{mod.authorNick||mod.author}</a>
+        |<a href={mod.source}>Source Code</a>
       </motion.div>
       {mod.tags&&<motion.div className="mscrowWrapper"><motion.span>Tags:</motion.span>
         {mod.tags?.map((x,i)=><motion.div key={i} className="tag">{x}</motion.div>)}
+        <motion.div className={`tag ${working}`}>{working?"Working":"Non-Working"}</motion.div>
       </motion.div>}
-      <motion.p className="description">{mod.description||"This mod has no desription"}</motion.p>
+      <motion.p className="description">
+        <Markdown>{mod.description||"This mod has no desription"}</Markdown>
+      </motion.p>
       <motion.div className="mscrowWrapper">
         <motion.button 
           onClick={async(e)=>{
@@ -131,7 +176,7 @@ const ModStoreClient=({contentRef,rndRef}:any):ReactElement=>{
             className={`enabledbtn`}
             style={working?{}:{opacity:".5",pointerEvents:"none",}}>Configure</Dialog.Trigger>
           <Dialog.Portal container={contentRef}>
-            <Dialog.Backdrop className="modconfigbackdrop" />
+            <Dialog.Backdrop className="modconfigbackdrop" onClick={()=>setConfigOpen(["",false])} />
             <Dialog.Popup 
               style={(u[0]===mod.id&&u[1])?{
                 pointerEvents:"none",
@@ -142,10 +187,22 @@ const ModStoreClient=({contentRef,rndRef}:any):ReactElement=>{
                 {/* @ts-ignore */}
                 {mod.options?.map((option:Ioptions,key:number)=>
                   (<Option option={option} key={key}/>))}
-                <motion.div className="mscrowWrapper">
+                {createPortal(<input
+                  type="file"
+                  ref={optionsFileRef}
+                  accept=".json"
+                  style={{display:"none"}}
+                  onChange={(e)=>{
+                    let file=e.target.files?.[0];
+                    if(file)importOptions(file);
+                    optionsFileRef.current!.value="";
+                  }}/>,document.body)}
+                <motion.div className="mscrowWrapper ButtonWrapper">
                   <Dialog.Close 
                     onClick={()=>setConfigOpen(["",false])}
                     className="enabledbtn">Close</Dialog.Close>
+                  <motion.button className="enabledbtn" onClick={exportOptions}>Export Options</motion.button>
+                  <motion.button className="enabledbtn" style={{marginTop:".25rem"}} onClick={()=>optionsFileRef.current!.click()}>Import Options</motion.button>
                 </motion.div>
             </Dialog.Popup>
           </Dialog.Portal>
@@ -153,15 +210,93 @@ const ModStoreClient=({contentRef,rndRef}:any):ReactElement=>{
       </motion.div>
     </motion.div></>);
   };
+  const fileUploadRef=useRef<HTMLInputElement>(null);
   return(<><motion.div className="mscscrollWrapper">
     <motion.h1 style={{marginBottom:".75rem"}}>Mod Store</motion.h1>
-    <motion.input 
-      style={{marginBottom:".75rem"}}
-      defaultValue={search}
-      onKeyDown={(e)=>{if(e.key=="Enter")setSearch(e.currentTarget.value)}}
-      type="text" 
-      placeholder="Search" 
-      id="modstoresearch"/><br/>
+    <motion.div className="mscrowWrapper">
+      <motion.input 
+        style={{marginBottom:".75rem"}}
+        defaultValue={search}
+        onKeyDown={(e)=>{if(e.key=="Enter")setSearch(e.currentTarget.value)}}
+        type="text" 
+        placeholder="Search" 
+        id="modstoresearch"/>
+      {createPortal(<input
+        type="file"
+        ref={fileUploadRef}
+        accept=".json,.js,.ts"
+        onChange={(e)=>{
+          const file=e.target.files![0];
+          if(!file)return;
+          const reader=new FileReader();
+          reader.readAsText(file,'UTF-8');
+          reader.onload=function({target}){
+            let contents=target?.result;
+            let ext=file.name.slice(file.name.lastIndexOf(".")+1).toLowerCase();
+            switch(ext){
+              case "json":try{
+                let parsed=JSON.parse(contents as string)
+                let res=modstoreSchema.safeParse(parsed);
+                if(res.success)modstoredb.mods.add(parsed);
+                else alert("error: "+JSON.stringify(res.error));
+              }catch(e){alert("error: "+e)}break;
+              case "js":try{
+                let module={exports:{}};
+                new Function("module","exports",contents as string)(module,module.exports);
+                let parsed=module.exports;
+                let res=modstoreSchema.safeParse(parsed);
+                if(res.success)modstoredb.mods.add(parsed as IModstore);
+                else alert("error: "+JSON.stringify(res.error));
+              }catch(e){alert("error: "+e)}break;
+              case "ts":try{
+                let{code}=transform(contents as string,{transforms:["typescript"]});
+                let module={exports:{}};
+                new Function("module","exports",code)(module,module.exports);
+                let parsed=module.exports;
+                let res=modstoreSchema.safeParse(parsed);
+                if(res.success)modstoredb.mods.add(parsed as IModstore);
+                else alert("error: "+JSON.stringify(res.error));
+              }catch(e){alert("error: "+e)}break;
+              default:alert("File upload failed, invalid type: "+ext);
+            }
+            fileUploadRef.current!.value="";
+          }
+          reader.onerror=()=>{
+            alert('error reading file');
+            fileUploadRef.current!.value="";
+          };
+        }}
+        style={{display:'none'}}/>,document.body)}
+      <motion.button 
+        onClick={(e)=>{if(confirm("Bad actors may try to embed malware into mods. Do understand this? Have you verified that your mod is safe?"))fileUploadRef.current!.click()}}
+        className="mscAdd"
+        style={{marginBottom:".75rem"}}>
+          <Icon icon="plus" elmtype="span" className="icon"/> Add
+      </motion.button>
+      <Dialog.Root>
+        <Dialog.Trigger
+          className="mscAdd"
+          style={{marginBottom:".75rem"}}>
+            <Icon icon="help" elmtype="span" className="icon"/>Help</Dialog.Trigger>
+        <Dialog.Portal container={contentRef}>
+          <Dialog.Backdrop className="modconfigbackdrop"/>
+          <Dialog.Popup className="modconfigpopup">
+            <motion.h1>How to Create</motion.h1>
+            <motion.p style={{fontSize:".75rem",marginBottom:".75rem"}}>
+              In order to create a mod, you should have a pretty good understanding of
+              javascript, typescript, and/or using json files. You may navigate to 
+              our <a href={"https://github.com/Beansite-Dev/beansite81/tree/main/src/app/modstore/mods/tests/"}>mod examples</a>
+              &nbsp;to get an understanding of how you may write a mod. Documentation will be available 
+              from our homepage.<br/><br/>
+              As for uploading, you may find on our <a href={"https://github.com/Beansite-Dev/beansite81"}>official github</a>&nbsp;(If they aren't already accessible through the modstore)
+            </motion.p>
+            <motion.div className="mscrowWrapper ButtonWrapper">
+              <Dialog.Close className="enabledbtn">Close</Dialog.Close>
+            </motion.div>
+          </Dialog.Popup>
+        </Dialog.Portal>
+      </Dialog.Root>
+    </motion.div>
     {/* <motion.h3 style={{marginBottom:".75rem"}}>Installed</motion.h3> */}
     <motion.div className="modWrapper"><Suspense fallback={<>
       <motion.h1 className="mscloading">Loading...</motion.h1>

@@ -1,0 +1,49 @@
+{
+  "id": "test-mod-1",
+  "author": "m1dnightgmrofficial@gmail.com",
+  "authorNick": "M1dnight",
+  "name": "Test Mod 1",
+  "description": "Just a simple test mod",
+  "source":"https://github.com/Beansite-Dev/beansite81/tree/main/src/apps/modstore/mods/tests/testMod.json",
+  "permissions": { "useCustomCSS": true, "useCustomScripts": true },
+  "enabled": false,
+  "debug": true,
+  "tags": ["Test", "Tag1", "Tag2"],
+  "scripts": {
+    "preload": "console.log(\"[test-mod-1] Hi from preload!\")",
+    "main": "console.log(\"[test-mod-1] Hi from main!\")",
+    "onchange": "console.log(\"[test-mod-1] super on change\",newmod)"
+  },
+  "customCSS": "\n    body {\n      color: red;\n    }\n  ",
+  "options": [
+    {
+      "name": "Test Parameter",
+      "description": "just a test lol",
+      "type": "text",
+      "value": "",
+      "onchange": "console.log(\"[test-mod-1] on change ran for test param\",newval)"
+    },
+    {
+      "name": "Test Parameter 2",
+      "description": "has default param",
+      "type": "number",
+      "value": 9,
+      "onchange": "console.log(\"[test-mod-1] on change ran for test param 2\",newmod)"
+    },
+    {
+      "name": "Test Parameter 3",
+      "description": "checkbox",
+      "type": "boolean",
+      "value": true,
+      "onchange": "console.log(\"[test-mod-1] on change ran for test param 3\",newmod)"
+    },
+    {
+      "name": "Test Select",
+      "description": "cool",
+      "type": "select",
+      "value": "option 1",
+      "selectOptions": ["option 1", "option 2", "option 3"],
+      "onchange": "console.log(\"[test-mod-1] on change ran for test param 4\",newmod)"
+    }
+  ]
+}

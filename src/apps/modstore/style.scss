@@ -1,6 +1,7 @@
 #modstoresearch,.mscinput {
   height: 1.5rem;
-  width: 100%;
+  // width: 100%;
+  flex: 1;
   border: 1px solid #dadbdd;
   background: #fff;
   padding: 2px;
@@ -17,6 +18,47 @@
     color: #7f7f7f;
   }
 }
+.mscAdd {
+  height: 1.5rem;
+  width: fit-content;
+  text-align: center;
+  vertical-align: middle;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-sizing: border-box;
+  gap: .25rem;
+  border: 1px solid #dadbdd;
+  font-size: .675rem;
+  background: #fff;
+  position: relative;
+  outline: none;
+  color: black;
+  padding-left: 1.25rem;
+  cursor: pointer;
+  &:hover {
+    color: #4192ea;
+    border-color: #4192ea;
+  }
+  outline: transparent 1px solid;
+  outline-offset: -2px;
+  transition: .35s;
+  &:active {
+    background: #4192ea;
+    border-color: transparent;
+    color: #fff;
+    outline-color:#fff;
+  }
+  .icon {
+    height: .675rem !important;
+    width: .675rem !important;
+    position: absolute;
+    top: 50%;
+    left: .35rem;
+    translate: 0% -50%;
+    display: inline-block;
+  }
+}
 .mscrowWrapper {
   text-overflow: ellipsis;
   // max-width: 14rem !important;
@@ -27,9 +69,53 @@
   justify-content: flex-start;
   align-items: center;
   flex-direction: row;
-  gap: .5rem;
+  flex-wrap: wrap;
+  a {
+    text-decoration: none;
+  }
+  .spacer {
+    display: block;
+    flex: 1;
+  }
+  p {
+    width: min-content;
+    max-width: 50%;
+    &,* {
+      display: -webkit-box;
+      -webkit-box-orient: vertical;
+      -webkit-line-clamp: 2;
+      overflow: hidden;
+      white-space: normal;
+    }
+  }
+  gap: 0 .25rem;
   &.config{
+    gap: 0 .5rem;
+    min-height: 2rem;
     width: 100%;
+    input {
+      width: calc(20% - 1rem);
+      float: right;
+      &[type=number]{
+        width: calc(40% - 1rem);
+      }
+      &[type=text]{
+        width: calc(50% - 1rem);
+      }
+      &[type=color]{
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        appearance: none;
+        background: none;
+        border: 1px solid #45454560;
+        padding: 0;
+        cursor: pointer;
+        &::-webkit-color-swatch-wrapper{padding: 0;}
+        &:focus {outline: none;}
+        &::-webkit-color-swatch{border: none;}
+        &::-moz-color-swatch{border: none;}
+      }
+    }
     :first-child{
       flex-grow: 1;
       width: 100%;
@@ -53,16 +139,34 @@
     border: 1px solid #45454560;
     box-sizing: border-box;
     padding: .5rem;
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+    gap: .25rem;
+    flex-direction: column;
     h1 {
       font-size: 1.25rem;
-      margin-bottom: 1px;
+      line-height: 1.25;
+      // margin-bottom: 1px;
+    }
+    code {
+      font-size: .6rem;
+      font-family: "Source Code Pro", monospace;
+      background: #f5f5f5;
+      color: #0c0c0c;
+      display: inline-block;
+      padding: 2px;
+      box-sizing: border-box;
+      border-radius: 2px;
+      border: 1px solid #45454560;
     }
     .tag {
-      margin: 2px 0;
+      // margin: 2px 0;
       border-radius: 12px;
-      background: #45454590;
+      background: #606060;
       padding: 0 .35rem;
       font-size: .55rem;
+      color: #fff;
       &.true {
         background: #15b356;
         color: #fff;
@@ -147,8 +251,8 @@
   box-sizing: border-box;
 }
 .modconfigpopup {
-  height: fit-content;
-  max-height: calc(100% - 4rem);
+  height: auto;
+  max-height: calc(100%);
   width: 20rem;
   background: #fff;
   border: 1px solid #45454560;
@@ -166,4 +270,6 @@
   gap: .5rem;
   backdrop-filter: blur(1rem);
   outline: none;
+  overflow-y: auto !important;
+  overflow-x: hidden !important;
 }

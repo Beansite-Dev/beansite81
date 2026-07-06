@@ -33,4 +33,19 @@ export const shuffle=(array:any[]):void=>{
     [array[currentIndex],array[randomIndex]]=[array[randomIndex],array[currentIndex]];
   }
 }
+export function checkGoGuardianBlock(url:string){
+  return new Promise((resolve)=>{
+    const script=document.createElement('script');
+    script.src=url;
+    script.onload=()=>{
+      resolve({blocked:false,reason:'Loaded successfully'});
+      script.remove();
+    };
+    script.onerror=(error)=>{
+      resolve({blocked:true,reason:'Network error or extension block'});
+      script.remove();
+    };
+    document.head.appendChild(script);
+  });
+}
 export const queryParams:IqueryParams=getQueryParams(window.location.search);

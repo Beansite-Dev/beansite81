@@ -7,5 +7,6 @@ interface ImportMetaEnv {
   readonly VITE_BEANFORGED_VERSION:string;
   readonly VITE_BEANSHELL_VERSION:string;
   readonly VITE_EXPLORER_VERSION:string;
+  readonly VITE_MODSTORE_DB_VER:number;
 }
 interface ImportMeta {readonly env: ImportMetaEnv}

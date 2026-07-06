@@ -1,3 +1,6 @@
 [submodule "GUST-React"]
 	path = GUST-React
 	url = https://github.com/Beansite-Dev/GUST-React.git
+[submodule "themes"]
+	path = themes
+	url = https://github.com/Beansite-Dev/beansite81-themes.git

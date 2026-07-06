@@ -6,7 +6,7 @@ export const oldIconPath="/icons_old/";
 export const CreateIconOld=(standardName:string):string=>{
   return`${oldIconPath}${standardName}.ico`;};
 export const CreateIcon=(standardName:string,size:string="256",fileExtension:string="png"):string=>{
-  return`${defaultIconPath}${size}x${size}/${standardName}.${fileExtension}`;};
+  return`${defaultIconPath}${size==="scalable"?size:`${size}x${size}`}/${standardName}.${fileExtension}`;};
 export interface IWindowSymbols{
   close:string;
   min:string;
@@ -166,15 +166,18 @@ export const Icons:IIcons={
   goFirst:CreateIcon("actions/go-first"),
   goLast:CreateIcon("actions/go-last"),
   close:CreateIcon("actions/edit-clear-symbolic","scalable","svg"),
+  plus:CreateIcon("actions/add","48"),
 };
-export const Icon=(props:{icon:keyof IIcons;[key:string]:any}):ReactElement=>{
-  return(<motion.div {...props} style={{
-    backgroundImage:`url(${Icons[props.icon]||props.icon})`,
+export const Icon=(props:{icon:keyof IIcons;elmtype?:keyof typeof motion;[key:string]:any}):ReactElement=>{
+  const{icon,elmtype="div",...rest}=props;
+  const Comp=motion[elmtype] as any;
+  return(<Comp {...rest} style={{
+    backgroundImage:`url(${Icons[icon]||icon})`,
     backgroundPosition:"center",
     backgroundSize:"contain",
     backgroundRepeat:"no-repeat"
-  }}></motion.div>)
-}
+  }}/>);
+};
 export const iconPathToIcon=(x:string):string=>Object.keys(Icons).find(i=>Icons[i]===x)as string;
 export const DesktopIcons:{
   id:string,

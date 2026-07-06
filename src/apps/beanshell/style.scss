@@ -32,8 +32,6 @@ $ColorMap:("Black": #0C0C0C,"BrightBlack": #252525,
     .clr#{$ColorMapName}{
       color:$ColorMapValue;
     }
-  }
-  @each $ColorMapName,$ColorMapValue in $ColorMap{
     .bg#{$ColorMapName}{
       background-color:$ColorMapValue;
     }
