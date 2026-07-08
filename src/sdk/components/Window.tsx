@@ -1,6 +1,6 @@
 import { atom, useAtom } from "jotai";
 // @ts-ignore
-import React, { Children, cloneElement, Suspense, useEffect, useRef, useState, type ComponentType, type CSSProperties, type ReactElement } from "react";
+import React, { Children, cloneElement, Suspense, useEffect, useRef, useState, type ComponentType, type CSSProperties, type ReactElement, type ReactNode } from "react";
 import { DerivedWinAtom, DerivedWinModifierAtom, ExpressDerivedWinModifierAtom, type IWinObj } from "../store";
 // @ts-ignore
 import { isMotionComponent, motion, AnimatePresence, easeInOut } from "motion/react";
@@ -10,7 +10,7 @@ import { Rnd } from "react-rnd";
 import { Icons, WindowSymbols, type IIcons } from "./Enum";
 export const wdtmAtom=atom<boolean>(false);
 export interface IWindow{
-  children?:ReactElement[]|ReactElement;
+  children?:ReactNode;
   title:string;
   id:string;
   bounds?:any;

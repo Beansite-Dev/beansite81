@@ -1,5 +1,15 @@
 import type { IModstore, Ioptions } from "../modstore";
-type HexColor=`#${string}`;
+declare type Colors=
+  "Black"|"BrightBlack"|"Gray"|"DarkGray"|"BrightGray"|"White"|"BrightWhite"|
+  "Blue"|"DarkBlue"|"BrightBlue"|
+  "Green"|"DarkGreen"|"BrightGreen"|
+  "Cyan"|"DarkCyan"|"BrightCyan"|
+  "Red"|"DarkRed"|"BrightRed"|
+  "Orange"|"DarkOrange"|"BrightOrange"|
+  "Magenta"|"DarkMagenta"|"BrightMagenta"|
+  "Yellow"|"DarkYellow"|"BrightYellow"|
+  "Transparent";
+declare type HexColor=`#${string}`;
 const variables:{
   var:Colors,
   value:HexColor,

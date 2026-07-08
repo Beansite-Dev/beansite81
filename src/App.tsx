@@ -31,6 +31,9 @@ export const CHANGELOG:{
     "TODO: Add mods: visual filters (like grayscale)",
     "TODO: Add mod file option uploads",
     "TODO: Add docs for mod development",
+
+    "TODO: Start browser implementation using libcurl.js (https://github.com/ading2210/libcurl.js)",
+    "TODO: Finish ModStoreWinProvider",
     
     "Added mods: beanshell custom themer, custom themer",
     "Date repush",

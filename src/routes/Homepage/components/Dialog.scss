@@ -32,7 +32,7 @@
   outline: Theme.$border;
   background-color: rgba(Theme.$bg1,.75);
   backdrop-filter: blur(2rem);
-  color: Theme.$p2;
+  p{color: Theme.$p2 !important;} 
   transition: all 150ms;
   touch-action: none;
   &[data-starting-style],

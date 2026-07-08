@@ -7,6 +7,9 @@ import { beanshellCustomThemer } from "./mods/beanshell-custom-theme";
 import { translucentWindows } from "./mods/translucent-windows";
 import { customThemer } from "./mods/custom-themer";
 import * as acorn from "acorn";
+import { atom } from "jotai";
+import type { IWinObj } from "../../sdk/store";
+import type { ReactNode } from "react";
 const func=z.string().optional().refine((src)=>{
   if(src===undefined)return true;
   try{
@@ -62,7 +65,7 @@ export const defaultModstore:IModstore[]=[
   roundedWindows,
   translucentWindows,
   beanshellCustomThemer,
-  customThemer,
+  // customThemer,
 ];
 export const modstoredb=new Dexie("MB81Mods") as Dexie &{mods:EntityTable<IModstore,"id">};
 modstoredb.version(Number(import.meta.env.VITE_MODSTORE_DB_VER)).stores({mods:"++id,author,source,name,description,permissions,tags,scripts,customCSS",});
@@ -70,3 +73,20 @@ modstoredb.version(Number(import.meta.env.VITE_MODSTORE_DB_VER)+1).stores({mods:
   await tx.table("mods").bulkPut(defaultModstore);
 });
 modstoredb.on('populate',async()=>{await modstoredb.mods.bulkPut(defaultModstore);});
+declare interface modStoreWindowObject {
+  winData:Exclude<IWinObj,"focused">;
+  component:ReactNode;
+}
+export const modStoreWinAtom=atom<modStoreWindowObject[]>([]);
+export const uniqueById=(items:modStoreWindowObject[])=>{
+  const s=new Set();
+  return items.filter((item)=>{
+    const d=s.has(item.winData.id);
+    s.add(item.winData.id);
+    return !d;
+  });
+}
+export const derivedModStoreWinAtom=atom(
+  (get)=>get(modStoreWinAtom),
+  (get,set,update:modStoreWindowObject[])=>set(modStoreWinAtom,uniqueById([...get(modStoreWinAtom),...update]))
+);

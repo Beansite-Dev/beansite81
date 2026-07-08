@@ -76,6 +76,10 @@
       &.large {
         font-size: 5rem;
         color: Theme.$h1;
+        height: 5rem !important;
+        display: flex;
+        justify-content: center;
+        align-items: center;
         font-weight: 500;
       }
     }

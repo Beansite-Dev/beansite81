@@ -1,7 +1,7 @@
 import React, { Suspense, useCallback, useEffect, useRef, useState, type ReactElement } from "react";
 import { motion } from "motion/react";
 import { useLiveQuery } from "dexie-react-hooks";
-import { defaultModstore, modstoredb, modstoreSchema, type IModstore, type Ioptions } from "./modstore";
+import { defaultModstore, derivedModStoreWinAtom, modstoredb, modstoreSchema, modStoreWinAtom, type IModstore, type Ioptions } from "./modstore";
 import "./style.scss";
 import { atom, useAtom } from "jotai";
 import { Dialog } from "@base-ui/react";
@@ -9,6 +9,7 @@ import { createPortal } from "react-dom";
 import Markdown from 'react-markdown';
 import { Icon } from "../../sdk/components/Enum";
 import { transform } from "sucrase";
+// import { DynamicComponentRenderer } from "./ModComponent";
 const runStatusAtom=atom<{[key:string]:boolean}>({});
 const configOpenAtom=atom<[string,boolean]>(["",false]);
 const uAtom=atom<[string,boolean]>(["",false]);
@@ -54,6 +55,7 @@ const ModStoreClient=({contentRef,rndRef}:any):ReactElement=>{
       runScripts();
     }catch(e){setError(e as Error)}},[working,mod]);
     const[u,sU]=useAtom(uAtom);
+    const[,setWin]=useAtom(derivedModStoreWinAtom);
     const Option=({option}:{option:Ioptions}):ReactElement=>{
       const SelectType=():ReactElement=>{const r=useRef<any>(null);const upd=async(e:any,typeOfValue="value")=>{
         sU([mod.id,true]);
@@ -157,10 +159,10 @@ const ModStoreClient=({contentRef,rndRef}:any):ReactElement=>{
         {mod.tags?.map((x,i)=><motion.div key={i} className="tag">{x}</motion.div>)}
         <motion.div className={`tag ${working}`}>{working?"Working":"Non-Working"}</motion.div>
       </motion.div>}
-      <motion.p className="description">
+      <motion.div className="description">
         <Markdown>{mod.description||"This mod has no desription"}</Markdown>
-      </motion.p>
-      <motion.div className="mscrowWrapper">
+      </motion.div>
+      <motion.div className="mscrowWrapper ButtonWrapper">
         <motion.button 
           onClick={async(e)=>{
             e.preventDefault();
@@ -287,8 +289,7 @@ const ModStoreClient=({contentRef,rndRef}:any):ReactElement=>{
               javascript, typescript, and/or using json files. You may navigate to 
               our <a href={"https://github.com/Beansite-Dev/beansite81/tree/main/src/app/modstore/mods/tests/"}>mod examples</a>
               &nbsp;to get an understanding of how you may write a mod. Documentation will be available 
-              from our homepage.<br/><br/>
-              As for uploading, you may find on our <a href={"https://github.com/Beansite-Dev/beansite81"}>official github</a>&nbsp;(If they aren't already accessible through the modstore)
+              from our homepage.
             </motion.p>
             <motion.div className="mscrowWrapper ButtonWrapper">
               <Dialog.Close className="enabledbtn">Close</Dialog.Close>

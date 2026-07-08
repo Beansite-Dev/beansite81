@@ -24,7 +24,7 @@ export const customThemer:IModstore={
           const response=await fetch(url,{method:'HEAD'});// HEAD request saves bandwidth
           if(!response.ok)return{valid:false,error:\`HTTP Error: \${response.status}\`};
           const contentType=response.headers.get('content-type')||'';
-          if(contentType.includes('text/css'))return{valid:true,type:'css'};
+          if(contentType.includes('text/plain'))return{valid:true,type:'css'};
           return{valid:false,error:\`Invalid content type: \${contentType}\`};
         }catch(error){
           return{valid:false,error:'URL unreachable or blocked by CORS'};
@@ -37,6 +37,8 @@ export const customThemer:IModstore={
             }
             const urlCheck=await verifyUrlHeader(newval);
             if(urlCheck.valid&&!!window.customThemerLinkElm){
+              let x=document.getElementById("Beansite81").className.split(" ");
+              document.getElementById("Beansite81").className=\`\${x[0]} custom \${x[2]}\`;
               window.customThemerLinkElm.setAttribute("href",newval);
             }else{
               alert("error:\\n"+JSON.stringify(urlCheck,null,2));
