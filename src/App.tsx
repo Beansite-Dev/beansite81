@@ -38,6 +38,8 @@ export const CHANGELOG:{
     "Style fix",
     "Started implemented ModStoreWinProvider",
     "Started implemented docs",
+    "Added hollow knight",
+    "Added games submodule",
   ],
 };
 // import Settings from './sdk/components/Settings.tsx';

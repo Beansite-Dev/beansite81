@@ -115,5 +115,10 @@
     "src":"/g/src/dr.html",
     "id":"dr",
     "working":true
+  },{
+    "name":"Hollow Knight",
+    "src":"/g/src/hk.html",
+    "id":"hk",
+    "working":true
   }]
 }
