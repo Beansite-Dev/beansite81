@@ -74,5 +74,8 @@ export default defineConfig({
       compress: false, // Stops Terser from removing code or rewriting variables
       mangle: false,   // Stops Terser from shortening variable names
     }
-  }
+  },
+  define: {
+    "process.env.DRAGGABLE_DEBUG": JSON.stringify(process.env.DRAGGABLE_DEBUG ?? false),
+  },
 });
