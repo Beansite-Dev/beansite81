@@ -58,6 +58,7 @@ export const CHANGELOG:{
     "Added import/export options for mods",
     "Addec usto mod uploading",
     "Added ability to edit colors for mod configs",
+    "Added games submodule",
   ],
 };
 // import Settings from './sdk/components/Settings.tsx';
