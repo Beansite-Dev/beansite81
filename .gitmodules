@@ -4,3 +4,6 @@
 [submodule "themes"]
 	path = themes
 	url = https://github.com/Beansite-Dev/beansite81-themes.git
+[submodule "public/g"]
+	path = public/g
+	url = https://github.com/Beansite-Dev/games.git
