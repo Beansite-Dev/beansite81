@@ -94,7 +94,7 @@ const App=({}):ReactElement=>{
   useEffect(()=>{
     localStorage.setItem("mb81-settings",JSON.stringify(settings));
     console.table(settings);
-    document.body.style.zoom=`${settings.scale}%`;
+    // document.body.style.zoom=`${settings.scale}%`;
   },[settings]);
   useEffect(()=>{
     const handleBeforeUnload=(e:BeforeUnloadEvent)=>{if(settings.closeConfirmation)e.preventDefault()};
