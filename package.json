@@ -35,7 +35,7 @@
     "emulators": "0.73.9",
     "emulators-ui": "^0.73.9",
     "esbuild": "^0.28.1",
-    "firebase-tools": "^15.23.0",
+    "firebase-tools": "^15.24.0",
     "html-react-parser": "^5.2.17",
     "html-to-image": "^1.11.13",
     "jotai": "^2.20.1",
@@ -63,7 +63,7 @@
     "typewriter-effect": "^2.22.0",
     "usehooks-ts": "^3.1.1",
     "uuid": "^14.0.1",
-    "vercel": "^54.21.1",
+    "vercel": "^56.4.0",
     "vite-convert-images": "^1.0.3",
     "vite-plugin-image-optimizer": "^2.0.3",
     "zod": "^4.4.3"
