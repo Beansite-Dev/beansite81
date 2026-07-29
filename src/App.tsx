@@ -17,24 +17,30 @@ export const CHANGELOG:{
   releaseDate:import.meta.env.VITE_APP_BUILD_DATE,
   comment: "summer grind begins",
   changes:[
+    //functionality
     "TODO: Add Gitea Window",
-
-    "TODO: Work on Dosbox pages",
-
     "TODO: Add renaming to explorer",
+    //apps
     "TODO: Add Task Manager", //!<- do this already bro
-
     "TODO: Add Beanhelper (Chat)",//gemeni api
-
+    "TODO: Work on Dosbox pages",
+    "TODO: Start browser implementation using libcurl.js (https://github.com/ading2210/libcurl.js)",
+    //settings
     "TODO: Add zod schema checking for css to settings",
-
-    "TODO: Add mods: visual filters (like grayscale)",
+    "TODO: Add custom theming",
+    //mods
+    "TODO: Add mods: visual filters (like grayscale), theme builder (using new ModStoreWinProvider)",
     "TODO: Add mod file option uploads",
     "TODO: Add docs for mod development",
-
-    "TODO: Start browser implementation using libcurl.js (https://github.com/ading2210/libcurl.js)",
     "TODO: Finish ModStoreWinProvider",
-    
+    //games
+    "TODO: Add game ports repo to g",
+    //features
+    "TODO: Add search bars to settings and start menu",
+    //lib
+    "TODO: Update stylsheets to use css modules (where applicable, since the theming classes cant effectivley use modules without breaking functionality or atleast i think. ill try)",
+    "TODO: Add css compatibility for firefox and older chrome versions",
+
     "Style fix",
     "Started implemented ModStoreWinProvider",
     "Started implemented docs",
