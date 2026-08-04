@@ -15,13 +15,13 @@ export const CHANGELOG:{
 }={
   versionName:import.meta.env.VITE_APP_VERSION,
   releaseDate:import.meta.env.VITE_APP_BUILD_DATE,
-  comment: "summer grind begins",
+  comment: "im free",
   changes:[
     //functionality
     "TODO: Add Gitea Window",
-    "TODO: Add renaming to explorer",
+    "TODO: Add renaming to explorer", 
     //apps
-    "TODO: Add Task Manager", //!<- do this already bro
+    "TODO: Add Task Manager", //!<- do this already  bro
     "TODO: Add Beanhelper (Chat)",//gemeni api
     "TODO: Work on Dosbox pages",
     "TODO: Add curl command to beanshell",
@@ -29,8 +29,6 @@ export const CHANGELOG:{
     //mods
     "TODO: Add mod file option uploads",
     "TODO: Add docs for mod development",
-    //games
-    "TODO: Add game ports repo to g",
     //lib
     "TODO: Update stylsheets to use css modules (where applicable, since the theming classes cant effectivley use modules without breaking functionality or atleast i think. ill try)",
     "TODO: Add css compatibility for firefox and older chrome versions",
@@ -51,7 +49,41 @@ export const CHANGELOG:{
     "Replaced Exluce with Omit in modstore",
     "Removed redundant comments",
     "Added visual filters mod",
-    "Added search to settings"
+    "Added search to settings",
+    "Added vercel analytics",
+    "Removed redundant go files",
+    "Added game: Amanda the Adventurer",
+    "Added game: Baldi's Plus",
+    "Added game: Buckshot Roulette",
+    "Added game: Class of 09",
+    "Added game: Andy's Apple Farm",
+    "Added game: Bendy and the Ink Machine",
+    "Added game: Bergen Truck",
+    "Added game: Dead Plate",
+    "Added game: The Deadseat",
+    "Added game: Fear to Fathom - Home Alone",
+    "Added game: Deltatraveler",
+    "Added game: Getting Over It",
+    "Added game: Happy Sheepies",
+    "Added game: Hotline Miami",
+    "Added game: Human Expenditure Program",
+    "Added game: Jelly Drift",
+    "Added game: Karlson",
+    "Added game: Kindergarten",
+    "Added game: Lacy's Flash Games",
+    "Added game: Minesweeper Plus",
+    "Added game: Omori",
+    "Added game: People Playground",
+    "Added game: Pizza Tower",
+    "Added game: Raft",
+    "Added game: Repo",
+    "Added game: Sonic.exe",
+    "Added game: Tattletail",
+    "Added game: Ultrakill",
+    "Added game: Undertale Yellow",
+    "Added game: Web Fishing",
+    "Added game: Yandere Simulator",
+    "Added game: Yume Nikki",
   ],
 };
 // import Settings from './sdk/components/Settings.tsx';
