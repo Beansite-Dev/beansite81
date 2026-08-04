@@ -181,16 +181,6 @@
     "id":"hsp",
     "working":true
   },{
-    "name":"Hotline Miami",
-    "src":"/g/src/ports/hlm/index.html",
-    "id":"hlm",
-    "working":true
-  },{
-    "name":"Human Expenditure Program",
-    "src":"/g/src/ports/hep/index.html",
-    "id":"hep",
-    "working":true
-  },{
     "name":"Jelly Drift",
     "src":"/g/src/ports/jd/index.html",
     "id":"jd",
