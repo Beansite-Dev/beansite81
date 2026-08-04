@@ -20,6 +20,7 @@ export const CHANGELOG:{
     //functionality
     "TODO: Add Gitea Window",
     "TODO: Add renaming to explorer", 
+    "TODO: Host omori under a seperate repo under vercel and use that or use a seperate firebase url cuz omori does not fit",
     //apps
     "TODO: Add Task Manager", //!<- do this already  bro
     "TODO: Add Beanhelper (Chat)",//gemeni api
@@ -52,6 +53,7 @@ export const CHANGELOG:{
     "Added search to settings",
     "Added vercel analytics",
     "Removed redundant go files",
+    "Removed games for size restrictions and stuff",
     "Added game: Amanda the Adventurer",
     "Added game: Baldi's Plus",
     "Added game: Buckshot Roulette",
