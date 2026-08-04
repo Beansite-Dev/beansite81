@@ -260,10 +260,5 @@
     "src":"/g/src/ports/yds/index.html",
     "id":"yds",
     "working":true
-  },{
-    "name":"Yume Nikki",
-    "src":"/g/src/ports/ymnk/index.html",
-    "id":"ymnk",
-    "working":true
   }]
 }
