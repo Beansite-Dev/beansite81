@@ -1,14 +1,16 @@
 import React, { Suspense, useCallback, useEffect, useRef, useState, type ReactElement } from "react";
 import { motion } from "motion/react";
 import { useLiveQuery } from "dexie-react-hooks";
-import { defaultModstore, derivedModStoreWinAtom, modstoredb, modstoreSchema, modStoreWinAtom, type IModstore, type Ioptions } from "./modstore";
+import { defaultModstore, derivedModStoreWinAtom, modstoredb, modstoreSchema, modStoreWinAtom, type IModstore, type Ioptions, type modStoreWindowObject } from "./modstore";
 import "./style.scss";
 import { atom, useAtom } from "jotai";
 import { Dialog } from "@base-ui/react";
 import { createPortal } from "react-dom";
 import Markdown from 'react-markdown';
-import { Icon } from "../../sdk/components/Enum";
+import { Icon, Icons } from "../../sdk/components/Enum";
 import { transform } from "sucrase";
+import { generateId } from "../../sdk/Lib";
+import { ExpressDerivedWinModifierAtom } from "../../sdk/store";
 // import { DynamicComponentRenderer } from "./ModComponent";
 const runStatusAtom=atom<{[key:string]:boolean}>({});
 const configOpenAtom=atom<[string,boolean]>(["",false]);
@@ -32,6 +34,8 @@ const ModStoreClient=({contentRef,rndRef}:any):ReactElement=>{
     const[error,setError]=useState<Error|null>(null);
     const[runStatus,setRunStatus]=useAtom(runStatusAtom);
     const[configOpen,setConfigOpen]=useAtom(configOpenAtom);
+    const[modStoreWin,setModStoreWin]=useAtom(derivedModStoreWinAtom);
+    const[,setWindow]=useAtom(ExpressDerivedWinModifierAtom);
     useEffect(()=>{try{
       console.warn(contentRef);
       modstoreSchema.parse(mod);
@@ -53,6 +57,21 @@ const ModStoreClient=({contentRef,rndRef}:any):ReactElement=>{
       if(!working||!mod.enabled||!mod.scripts)return;
       console.warn(mod,"enabled, running functions");
       runScripts();
+    }catch(e){setError(e as Error)}},[working,mod]);
+    useEffect(()=>{try{
+      if(!working||!mod.enabled||!mod.customWindowSrc)return;
+      console.warn(mod,"enabled, adding app to winprovider");
+      setModStoreWin([...(modStoreWin as modStoreWindowObject[]),{
+        winData:{
+          uuid: generateId(10),
+          id: `modwin-${mod.id}`,
+          title: `${mod.name}`,
+          icon: Icons[mod.customWindowIcon || "application"],
+          open: false,
+          minimized: false,
+        },
+        component:mod.customWindowSrc as string,
+      }]);
     }catch(e){setError(e as Error)}},[working,mod]);
     const[u,sU]=useAtom(uAtom);
     const[,setWin]=useAtom(derivedModStoreWinAtom);
@@ -209,6 +228,12 @@ const ModStoreClient=({contentRef,rndRef}:any):ReactElement=>{
             </Dialog.Popup>
           </Dialog.Portal>
         </Dialog.Root>:null}
+        {(mod.enabled&&mod.customWindowSrc)?<motion.button 
+          onClick={()=>{setWindow([
+            [`modwin-${mod.id}`,"open",true],
+            [`modwin-${mod.id}`,"minimized",false],
+          ])}}
+          className="enabledbtn">Open App</motion.button>:null}
       </motion.div>
     </motion.div></>);
   };

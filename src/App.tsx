@@ -24,28 +24,34 @@ export const CHANGELOG:{
     "TODO: Add Task Manager", //!<- do this already bro
     "TODO: Add Beanhelper (Chat)",//gemeni api
     "TODO: Work on Dosbox pages",
+    "TODO: Add curl command to beanshell",
     "TODO: Start browser implementation using libcurl.js (https://github.com/ading2210/libcurl.js)",
-    //settings
-    "TODO: Add zod schema checking for css to settings",
-    "TODO: Add custom theming",
     //mods
-    "TODO: Add mods: visual filters (like grayscale), theme builder (using new ModStoreWinProvider)",
     "TODO: Add mod file option uploads",
     "TODO: Add docs for mod development",
-    "TODO: Finish ModStoreWinProvider",
     //games
     "TODO: Add game ports repo to g",
-    //features
-    "TODO: Add search bars to settings and start menu",
     //lib
     "TODO: Update stylsheets to use css modules (where applicable, since the theming classes cant effectivley use modules without breaking functionality or atleast i think. ill try)",
     "TODO: Add css compatibility for firefox and older chrome versions",
 
-    "Style fix",
+    "Style fix x2",
     "Started implemented ModStoreWinProvider",
     "Started implemented docs",
     "Added hollow knight",
     "Added games submodule",
+    "Added custom data attributes to windows",
+    "Updated rounded windows mod to account for maximized windows",
+    "Added custom css theming via file upload and '.custom' class",
+    "Updated pnpm",
+    "Updated themelib to exclude start menu button",
+    "Upodated settings menu to allow custom themeing",
+    "Finished ModStoreWinProvider",
+    "Added theme-builder mod",
+    "Replaced Exluce with Omit in modstore",
+    "Removed redundant comments",
+    "Added visual filters mod",
+    "Added search to settings"
   ],
 };
 // import Settings from './sdk/components/Settings.tsx';
@@ -59,6 +65,7 @@ const TaskMgr=lazy(()=>import('./apps/taskmgr/TaskMgr.tsx'));
 const Firebean=lazy(()=>import('./apps/firebean/Firebean.tsx'));
 // const ModStoreClient=lazy(()=>import('./apps/modstore/ModStoreClient.tsx'));
 import ModStoreClient from './apps/modstore/ModStoreClient.tsx';
+import { ModStoreWinProvider } from './apps/modstore/ModStoreWinProvider.tsx';
 //beanshell components
 const Beanshell=lazy(()=>import('./apps/beanshell/Beanshell.tsx'));
 const Explorer=lazy(()=>import('./apps/beanshell/explorer/Explorer.tsx'));
@@ -301,7 +308,6 @@ const App=({}):ReactElement=>{
           <ModStoreClient/>
       </Window>
 
-
         
       {/*//! errors */}
       <Window
@@ -359,6 +365,8 @@ const App=({}):ReactElement=>{
             }}>OK</motion.button>
           </motion.div>
       </Window>
+
+      <ModStoreWinProvider/>
     </Beansite81>
   </>);
 }

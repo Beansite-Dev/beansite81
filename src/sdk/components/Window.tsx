@@ -176,6 +176,9 @@ export const Window=({
       disableDragging={isMax}
       enableResizing={!isMax}
       className="winRnd"
+      data-max={isMax}
+      data-min={isMin}
+      data-open={isOpen}
       // default={{x,y,width,height,}}
       size={{width:dim.width,height:dim.height}}
       position={{x:dim.x,y:dim.y}}
@@ -217,6 +220,9 @@ export const Window=({
             key={0}
             transition={{duration:isResizing?0:.25,}}
             className={`Window ${isResizing?"noAni":""} win${id}`} 
+            data-max={isMax}
+            data-min={isMin}
+            data-open={isOpen}
             layout
             id={ids}>
               <motion.div 

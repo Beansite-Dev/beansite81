@@ -20,6 +20,9 @@ export const roundedWindows:IModstore={
     .Window {
       border-radius: var(--rounded-windows-radius);
     }
+    .Window[data-max=true]{
+      border-radius: 0 !important;
+    }
     .WinContents {
       border-radius: var(--rounded-windows-content-radius);
     }

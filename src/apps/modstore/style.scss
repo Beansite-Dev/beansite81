@@ -206,7 +206,7 @@
   font-size: .75rem;
   border: 1px solid #45454560;
   background: #fff;
-  text-align: #45454590;
+  text-align: center;
   transition: .35s;
   cursor: pointer;
   &:hover {
@@ -215,12 +215,33 @@
   }
   outline: transparent 1px solid;
   outline-offset: -2px;
+  position: relative;
   &:active{outline-color:#fff;}
+  &::before{
+    content:"Disable?";
+    opacity: 0;
+    pointer-events: none;
+    height: calc(100% + 2px);
+    width: calc(100% + 2px);
+    font-size: .75rem;
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    top: 50%;
+    left: 50%;
+    translate: -50% -50%;
+    z-index: 2;
+    background: #c52020;
+    color: #fff;
+    transition: .35s;
+  }
   &.true,&:active {
     background: #4192ea;
     border-color: transparent;
     color: #fff;
   }
+  &.true:hover::before{opacity: 1 !important;}
 }
 .mscloading {
   color: #000;
@@ -279,4 +300,13 @@
   outline: none;
   overflow-y: auto !important;
   overflow-x: hidden !important;
+}
+.modwiniframe {
+  height: 100%;
+  width: 100%;
+  border: none;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  translate: -50% -50%;
 }

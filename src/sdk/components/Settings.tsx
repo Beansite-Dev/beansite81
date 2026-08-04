@@ -3,7 +3,7 @@ import type { ReactElement } from "react";
 import { Suspense, useEffect, useRef, useState } from "react";
 import { atom, useAtom } from "jotai";
 import { isMotionComponent, motion, AnimatePresence } from "motion/react";
-import { DerivedSettingsAtom, ExpressDerivedWinModifierAtom, SettingsAtom, SettingsAtomSchema, validAppKeys, type ISettingsAtom } from "../store";
+import { DerivedSettingsAtom, ExpressDerivedWinModifierAtom, SettingsAtom, SettingsAtomSchema, validAppKeys, type ISettingsAtom, type ICustomCSSFile } from "../store";
 import{ useDropzone } from "react-dropzone";
 import { defaultBackgrounds, sbgdb, type IsavedBackgrounds } from "./store/savedbg.db";
 import { generateId } from "../Lib";
@@ -13,8 +13,6 @@ import { faTrash } from "@fortawesome/free-solid-svg-icons";
 import z from "zod";
 //@ts-expect-error
 import * as csstree from 'csstree-validator';
-// import postcss from "postcss";
-// import postcssNesting from "postcss-nesting";
 import { createPortal } from "react-dom";
 import { FileSystemAtom } from "../../apps/beanshell/fs";
 const saveFile=(data:string,filename:string)=>
@@ -25,6 +23,39 @@ const Settings=({}):ReactElement=>{
   const[,setSettingsDirect]=useAtom(SettingsAtom);
   const[,setWindow]=useAtom(ExpressDerivedWinModifierAtom);
   const[error,setError]=useState<string>("");
+  const[search,setSearch]=useState<string>("");
+  const matches=(label:string):boolean=>!search.trim()||label.toLowerCase().includes(search.trim().toLowerCase());
+  const customCSSFileInputRef=useRef<HTMLInputElement>(null);
+  const handleCustomCSSUpload=(e:React.ChangeEvent<HTMLInputElement>):void=>{
+    const file=e.target.files?.[0];
+    if(!file)return;
+    const reader=new FileReader();
+    reader.onload=(ev)=>{
+      const css=ev.target?.result as string;
+      try{
+        const errors=csstree.validate(css);
+        if(errors.length>0){setError(`Invalid CSS:\n${errors.map((err:any)=>err.message).join("\n")}`);return;}
+        setError("");
+        const newFile:ICustomCSSFile={id:generateId(10),name:file.name,css};
+        setSettings(["customCSSFiles",[...settings.customCSSFiles,newFile]]);
+        setSettings(["customCSS",css]);
+      }catch(err){setError(`Invalid CSS: ${(err as Error).message}`);}
+    };
+    reader.readAsText(file);
+    e.target.value="";
+  };
+  const CustomCSSFiles=({}):ReactElement=>{
+    return(<motion.div className="customCSSFileList">
+      {settings.customCSSFiles.length===0
+        ?<motion.p style={{fontSize:".75rem",opacity:".65",padding:".375rem .5rem"}}>No custom CSS files uploaded yet</motion.p>
+        :settings.customCSSFiles.map((x:ICustomCSSFile)=><motion.div key={x.id} className="customCSSFileRow">
+          <motion.p onClick={()=>{setSettings(["customCSS",x.css]);}}>{x.name}</motion.p>
+          <motion.button className="trashButton" onClick={()=>{
+            setSettings(["customCSSFiles",settings.customCSSFiles.filter((f:any)=>f.id!==x.id)]);
+          }}><FontAwesomeIcon icon={faTrash}/></motion.button>
+        </motion.div>)}
+    </motion.div>);
+  }
   const DragAndDrop=({}):ReactElement=>{
     const{acceptedFiles,getRootProps,getInputProps}=useDropzone({
       onDrop:(files:any):void=>{
@@ -89,14 +120,43 @@ const Settings=({}):ReactElement=>{
       </motion.div>
     </Suspense></>);
   };
+  const generalMatch=matches("Startup Apps");
+  const appearanceMatch=matches("Appearance");
+  const backgroundMatch=matches("Background");
+  const advancedMatch=matches("Advanced Settings");
+  const dangerMatch=matches("Danger Zone");
+  const generalVisible=generalMatch||Object.keys(settings.defaultOpenApps).some(key=>matches(key));
+  const appearanceVisible=appearanceMatch||matches("Select a font")||matches("Select a theme");
+  const backgroundVisible=backgroundMatch||matches("Upload a background")||matches("Saved background");
+  const advancedVisible=advancedMatch
+    ||matches("Confirm closing")
+    ||matches("Edit Custom CSS")
+    ||matches("Custom CSS Files")
+    ||matches("Copy Settings to Clipboard")
+    ||matches("Export Settings")
+    ||matches("Copy Virtual Filesystem")
+    ||matches("Export Virtual Filesystem")
+    ||matches("Debug Menu")
+    ||matches("Edit Settings JSON");
+  const dangerVisible=dangerMatch||matches("Reset Settings")||matches("Reset Mods");
   return(<>
     {createPortal(<style>{settings.customCSS}</style>,document.body)}
     <motion.div id="Settings">
       <h1>Settings</h1>
-      <motion.div id="general">
+      <motion.div className="settingsRow searchRow">
+        <motion.p>Search Settings</motion.p>
+        <input
+          type="text"
+          id="settingsSearch"
+          placeholder="e.g. theme, background, debug"
+          value={search}
+          onChange={(e)=>setSearch(e.target.value)}/>
+      </motion.div><br/>
+      {generalVisible&&<><motion.div id="general">
         <motion.h2>Startup Apps</motion.h2>
         {Object.keys(settings.defaultOpenApps)
           .map(key=>key as AppKey)
+          .filter(key=>generalMatch||matches(key))
           .map(key=><motion.div className="settingsRow" key={generateId(10)}>
             <motion.p>{key}</motion.p>
             <motion.input
@@ -110,10 +170,10 @@ const Settings=({}):ReactElement=>{
               }}
               name={key}/>
           </motion.div>)}
-      </motion.div><br/>
-      <motion.div id="appearance">
+      </motion.div><br/></>}
+      {appearanceVisible&&<><motion.div id="appearance">
         <motion.h2>Appearance</motion.h2>
-        <motion.div className="settingsRow">
+        {(appearanceMatch||matches("Select a font"))&&<motion.div className="settingsRow">
           <motion.p>Select a font: </motion.p>
           <select 
             onChange={(e)=>{setSettings(["font",e.target.value]);}}
@@ -126,8 +186,8 @@ const Settings=({}):ReactElement=>{
               <option value="time">Times New Roman</option>
               <option value="mono">Source Code Pro</option>
           </select>
-        </motion.div>
-        <motion.div className="settingsRow">
+        </motion.div>}
+        {(appearanceMatch||matches("Select a theme"))&&<motion.div className="settingsRow">
           <motion.p>Select a theme: </motion.p>
           <select 
             onChange={(e)=>{
@@ -144,146 +204,164 @@ const Settings=({}):ReactElement=>{
               <option value="green">Green</option>
               <option value="blue">Blue</option>
               <option value="purple">Purple</option>
-              {/*//?exclusive for testing
-                // <option value="lib">DefaultLib</option> */}
+              <option value="custom">Custom</option>
           </select>
-        </motion.div>
-      </motion.div><br/>
-      <motion.div id="background">
+        </motion.div>}
+      </motion.div><br/></>}
+      {backgroundVisible&&<><motion.div id="background">
         <motion.h2>Background</motion.h2>
-        <motion.h3>Upload a background</motion.h3>
-        <DragAndDrop/>
-        <motion.h3>Saved background</motion.h3>
-        <p>Saved backgrounds may take a moment to delete</p>
-        <SavedBackgrounds/>
-      </motion.div><br/>
-      <motion.div id="advanced">
+        {(backgroundMatch||matches("Upload a background"))&&<>
+          <motion.h3>Upload a background</motion.h3>
+          <DragAndDrop/>
+        </>}
+        {(backgroundMatch||matches("Saved background"))&&<>
+          <motion.h3>Saved background</motion.h3>
+          <p>Saved backgrounds may take a moment to delete</p>
+          <SavedBackgrounds/>
+        </>}
+      </motion.div><br/></>}
+      {advancedVisible&&<><motion.div id="advanced">
         <motion.h2>Advanced Settings</motion.h2>
-        <motion.div className="settingsRow">
-          <motion.p>Confirm closing?</motion.p>
-          <motion.input 
-            defaultChecked={settings.closeConfirmation} 
-            type="checkbox" 
-            onChange={(e)=>{setSettings(["closeConfirmation",e.target.checked]);}} 
-            name="closeConfirmation"/>
-        </motion.div>
-        <motion.p style={{fontSize:".75rem",opacity:".65"}}>(this usually helps with gg when teachers attempt tab closure)</motion.p><br/>
-        <motion.p>Edit Custom CSS</motion.p>
-        <motion.p style={{fontSize:".75rem",opacity:".65"}}>CSS stands for Cascading Style Sheets, and is the backbone of all website styling. If you'de like to learn how to use this section, check out <a href="https://developer.mozilla.org/en-US/docs/Web/CSS/Tutorials">This</a></motion.p>
-        <motion.p className="error">{error}</motion.p>
-        <motion.div
-          className="textEditor"
-          data-empty="Type in CSS here"
-          onKeyDown={(e)=>{
-            if(e.key==="Tab"){
-              e.preventDefault();
-              var sel=(e.currentTarget as HTMLDivElement).ownerDocument.defaultView!.getSelection();
-              var range=sel!.getRangeAt(0);
-              var tabNode=document.createTextNode("\u00a0\u00a0\u00a0\u00a0");
-              range.insertNode(tabNode);
-              range.setStartAfter(tabNode);
-              range.setEndAfter(tabNode); 
-              sel!.removeAllRanges();
-              sel!.addRange(range);
-            }else if(e.key==='{'){
-              e.preventDefault();
-              const sel=(e.currentTarget as HTMLDivElement).ownerDocument.defaultView!.getSelection();
-              const range=sel!.getRangeAt(0);
-              const text=document.createTextNode('{\n\u00a0\u00a0\u00a0\u00a0\n}');
-              range.insertNode(text);
-              range.setStart(text,5);
-              range.setEnd(text,5);
-              sel!.removeAllRanges();
-              sel!.addRange(range);
-            }else if(e.key==='s'&&(e.ctrlKey||e.metaKey)){
-              e.preventDefault();
-              try{
-                const css=(e.currentTarget as HTMLDivElement).innerText.replace(/\u00a0/g,' ');
-                // const expanded=postcss([postcssNesting()]).process(css,{from:undefined});
-                const errors=csstree.validate(css);
-                setError("");
-                if(errors.length===0)setSettings(["customCSS",css]);
-                else setError(`Invalid CSS:\n${errors.map((err:any)=>err.message).join("\n")}`);
-              }catch(error){setError(`Invalid CSS: ${(error as Error).message}`);}
-            }
-          }}
-          spellCheck="false" 
-          autoCorrect="off" 
-          autoCapitalize="off" 
-          contentEditable>{settings.customCSS}</motion.div><br/>
-        <motion.div className="settingsRow">
+        {(advancedMatch||matches("Confirm closing"))&&<>
+          <motion.div className="settingsRow">
+            <motion.p>Confirm closing?</motion.p>
+            <motion.input 
+              defaultChecked={settings.closeConfirmation} 
+              type="checkbox" 
+              onChange={(e)=>{setSettings(["closeConfirmation",e.target.checked]);}} 
+              name="closeConfirmation"/>
+          </motion.div>
+          <motion.p style={{fontSize:".75rem",opacity:".65"}}>(this usually helps with gg when teachers attempt tab closure)</motion.p><br/>
+        </>}
+        {(advancedMatch||matches("Edit Custom CSS"))&&<>
+          <motion.p>Edit Custom CSS</motion.p>
+          <motion.p style={{fontSize:".75rem",opacity:".65"}}>CSS stands for Cascading Style Sheets, and is the backbone of all website styling. If you'de like to learn how to use this section, check out <a href="https://developer.mozilla.org/en-US/docs/Web/CSS/Tutorials">This</a></motion.p>
+          <motion.p className="error">{error}</motion.p>
+          <motion.div
+            className="textEditor"
+            data-empty="Type in CSS here"
+            onKeyDown={(e)=>{
+              if(e.key==="Tab"){
+                e.preventDefault();
+                var sel=(e.currentTarget as HTMLDivElement).ownerDocument.defaultView!.getSelection();
+                var range=sel!.getRangeAt(0);
+                var tabNode=document.createTextNode("\u00a0\u00a0\u00a0\u00a0");
+                range.insertNode(tabNode);
+                range.setStartAfter(tabNode);
+                range.setEndAfter(tabNode); 
+                sel!.removeAllRanges();
+                sel!.addRange(range);
+              }else if(e.key==='{'){
+                e.preventDefault();
+                const sel=(e.currentTarget as HTMLDivElement).ownerDocument.defaultView!.getSelection();
+                const range=sel!.getRangeAt(0);
+                const text=document.createTextNode('{\n\u00a0\u00a0\u00a0\u00a0\n}');
+                range.insertNode(text);
+                range.setStart(text,5);
+                range.setEnd(text,5);
+                sel!.removeAllRanges();
+                sel!.addRange(range);
+              }else if(e.key==='s'&&(e.ctrlKey||e.metaKey)){
+                e.preventDefault();
+                try{
+                  const css=(e.currentTarget as HTMLDivElement).innerText.replace(/\u00a0/g,' ');
+                  const errors=csstree.validate(css);
+                  setError("");
+                  if(errors.length===0)setSettings(["customCSS",css]);
+                  else setError(`Invalid CSS:\n${errors.map((err:any)=>err.message).join("\n")}`);
+                }catch(error){setError(`Invalid CSS: ${(error as Error).message}`);}
+              }
+            }}
+            spellCheck="false" 
+            autoCorrect="off" 
+            autoCapitalize="off" 
+            contentEditable>{settings.customCSS}</motion.div><br/>
+        </>}
+        {(advancedMatch||matches("Custom CSS Files"))&&<>
+          <motion.p>Custom CSS Files</motion.p>
+          <motion.p style={{fontSize:".75rem",opacity:".65"}}>Upload a .css file to save it as a selectable custom theme. Click a saved file's name to load it into the editor above and apply it.</motion.p>
+          <motion.div className="settingsRow">
+            <motion.p>Upload CSS File</motion.p>
+            <motion.button onClick={()=>customCSSFileInputRef.current?.click()}>Upload CSS</motion.button>
+            <input ref={customCSSFileInputRef} type="file" accept=".css,text/css" style={{display:"none"}} onChange={handleCustomCSSUpload}/>
+          </motion.div>
+          <CustomCSSFiles/><br/>
+        </>}
+        {(advancedMatch||matches("Copy Settings to Clipboard"))&&<motion.div className="settingsRow">
           <motion.p>Copy Settings to Clipboard (as JSON)</motion.p>
           <motion.button onClick={(e)=>{
             navigator.clipboard.writeText(JSON.stringify(settings,null,4))
               .catch(err=>{console.error('Failed to copy text: ',err);});
             }}>Copy</motion.button>
-        </motion.div>
-        <motion.div className="settingsRow">
+        </motion.div>}
+        {(advancedMatch||matches("Export Settings"))&&<motion.div className="settingsRow">
           <motion.p>Export Settings (as JSON)</motion.p>
           <motion.button onClick={(e)=>{saveFile(JSON.stringify(settings,null,4),'settings.json');}}>Export as JSON</motion.button>
-        </motion.div>
-        <motion.div className="settingsRow">
+        </motion.div>}
+        {(advancedMatch||matches("Copy Virtual Filesystem"))&&<motion.div className="settingsRow">
           <motion.p>Copy Virtual Filesystem (as JSON)</motion.p>
           <motion.button onClick={(e)=>{
             navigator.clipboard.writeText(JSON.stringify(Filesystem,null,4))
               .catch(err=>{console.error('Failed to copy text: ',err);});
             }}>Copy</motion.button>
-        </motion.div>
-        <motion.div className="settingsRow">
+        </motion.div>}
+        {(advancedMatch||matches("Export Virtual Filesystem"))&&<motion.div className="settingsRow">
           <motion.p>Export Virtual Filesystem (as JSON)</motion.p>
           <motion.button onClick={(e)=>{saveFile(JSON.stringify(Filesystem,null,4),'filesystem.json');}}>Export as JSON</motion.button>
-        </motion.div>
-        <motion.div className="settingsRow">
+        </motion.div>}
+        {(advancedMatch||matches("Debug Menu"))&&<motion.div className="settingsRow">
           <motion.p>Debug Menu</motion.p>
           <motion.button 
             onClick={()=>setWindow([["debug","open",true],["debug","minimized",false]])}>
           Open Debug Menu</motion.button>
-        </motion.div>
-        <br/>
-        <motion.p>Edit Settings JSON</motion.p>
-        <motion.p style={{fontSize:".875rem",opacity:".85"}}>This is for advanced users only. Please follow the type below, or it won't be accepted. Press ctrl+s to save</motion.p>
-        <motion.div 
-          className="textEditor type"
-          style={{
-            fontSize:".75rem",
-            opacity:".65",
-          }}>{JSON.stringify(z.toJSONSchema(SettingsAtomSchema),null,2)}</motion.div><br/>
-        <motion.div
-          className="textEditor"
-          data-empty="Type in JSON data here"
-          onKeyDown={(e)=>{
-            if(e.key==="Tab"){
-              e.preventDefault();
-              var sel=(e.currentTarget as HTMLDivElement).ownerDocument.defaultView!.getSelection();
-              var range=sel!.getRangeAt(0);
-              var tabNode=document.createTextNode("\u00a0\u00a0\u00a0\u00a0");
-              range.insertNode(tabNode);
-              range.setStartAfter(tabNode);
-              range.setEndAfter(tabNode); 
-              sel!.removeAllRanges();
-              sel!.addRange(range);
-            }else if(e.key==='s'&&(e.ctrlKey||e.metaKey)){
-              e.preventDefault();
-              try{
-                const parsed=SettingsAtomSchema.safeParse(JSON.parse((e.currentTarget as HTMLDivElement).innerText));
-                if(parsed.success)setSettingsDirect(parsed.data);
-                else alert("Settings JSON did not match type");
-              }catch(e){alert("Settings JSON was not valid");}
-            }
-          }}
-          spellCheck="false" 
-          autoCorrect="off" 
-          autoCapitalize="off" 
-          contentEditable>{JSON.stringify(settings,null,4)}</motion.div>
-      </motion.div><br/>
-      <motion.div id="dangerzone">
+        </motion.div>}
+        {(advancedMatch||matches("Edit Settings JSON"))&&<>
+          <br/>
+          <motion.p>Edit Settings JSON</motion.p>
+          <motion.p style={{fontSize:".875rem",opacity:".85"}}>This is for advanced users only. Please follow the type below, or it won't be accepted. Press ctrl+s to save</motion.p>
+          <motion.div 
+            className="textEditor type"
+            style={{
+              fontSize:".75rem",
+              opacity:".65",
+            }}>{JSON.stringify(z.toJSONSchema(SettingsAtomSchema),null,2)}</motion.div><br/>
+          <motion.div
+            className="textEditor"
+            data-empty="Type in JSON data here"
+            onKeyDown={(e)=>{
+              if(e.key==="Tab"){
+                e.preventDefault();
+                var sel=(e.currentTarget as HTMLDivElement).ownerDocument.defaultView!.getSelection();
+                var range=sel!.getRangeAt(0);
+                var tabNode=document.createTextNode("\u00a0\u00a0\u00a0\u00a0");
+                range.insertNode(tabNode);
+                range.setStartAfter(tabNode);
+                range.setEndAfter(tabNode); 
+                sel!.removeAllRanges();
+                sel!.addRange(range);
+              }else if(e.key==='s'&&(e.ctrlKey||e.metaKey)){
+                e.preventDefault();
+                try{
+                  const parsed=SettingsAtomSchema.safeParse(JSON.parse((e.currentTarget as HTMLDivElement).innerText));
+                  if(parsed.success)setSettingsDirect(parsed.data);
+                  else alert("Settings JSON did not match type");
+                }catch(e){alert("Settings JSON was not valid");}
+              }
+            }}
+            spellCheck="false" 
+            autoCorrect="off" 
+            autoCapitalize="off" 
+            contentEditable>{JSON.stringify(settings,null,4)}</motion.div>
+        </>}
+      </motion.div><br/></>}
+      {dangerVisible&&<><motion.div id="dangerzone">
         <motion.h2>Danger Zone</motion.h2>
-        <motion.button onClick={()=>{
+        {(dangerMatch||matches("Reset Settings"))&&<motion.button onClick={()=>{
           if(confirm("Would you really like to reset all settings?")){
             localStorage.clear();
             window.location.reload();}
-        }}>Reset Settings</motion.button>
-        <motion.button 
+        }}>Reset Settings</motion.button>}
+        {(dangerMatch||matches("Reset Mods"))&&<motion.button 
           style={{marginLeft:".25rem"}}
           onClick={()=>{
             if(confirm("Would you really like to reset all mods?")){
@@ -292,8 +370,8 @@ const Settings=({}):ReactElement=>{
               window.history.replaceState({},"",currentUrl.toString());
               location.reload();
             }
-          }}>Reset Mods</motion.button>
-      </motion.div>
+          }}>Reset Mods</motion.button>}
+      </motion.div></>}
     </motion.div>
   </>);
 }

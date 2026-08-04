@@ -4,6 +4,21 @@
 @import url('https://fonts.googleapis.com/css2?family=PT+Serif:ital,wght@0,400;0,700;1,400;1,700&display=swap');
 @import url('https://fonts.cdnfonts.com/css/tahoma');
 #Settings{
+  input[type=text]{
+    margin: .5rem 0;
+    width: 10rem;
+    color: #000;
+    padding: .25rem .35rem;
+    font-size: .75rem;
+    border: 1px solid #45454560;
+    background: #fff;
+    text-align: #45454590;
+    transition: .35s;
+    cursor: text;
+    outline: transparent 1px solid;
+    outline-offset: -2px;
+    width: 65%;
+  }
   button {
     margin: .5rem 0;
     width: 10rem;
@@ -123,7 +138,6 @@
     outline: none;
     max-width: fit-content;
     transition: border .24s ease-in-out;
-    // cursor: pointer;
     margin: .5rem 0;
     gap: .5rem;
     .savedBg {
@@ -167,6 +181,42 @@
         align-items: center;
         text-align: center;
         vertical-align: middle;
+        font-size: .75rem;
+        background: #f0f0f0;
+        border: 1px solid #45454550;
+        color: #101010;
+        cursor: pointer;
+      }
+    }
+  }
+  .customCSSFileList {
+    display: flex;
+    flex-direction: column;
+    max-width: 30rem;
+    border: 1px solid #45454550;
+    background-color: #fcfcfc;
+    margin: .5rem 0;
+    .customCSSFileRow {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: .375rem .5rem;
+      border-bottom: 1px solid #45454525;
+      &:last-child{ border-bottom: none; }
+      p {
+        margin: 0;
+        font-size: .8rem;
+        cursor: pointer;
+        &:hover{ color: #4192ea; }
+      }
+      .trashButton {
+        height: 1.25rem;
+        width: 1.25rem;
+        line-height: 0;
+        flex-shrink: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
         font-size: .75rem;
         background: #f0f0f0;
         border: 1px solid #45454550;

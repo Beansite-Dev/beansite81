@@ -10,6 +10,8 @@ import * as acorn from "acorn";
 import { atom } from "jotai";
 import type { IWinObj } from "../../sdk/store";
 import type { ReactNode } from "react";
+import { themeBuilder } from "./mods/theme-builder";
+import { visualFilters } from "./mods/visual-filters";
 const func=z.string().optional().refine((src)=>{
   if(src===undefined)return true;
   try{
@@ -59,12 +61,16 @@ export const modstoreSchema=z.object({
     else return false;
   }catch(error){return false;}},{message:"Invalid full CSS string"}).optional(),
   options:z.array(options).optional(),
+  customWindowSrc:z.string().optional(),
+  customWindowIcon:z.string().optional(),
 });
 export type IModstore=z.infer<typeof modstoreSchema>;
 export const defaultModstore:IModstore[]=[
   roundedWindows,
   translucentWindows,
   beanshellCustomThemer,
+  themeBuilder,
+  visualFilters,
   // customThemer,
 ];
 export const modstoredb=new Dexie("MB81Mods") as Dexie &{mods:EntityTable<IModstore,"id">};
@@ -73,9 +79,9 @@ modstoredb.version(Number(import.meta.env.VITE_MODSTORE_DB_VER)+1).stores({mods:
   await tx.table("mods").bulkPut(defaultModstore);
 });
 modstoredb.on('populate',async()=>{await modstoredb.mods.bulkPut(defaultModstore);});
-declare interface modStoreWindowObject {
-  winData:Exclude<IWinObj,"focused">;
-  component:ReactNode;
+export declare interface modStoreWindowObject {
+  winData:Omit<IWinObj,"focused">;
+  component:string;
 }
 export const modStoreWinAtom=atom<modStoreWindowObject[]>([]);
 export const uniqueById=(items:modStoreWindowObject[])=>{

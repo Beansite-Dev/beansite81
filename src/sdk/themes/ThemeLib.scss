@@ -51,48 +51,6 @@
         border: 1px rgba($borderColor, 0.58) solid !important;
       }
     }
-    .Start {
-      filter: drop-shadow(0 0 5px #000a);
-      &:hover {
-        background-color: #240763;
-        filter: drop-shadow(0 0 5px #0000);
-        .icon {
-          background-size: 400%;
-          animation: slide linear 5s;
-          --c1: #5817e4 !important;
-          --c2: #6e2df9 !important;
-        }
-      }
-      @keyframes slide {
-        from {
-          background-position-x: 0%;
-        }
-        to {
-          background-position-x: 100%;
-        }
-      }
-      transition: .35s !important;
-      .icon {
-        background-color: #fff;
-        transition: 
-          --c1 .35s, 
-          --c2 .35s, 
-          background-color .35s;
-        background: linear-gradient(
-          to right,
-          var(--c1) 25%,
-          var(--c2) 30%,
-          var(--c1) 35%,
-          );
-        mask-image: url("/assets/favicon_modern.svg");
-        mask-size: contain;
-        mask-repeat: no-repeat;
-        -webkit-mask-image: url("/assets/favicon_modern.svg");
-        -webkit-mask-size: contain;
-        -webkit-mask-repeat: no-repeat;
-        animation-delay: 1s;
-      }
-    }
   }
   #StartMenu {
     background-color: #240763;
@@ -104,6 +62,50 @@
     .ContentWrapper {
       background: $primaryColor;
       border: 1px rgba($borderColor, 0.58) solid;
+    }
+  }
+}
+#Taskbar{
+  .Start {
+    filter: drop-shadow(0 0 5px #000a);
+    &:hover {
+      background-color: #240763;
+      filter: drop-shadow(0 0 5px #0000);
+      .icon {
+        background-size: 400%;
+        animation: slide linear 5s;
+        --c1: #5817e4 !important;
+        --c2: #6e2df9 !important;
+      }
+    }
+    @keyframes slide {
+      from {
+        background-position-x: 0%;
+      }
+      to {
+        background-position-x: 100%;
+      }
+    }
+    transition: .35s !important;
+    .icon {
+      background-color: #fff;
+      transition: 
+        --c1 .35s, 
+        --c2 .35s, 
+        background-color .35s;
+      background: linear-gradient(
+        to right,
+        var(--c1) 25%,
+        var(--c2) 30%,
+        var(--c1) 35%,
+        );
+      mask-image: url("/assets/favicon_modern.svg");
+      mask-size: contain;
+      mask-repeat: no-repeat;
+      -webkit-mask-image: url("/assets/favicon_modern.svg");
+      -webkit-mask-size: contain;
+      -webkit-mask-repeat: no-repeat;
+      animation-delay: 1s;
     }
   }
 }

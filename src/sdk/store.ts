@@ -3,21 +3,21 @@ import type { Icons } from "./components/Enum";
 import { z } from "zod";
 // import { Window } from "./sdk";
 export interface IWinObj{
-  uuid:string;
-  id:string;
-  title:string;
-  icon:string;
-  focused:boolean;
-  open:boolean;//|null;
-  minimized:boolean;//|null;
-  // component:typeof Window;
+uuid:string;
+id:string;
+title:string;
+icon:string;
+focused:boolean;
+open:boolean;//|null;
+minimized:boolean;//|null;
+// component:typeof Window;
 };
 export const uniqueById=(items:IWinObj[])=>{
-  const s=new Set();
-  return items.filter((item)=>{
-    const d=s.has(item.id);
-    s.add(item.id);
-    return !d;
+const s=new Set();
+return items.filter((item)=>{
+const d=s.has(item.id);
+s.add(item.id);
+return !d;
   });
 }
 export const WinAtom=atom<IWinObj[]>([]);
@@ -26,45 +26,48 @@ export const DerivedWinAtom=atom(
   (get,set,update:IWinObj[])=>set(WinAtom,uniqueById([...get(WinAtom),...update]))
 );
 export const DerivedWinModifierAtom=atom(
-  // windows2[windows.findIndex((win)=>{return win===id;})]
   (get)=>get(WinAtom),
   (get,set,update:[string,keyof IWinObj,any])=>set(WinAtom,get(WinAtom).map((item:IWinObj)=>{
-    if(item.id===update[0]){return{...item,[update[1]]: update[2]};}
-    return item;
+if(item.id===update[0]){return{...item,[update[1]]: update[2]};}
+return item;
   }))
 );
 export const ExpressDerivedWinModifierAtom=atom(
-  // windows2[windows.findIndex((win)=>{return win===id;})]
   (get)=>get(WinAtom),
   (get,set,update:[string,keyof IWinObj,any][])=>{
-    update.forEach(x=>{
-      set(WinAtom,get(WinAtom).map((item:IWinObj)=>{
-        if(item.id===x[0]){return{...item,[x[1]]:x[2]};}
-        return item;
+update.forEach(x=>{
+set(WinAtom,get(WinAtom).map((item:IWinObj)=>{
+if(item.id===x[0]){return{...item,[x[1]]:x[2]};}
+return item;
       }))
     })
   }
 );
 export const validAppKeys=[
-  "win1",
-  "changelog",
-  "settings",
-  "beanpowered",
-  "beanforged",
-  "blog",
-  "beanshell",
-  "explorer",
-  "notepad",
-  "taskmgr",
-  "beancord",
-  "firebean",
-  "modstore"
+"win1",
+"changelog",
+"settings",
+"beanpowered",
+"beanforged",
+"blog",
+"beanshell",
+"explorer",
+"notepad",
+"taskmgr",
+"beancord",
+"firebean",
+"modstore"
 ]as const;
+export interface ICustomCSSFile{
+id:string;
+name:string;
+css:string;
+};
 export const SettingsAtomSchema=z.object({
-  backgroundImage:z.string(),
-  backgroundSize:z.union([z.literal("cover"),z.literal("contain"),z.number(),z.string()]),
-  backgroundRepeat:z.union([z.literal("repeat"),z.literal("norepeat"),z.number(),z.string()]),
-  theme:z.union([
+backgroundImage:z.string(),
+backgroundSize:z.union([z.literal("cover"),z.literal("contain"),z.number(),z.string()]),
+backgroundRepeat:z.union([z.literal("repeat"),z.literal("norepeat"),z.number(),z.string()]),
+theme:z.union([
     z.literal("default"),
     z.literal("lib"),
     z.literal("dark"),
@@ -74,6 +77,7 @@ export const SettingsAtomSchema=z.object({
     z.literal("green"),
     z.literal("blue"),
     z.literal("purple"),
+    z.literal("custom"),
   ]),
   font:z.union([
     z.literal("segoe"),
@@ -85,6 +89,11 @@ export const SettingsAtomSchema=z.object({
   defaultOpenApps:z.record(z.enum(validAppKeys),z.boolean()),
   closeConfirmation:z.boolean(),
   customCSS:z.string(),
+  customCSSFiles:z.array(z.object({
+    id:z.string(),
+    name:z.string(),
+    css:z.string(),
+  })),
   scale:z.number().optional(),
   isReset:z.boolean().optional(),
   oldSettings:z.object({}).passthrough().optional(),
@@ -98,6 +107,7 @@ const defaultSettings:ISettingsAtom={
   font:"segoe",
   closeConfirmation:true,
   customCSS:"/*Type in CSS Here*/",
+  customCSSFiles:[],
   isReset:true,
   defaultOpenApps:{
     win1:true,
@@ -116,13 +126,13 @@ const defaultSettings:ISettingsAtom={
   },
 };
 const loadSettings=():ISettingsAtom=>{
-  const raw=localStorage.getItem("mb81-settings");
-  if(!raw) return defaultSettings;
-  const parsed=JSON.parse(raw);
-  const result=SettingsAtomSchema.safeParse(parsed);
-  if(result.success) return result.data;
+const raw=localStorage.getItem("mb81-settings");
+if(!raw) return defaultSettings;
+const parsed=JSON.parse(raw);
+const result=SettingsAtomSchema.safeParse(parsed);
+if(result.success) return result.data;
   console.warn("Settings failed validation:",result.error.issues);
-  return {...defaultSettings,isReset:true,oldSettings:parsed};
+return {...defaultSettings,isReset:true,oldSettings:parsed};
 }
 export const SettingsAtom=atom<ISettingsAtom>(loadSettings());
 export const DerivedSettingsAtom=atom(
