@@ -86,6 +86,8 @@ export const CHANGELOG:{
     "Added game: Web Fishing",
     "Added game: Yandere Simulator",
     "Added game: Yume Nikki",
+    "Version push",
+    "Game restore",
   ],
 };
 // import Settings from './sdk/components/Settings.tsx';

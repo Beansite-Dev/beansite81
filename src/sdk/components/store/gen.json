@@ -116,6 +116,11 @@
     "id":"hk",
     "working":true
   },{
+    "name":"Amanda the Adventurer",
+    "src":"/g/src/ports/ata/index.html",
+    "id":"ata",
+    "working":true
+  },{
     "name":"Baldi's Plus",
     "src":"/g/src/ports/bp/index.html",
     "id":"baldis",
@@ -131,6 +136,11 @@
     "id":"co9",
     "working":true
   },{
+    "name":"Andy's Apple Farm",
+    "src":"/g/src/ports/aaf/index.html",
+    "id":"aaf",
+    "working":true
+  },{
     "name":"Bendy and the Ink Machine",
     "src":"/g/src/ports/bnd/index.html",
     "id":"bnd",
@@ -141,6 +151,21 @@
     "id":"bt",
     "working":true
   },{
+    "name":"Dead Plate",
+    "src":"/g/src/ports/dp/index.html",
+    "id":"dp",
+    "working":true
+  },{
+    "name":"The Deadseat",
+    "src":"/g/src/ports/ds/index.html",
+    "id":"ds",
+    "working":true
+  },{
+    "name":"Fear to Fathom - Home Alone",
+    "src":"/g/src/ports/ftf/ha/index.html",
+    "id":"ftfha",
+    "working":true
+  },{
     "name":"Deltatraveler",
     "src":"/g/src/ports/dtvl/index.html",
     "id":"dtvl",
@@ -149,6 +174,11 @@
     "name":"Getting Over It",
     "src":"/g/src/ports/goi/index.html",
     "id":"goi",
+    "working":true
+  },{
+    "name":"Happy Sheepies",
+    "src":"/g/src/ports/hsp/index.html",
+    "id":"hsp",
     "working":true
   },{
     "name":"Jelly Drift",
@@ -176,14 +206,29 @@
     "id":"msp",
     "working":true
   },{
+    "name":"Omori",
+    "src":"/g/src/ports/omr/index.html",
+    "id":"omr",
+    "working":true
+  },{
     "name":"People Playground",
     "src":"/g/src/ports/pppg/index.html",
     "id":"pppg",
     "working":true
   },{
+    "name":"Pizza Tower",
+    "src":"/g/src/ports/pzat/index.html",
+    "id":"pzat",
+    "working":true
+  },{
     "name":"Raft",
     "src":"/g/src/ports/raft/index.html",
     "id":"raft",
+    "working":true
+  },{
+    "name":"Repo",
+    "src":"/g/src/ports/repo/index.html",
+    "id":"repo",
     "working":true
   },{
     "name":"Sonic.exe",
@@ -214,6 +259,11 @@
     "name":"Yandere Simulator",
     "src":"/g/src/ports/yds/index.html",
     "id":"yds",
+    "working":true
+  },{
+    "name":"Yume Nikki",
+    "src":"/g/src/ports/ymnk/index.html",
+    "id":"ymnk",
     "working":true
   }]
 }
