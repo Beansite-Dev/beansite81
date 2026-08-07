@@ -116,11 +116,6 @@
     "id":"hk",
     "working":true
   },{
-    "name":"Amanda the Adventurer",
-    "src":"/g/src/ports/ata/index.html",
-    "id":"ata",
-    "working":true
-  },{
     "name":"Baldi's Plus",
     "src":"/g/src/ports/bp/index.html",
     "id":"baldis",
