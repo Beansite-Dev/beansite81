@@ -131,11 +131,6 @@
     "id":"co9",
     "working":true
   },{
-    "name":"Andy's Apple Farm",
-    "src":"/g/src/ports/aaf/index.html",
-    "id":"aaf",
-    "working":true
-  },{
     "name":"Bendy and the Ink Machine",
     "src":"/g/src/ports/bnd/index.html",
     "id":"bnd",
@@ -149,11 +144,6 @@
     "name":"Dead Plate",
     "src":"/g/src/ports/dp/index.html",
     "id":"dp",
-    "working":true
-  },{
-    "name":"The Deadseat",
-    "src":"/g/src/ports/ds/index.html",
-    "id":"ds",
     "working":true
   },{
     "name":"Fear to Fathom - Home Alone",
