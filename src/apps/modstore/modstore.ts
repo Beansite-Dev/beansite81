@@ -96,3 +96,17 @@ export const derivedModStoreWinAtom=atom(
   (get)=>get(modStoreWinAtom),
   (get,set,update:modStoreWindowObject[])=>set(modStoreWinAtom,uniqueById([...get(modStoreWinAtom),...update]))
 );
+export type modStoreCSSObject={id:string,css:string};
+export const modStoreCSSAtom=atom<modStoreCSSObject[]>([]);
+export const uniqueByModId=(items:modStoreCSSObject[])=>{
+  const s=new Set();
+  return items.filter((item)=>{
+    const d=s.has(item.id);
+    s.add(item.id);
+    return !d;
+  });
+}
+export const derivedModStoreCSSAtom=atom(
+  (get)=>get(modStoreCSSAtom),
+  (get,set,update:modStoreCSSObject[])=>set(modStoreCSSAtom,uniqueByModId([...get(modStoreCSSAtom),...update]))
+);

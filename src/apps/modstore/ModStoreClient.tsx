@@ -1,7 +1,7 @@
 import React, { Suspense, useCallback, useEffect, useRef, useState, type ReactElement } from "react";
 import { motion } from "motion/react";
 import { useLiveQuery } from "dexie-react-hooks";
-import { defaultModstore, derivedModStoreWinAtom, modstoredb, modstoreSchema, modStoreWinAtom, type IModstore, type Ioptions, type modStoreWindowObject } from "./modstore";
+import { defaultModstore, derivedModStoreCSSAtom, derivedModStoreWinAtom, modstoredb, modStoreCSSAtom, modstoreSchema, modStoreWinAtom, type IModstore, type Ioptions, type modStoreWindowObject } from "./modstore";
 import "./style.scss";
 import { atom, useAtom } from "jotai";
 import { Dialog } from "@base-ui/react";
@@ -35,6 +35,9 @@ const ModStoreClient=({contentRef,rndRef}:any):ReactElement=>{
     const[runStatus,setRunStatus]=useAtom(runStatusAtom);
     const[configOpen,setConfigOpen]=useAtom(configOpenAtom);
     const[modStoreWin,setModStoreWin]=useAtom(derivedModStoreWinAtom);
+    const[,setModStoreWinRaw]=useAtom(modStoreWinAtom);
+    const[,setModStoreCSS]=useAtom(derivedModStoreCSSAtom);
+    const[,setModStoreCSSRaw]=useAtom(modStoreCSSAtom);
     const[,setWindow]=useAtom(ExpressDerivedWinModifierAtom);
     useEffect(()=>{try{
       console.warn(contentRef);
@@ -59,7 +62,11 @@ const ModStoreClient=({contentRef,rndRef}:any):ReactElement=>{
       runScripts();
     }catch(e){setError(e as Error)}},[working,mod]);
     useEffect(()=>{try{
-      if(!working||!mod.enabled||!mod.customWindowSrc)return;
+      if(!working||!mod.customWindowSrc)return;
+      if(!mod.enabled){
+        setModStoreWinRaw(prev=>prev.filter(w=>w.winData.id!==`modwin-${mod.id}`));
+        return;
+      }
       console.warn(mod,"enabled, adding app to winprovider");
       setModStoreWin([...(modStoreWin as modStoreWindowObject[]),{
         winData:{
@@ -72,6 +79,15 @@ const ModStoreClient=({contentRef,rndRef}:any):ReactElement=>{
         },
         component:mod.customWindowSrc as string,
       }]);
+    }catch(e){setError(e as Error)}},[working,mod]);
+    useEffect(()=>{try{
+      if(!working||!mod.customCSS)return;
+      if(!mod.enabled){
+        setModStoreCSSRaw(prev=>prev.filter(c=>c.id!==mod.id));
+        return;
+      }
+      console.warn(mod,"enabled, registering customCSS");
+      setModStoreCSS([{id:mod.id,css:mod.customCSS as string}]);
     }catch(e){setError(e as Error)}},[working,mod]);
     const[u,sU]=useAtom(uAtom);
     const[,setWin]=useAtom(derivedModStoreWinAtom);
@@ -168,7 +184,6 @@ const ModStoreClient=({contentRef,rndRef}:any):ReactElement=>{
         }});
     }catch(e){sU(["",false]);alert("error: "+e)}};
     return(<><motion.div className="mod">
-      {(!!mod.customCSS&&mod.enabled)?createPortal(<style>{mod.customCSS}</style>,document.head):null}
       <motion.h1>{mod.name}&nbsp;</motion.h1>
       <motion.div className="mscrowWrapper">
         <motion.span className="code">{mod.id}</motion.span>by <a href={`mailto:${mod.author}`}>{mod.authorNick||mod.author}</a>

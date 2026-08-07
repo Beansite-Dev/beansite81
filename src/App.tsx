@@ -18,9 +18,8 @@ export const CHANGELOG:{
   comment: "im free",
   changes:[
     //functionality
-    "TODO: Add Gitea Window",
     "TODO: Add renaming to explorer", 
-    "TODO: Host omori under a seperate repo under vercel and use that or use a seperate firebase url cuz omori does not fit",
+    "TODO: Add corner and side maximizing",
     //apps
     "TODO: Add Task Manager", //!<- do this already  bro
     "TODO: Add Beanhelper (Chat)",//gemeni api
@@ -88,6 +87,8 @@ export const CHANGELOG:{
     "Added game: Yume Nikki",
     "Version push",
     "Game restore",
+    "Bugfix: made modstore mod styling persistent",
+    "Bugfix: made modstore windows clear when mod get deleted",
   ],
 };
 // import Settings from './sdk/components/Settings.tsx';
@@ -102,6 +103,7 @@ const Firebean=lazy(()=>import('./apps/firebean/Firebean.tsx'));
 // const ModStoreClient=lazy(()=>import('./apps/modstore/ModStoreClient.tsx'));
 import ModStoreClient from './apps/modstore/ModStoreClient.tsx';
 import { ModStoreWinProvider } from './apps/modstore/ModStoreWinProvider.tsx';
+import { ModStoreCSSProvider } from './apps/modstore/ModStoreStyleProvider.tsx';
 //beanshell components
 const Beanshell=lazy(()=>import('./apps/beanshell/Beanshell.tsx'));
 const Explorer=lazy(()=>import('./apps/beanshell/explorer/Explorer.tsx'));
@@ -403,6 +405,7 @@ const App=({}):ReactElement=>{
       </Window>
 
       <ModStoreWinProvider/>
+      <ModStoreCSSProvider/>
     </Beansite81>
   </>);
 }
