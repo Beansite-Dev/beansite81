@@ -26,6 +26,7 @@
     "@tsparticles/react": "^3.0.0",
     "@tsparticles/slim": "^3.9.1",
     "@vercel/analytics": "^2.0.1",
+    "@vercel/speed-insights": "^2.0.0",
     "@widgetbot/react-embed": "^1.11.3",
     "acorn": "^8.17.0",
     "crypto-js": "^4.2.0",
