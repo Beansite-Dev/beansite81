@@ -35,8 +35,47 @@ interface IStartMenuItem {
   target?:string;
   style?:CSSProperties;
 }
+const StartMenuItem=({
+  name,
+  icon,
+  background,
+  renderIcon=true,
+  customCallback,
+  target,
+  style,
+  setStartMenuOpen,
+}:IStartMenuItem&{setStartMenuOpen:(open:boolean)=>void}):ReactElement=>{
+  const[_windows,updateWindow]=useAtom(ExpressDerivedWinModifierAtom);
+  return(<>
+    <motion.div 
+      style={{
+        ...style,
+        background: background,
+      }}
+      onClick={(e)=>{
+        e.preventDefault();
+        setStartMenuOpen(false);
+        if(target){
+          updateWindow([
+            [target,"open",true],
+            [target,"minimized",false],
+            [target,"focused",true],
+          ]);
+        }
+      }} 
+      className="startMenuItem">
+        <motion.h1 className="Name">{name}</motion.h1>
+        {renderIcon&&<motion.div 
+          className="Icon" 
+          style={{
+            backgroundImage:`url(${icon})`
+          }}></motion.div>}
+    </motion.div>
+  </>);
+};
 export const StartMenu=({mb81ref}:{mb81ref:React.RefObject<HTMLDivElement>}):ReactElement|null=>{
   const[startMenuOpen,setStartMenuOpen]=useAtom(startMenuAtom);
+  const [init,setInit]=useState(false);
   useEffect(()=>{
     initParticlesEngine(async(engine)=>{
       await loadSlim(engine);
@@ -65,11 +104,6 @@ export const StartMenu=({mb81ref}:{mb81ref:React.RefObject<HTMLDivElement>}):Rea
         "polygon": {
           "nb_sides": 5
         },
-        "image": {
-          "src": "img/github.svg",
-          "width": 100,
-          "height": 100
-        }
       },
       "opacity": {
         "value": 0.5,
@@ -116,44 +150,11 @@ export const StartMenu=({mb81ref}:{mb81ref:React.RefObject<HTMLDivElement>}):Rea
     
     "retina_detect": true
   }),[],);
-  const [init,setInit]=useState(false);
-  const StartMenuItem=({
-    name,
-    icon,
-    background,
-    renderIcon=true,
-    customCallback,
-    target,
-    style,
-  }:IStartMenuItem):ReactElement=>{
-    const[_windows,updateWindow]=useAtom(ExpressDerivedWinModifierAtom);
-    return(<>
-      <motion.div 
-        style={{
-          ...style,
-          background: background,
-        }}
-        onClick={(e)=>{
-          e.preventDefault();
-          setStartMenuOpen(false);
-          if(target){
-            updateWindow([
-              [target,"open",true],
-              [target,"minimized",false],
-            ]);
-          }
-        }} 
-        className="startMenuItem">
-          <motion.h1 className="Name">{name}</motion.h1>
-          {renderIcon&&<motion.div 
-            className="Icon" 
-            style={{
-              backgroundImage:`url(${icon})`
-            }}></motion.div>}
-      </motion.div>
-    </>);
-  };
-  return(<>{mb81ref.current?createPortal(<><AnimatePresence>
+  const[portalReady,setPortalReady]=useState(!!mb81ref.current);
+  useEffect(()=>{
+    if(!portalReady&&mb81ref.current)setPortalReady(true);
+  });
+  return(<>{portalReady?createPortal(<><AnimatePresence>
       {startMenuOpen?<motion.div 
         key={0}
         variants={variants}
@@ -161,18 +162,19 @@ export const StartMenu=({mb81ref}:{mb81ref:React.RefObject<HTMLDivElement>}):Rea
         animate={"open"}
         exit={"closed"}
         id="StartMenu">
-          <Particles
+          {init&&<Particles
             id="tsparticles"
-            options={options}/>
+            options={options}/>}
           <motion.div id="GridWrapper">
             <StartMenuItem 
               name="Back to Desktop"
               background={"url(/wallpaper/1.jpg)"}
-              renderIcon={false}/>
+              renderIcon={false}
+              setStartMenuOpen={setStartMenuOpen}/>
             {StartMenuIcon.map((x,i)=>
-              <StartMenuItem key={i}{...x}/>)}
+              <StartMenuItem key={x.target??i}{...x} setStartMenuOpen={setStartMenuOpen}/>)}
           </motion.div>
       </motion.div>:null}
     </AnimatePresence></>,
-  mb81ref.current):null}</>);
+  mb81ref.current!):null}</>);
 }

@@ -1,6 +1,6 @@
 import { atom, useAtom } from "jotai";
 // @ts-ignore
-import React, { Children, cloneElement, Suspense, useEffect, useRef, useState, type ComponentType, type CSSProperties, type ReactElement, type ReactNode } from "react";
+import React, { Children, cloneElement, isValidElement, Suspense, useEffect, useRef, useState, type ComponentType, type CSSProperties, type ReactElement, type ReactNode } from "react";
 import { DerivedWinAtom, DerivedWinModifierAtom, ExpressDerivedWinModifierAtom, type IWinObj } from "../store";
 // @ts-ignore
 import { isMotionComponent, motion, AnimatePresence, easeInOut } from "motion/react";
@@ -9,6 +9,7 @@ import "./styles/Window.scss";
 import { Rnd } from "react-rnd";
 import { Icons, WindowSymbols, type IIcons } from "./Enum";
 export const wdtmAtom=atom<boolean>(false);
+const debug=false; //toggle for verbose window logging
 export interface IWindow{
   children?:ReactNode;
   title:string;
@@ -34,11 +35,6 @@ const variants={
     opacity: 1,
     y:0,
     scale: "100%",
-    // transition: {
-    //   duration: .25,
-    //   staggerChildren: .25,
-    //   ease: easeInOut,
-    // }
   },
   closed:{
     opacity: 0,
@@ -87,32 +83,33 @@ export const Window=({
   const[_windowDragToMax,setWindowDragToMax]=useAtom(wdtmAtom);
   const rndRef=useRef<any>(null);
   const dragRef=useRef<any>(null);
-  const uuid=generateId(10); //Universally Unique Identifier
+  const uuidRef=useRef(generateId(10));
+  const uuid=uuidRef.current;
   const ids=`${id}_${uuid}`;
-  const MoveWinToTop=()=>{if(
-    _windows.filter(x=>x.id==id)[0]
-    &&!_windows.filter(x=>x.id==id)[0].focused
-  ){
-    let not:string[]=[];
-    document.querySelectorAll(".winRnd").forEach(x=>{
-      if(x.id!==`${ids}_rnd`){
-        (x as HTMLElement).style.zIndex="-1";
-        not.push(x.id.substring(0,x.id.indexOf("_")));
-      }
-      else{
-        (x as HTMLElement).style.zIndex="10";
-      }
-    });
-    let toChange=[
-      ...(not.map(x=>[x,"focused",false]) as [string,keyof IWinObj,any]),
-      [id,"focused",true],
-    ];
-    // console.warn(toChange);
-    updateWindow2(toChange as [string,keyof IWinObj,any][]);
-  }};
+  const MoveWinToTop=()=>{
+    const self=_windows.find(x=>x.id==id);
+    if(self&&!self.focused){
+      let not:string[]=[];
+      document.querySelectorAll(".winRnd").forEach(x=>{
+        if(x.id!==`${ids}_rnd`){
+          (x as HTMLElement).style.zIndex="-1";
+          not.push((x as HTMLElement).dataset.id as string);
+        }
+        else{
+          (x as HTMLElement).style.zIndex="10";
+        }
+      });
+      let toChange=[
+        ...(not.map(x=>[x,"focused",false]) as [string,keyof IWinObj,any]),
+        [id,"focused",true],
+      ];
+      // if(debug)console.warn(toChange);
+      updateWindow2(toChange as [string,keyof IWinObj,any][]);
+    }
+  };
   useEffect(()=>{
-    console.log(`win-${id}loaded`);
-    return setWindow([{
+    if(debug)console.log(`win-${id}loaded`);
+    setWindow([{
       title,
       uuid, 
       id:id,
@@ -124,10 +121,9 @@ export const Window=({
   },[]);
   // close/minimize scripts
   useEffect(()=>{
-    console.log(_windows.filter(x=>x.id==id)[0]);
-    if(_windows.filter(x=>x.id==id)[0]){
-      let winObj:IWinObj=_windows.filter(x=>x.id==id)[0];
-      // let winElm:HTMLElement=rndRef.current.getSelfElement();
+    const winObj=_windows.find(x=>x.id==id);
+    if(winObj){
+      if(debug)console.log(winObj);
       if(isMin!==winObj.minimized||isOpen!==winObj.open){
         setIsMin(winObj.minimized);
         setIsOpen(winObj.open);
@@ -136,37 +132,38 @@ export const Window=({
     }
   },[_windows]);
   // logging state updates
-  useEffect(()=>{console.log(`min: ${isMin} - ${!(!isOpen||isMin)}`);},[isMin]);
-  useEffect(()=>{console.log(`open: ${isOpen} - ${!(!isOpen||isMin)}`);},[isOpen]);
-  useEffect(()=>console.log(isResizing),[isResizing]);
+  useEffect(()=>{if(debug)console.log(`min: ${isMin} - ${!(!isOpen||isMin)}`);},[isMin]);
+  useEffect(()=>{if(debug)console.log(`open: ${isOpen} - ${!(!isOpen||isMin)}`);},[isOpen]);
+  useEffect(()=>{if(debug)console.log(isResizing);},[isResizing]);
   // maximize scripts
   useEffect(()=>{
-    console.log(isMax);
-    window.onresize=()=>{if(isMax)
-      setDim({x:0,y:0,height:innerHeight-40,width:innerWidth,});};
+    if(debug)console.log(isMax);
+    const onResize=()=>{if(isMax)setDim({x:0,y:0,height:innerHeight-40,width:innerWidth,});};
+    window.addEventListener("resize",onResize);
     if(rndRef.current){
       if(isMax){
         MoveWinToTop();
         const rect=rndRef.current.getSelfElement().getBoundingClientRect();
         setLastPos({x:rect.x,y:rect.y});
         setLastDim({height:rect.height,width:rect.width});
-        console.table({x:rect.x,y:rect.y});
+        if(debug)console.table({x:rect.x,y:rect.y});
         setDim({x:0,y:0,height:innerHeight-40,width:innerWidth,});
-      }else{if(!lastPos||!lastDim)return;
+      }else if(lastPos&&lastDim){
         rndRef.current.updatePosition(lastPos);
         rndRef.current.updateSize(lastDim);
         setDim({x:lastPos.x,y:lastPos.y,height:lastDim.height,width:lastDim.width,});
       }
     }
+    return()=>window.removeEventListener("resize",onResize);
   },[isMax]);
   //🗙︎🗕🗖︎🗗︎
   const contentRef=useRef<any>(null);
   const renderChildren=()=>{
-    return Children.map(children,(child:ReactElement|any)=>{
-      if(child&&child.type){
+    return Children.map(children,(child)=>{
+      if(isValidElement(child)){
         // console.log(child);
-        if(["div"].includes(child.type))return child;
-        else return cloneElement(child,{contentRef,rndRef});
+        if(["div"].includes((child as ReactElement).type as any))return child;
+        else return cloneElement(child as ReactElement<any>,{contentRef,rndRef});
       }
     });
   };
@@ -176,6 +173,7 @@ export const Window=({
       disableDragging={isMax}
       enableResizing={!isMax}
       className="winRnd"
+      data-id={id}
       data-max={isMax}
       data-min={isMin}
       data-open={isOpen}
@@ -197,7 +195,7 @@ export const Window=({
       }}
       onMouseDown={(_e)=>{
         setWindowDragToMax(false);
-        console.log(`detected mousedown ${ids}`);
+        if(debug)console.log(`detected mousedown ${ids}`);
         MoveWinToTop();
       }}
       onDrag={(_e,d)=>{
@@ -208,7 +206,7 @@ export const Window=({
       dragHandleClassName={`${id}_draghandle`}
       minWidth={minWidth}
       minHeight={minHeight}
-      bounds={bounds.current}
+      bounds={bounds?.current}
       style={{pointerEvents:!(!isOpen||isMin)?"auto":"none"}}>
         <AnimatePresence>
           {!(!isOpen||isMin)?<motion.div 
@@ -252,7 +250,7 @@ export const Window=({
                       style={includeButton[0]?{}:{display:"none"}}
                       onClick={(e)=>{
                         e.preventDefault();
-                        console.log("~ close");
+                        if(debug)console.log("~ close");
                         updateWindow([id,"open",false]);
                       }}
                       className="Button x">{WindowSymbols.close}</motion.button>
@@ -261,7 +259,7 @@ export const Window=({
                       onClick={(e)=>{
                         e.preventDefault();
                         setIsMax(!isMax);
-                        console.log("~ max");
+                        if(debug)console.log("~ max");
                       }}
                       id={`${id}_max`}
                       className="Button max">{isMax?WindowSymbols.unmax:WindowSymbols.max}</motion.button>
@@ -269,7 +267,7 @@ export const Window=({
                       style={includeButton[2]?{}:{display:"none"}}
                       onClick={(e)=>{
                         e.preventDefault();
-                        console.log("~ min");
+                        if(debug)console.log("~ min");
                         updateWindow([id,"minimized",true]);
                       }}
                       className="Button min">{WindowSymbols.min}</motion.button>
@@ -288,7 +286,7 @@ export const Window=({
 export const WinDragToMax=():ReactElement|null=>{
   const[windowDragToMax]=useAtom(wdtmAtom);
   useEffect(()=>{
-    console.log(`wdtm status: ${windowDragToMax}`);
+    if(debug)console.log(`wdtm status: ${windowDragToMax}`);
   },[windowDragToMax]);
   return(windowDragToMax)?<>
     <AnimatePresence>

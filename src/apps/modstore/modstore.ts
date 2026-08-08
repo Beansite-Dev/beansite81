@@ -2,16 +2,18 @@ import { Dexie, type EntityTable, type Transaction } from "dexie";
 import { z } from "zod";
 //@ts-expect-error
 import * as csstree from 'csstree-validator';
-import { roundedWindows } from "./mods/rounded-windows";
-import { beanshellCustomThemer } from "./mods/beanshell-custom-theme";
-import { translucentWindows } from "./mods/translucent-windows";
-import { customThemer } from "./mods/custom-themer";
 import * as acorn from "acorn";
 import { atom } from "jotai";
 import type { IWinObj } from "../../sdk/store";
 import type { ReactNode } from "react";
+//mods
+import { roundedWindows } from "./mods/rounded-windows";
+import { beanshellCustomThemer } from "./mods/beanshell-custom-theme";
+import { translucentWindows } from "./mods/translucent-windows";
+import { customThemer } from "./mods/custom-themer";
 import { themeBuilder } from "./mods/theme-builder";
 import { visualFilters } from "./mods/visual-filters";
+import { rounded } from "./mods/rounded";
 const func=z.string().optional().refine((src)=>{
   if(src===undefined)return true;
   try{
@@ -25,8 +27,8 @@ const func=z.string().optional().refine((src)=>{
 export const options=z.object({
   name:z.string().min(2).max(100),
   description:z.string().max(256).optional(),
-  type:z.enum(["text","number","boolean","select","color"]),
-  value:z.union([z.string(),z.number(),z.boolean()]).optional(),
+  type:z.enum(["text","number","boolean","select","color","file"]),
+  value:z.union([z.string(),z.number(),z.boolean(),z.instanceof(File)]).optional(),
   // defaultValue:z.union([z.string(),z.number(),z.boolean()]).optional(),
   selectOptions:z.array(z.union([z.string(),z.number()])).optional(),
   onchange:func,
@@ -71,6 +73,7 @@ export const defaultModstore:IModstore[]=[
   beanshellCustomThemer,
   themeBuilder,
   visualFilters,
+  // rounded,
   // customThemer,
 ];
 export const modstoredb=new Dexie("MB81Mods") as Dexie &{mods:EntityTable<IModstore,"id">};

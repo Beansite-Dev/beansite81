@@ -2,7 +2,7 @@ import { useEffect, useState, type ReactElement, useRef, useCallback } from "rea
 import "./styles/Taskbar.scss";
 import { AnimatePresence, motion, Reorder } from "motion/react";
 import { atom, useAtom } from "jotai";
-import { DerivedWinModifierAtom, WinAtom } from "../store";
+import { DerivedWinModifierAtom, WinAtom, type IWinObj } from "../store";
 import { DayPicker } from "react-day-picker";
 import "react-day-picker/dist/style.css";
 import { StartMenu, startMenuAtom } from "./StartMenu";
@@ -11,6 +11,7 @@ import { Dialog } from "./Dialog";
 import Clock from "react-clock";
 import { toSvg } from "html-to-image";
 // import Calendar from "react-calendar";
+const debug=false; //toggle for verbose taskbar logging
 type ValuePiece=Date|null;
 type Value=ValuePiece|[ValuePiece,ValuePiece];
 export const DerivedTaskbarWinAtom=atom((get)=>get(WinAtom).map(item=>item.id),
@@ -78,6 +79,27 @@ const LiveSvgPreview=({targetId,refreshInterval=500}:LiveSvgPreviewProps)=>{
       )}
   </div>);
 }
+const DialogClock=({}):ReactElement=>{
+  const[time,setTime]=useState(new Date());
+  useEffect(()=>{
+    const timer=setInterval(()=>{
+      setTime(new Date());
+    },1000);
+    return()=>clearInterval(timer);
+  },[]);
+  return(<>
+    <motion.div className="ClockPositionWrapper">
+      <motion.div className="ClockWrapper">
+        <Clock value={time}/>
+      </motion.div>
+    </motion.div>
+  </>);
+}
+const DialogCalendar=({}):ReactElement=>{
+  return(<motion.div>
+    <DayPicker mode="single"/>
+  </motion.div>);
+}
 const TaskbarClock=({mb81ref}:{mb81ref:React.RefObject<HTMLDivElement>}):ReactElement=>{
   const{ 
     minutes,
@@ -86,27 +108,6 @@ const TaskbarClock=({mb81ref}:{mb81ref:React.RefObject<HTMLDivElement>}):ReactEl
   }=useTime({format:'12-hour',interval:60});
   const date=new Date().toLocaleDateString();
   const[showDateDialog,setShowDateDialog]=useState<boolean>(false);
-  const DialogClock=({}):ReactElement=>{
-    const[time,setTime]=useState(new Date());
-    useEffect(()=>{
-      const timer=setInterval(()=>{
-        setTime(new Date());
-      },1000);
-      return()=>clearInterval(timer);
-    },[]);
-    return(<>
-      <motion.div className="ClockPositionWrapper">
-        <motion.div className="ClockWrapper">
-          <Clock value={time}/>
-        </motion.div>
-      </motion.div>
-    </>);
-  }
-  const DialogCalendar=({}):ReactElement=>{
-    return(<motion.div>
-      <DayPicker mode="single"/>
-    </motion.div>);
-  }
   return(<>
     <Dialog
       display={showDateDialog}
@@ -137,48 +138,54 @@ const TaskbarClock=({mb81ref}:{mb81ref:React.RefObject<HTMLDivElement>}):ReactEl
     </motion.div>
   </>);
 }
+interface IAppItem{
+  id:string;
+  windows2:IWinObj[];
+  updateWindow:(update:[string,keyof IWinObj,any])=>void;
+}
+const AppItem=({id,windows2,updateWindow}:IAppItem):ReactElement=>{
+  const win=windows2.find(w=>w.id===id);
+  if(debug)console.table(windows2);
+  if(!win)return<></>;
+  return(<><motion.div 
+      initial={"closed"}
+      animate={"open"}
+      exit={"closed"}
+      transition={{duration:.35}}
+      onClick={(e)=>{
+        e.preventDefault();
+        updateWindow([id,"minimized",!win.minimized]);
+      }}
+      className={`item ${win.focused?"focused":""}`}>
+        <motion.div className="preview">
+          {/* <LiveSvgPreview targetId={`${win.id}_${win.uuid}_rnd`}/> */}
+          <motion.h1>{win.title}</motion.h1>
+        </motion.div>
+        <motion.div
+          style={{backgroundImage:`url(${win.icon})`,}} 
+          className="icon"></motion.div>
+  </motion.div></>);
+}
 export const Taskbar=({mb81ref}:{mb81ref:React.RefObject<HTMLDivElement>}):ReactElement=>{
   //@ts-ignore
   const[windows,]=useAtom(DerivedTaskbarWinAtom);
   const[derivedTaskbarReorderWindows,sdtrw]=useState(windows);
   const[windows2,updateWindow]=useAtom(DerivedWinModifierAtom);
   useEffect(()=>{
-    console.log(windows2.filter(i=>i.open).length,derivedTaskbarReorderWindows.length);
-    if(windows2.filter(i=>i.open).length!==derivedTaskbarReorderWindows.length){
-      sdtrw(windows);
+    const openIds=windows.filter(wid=>windows2.find(w=>w.id===wid)?.open);
+    const sameIds=openIds.length===derivedTaskbarReorderWindows.length
+      &&openIds.every(wid=>derivedTaskbarReorderWindows.includes(wid));
+    if(!sameIds){
+      if(debug)console.log(openIds.length,derivedTaskbarReorderWindows.length);
+      sdtrw(prev=>{
+        const kept=prev.filter(wid=>openIds.includes(wid));
+        const added=openIds.filter(wid=>!kept.includes(wid));
+        return[...kept,...added];
+      });
     }
-  },[windows]);
+  },[windows,windows2]);
   // const windows=useAtomValue(selectAtom(DerivedTaskbarWinAtom,(v)=>v));
   const[startMenuOpen,setStartMenuOpen]=useAtom(startMenuAtom);
-  interface IAppItem {
-    // key:string;
-    id:string;
-    _key:number;
-  }
-  const AppItem=({id,_key}:IAppItem):ReactElement=>{
-    useEffect(()=>{
-      console.table(windows2);
-    },[windows2]);
-    // const setWindow=useSetAtom(DerivedTaskbarItemWinAtom);
-    return(<><motion.div 
-        initial={"closed"}
-        animate={"open"}
-        exit={"closed"}
-        transition={{duration:.35}}
-        onClick={(e)=>{
-          e.preventDefault();
-          updateWindow([id,"minimized",!windows2.filter(i=>i.id==id)[0].minimized]);
-        }}
-        className={`item ${windows2.filter(i=>i.id==id)[0].focused?"focused":""}`}>
-          <motion.div className="preview">
-            {/* <LiveSvgPreview targetId={`${windows2[windows.findIndex((win)=>{return win===id;})].id}_${windows2[windows.findIndex((win)=>{return win===id;})].uuid}_rnd`}/> */}
-            <motion.h1>{windows2[windows.findIndex((win)=>{return win===id;})].title}</motion.h1>
-          </motion.div>
-          <motion.div
-            style={{backgroundImage:`url(${windows2[windows.findIndex((win)=>{return win===id;})].icon})`,}} 
-            className="icon"></motion.div>
-    </motion.div></>);
-  }
   return(<>
     <StartMenu mb81ref={mb81ref} />
     <motion.div id="Taskbar">
@@ -189,10 +196,10 @@ export const Taskbar=({mb81ref}:{mb81ref:React.RefObject<HTMLDivElement>}):React
       </motion.div>
       <AnimatePresence>
         <Reorder.Group className="rgroup" axis="x" as="div" values={derivedTaskbarReorderWindows} onReorder={sdtrw}>
-          {derivedTaskbarReorderWindows.map((item,i)=>
-            windows2.filter(i=>i.id==item)[0].open&&
+          {derivedTaskbarReorderWindows.map((item)=>
+            windows2.find(w=>w.id===item)?.open&&
               <Reorder.Item className="ritem" as="div" key={item} value={item}>
-                <AppItem key={i} _key={i} id={item}/>
+                <AppItem id={item} windows2={windows2} updateWindow={updateWindow}/>
               </Reorder.Item>
           )}
         </Reorder.Group>

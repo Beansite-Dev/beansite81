@@ -1,6 +1,6 @@
 import "./styles/Settings.scss";
 import type { ReactElement } from "react";
-import { Suspense, useEffect, useRef, useState } from "react";
+import { Suspense, useEffect, useMemo, useRef, useState } from "react";
 import { atom, useAtom } from "jotai";
 import { isMotionComponent, motion, AnimatePresence } from "motion/react";
 import { DerivedSettingsAtom, ExpressDerivedWinModifierAtom, SettingsAtom, SettingsAtomSchema, validAppKeys, type ISettingsAtom, type ICustomCSSFile } from "../store";
@@ -15,9 +15,98 @@ import z from "zod";
 import * as csstree from 'csstree-validator';
 import { createPortal } from "react-dom";
 import { FileSystemAtom } from "../../apps/beanshell/fs";
+const debug=false; //toggle for verbose settings logging
 const saveFile=(data:string,filename:string)=>
   document.body.appendChild(Object.assign(document.createElement('a'),{href:'data:text/json;charset=utf-8,'+encodeURIComponent(data),download:filename})).click();
 type AppKey=typeof validAppKeys[number];
+type SetSettings=<K extends keyof ISettingsAtom>(update:[K,ISettingsAtom[K]])=>void;
+const CustomCSSFiles=({customCSSFiles,setSettings}:{customCSSFiles:ICustomCSSFile[];setSettings:SetSettings}):ReactElement=>{
+  return(<motion.div className="customCSSFileList">
+    {customCSSFiles.length===0
+      ?<motion.p style={{fontSize:".75rem",opacity:".65",padding:".375rem .5rem"}}>No custom CSS files uploaded yet</motion.p>
+      :customCSSFiles.map((x:ICustomCSSFile)=><motion.div key={x.id} className="customCSSFileRow">
+        <motion.p onClick={()=>{setSettings(["customCSS",x.css]);}}>{x.name}</motion.p>
+        <motion.button className="trashButton" onClick={()=>{
+          setSettings(["customCSSFiles",customCSSFiles.filter((f:any)=>f.id!==x.id)]);
+        }}><FontAwesomeIcon icon={faTrash}/></motion.button>
+      </motion.div>)}
+  </motion.div>);
+}
+const DragAndDrop=({setSettings}:{setSettings:SetSettings}):ReactElement=>{
+  const{getRootProps,getInputProps}=useDropzone({
+    onDrop:(files:File[]):void=>{
+      const file=files[0];
+      if(!file)return;
+      if(debug)console.log(file);
+      const reader=new FileReader();
+      reader.onload=async(e)=>{
+        const result=e.target?.result;
+        try{
+          const res:IsavedBackgrounds={
+            id:generateId(10),
+            name:file.name,
+            src:file,
+          };
+          if(debug)console.log(res);
+          setSettings(["backgroundImage",result as string]);
+          await sbgdb.saved.put(res);
+        }catch(e){};
+      }
+      reader.readAsDataURL(file);
+    },
+    accept:{'image/*':['.jpeg','.png']},
+    maxFiles:1,
+  });
+  return(<>
+    <motion.div {...getRootProps({className:"dropzone"})} id="dragAndDrop">
+      <input {...getInputProps()} />
+      <motion.p>Drop some files here, or click to select files</motion.p>
+    </motion.div>
+  </>);
+}
+const useObjectUrl=(src:Blob|string):string=>{
+  const isBlob=src instanceof Blob;
+  const url=useMemo(()=>isBlob?URL.createObjectURL(src as Blob):src as string,[src]);
+  useEffect(()=>{
+    return()=>{if(isBlob)URL.revokeObjectURL(url);};
+  },[url]);
+  return url;
+};
+const SavedBackground=({x,setSettings}:{x:IsavedBackgrounds;setSettings:SetSettings}):ReactElement=>{
+  const[deleting,setDeleting]=useState<boolean>(false);
+  const url=useObjectUrl(x.src);
+  return(<motion.div onClick={()=>{
+    setSettings(["backgroundImage",url]);
+  }} key={x.id} className="savedBg">
+    {deleting?<motion.div className="deleting">Deleting...</motion.div>:null}
+    <motion.div className="bg" style={{
+      backgroundImage:`url("${url}")`,
+    }}></motion.div>
+    <motion.button className="trashButton" onClick={()=>{
+      setDeleting(true);
+      sbgdb.transaction('rw',sbgdb.saved,function*(){
+        yield sbgdb.saved.filter(i=>i.id==x.id).delete();
+      }).catch(e=>{
+        if(debug)console.error(e);
+        setDeleting(false); //reset so the row isn't stuck on "Deleting..." forever
+      });
+    }}><FontAwesomeIcon icon={faTrash}/></motion.button>
+  </motion.div>);
+}
+const SavedBackgrounds=({setSettings}:{setSettings:SetSettings}):ReactElement=>{
+  const savedBackgrounds=useLiveQuery(()=>sbgdb.saved.toArray());
+  useEffect(()=>{
+    if(debug)console.warn(savedBackgrounds);
+  },[savedBackgrounds]);
+  return(<><Suspense fallback={<motion.h1>Loading Saved Backgrounds...</motion.h1>}>
+    <motion.div className="backgroundSelector">
+      {savedBackgrounds
+        ?[...defaultBackgrounds,...savedBackgrounds]!
+          .map((x:IsavedBackgrounds)=><SavedBackground key={x.id} x={x} setSettings={setSettings}/>)
+        :<motion.h2>Loading...</motion.h2>}
+    </motion.div>
+  </Suspense></>);
+};
 const Settings=({}):ReactElement=>{
   const[settings,setSettings]=useAtom(DerivedSettingsAtom);
   const[,setSettingsDirect]=useAtom(SettingsAtom);
@@ -44,82 +133,7 @@ const Settings=({}):ReactElement=>{
     reader.readAsText(file);
     e.target.value="";
   };
-  const CustomCSSFiles=({}):ReactElement=>{
-    return(<motion.div className="customCSSFileList">
-      {settings.customCSSFiles.length===0
-        ?<motion.p style={{fontSize:".75rem",opacity:".65",padding:".375rem .5rem"}}>No custom CSS files uploaded yet</motion.p>
-        :settings.customCSSFiles.map((x:ICustomCSSFile)=><motion.div key={x.id} className="customCSSFileRow">
-          <motion.p onClick={()=>{setSettings(["customCSS",x.css]);}}>{x.name}</motion.p>
-          <motion.button className="trashButton" onClick={()=>{
-            setSettings(["customCSSFiles",settings.customCSSFiles.filter((f:any)=>f.id!==x.id)]);
-          }}><FontAwesomeIcon icon={faTrash}/></motion.button>
-        </motion.div>)}
-    </motion.div>);
-  }
-  const DragAndDrop=({}):ReactElement=>{
-    const{acceptedFiles,getRootProps,getInputProps}=useDropzone({
-      onDrop:(files:any):void=>{
-        console.log(files[0]);
-        const x=new FileReader();
-        x.onload=async(e)=>{
-          const result=e.target?.result;
-          try{
-            let res:IsavedBackgrounds={
-              id:generateId(10),
-              name:files[0].name,
-              src:files[0],
-            };
-            console.log(res);
-            setSettings(["backgroundImage",result as string])
-            await sbgdb.saved.put(res);
-          }catch(e){};
-        }
-        x.readAsDataURL(files[0]);
-      },
-      accept:{'image/*':['.jpeg','.png']},
-      maxFiles:1,
-    });
-    return(<>
-      <motion.div {...getRootProps({className:"dropzone"})} id="dragAndDrop">
-        <input {...getInputProps()} />
-        <motion.p>Drop some files here, or click to select files</motion.p>
-      </motion.div>
-    </>);
-  }
   const[Filesystem,]=useAtom(FileSystemAtom);
-  const SavedBackgrounds=({}):ReactElement=>{
-    const savedBackgrounds=useLiveQuery(()=>sbgdb.saved.toArray());
-    useEffect(()=>{
-      console.warn(savedBackgrounds);
-    },[savedBackgrounds]);
-    const SavedBackground=({x}:{x:IsavedBackgrounds}):ReactElement=>{
-      const[deleting,setDeleting]=useState<boolean>(false);
-      return(<motion.div onClick={()=>{
-        setSettings(["backgroundImage",x.src instanceof Blob?URL.createObjectURL(x.src):x.src]);
-      }} key={x.id} className="savedBg">
-        {deleting?<motion.div className="deleting">Deleting...</motion.div>:null}
-        <motion.div className="bg" style={{
-          backgroundImage:`url("${x.src instanceof Blob?URL.createObjectURL(x.src):x.src}")`,
-        }}></motion.div>
-        <motion.button className="trashButton" onClick={()=>{
-          setDeleting(true);
-          sbgdb.transaction('rw',sbgdb.saved,function*(){
-            sbgdb.saved.filter(i=>i.id==x.id).toArray().then(z=>console.log(z));
-            yield sbgdb.saved.filter(i=>i.id==x.id).delete();
-            sbgdb.saved.toArray().then(z=>console.log(z));
-          }).catch(e=>{console.error(e);});
-        }}><FontAwesomeIcon icon={faTrash}/></motion.button>
-      </motion.div>);
-    }
-    return(<><Suspense fallback={<motion.h1>Loading Saved Backgrounds...</motion.h1>}>
-      <motion.div className="backgroundSelector">
-        {savedBackgrounds
-          ?[...defaultBackgrounds,...savedBackgrounds]!
-            .map((x:IsavedBackgrounds)=><SavedBackground key={x.id} x={x}/>)
-          :<motion.h2>Loading...</motion.h2>}
-      </motion.div>
-    </Suspense></>);
-  };
   const generalMatch=matches("Startup Apps");
   const appearanceMatch=matches("Appearance");
   const backgroundMatch=matches("Background");
@@ -157,7 +171,7 @@ const Settings=({}):ReactElement=>{
         {Object.keys(settings.defaultOpenApps)
           .map(key=>key as AppKey)
           .filter(key=>generalMatch||matches(key))
-          .map(key=><motion.div className="settingsRow" key={generateId(10)}>
+          .map(key=><motion.div className="settingsRow" key={key}>
             <motion.p>{key}</motion.p>
             <motion.input
               defaultChecked={settings.defaultOpenApps[key]}
@@ -212,12 +226,12 @@ const Settings=({}):ReactElement=>{
         <motion.h2>Background</motion.h2>
         {(backgroundMatch||matches("Upload a background"))&&<>
           <motion.h3>Upload a background</motion.h3>
-          <DragAndDrop/>
+          <DragAndDrop setSettings={setSettings}/>
         </>}
         {(backgroundMatch||matches("Saved background"))&&<>
           <motion.h3>Saved background</motion.h3>
           <p>Saved backgrounds may take a moment to delete</p>
-          <SavedBackgrounds/>
+          <SavedBackgrounds setSettings={setSettings}/>
         </>}
       </motion.div><br/></>}
       {advancedVisible&&<><motion.div id="advanced">
@@ -285,7 +299,7 @@ const Settings=({}):ReactElement=>{
             <motion.button onClick={()=>customCSSFileInputRef.current?.click()}>Upload CSS</motion.button>
             <input ref={customCSSFileInputRef} type="file" accept=".css,text/css" style={{display:"none"}} onChange={handleCustomCSSUpload}/>
           </motion.div>
-          <CustomCSSFiles/><br/>
+          <CustomCSSFiles customCSSFiles={settings.customCSSFiles} setSettings={setSettings}/><br/>
         </>}
         {(advancedMatch||matches("Copy Settings to Clipboard"))&&<motion.div className="settingsRow">
           <motion.p>Copy Settings to Clipboard (as JSON)</motion.p>

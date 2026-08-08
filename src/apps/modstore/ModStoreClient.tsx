@@ -94,7 +94,7 @@ const ModStoreClient=({contentRef,rndRef}:any):ReactElement=>{
     const Option=({option}:{option:Ioptions}):ReactElement=>{
       const SelectType=():ReactElement=>{const r=useRef<any>(null);const upd=async(e:any,typeOfValue="value")=>{
         sU([mod.id,true]);
-        let val=e.currentTarget[typeOfValue];
+        let val=typeOfValue==="files"?e.currentTarget.files?.[0]:e.currentTarget[typeOfValue];
         await modstoredb.mods.update(
           mod.id,//@ts-ignore
           {[`options.${mod.options?.indexOf(option)}.value`]:val}
@@ -133,6 +133,11 @@ const ModStoreClient=({contentRef,rndRef}:any):ReactElement=>{
           type="checkbox"
           ref={r}
           onChange={async(e)=>{upd(e,"checked");}}/>
+        case "file":return<motion.input
+          ref={r}
+          type="file"
+          className="mscinput config"
+          onChange={async(e)=>{upd(e,"files");}}/>
         case"text":return<motion.input
           defaultValue={(option.value)as string}
           type="text"
@@ -153,9 +158,25 @@ const ModStoreClient=({contentRef,rndRef}:any):ReactElement=>{
       </>);
     };
     const optionsFileRef=useRef<HTMLInputElement>(null);
-    const exportOptions=()=>{
+    const fileToBase64=(file:File):Promise<string>=>new Promise((res,rej)=>{
+      const r=new FileReader();
+      r.onload=()=>res((r.result as string).split(",")[1]);
+      r.onerror=()=>rej(r.error);
+      r.readAsDataURL(file);
+    });
+    const base64ToFile=(b64:string,name:string,type:string):File=>{
+      const bin=atob(b64);
+      const bytes=new Uint8Array(bin.length);
+      for(let i=0;i<bin.length;i++)bytes[i]=bin.charCodeAt(i);
+      return new File([bytes],name,{type});
+    };
+    const exportOptions=async()=>{
       if(!mod.options)return;
-      let data=JSON.stringify({id:mod.id,options:mod.options.map(o=>({name:o.name,value:o.value}))},null,2);
+      let options=await Promise.all(mod.options.map(async(o)=>({
+        name:o.name,
+        value:o.value instanceof File?{__file:true,name:o.value.name,type:o.value.type,data:await fileToBase64(o.value)}:o.value,
+      })));
+      let data=JSON.stringify({id:mod.id,options},null,2);
       let blob=new Blob([data],{type:"application/json"});
       let url=URL.createObjectURL(blob);
       let a=document.createElement("a");
@@ -169,8 +190,12 @@ const ModStoreClient=({contentRef,rndRef}:any):ReactElement=>{
       let changed:{option:Ioptions,value:any}[]=[];
       let updated=mod.options?.map(o=>{
         let match=parsed.options.find(p=>p.name===o.name);
-        if(match&&match.value!==o.value)changed.push({option:o,value:match.value});
-        return match?{...o,value:match.value}:o;
+        if(!match)return o;
+        let val=match.value&&typeof match.value==="object"&&match.value.__file
+          ?base64ToFile(match.value.data,match.value.name,match.value.type)
+          :match.value;
+        if(val!==o.value)changed.push({option:o,value:val});
+        return{...o,value:val};
       });
       await modstoredb.mods.update(mod.id,{options:updated})
         .then((newmod)=>{if(newmod){

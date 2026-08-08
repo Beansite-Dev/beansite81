@@ -89,6 +89,7 @@ export const CHANGELOG:{
     "Game restore",
     "Bugfix: made modstore mod styling persistent",
     "Bugfix: made modstore windows clear when mod get deleted",
+    "Bugfixed most files and made the more efficient",
   ],
 };
 // import Settings from './sdk/components/Settings.tsx';
