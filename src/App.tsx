@@ -27,8 +27,8 @@ export const CHANGELOG:{
     "TODO: Add curl command to beanshell",
     "TODO: Start browser implementation using libcurl.js (https://github.com/ading2210/libcurl.js)",
     //mods
-    "TODO: Add mod file option uploads",
     "TODO: Add docs for mod development",
+    "TODO: Add discord preview on homepage",
     //lib
     "TODO: Update stylsheets to use css modules (where applicable, since the theming classes cant effectivley use modules without breaking functionality or atleast i think. ill try)",
     "TODO: Add css compatibility for firefox and older chrome versions",
@@ -90,6 +90,8 @@ export const CHANGELOG:{
     "Bugfix: made modstore mod styling persistent",
     "Bugfix: made modstore windows clear when mod get deleted",
     "Bugfixed most files and made the more efficient",
+    "Added mod file upload",
+    "Finally filled the demo windows lol",
   ],
 };
 // import Settings from './sdk/components/Settings.tsx';

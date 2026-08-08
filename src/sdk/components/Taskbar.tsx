@@ -30,55 +30,148 @@ interface Size{
   width:number;
   height:number;
 }
-const LiveSvgPreview=({targetId,refreshInterval=500}:LiveSvgPreviewProps)=>{
+const LiveSvgPreview=({
+  targetId,
+  refreshInterval=500,
+}:LiveSvgPreviewProps)=>{
   const containerRef=useRef<HTMLDivElement>(null);
   const[svgUrl,setSvgUrl]=useState<string|null>(null);
-  const[containerSize,setContainerSize]=useState<Size>({ width: 0, height: 0 });
-  const[targetSize,setTargetSize]=useState<Size>({ width: 1, height: 1 });
+  const[containerSize,setContainerSize]=useState<Size>({
+    width:0,
+    height:0,
+  });
+  const[targetSize,setTargetSize]=useState<Size>({
+    width: 1,
+    height: 1,
+  });
   useEffect(()=>{
-    const observer=new ResizeObserver(([entry]:ResizeObserverEntry[])=>{
-      const{width,height}=entry.contentRect;
-      setContainerSize({width,height});
+    const observer=new ResizeObserver(([entry])=>{
+      const { width, height }=entry.contentRect;
+      setContainerSize({
+        width,
+        height,
+      });
     });
     if(containerRef.current)observer.observe(containerRef.current);
-    return ()=>observer.disconnect();
+    return()=>observer.disconnect();
   },[]);
   const capture=useCallback(async()=>{
     const target=document.getElementById(targetId);
-    if(!target||!containerRef.current)return;
-    const{width,height}=target.getBoundingClientRect();
-    if(!width||!height)return;
-    setTargetSize({width,height});
+    if(!(target instanceof SVGSVGElement)||!containerRef.current)return;
+    const rect=target.getBoundingClientRect();
+    if(!rect.width||!rect.height)return;
+    setTargetSize({
+      width:rect.width,
+      height:rect.height,
+    });
     try{
-      const url=await toSvg(target,{backgroundColor:undefined,width,height,});
-      setSvgUrl(url);
-    }catch(err){console.error("Capture failed:",err);}
+      const clone=target.cloneNode(true) as SVGSVGElement;
+      const width=target.viewBox.baseVal.width||target.clientWidth||rect.width;
+      const height=target.viewBox.baseVal.height||target.clientHeight||rect.height;
+      clone.setAttribute("width",String(width));
+      clone.setAttribute("height",String(height));
+      if(target.hasAttribute("viewBox"))clone.setAttribute("viewBox",target.getAttribute("viewBox")!);
+      clone.style.background="transparent";
+      clone.style.backgroundColor="transparent";
+      const originalElements=[
+        target,
+        ...Array.from(target.querySelectorAll("*")),
+      ];
+      const clonedElements=[
+        clone,
+        ...Array.from(clone.querySelectorAll("*")),
+      ];
+      originalElements.forEach((original, index)=>{
+        const cloned=clonedElements[index];
+        if(!(cloned instanceof SVGElement)){
+          return;
+        }
+        const computed=window.getComputedStyle(original);
+        const properties=[
+          "transform",
+          "transform-origin",
+          "transform-box",
+          "opacity",
+          "filter",
+          "clip-path",
+          "mask",
+          "fill",
+          "fill-opacity",
+          "fill-rule",
+          "stroke",
+          "stroke-opacity",
+          "stroke-width",
+          "stroke-linecap",
+          "stroke-linejoin",
+          "stroke-miterlimit",
+          "stroke-dasharray",
+          "stroke-dashoffset",
+          "paint-order",
+          "visibility",
+          "display",
+          "isolation",
+          "mix-blend-mode",
+          "vector-effect",
+        ];
+        properties.forEach((property)=>{
+          const value=computed.getPropertyValue(property);
+          if(value)cloned.style.setProperty(property,value);
+        });
+      });
+      clone.setAttribute(
+        "xmlns",
+        "http://www.w3.org/2000/svg",
+      );
+      clone.setAttribute(
+        "xmlns:xlink",
+        "http://www.w3.org/1999/xlink",
+      );
+      const serializer=new XMLSerializer();
+      const svgString=serializer.serializeToString(clone);
+      setSvgUrl((previousUrl)=>{
+        if(previousUrl)URL.revokeObjectURL(previousUrl);
+        return URL.createObjectURL(
+          new Blob([svgString],{
+            type: "image/svg+xml;charset=utf-8",
+          }),
+        );
+      });
+    }catch(err){console.error("SVG capture failed:", err);}
   },[targetId]);
   useEffect(()=>{
     capture();
-    const id=setInterval(capture,refreshInterval);
-    return ()=>clearInterval(id);
+    const id=setInterval(capture, refreshInterval);
+    return()=>clearInterval(id);
   },[capture,refreshInterval]);
-  const scale=Math.min(
-    containerSize.width/targetSize.width,
-    containerSize.height/targetSize.height);
+  useEffect(()=>{
+    return()=>{if(svgUrl)URL.revokeObjectURL(svgUrl);};
+  },[svgUrl]);
+  const scale=
+    targetSize.width>0&&targetSize.height>0
+      ?Math.min(
+        containerSize.width / targetSize.width,
+        containerSize.height / targetSize.height,
+      ):1;
   return(<div
-    style={{flexGrow:"1",aspectRatio:"16 / 10"}}
-    ref={containerRef}>
-      {svgUrl&&(
-        <img
-          src={svgUrl}
-          alt="live preview"
-          style={{
-            width: targetSize.width * scale,
-            height: targetSize.height * scale,
-            display: "block",
-            margin: "auto",
-          }}
-        />
-      )}
-  </div>);
-}
+    ref={containerRef}
+    style={{
+      flexGrow: 1,
+      aspectRatio: "16 / 10",
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+      overflow: "hidden",
+    }}>{svgUrl&&(<img
+      src={svgUrl}
+      alt="live preview"
+      style={{
+        width: targetSize.width * scale,
+        height: targetSize.height * scale,
+        display: "block",
+        flexShrink: 0,
+      }}
+    />)}</div>);
+};
 const DialogClock=({}):ReactElement=>{
   const[time,setTime]=useState(new Date());
   useEffect(()=>{
@@ -184,8 +277,7 @@ export const Taskbar=({mb81ref}:{mb81ref:React.RefObject<HTMLDivElement>}):React
       });
     }
   },[windows,windows2]);
-  // const windows=useAtomValue(selectAtom(DerivedTaskbarWinAtom,(v)=>v));
-  const[startMenuOpen,setStartMenuOpen]=useAtom(startMenuAtom);
+  const[,setStartMenuOpen]=useAtom(startMenuAtom);
   return(<>
     <StartMenu mb81ref={mb81ref} />
     <motion.div id="Taskbar">

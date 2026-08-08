@@ -23,7 +23,7 @@ const winVariant:Variants={
   },
 };
 const Header=():ReactElement=>{
-  const navigate=useNavigate();
+  // const navigate=useNavigate();
   return(<motion.header>
     <motion.div className="shade"></motion.div>
     <motion.div className="background"></motion.div>
@@ -85,24 +85,27 @@ const Header=():ReactElement=>{
           initial="hidden"
           whileInView="visible"
           viewport={{once:true}}
-          icon={Icons.configApplication}
-          title="Test Window 2">
+          icon={Icons.beanforged}
+          title="Beanforged">
+            <motion.div className="bfdemoss"></motion.div>
         </FunctionlessWindow>
         <FunctionlessWindow 
           variants={winVariant}
           initial="hidden"
           whileInView="visible"
           viewport={{once:true}}
-          icon={Icons.configApplication}
-          title="Test Window 3">
+          icon={Icons.controlPanel}
+          title="Mod Store">
+            <motion.div className="msdemoss"></motion.div>
         </FunctionlessWindow>
         <FunctionlessWindow 
           variants={winVariant}
           initial="hidden"
           whileInView="visible"
           viewport={{once:true}}
-          icon={Icons.configApplication}
-          title="Test Window 4">
+          icon={Icons.beancord}
+          title="Beancord">
+            <motion.div className="bcdemoss"></motion.div>
         </FunctionlessWindow>
       </div>
     </div>

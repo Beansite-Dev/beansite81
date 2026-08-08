@@ -1,0 +1,528 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
+//vars
+$bf_bg1: #080808;//to change
+$bf_bg2: #161616;
+$bf_bg3: #262626;
+$bf_icon: #e5e5e5c0;
+$bf_accent: #F16522;//to change
+$bf_border_clr: #55555555;//to change
+$bf_border: 1px solid $bf_border_clr;//to change
+$bf_border2: 1px solid rgba($bf_icon,.5);//to change
+$bf_p: #dedede;//to change
+$bf_p2: #b5b5b5;//to change
+$bf_h1: #ffffff;//to change
+$bf_borderrad: .35rem;//to change
+#bf_appwrapper {
+  *,&{
+    -ms-overflow-style: none !important;
+    scrollbar-width: none !important;
+    box-sizing: border-box;   // was content-box
+    &::-webkit-scrollbar { 
+      display: none !important;
+    }
+  }
+  position: absolute !important;
+  inset: 0 !important; 
+  height: 100% !important;
+  width: 100% !important;
+  top: 50% !important;
+  left: 50% !important;
+  translate: -50% -50% !important;
+  background: $bf_bg1 !important;
+  padding: 3px !important;
+  box-sizing: content-box !important;
+  .bfTabWrap {
+    height: 100% !important;
+  }
+  .panel {
+    .bfrowWrapper {
+      display: flex !important;
+      justify-content: flex-start !important;
+      align-items: center !important;
+      flex-direction: row !important;
+      gap: .5rem !important;
+      width: 100% !important;
+      padding: 0 .5rem!important;
+      height: max-content;
+      max-width: 100% !important;
+    }
+    height: 100% !important;
+    overflow: hidden auto !important;
+    // background: pink;
+    width: calc(100% - 3rem) !important;
+    top: 50% !important;
+    right: 0% !important;
+    // background: pink;
+    position: absolute !important;
+    translate: 0% -50% !important;
+    padding: 1rem !important;
+    display: flex !important;
+    justify-content: flex-start !important;
+    align-items: flex-start !important;
+    flex-direction: column !important;
+    #HomepageTabs {
+      width: 100% !important;
+      height: fit-content !important;
+      min-height: 5rem !important;
+      // background: pink;
+      margin-top: .5rem !important;
+      .hpp {
+        width: 100% !important;
+        height: fit-content !important;
+        min-height: 5rem !important;
+        // background: pink;
+        padding: 1rem 0 !important;
+      }
+      .hpl {
+        width: 100% !important;
+        height: 2rem !important;
+        // background: pink;
+        display: flex !important;
+        justify-content: flex-start !important;
+        align-items: flex-end !important;
+        position: relative !important;
+        // flex-direction: row;
+        border-bottom: $bf_border !important;
+        .hpi {
+          background: $bf_accent !important;
+          height: 2px !important;
+          width: var(--active-tab-width) !important;
+          translate: 0% 1px !important;
+          left: var(--active-tab-left) !important;
+          bottom: 0% !important;
+          position: absolute !important;
+        }
+        .hptab {
+          width: fit-content !important;
+          height: 100% !important;
+          padding: .5rem 1rem !important;
+          box-sizing: border-box !important;
+          line-height: 0 !important;
+          text-align: center !important;
+          vertical-align: middle !important;
+          display: flex !important;
+          justify-content: center !important;
+          align-items: center !important;
+          background: transparent !important;
+          border: none !important;
+          outline: none !important;
+          color: $bf_p !important;
+          font-size: .875rem !important;
+        }
+      }
+    }
+    .bf_topBar {
+      height: 2.5rem !important;
+      width: 100% !important;
+      // background: pink;
+      display: flex !important;
+      justify-content: flex-start !important;
+      align-items: center !important;
+      flex-direction: row !important;
+      #userAccount {
+        width: 150px !important;
+        height: calc(100% - .5rem) !important;
+        background: $bf_bg3 !important;
+        display: flex !important;
+        justify-content: flex-start !important;
+        align-items: center !important;
+        flex-direction: row !important;
+        padding: .5rem !important;
+        gap: .5rem !important;
+        #userProfilePicture {
+          height: 1rem !important;
+          aspect-ratio: 1 / 1 !important;
+          background: white !important;
+          background-position: center !important;
+          background-size: cover !important;
+          background-repeat: no-repeat !important;
+        }
+        #userName {
+          color: $bf_p !important;
+          font-size: .875rem !important;
+        }
+      }
+      .seperator {
+        height: calc(100% - .5rem) !important;
+        $sepMarg: .5rem;
+        
+        width: calc($sepMarg * 1.5) !important;
+        // background: pink;
+        margin-left: $sepMarg !important;
+        border-left: $bf_border !important;
+      }
+      #searchbarWrapper {
+        width: fit-content !important;
+        height: 100% !important;
+        padding: .25rem !important;
+        display: flex !important;
+        justify-content: flex-start !important;
+        align-items: center !important;
+        flex-grow: 1 !important;
+        position: relative !important;
+        #icon {
+          color: $bf_icon !important;
+          position: absolute !important;
+          left: .5rem !important;
+          font-size: 1rem !important;
+          // background: pink;
+          top: 50% !important;
+          translate: 0% -50% !important;
+          height: 1.5rem !important;
+          aspect-ratio: 1 / 1 !important;
+          display: flex !important;
+          justify-content: center !important;
+          align-items: center !important;
+          text-align: center !important;
+          vertical-align: middle !important;
+          line-height: 0 !important;
+          z-index: 9 !important;
+        }
+        input {
+          height: 100% !important;
+          width: 100% !important;
+          background: $bf_bg3 !important;
+          // border: $bf_border;
+          border: none !important;
+          outline: none !important;
+          padding: .5rem !important;
+          color: $bf_p !important;
+          padding-left: 2rem !important;
+          font-size: .875rem !important;
+          ::placeholder {
+            color: $bf_icon !important;
+          }
+        }
+      }
+      #mclogo {
+        width: 150px !important;
+        height: 2rem !important;
+        // translate: 0% 12.5%;
+        background-image: url("/apps/beanforged/eagl.png") !important;
+        background-size: contain !important;
+        scale: 1.1 !important;
+        background-position: top center !important;
+        background-repeat: no-repeat !important;
+      }
+    }
+  }
+  #bf_sidebar {
+    height: 100% !important;
+    width: 3rem !important;
+    display: flex !important;
+    justify-content: flex-start !important;
+    align-items: center !important;
+    flex-direction: column !important;
+    position: absolute !important;
+    left: 0% !important;
+    top: 50% !important;
+    translate: 0% -50% !important;
+    // gap: .5rem;
+    // padding: .5rem;
+    background: $bf_bg2 !important;
+    #spacer {
+      flex-grow: 1 !important;
+    }
+    #indicator {
+      width: calc(100%) !important;
+      position: absolute !important;
+      top: var(--active-tab-top) !important;
+      left: 50% !important;
+      translate: -50% 0% !important;
+      aspect-ratio: 1 / 1 !important;
+      background: #ffffff15 !important;
+      transition: .35s !important;
+    }
+    .bf_sb_icon {
+      width: 100% !important;
+      aspect-ratio: 1 / 1 !important;
+      background: transparent !important;
+      border: none !important;
+      display: flex !important;
+      justify-content: center !important;
+      position: relative !important;
+      align-items: center !important;
+      text-align: center !important;
+      vertical-align: middle !important;
+      line-height: 0 !important;
+      cursor: pointer !important;
+      font-size: 1.25rem !important;
+      color: $bf_icon !important;
+      border-radius: 50% !important;
+      // margin-bottom: .5rem;
+      .icon {
+        position: absolute !important;
+        top: 50% !important;
+        left: 50% !important;
+        translate: -50% -50% !important;
+      }
+    }
+  }
+  * {
+    box-sizing: border-box !important;
+    font-family: "Inter", sans-serif !important;
+    font-optical-sizing: auto !important;
+    font-weight: 300 !important;
+    font-style: normal !important;
+  }
+  .settingsInfo {
+    color: $bf_p !important;
+    opacity: .75 !important;
+    width: 100% !important;
+    height: fit-content !important;
+    font-size: .875rem !important;
+    // background: green;
+  }
+}
+#mpt_toolbar {
+  height: 2rem !important;
+  width: 100% !important;
+  display: flex !important;
+  justify-content: flex-start !important;
+  align-items: center !important;
+  gap: 1rem !important;
+  .button {
+    width: fit-content !important;
+    height: 100% !important;
+    padding: .5rem 0 !important;
+    background: transparent !important;
+    border: none !important;
+    outline: none !important;
+    font-size: .875rem !important;
+    color: $bf_p !important;
+    transition: .35s !important;
+    cursor: pointer !important;
+    &.b2 {
+      background: $bf_bg3 !important;
+      padding: .5rem 2rem !important;
+    }
+  }
+}
+.backdrop {
+  height: 100% !important;
+  width: 100% !important;
+  top: 50% !important;
+  left: 50% !important;
+  translate: -50% -50% !important;
+  position: absolute !important;
+  background: #00000090 !important;
+  backdrop-filter: blur(.5rem) !important;
+  opacity: 1 !important;
+  transition: 1s !important;
+  z-index: 99 !important;
+  &[data-starting-style],
+  &[data-ending-style] {
+    opacity: 0 !important;
+  }
+}
+.popup {
+  box-sizing: border-box !important;
+  position: fixed !important;
+  top: 50% !important;
+  left: 50% !important;
+  transform: translate(-50%, -50%) !important;
+  width: 24rem !important;
+  max-width: calc(100% - 3rem) !important;
+  margin-top: -2rem !important;
+  padding: 1.5rem !important;
+  z-index: 159 !important;
+  background-color: $bf_bg2 !important;
+  color: $bf_p !important;
+  transition: all 150ms !important;
+  touch-action: none !important;
+  display: flex !important;
+  justify-content: flex-start !important;
+  align-items: flex-start !important;
+  flex-direction: column !important;
+  gap: .5rem !important;
+  p {
+    font-size: .875rem !important;
+    opacity: .8 !important;
+    color: $bf_p !important;
+  }
+  #file {
+    display: none !important;
+    visibility: hidden !important;
+    height: 0 !important;
+    width: 0 !important;
+  }
+  #text {
+    width: 10rem !important;
+    flex-grow: 1 !important;
+    height: 100% !important;
+    padding: .5rem !important;
+    background: $bf_bg3 !important;
+    border: none !important;
+    outline: none !important;
+    color: $bf_p !important;
+  }
+  &[data-starting-style],
+  &[data-ending-style] {
+    opacity: 0 !important;
+    transform: translate(-50%, -50%) scale(0.9) !important;
+  }
+}
+#instances{
+  width: 100% !important;
+  height: fit-content !important;
+  display: flex !important;
+  justify-content: flex-start !important;
+  align-items: flex-start !important;
+  flex-direction: row !important;
+  flex-wrap: wrap !important;
+  gap: .5rem !important;
+  .instanceWrapper {
+    min-width: 6rem !important;
+    max-width: 8.5rem !important;
+    width: auto !important;
+    flex: 1 !important;
+    aspect-ratio: 17.5 / 25 !important;
+    background: $bf_bg3 !important;
+    display: flex !important;
+    justify-content: flex-start !important;
+    align-items: flex-start !important;
+    flex-direction: column !important;
+    gap: .5rem !important;
+    position: relative !important;
+    .version {
+      top: .25rem !important;
+      right: .25rem !important;
+      padding: .125rem .25rem !important;
+      position: absolute !important;
+      background: #00000090 !important;
+      font-size: .75rem !important;
+      color: $bf_p !important;
+      color: #e0e0e0 !important;
+      width: fit-content !important;
+      height: fit-content !important;
+      z-index: 80 !important;
+    }
+    .action {
+      height: .75rem !important;
+      aspect-ratio: 1 / 1 !important;
+      padding: 0 !important;
+      line-height: 0 !important;
+      font-size: .75rem !important;
+      color: $bf_p !important;
+      background: transparent !important;
+      border: none !important;
+      outline: none !important;
+      cursor: pointer !important;
+    }
+    .h1 {
+      font-size: .875rem !important;
+      color: $bf_p !important;
+      padding: 0 .5rem !important;
+      overflow: hidden !important;
+      text-wrap: nowrap !important;
+      text-overflow: ellipsis !important;
+      width: 100% !important;
+      background: transparent !important;
+      border: none !important;
+      text-align: left !important;
+    }
+    .cover {
+      width: 100% !important;
+      aspect-ratio: 1 / 1 !important;
+      // background: #fff !important;
+      background-position: center !important;
+      background-repeat: no-repeat !important;
+      background-size: cover !important;
+    }
+  }
+}
+.ttpopup {
+  box-sizing: border-box !important;
+  font-size: 0.875rem !important;
+  line-height: 1.25rem !important;
+  display: flex !important;
+  flex-direction: column !important;
+  padding: .5rem .65rem !important;
+  background-color: $bf_bg3 !important;
+  filter: drop-shadow(0 0 5px rgba($bf_bg1,.5)) !important;
+  color: $bf_p !important;
+  transform-origin: var(--transform-origin) !important;
+  z-index: 999 !important;
+  transition:
+    transform 150ms,
+    opacity 150ms !important;
+  &[data-starting-style],
+  &[data-ending-style] {
+    opacity: 0 !important;
+    transform: scale(0.9) !important;
+  }
+  &[data-instant] {
+    transition: none !important;
+  }
+}
+.bflstxt {
+  color: $bf_p !important;
+  font-size: .875rem !important;
+  animation: 2s flash infinite !important;
+}
+@keyframes flash{
+  0%{opacity:1;}
+  50%{opacity:0;}
+  100%{opacity:1;}
+}
+.Backdrop {
+  position: fixed !important;
+  min-height: 100dvh !important;
+  inset: 0 !important;
+  background-color: rgba(#000000,.25) !important;
+  backdrop-filter: blur(.25rem) !important;
+  transition: opacity 150ms cubic-bezier(0.45, 1.005, 0, 1.005) !important;
+  touch-action: none !important;
+  @supports(-webkit-touch-callout: none){position:absolute !important;}
+  &[data-starting-style],
+  &[data-ending-style] {
+    opacity: 0 !important;
+  }
+}
+.bold {
+  background: #fffffff0 !important;
+  color: $bf_bg1 !important;
+}
+.Popup {
+  box-sizing: border-box !important;
+  position: fixed !important;
+  top: 50% !important;
+  left: 50% !important;
+  transform: translate(-50%, -50%) !important;
+  width: 24rem !important;
+  max-width: calc(100vw - 3rem) !important;
+  margin-top: -2rem !important;
+  padding: 1.5rem !important;
+  border-radius: 0.5rem !important;
+  outline: $bf_border !important;
+  background-color: rgba($bf_bg1,.75) !important;
+  backdrop-filter: blur(2rem) !important;
+  p{color: $bf_p2 !important;} 
+  transition: all 150ms !important;
+  touch-action: none !important;
+  &[data-starting-style],
+  &[data-ending-style] {
+    opacity: 0 !important;
+    transform: translate(-50%, -50%) scale(0.9) !important;
+  }
+}
+.Title {
+  margin-top: -0.375rem !important;
+  margin-bottom: 0.25rem !important;
+  font-size: 1.125rem !important;
+  line-height: 1.75rem !important;
+  letter-spacing: -0.0025em !important;
+  font-weight: 500 !important;
+  color: $bf_h1 !important;
+}
+.Description {
+  margin: 0 0 1.5rem !important;
+  font-size: 1rem !important;
+  line-height: 1.5rem !important;
+  color: $bf_p2 !important;
+}
+.Actions {
+  display: flex !important;
+  justify-content: end !important;
+  gap: 1rem !important;
+}

@@ -5,6 +5,7 @@ import Header from "./sections/Header";
 import S1 from "./sections/S1";
 import S2 from "./sections/S2";
 import S3 from "./sections/S3";
+import S4 from "./sections/S4";
 import Footer from "./sections/Footer";
 const Homepage=({}):ReactElement=>{
   return(<>
@@ -18,6 +19,7 @@ const Homepage=({}):ReactElement=>{
     <S1/>
     <S2/>
     <S3/>
+    <S4/>
     <Footer/>
   </>);
 };

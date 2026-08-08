@@ -9,7 +9,7 @@ header{@include Section(round(80dvh,2px),32rem);
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center;
-    background-attachment: fixed;
+    background-attachment: fixed !important;
     position: absolute !important;
     top: 50%;
     left: 50%;
@@ -22,6 +22,7 @@ header{@include Section(round(80dvh,2px),32rem);
       linear-gradient(
         to bottom,
         rgba(Theme.$bg1,.25),
+        rgba(Theme.$bg1,.65),
         rgba(Theme.$bg1,1),
       ),
       url("/wallpaper/1.jpg");
@@ -113,10 +114,46 @@ header{@include Section(round(80dvh,2px),32rem);
       position: absolute !important;
       top: 50%;
       left: 50%;
-      background-position: center;
+      background-position: left top !important;
       background-repeat: no-repeat;
       background-size: cover;
       background-image: url("/assets/homepage/bpdemoss.png");
+    }
+    .bfdemoss {
+      height: 100% !important;
+      width: 100% !important;
+      translate: -50% -50% !important;
+      position: absolute !important;
+      top: 50% !important;
+      left: 50% !important;
+      background-position: left top !important;
+      background-repeat: no-repeat !important;
+      background-size: cover !important;
+      background-image: url("/assets/homepage/bfdemoss.png");
+    }
+    .msdemoss {
+      height: 100% !important;
+      width: 100% !important;
+      translate: -50% -50% !important;
+      position: absolute !important;
+      top: 50% !important;
+      left: 50% !important;
+      background-position: left top !important;
+      background-repeat: no-repeat !important;
+      background-size: cover !important;
+      background-image: url("/assets/homepage/msdemoss.png");
+    }
+    .bcdemoss {
+      height: 100% !important;
+      width: 100% !important;
+      translate: -50% -50% !important;
+      position: absolute !important;
+      top: 50% !important;
+      left: 50% !important;
+      background-position: left top !important;
+      background-repeat: no-repeat !important;
+      background-size: cover !important;
+      background-image: url("/assets/homepage/bcdemoss.png");
     }
     .windowRotateWrapper {
       display: grid !important;

@@ -6,6 +6,9 @@ import games from './sdk/components/store/games.ts';
 import { generateId } from './sdk/Lib.tsx';
 import { atom } from 'jotai';
 import "./routes/Homepage/styles/loading.scss";
+import Beanforged from './apps/beanforged/Beanforged.tsx';
+import ModStoreClient from './apps/modstore/ModStoreClient.tsx';
+import Beancord from './apps/beancord/Beancord.tsx';
 // import { GUST } from "gust-react";
 const BeanpoweredDemo=lazy(()=>import('./routes/Homepage/components/BeanpoweredDemo.tsx'));
 const Beanpowered=lazy(()=>import('./apps/beanpowered/Beanpowered.tsx'));
@@ -69,11 +72,8 @@ export const DeclarativeRouter=({})=>{
             <Route path="/app" element={<App/>} />
             <Route path="/selector" element={<Selector/>} />
             <Route path="/lstest" element={<Loading/>} />
-            {/* <Route path="/gust" element={<GUST/>} /> */}
             <Route path="/extwr" element={<ExtWindowRenderer/>} />
-            {/* <Route path={GlobalAccessKey}> */}
-              {/* <Route index element={GlobalAccessKey}/> */}
-            {/* </Route> */}
+            <Route path="/bc" element={<Beancord/>} />
             <Route path="g"> 
               <Route path="cel">
                 <Route index element={<IFrameRenderer path="/g/src/cel/index.html"/>} />

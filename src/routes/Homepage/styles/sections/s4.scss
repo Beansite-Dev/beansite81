@@ -1,0 +1,105 @@
+@use "../../Theme.scss";
+@use "../lib.scss" as *;
+.s4{@include Section(round(80vh,2px),20rem);
+  overflow: hidden;
+  .rowWrapper {
+    height: 100% !important;
+    width: 100%;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    translate: -50% -50%;
+  }
+  .right{
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    flex-direction: column;
+    text-align: right;
+    gap: .25rem;
+    width: 40%;
+    height: 100% !important;
+    padding: 3.5rem !important;
+    padding-left: 1rem !important;
+    background-image: linear-gradient(
+      to left,
+      rgba(Theme.$bg1,1),
+      rgba(Theme.$bg1,.85),
+      rgba(Theme.$bg1,0),
+    );
+    h1 {
+      font-size: 3rem;
+      line-height: 1;
+      color: Theme.$h1;
+      font-weight: 500;
+    }
+    p {
+      font-size: 1rem;
+      line-height: 1.5;
+      color: Theme.$p3;
+      font-weight: 300;
+      width: 85%;
+    }
+  } 
+  .left {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    gap: .25rem;
+    flex-grow: 1;
+    width: 50%;
+    height: 100% !important;
+    padding: 3.5rem !important;
+    transition: .65s;
+    perspective: 1500px !important;
+    transform: 
+      scale(95%)
+      rotateY(-20deg) 
+      rotateX(-15deg) 
+      rotateZ(2.5deg);
+    &:hover {
+      transform: 
+        scale(105%)
+        rotateY(0deg) 
+        rotateX(0deg) 
+        rotateZ(0deg);
+    }
+  }
+  .shade {
+    height: 100%;
+    width: 100%;
+    position: absolute !important;
+    top: 50%;
+    left: 50%;
+    translate: -50% -50%;
+    z-index: -1 !important;
+    // backdrop-filter: blur(1rem);
+    background: linear-gradient(
+      to top,
+      rgba(Theme.$bg1,1),
+      rgba(Theme.$bg1,.85),
+      rgba(Theme.$bg1,.75),
+      rgba(Theme.$bg1,.15),
+      rgba(Theme.$bg1,.75),
+      rgba(Theme.$bg1,.85),
+      rgba(Theme.$bg1,1)
+    );
+  }
+  .background{
+    position: absolute !important;
+    top: 50%;
+    left: 50%;
+    translate: -50% -50%;
+    height: 100%;
+    width: 100%;
+    z-index: -2 !important;
+    background: Theme.$bg2;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    gap: .5rem;
+    justify-content: center;
+    align-items: center;
+  }
+}

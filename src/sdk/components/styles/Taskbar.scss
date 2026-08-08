@@ -205,8 +205,10 @@
     background-size: cover;
     position: relative;
     .preview {
-      height: 4.5rem;
-      aspect-ratio: 16 / 10;
+      // height: 4.5rem;
+      // aspect-ratio: 16 / 10;
+      height: 1.5rem;
+      width: 6.5rem;
       position: absolute;
       top: 0%;
       left: 50%;
