@@ -141,16 +141,6 @@
     "id":"bt",
     "working":true
   },{
-    "name":"Dead Plate",
-    "src":"/g/src/ports/dp/index.html",
-    "id":"dp",
-    "working":true
-  },{
-    "name":"Fear to Fathom - Home Alone",
-    "src":"/g/src/ports/ftf/ha/index.html",
-    "id":"ftfha",
-    "working":true
-  },{
     "name":"Deltatraveler",
     "src":"/g/src/ports/dtvl/index.html",
     "id":"dtvl",
