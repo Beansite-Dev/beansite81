@@ -246,6 +246,22 @@
           outline: 1px solid #1a79cbA0;
           outline-offset: -1px;
         }
+        input[type=text]{
+          border: 0;
+          box-sizing: border-box;
+          background: transparent;
+          outline: none;
+          pointer-events: none;
+          padding: 0 1px;
+          font-size: .875rem;
+          margin: 1px 0;
+          &.enabled {
+            pointer-events: all !important;
+            background: #fff;
+            outline: 1px solid black;
+            outline-offset: -1px;
+          }
+        }
         .icon {
           height: .875rem;
           aspect-ratio: 1 / 1;

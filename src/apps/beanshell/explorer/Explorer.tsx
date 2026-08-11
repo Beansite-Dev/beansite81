@@ -1,10 +1,10 @@
 import { motion, Reorder } from "motion/react";
-import React, { Fragment, useEffect, useState, type ReactElement } from "react";
+import React, { Fragment, useEffect, useState, type ReactElement, useRef } from "react";
 import "./style.scss";
 import { atom, useAtom } from "jotai";
 import { errorAtom } from "../../../sdk/components/ErrorBoundary";
 import { ExpressDerivedWinModifierAtom } from "../../../sdk/store";
-import { FileSystemAtom, FilePropertyModifierAtom, FileCreatorAtom, FileDeletorAtom, FileMoverAtom, FileCopierAtom } from "../fs";
+import { FileSystemAtom, FilePropertyModifierAtom, FileCreatorAtom, FileDeletorAtom, FileMoverAtom, FileCopierAtom, FileRenamerAtom } from "../fs";
 import { ContextMenu, Tabs } from "@base-ui/react";
 import { Icon, Icons } from "../../../sdk/components/Enum";
 import { notepadAtom } from "../notepad/Notepad";
@@ -51,6 +51,7 @@ const Explorer=({}):ReactElement=>{
   const[,deleteFile]=useAtom(FileDeletorAtom);
   const[,moveFile]=useAtom(FileMoverAtom);
   const[,copyFile]=useAtom(FileCopierAtom);
+  const[,renameFile]=useAtom(FileRenamerAtom);
   const[directoryTree,setDirectoryTree]=useAtom(directoryTreeAtom);
   const[history,setHistory]=useAtom(historyAtom);
   const[historyIndex,setHistoryIndex]=useAtom(historyIndexAtom);
@@ -249,6 +250,12 @@ const Explorer=({}):ReactElement=>{
     useEffect(()=>{setSearchRes(getScope());},[directoryTree]);
     // useEffect(()=>{setDirectoryTree(history[historyIndex]||[])},[historyIndex])
     const File=({x,i}:{x:string,i:number}):ReactElement=>{
+      const[renaming,setRenaming]=useState<boolean>(false);
+      const titleRef=useRef<HTMLInputElement|null>(null);
+      useEffect(()=>{if(renaming&&titleRef){
+        titleRef.current?.focus();
+        titleRef.current?.select();
+      }},[renaming])
       return(<ContextMenu.Root key={i}>
         <ContextMenu.Trigger  
           data-filename={x}
@@ -265,7 +272,25 @@ const Explorer=({}):ReactElement=>{
             <motion.div
               style={{backgroundImage:`url(${fileNameToIcon(searchRes[x])})`}}
               className="icon li1"></motion.div>
-            <motion.span className="li2">{x}</motion.span>
+            <motion.input 
+              type="text"
+              ref={titleRef}
+              onKeyUp={(e)=>{
+                if(e.key==="Escape"){
+                  setRenaming(false);
+                  titleRef.current?.blur();
+                  titleRef.current!.value=x;
+                }
+                if(e.key==="Enter"){
+                  const y=titleRef.current!.value.trim();
+                  setRenaming(false);
+                  titleRef.current?.blur();
+                  if(y&&y!==x&&!searchRes[y])renameFile([directoryTree,x,y]);
+                  else titleRef.current!.value=x;
+                }
+              }}
+              defaultValue={x}
+              className={`li2 ${renaming?"enabled":""}`}></motion.input>
             <motion.span className="li3">{new Intl.DateTimeFormat('en-US',{
               month:'numeric',day:'numeric',year:'numeric',
               hour:'numeric',minute:'numeric',hour12:true,
@@ -296,7 +321,9 @@ const Explorer=({}):ReactElement=>{
                 <ContextMenu.Item 
                   onClick={()=>fileActions.delete(x)}
                   className="fileCtxItem">Delete</ContextMenu.Item>
-                <ContextMenu.Item className="fileCtxItem">Rename</ContextMenu.Item>
+                <ContextMenu.Item 
+                  onClick={()=>setRenaming(true)}
+                  className="fileCtxItem">Rename</ContextMenu.Item>
                 <ContextMenu.Separator className="fileCtxSeparator"/>
                 <ContextMenu.Item 
                   onClick={()=>fileActions.getProperties(x)}

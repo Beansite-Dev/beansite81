@@ -674,3 +674,28 @@ export const FileCopierAtom=atom(
     set(FileSystemAtom,insertNested(fs,destDirs,target));
   }
 );
+export const FileRenamerAtom=atom((get)=>get(FileSystemAtom),
+  (get,set,update:[string[],string,string])=>{
+    const[parentDirs,oldKey,newKey]=update;
+    const renameNested=(current:fs.DirectoryBase,pathSegments:string[]):fs.DirectoryBase=>{
+      if(pathSegments.length===0){
+        const target=current[oldKey]as fs.File|fs.Directory;
+        const{[oldKey]:_,...rest}=current;
+        return{
+          ...rest,
+          [newKey]:{
+            ...target,
+            name:target.isDirectory?newKey:newKey.replace(/\.[^.]+$/,""),
+          }as fs.File|fs.Directory,
+        };
+      }
+      const[head,...tail]=pathSegments;
+      const dir=current[head]as fs.Directory;
+      return{
+        ...current,
+        [head]:{...dir,children:renameNested(dir.children,tail),}as fs.Directory,
+      };
+    };
+    set(FileSystemAtom,renameNested(get(FileSystemAtom),parentDirs));
+  }
+);
