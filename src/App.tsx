@@ -22,17 +22,17 @@ export const CHANGELOG:{
     //apps
     "TODO: Add Task Manager", //!<- do this already bro
     "TODO: Add Beanhelper (Chat)",//gemeni api
-    "TODO: Work on Dosbox pages",
-    "TODO: Add curl command to beanshell",
     "TODO: Start browser implementation using libcurl.js (https://github.com/ading2210/libcurl.js)",
-    //mods
+    //pages
     "TODO: Add docs for mod development",
     "TODO: Add discord preview on homepage",
     //lib
     "TODO: Update stylesheets to use css modules (where applicable, since the theming classes cant effectivley use modules without breaking functionality or atleast i think. ill try)",
-    "TODO: Add css compatibility for firefox and older chrome versions",
 
     "Added renaming to explorer",
+    "Depricated Dosbox",
+    "Added css compatibility for firefox and older chrome versions",
+    "Added a curl command",
   ],
 };
 // import Settings from './sdk/components/Settings.tsx';

@@ -6,6 +6,8 @@ import { ExpressDerivedWinModifierAtom } from "../../sdk/store";
 import { atom, useAtom } from "jotai";
 import { FileCopierAtom, FileCreatorAtom, FileDeletorAtom, FileMoverAtom, FilePropertyModifierAtom, FileSystemAtom } from "./fs";
 import { errorAtom } from "../../sdk/components/ErrorBoundary";
+//@ts-expect-error
+import { libcurl } from "libcurl.js";
 const stylePresets:{[str:string]:ColorTypes|BeanshellLogs}={
   error:{
     clr:"Red",
@@ -44,6 +46,10 @@ const Beanshell=({}):ReactElement=>{
   useEffect(()=>{
     console.log(currentPositionInCommandHistory,commandHistory[currentPositionInCommandHistory],commandHistory);
   },[currentPositionInCommandHistory]);
+  useEffect(()=>{(async()=>{try{
+    if(!libcurl.ready)await libcurl.load_wasm("/libcurl.wasm");
+    libcurl.set_websocket("wss://wisp.mercurywork.shop/");
+  }catch(err){console.error("libcurl init failed:",err);}})();},[]);
   const[OhMyBshStatus,setOhMyBshStatus]=useAtom(OhMyBshStatusAtom);
   const[OhMyBshDir,setOhMyBshDir]=useAtom(OhMyBshDirAtom);
   const inputRef=useRef<HTMLDivElement>(null);
@@ -275,6 +281,38 @@ const Beanshell=({}):ReactElement=>{
             {t:"nl",}
           ]);
         break;
+        case "curl":{
+          if(inputArray.length<2){
+            setLogs(x=>[...x,Header,{t:"l",m:"curl : missing argument",...stylePresets.error}]);
+            break;}
+          let method="GET",headers:Record<string,string>={},body:string|undefined;
+          let urlArg=inputArray.slice(1).filter((v,idx,arr)=>{
+            if(v==="-X"){method=arr[idx+1];return false;}
+            if(arr[idx-1]==="-X")return false;
+            if(v==="-H"){const[k,...rest]=arr[idx+1].split(":");headers[k.trim()]=rest.join(":").trim();return false;}
+            if(arr[idx-1]==="-H")return false;
+            if(v==="-d"){body=arr[idx+1];return false;}
+            if(arr[idx-1]==="-d")return false;
+            return true;
+          })[0];
+          if(!urlArg){
+            setLogs(x=>[...x,Header,{t:"l",m:"curl : no URL provided",...stylePresets.error}]);
+            break;}
+          setLogs(x=>[...x,Header,{t:"l",m:`curl : fetching ${urlArg}...`}]);
+          (async()=>{
+            try{
+              if(!libcurl.ready)throw new Error("libcurl.js not loaded yet");
+              const res=await libcurl.fetch(urlArg,{method,headers,body});
+              const text=await res.text();
+              setLogs(x=>[...x,
+                {t:"l",m:`HTTP/${res.status} ${res.statusText}`,clr:res.ok?"Green":"Red"},
+                ...text.split("\n").map((line:any):BeanshellLogs=>({t:"l",m:line||""})),
+              ]);
+            }catch(err){
+              setLogs(x=>[...x,{t:"l",m:`curl : ${(err as Error).message}`,...stylePresets.error}]);
+            }
+          })();
+        }break;
         case "mkdir":
           if(inputArray.length<2){
             setLogs(x=>[...x,Header,{t:"l",m:"mkdir : missing argument",...stylePresets.error}]);

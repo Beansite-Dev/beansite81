@@ -9,6 +9,11 @@
     "build-router": "tsc -b && npx react-router build",
     "preview": "vite preview"
   },
+  "browserslist": [
+    "last 2 versions",
+    "> 1%",
+    "not dead"
+  ],
   "dependencies": {
     "@babel/standalone": "^8.0.4",
     "@base-ui/react": "^1.6.0",
@@ -45,6 +50,7 @@
     "html-to-image": "^1.11.13",
     "jotai": "^2.20.1",
     "js-dos": "7.5.0",
+    "libcurl.js": "^0.7.4",
     "motion": "^12.42.2",
     "react": "^19.2.7",
     "react-clock": "^6.0.0",
@@ -83,11 +89,13 @@
     "@types/react-dom": "^19.2.3",
     "@vercel/node": "^5.9.5",
     "@vitejs/plugin-react": "^5.2.0",
+    "autoprefixer": "^10.5.4",
     "babel-plugin-react-compiler": "^1.0.0",
     "eslint": "^9.39.4",
     "eslint-plugin-react-hooks": "^7.1.1",
     "eslint-plugin-react-refresh": "^0.4.26",
     "globals": "^16.5.0",
+    "postcss": "^8.5.26",
     "rollup-plugin-visualizer": "^7.0.1",
     "typescript": "~5.9.3",
     "typescript-eslint": "^8.63.0",
