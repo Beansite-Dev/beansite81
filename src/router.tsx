@@ -75,10 +75,11 @@ export const DeclarativeRouter=({})=>{
             <Route path="/extwr" element={<ExtWindowRenderer/>} />
             <Route path="/bc" element={<Beancord/>} />
             <Route path="g"> 
-              <Route path="cel">
-                <Route index element={<IFrameRenderer path="/g/src/cel/index.html"/>} />
-                <Route path="src" element={<Navigate to="/g/cel/index.html" replace />}/>
-              </Route>
+              {games.gen.map((x,i)=>
+                <Route key={i} path={x.id}>
+                  <Route index element={<IFrameRenderer path={x.src}/>} />
+                  <Route path="src" element={<Navigate to={x.src} replace />}/>
+                </Route>)}
               <Route path="dos">
                 {/* <Route path="test" element={<DosboxPage path="/g/dos_src/OregonTrailDeluxe.zip"/>} /> */}
               </Route>

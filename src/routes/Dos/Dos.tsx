@@ -1,8 +1,6 @@
-//https://js-dos.com/v7/build/
-//https://js-dos.com/v7/build/docs/react/
-
 import { motion } from 'motion/react';
-import React, { useEffect, useRef, useState, type ReactElement } from 'react';
+import React, { createRef, useEffect, type RefObject, type ReactElement } from "react";
+import { useDosbox } from "usedosbox";
 import "./style.scss";
 import { Helmet } from 'react-helmet-async';
 import { DosPlayer as Instance, type DosPlayerFactoryType } from "js-dos";
@@ -12,23 +10,30 @@ declare global{interface Window{Dosbox:Object|any;}}
 interface DosPlayerProps{bundleUrl:string;}
 interface IDosBoxComponent{path:string;}
 //component
-const DosPlayer=(props:DosPlayerProps):ReactElement=>{
-  const rootRef=useRef<HTMLDivElement>(null);
-  const[dos,setDos]=useState<Instance | null>(null);
-  useEffect(()=>{
-    if(rootRef===null||rootRef.current===null)return;
-    const root=rootRef.current as HTMLDivElement;
-    const instance=Dos(root);
-    setDos(instance);
-    return()=>{instance.stop();};
-  },[rootRef]);
-  useEffect(()=>{
-    if(dos!==null)dos.run(props.bundleUrl);
-  },[dos,props.bundleUrl]);
-  return<div 
-    ref={rootRef}
-    style={{width:"100%",height:"100%"}}></div>;
-};
+const DosPlayer=({bundleUrl}:DosPlayerProps)=>{
+  const canvasRef=createRef<HTMLCanvasElement>();
+  const {
+    startDosbox,
+    stopDosbox,
+    isDosboxLoading,
+    isDosboxReady,
+    loadedSize,
+    totalSize,
+    percentage,
+  }=useDosbox({
+    canvasRef:(canvasRef as RefObject<HTMLCanvasElement>),
+    gameFile:bundleUrl,
+    dosboxUrl:"/dos/dosbox-sync.js",
+  });
+  useEffect(()=>{return()=>{stopDosbox();};},[stopDosbox]);
+  return(<>
+    <button type="button" onClick={startDosbox}>Start</button>
+    <canvas
+      id="canvas"
+      ref={canvasRef}
+      style={{width:"600px",height:"400px"}}/>
+  </>);
+}
 const DosboxPage=({path}:IDosBoxComponent):ReactElement=>{
   return(<>
     <Helmet>

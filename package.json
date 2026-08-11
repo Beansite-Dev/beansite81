@@ -67,6 +67,7 @@
     "svgo": "^4.0.1",
     "three": "^0.185.1",
     "typewriter-effect": "^2.22.0",
+    "usedosbox": "^1.0.12",
     "usehooks-ts": "^3.1.1",
     "uuid": "^14.0.1",
     "vercel": "^58.4.4",
