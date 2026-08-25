@@ -27,7 +27,7 @@ export const CHANGELOG:{
     "TODO: Add docs for mod development",
     "TODO: Add discord preview on homepage",
     //lib
-    "TODO: Update stylesheets to use css modules (where applicable, since the theming classes cant effectivley use modules without breaking functionality or atleast i think. ill try)",
+    "TODO: Update stylesheets to use css modules (where applicable, since the theming classes cant effectively use modules without breaking functionality or atleast i think. ill try)",
 
     "Added renaming to explorer",
     "Depricated Dosbox",
