@@ -15,7 +15,7 @@ export const CHANGELOG:{
 }={
   versionName:import.meta.env.VITE_APP_VERSION,
   releaseDate:import.meta.env.VITE_APP_BUILD_DATE,
-  comment: "im free",
+  comment: "updates might come slow since ive got a lot to do now",
   changes:[
     //functionality
     "TODO: Add corner and side maximizing",
@@ -27,7 +27,7 @@ export const CHANGELOG:{
     "TODO: Add docs for mod development",
     "TODO: Add discord preview on homepage",
     //lib
-    "TODO: Update stylesheets to use css modules (where applicable, since the theming classes cant effectively use modules without breaking functionality or atleast i think. ill try)",
+    "TODO: Update stylesheets to use css modules (where applicable, since the theming classes cant effectively use modules without breaking functionality or at least i think. ill try)",
 
     "Added renaming to explorer",
     "Depricated Dosbox",
