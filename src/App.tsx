@@ -33,6 +33,8 @@ export const CHANGELOG:{
     "Depricated Dosbox",
     "Added css compatibility for firefox and older chrome versions",
     "Added a curl command",
+    "Version push to 1.0",
+    "Updated pksmp server urls (now available from all clients)"
   ],
 };
 // import Settings from './sdk/components/Settings.tsx';
