@@ -46,6 +46,7 @@ const DragAndDrop=({setSettings}:{setSettings:SetSettings}):ReactElement=>{
             id:generateId(10),
             name:file.name,
             src:file,
+            deletable:true,
           };
           if(debug)console.log(res);
           setSettings(["backgroundImage",result as string]);
@@ -82,7 +83,7 @@ const SavedBackground=({x,setSettings}:{x:IsavedBackgrounds;setSettings:SetSetti
     <motion.div className="bg" style={{
       backgroundImage:`url("${url}")`,
     }}></motion.div>
-    <motion.button className="trashButton" onClick={()=>{
+    {x.deletable?<motion.button className="trashButton" onClick={()=>{
       setDeleting(true);
       sbgdb.transaction('rw',sbgdb.saved,function*(){
         yield sbgdb.saved.filter(i=>i.id==x.id).delete();
@@ -90,7 +91,7 @@ const SavedBackground=({x,setSettings}:{x:IsavedBackgrounds;setSettings:SetSetti
         if(debug)console.error(e);
         setDeleting(false); //reset so the row isn't stuck on "Deleting..." forever
       });
-    }}><FontAwesomeIcon icon={faTrash}/></motion.button>
+    }}><FontAwesomeIcon icon={faTrash}/></motion.button>:null}
   </motion.div>);
 }
 const SavedBackgrounds=({setSettings}:{setSettings:SetSettings}):ReactElement=>{

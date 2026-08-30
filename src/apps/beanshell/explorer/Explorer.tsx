@@ -10,6 +10,7 @@ import { Icon, Icons } from "../../../sdk/components/Enum";
 import { notepadAtom } from "../notepad/Notepad";
 import { photosAtom } from "../photos/Photos";
 import { propertiesAtom } from "./properties/Properties";
+import { generateId } from "../../../sdk/Lib";
 const directoryTreeAtom=atom<string[]>([]);
 // const searchResAtom=atom<fs.DirectoryBase>({});
 const historyAtom=atom<string[][]>([[],]);
@@ -232,13 +233,42 @@ const Explorer=({}):ReactElement=>{
             <motion.span className="sectHeader">Organize</motion.span>
           </motion.div>
           <motion.div className="section">
-            <motion.div className="action">
-              <Icon icon="directory" className="icon"/>
-              <motion.span>Folder</motion.span>
+            <motion.div 
+              onClick={()=>{
+                createFile([directoryTree,"New Folder",{
+                  name:"New Folder",
+                  id:generateId(10),
+                  isDirectory:true,
+                  // @ts-expect-error
+                  children:{},
+                  attributes:{
+                    dateCreated:new Date(),
+                    dateModified:new Date(),
+                  }
+                }]);
+              }}
+              className="action">
+                <Icon icon="directory" className="icon"/>
+                <motion.span>Folder</motion.span>
             </motion.div>
-            <motion.div className="action">
-              <Icon icon="file" className="icon"/>
-              <motion.span>Item</motion.span>
+            <motion.div 
+              onClick={()=>{
+                createFile([directoryTree,"item.txt",{
+                  name:"item",
+                  id:generateId(10),
+                  isDirectory:false,
+                  type:"txt",
+                  content:"",
+                  attributes:{
+                    dateCreated:new Date(),
+                    dateModified:new Date(),
+                    openWithNotepad:true,
+                  }
+                }]);
+              }}
+              className="action">
+                <Icon icon="file" className="icon"/>
+                <motion.span>Item</motion.span>
             </motion.div>
             <motion.span className="sectHeader">New</motion.span>
           </motion.div>

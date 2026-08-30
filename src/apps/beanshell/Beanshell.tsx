@@ -327,6 +327,10 @@ const Beanshell=({}):ReactElement=>{
               isDirectory:true,
               // @ts-expect-error
               children:{},
+              attributes:{
+                dateCreated:new Date(),
+                dateModified:new Date(),
+              }
             }
           ]);  
         break;
@@ -349,6 +353,8 @@ const Beanshell=({}):ReactElement=>{
               content:"",
               attributes:{
                 dateCreated:new Date(),
+                dateModified:new Date(),
+                openWithNotepad:true,
               }
             }
           ]);
@@ -639,9 +645,9 @@ const Beanshell=({}):ReactElement=>{
           setLogs(x=>[...x,Header,
             {t:"l",m:[
               {c:`         %%%%%       `,clr: "Red",},
-              {c:`Admin`,clr:"Cyan"},
+              {c:`root`,clr:"Cyan"},
               {c:`@`,clr:"BrightGray"},
-              {c:`mb81`,clr:"Cyan"},
+              {c:`DESKTOP-BS726`,clr:"Cyan"},
             ],},
             {t:"l",m:[
               {c:`        % %%%%%      `,clr:"Red",},

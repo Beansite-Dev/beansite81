@@ -22,6 +22,10 @@ $ColorMap:("Black": #0C0C0C,"BrightBlack": #252525,
   overflow: hidden auto;
   white-space: pre-wrap;
   word-break: break-all;
+  &::selection{
+    background: #fff;
+    color: #012456;
+  }
   &,*{
     line-height: 1.19 !important;
     scrollbar-width: none; 
@@ -31,6 +35,10 @@ $ColorMap:("Black": #0C0C0C,"BrightBlack": #252525,
   @each $ColorMapName,$ColorMapValue in $ColorMap{
     .clr#{$ColorMapName}{
       color:$ColorMapValue;
+      &::selection{
+        background: $ColorMapValue;
+        color: #fff;
+      }
     }
     .bg#{$ColorMapName}{
       background-color:$ColorMapValue;

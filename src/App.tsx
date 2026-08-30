@@ -37,6 +37,9 @@ export const CHANGELOG:{
     "Version push to 1.0",
     "Updated pksmp server urls (now available from all clients)",
     "Upgraded all packages (this may be reversed since we ran into issues last time)",
+    "Fixed issues with saved bgs",
+    "fixed incongruency within explorer and beanshell",
+    "Fixed color highlights in beanshell to be more accurate",
   ],
 };
 // import Settings from './sdk/components/Settings.tsx';

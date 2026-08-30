@@ -3,6 +3,7 @@ interface IsavedBackgrounds {
   id:string;
   name:string;
   src:string|Blob;
+  deletable:boolean;
 }
 const sbgdb=new Dexie("MB81SavedWallpapersDB")as Dexie &{saved:EntityTable<IsavedBackgrounds,"id">};
 sbgdb.version(1).stores({saved:"++id,name,src",});
@@ -11,50 +12,62 @@ export const defaultBackgrounds:IsavedBackgrounds[]=[
     id:"default1",
     name:"Leaves",
     src:"/wallpaper/1.jpg",
+    deletable:false,
   },{
     id:"aurora",
     name:"Aurora",
     src:"/wallpaper/aurora.png",
+    deletable:false,
   },{
     id:"beach",
     name:"Beach",
     src:"/wallpaper/beach.png",
+    deletable:false,
   },{
     id:"old7",
     name:"Old 7",
     src:"/wallpaper/default.png",
+    deletable:false,
   },{
     id:"dessert",
     name:"Dessert",
     src:"/wallpaper/dessert.png",
+    deletable:false,
   },{
     id:"dots",
     name:"Dots",
     src:"/wallpaper/dots.png",
+    deletable:false,
   },{
     id:"glass",
     name:"Glass",
     src:"/wallpaper/glass.png",
+    deletable:false,
   },{
     id:"grid",
     name:"Grid",
     src:"/wallpaper/grid.png",
+    deletable:false,
   },{
     id:"seeds",
     name:"Seeds",
     src:"/wallpaper/seeds.png",
+    deletable:false,
   },{
     id:"technology",
     name:"Technology",
     src:"/wallpaper/technology.png",
+    deletable:false,
   },{
     id:"waterfall",
     name:"Waterfall",
     src:"/wallpaper/waterfall.png",
+    deletable:false,
   },{
     id:"windows",
     name:"Windows",
     src:"/wallpaper/windows.png",
+    deletable:false,
   },
 ];
 export type { IsavedBackgrounds };
