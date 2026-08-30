@@ -26,6 +26,7 @@ export const CHANGELOG:{
     //pages
     "TODO: Add docs for mod development",
     "TODO: Add discord preview on homepage",
+    "TODO: Add a mobile page for the homepage",
     //lib
     "TODO: Update stylesheets to use css modules (where applicable, since the theming classes cant effectively use modules without breaking functionality or at least i think. ill try)",
 
@@ -34,7 +35,8 @@ export const CHANGELOG:{
     "Added css compatibility for firefox and older chrome versions",
     "Added a curl command",
     "Version push to 1.0",
-    "Updated pksmp server urls (now available from all clients)"
+    "Updated pksmp server urls (now available from all clients)",
+    "Upgraded all packages (this may be reversed since we ran into issues last time)",
   ],
 };
 // import Settings from './sdk/components/Settings.tsx';

@@ -1,5 +1,4 @@
 allowBuilds:
-  '@google/genai': set this to true or false
   '@parcel/watcher': false
   '@swc/core': false
   '@tsparticles/engine': false
