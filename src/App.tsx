@@ -27,6 +27,7 @@ export const CHANGELOG:{
     "TODO: Add docs for mod development",
     "TODO: Add discord preview on homepage",
     "TODO: Add a mobile page for the homepage",
+    "TODO: optimize vercel storage -> https://vercel.com/docs/deployment-storage/optimize",
     //lib
     "TODO: Update stylesheets to use css modules (where applicable, since the theming classes cant effectively use modules without breaking functionality or at least i think. ill try)",
 
@@ -40,6 +41,8 @@ export const CHANGELOG:{
     "Fixed issues with saved bgs",
     "fixed incongruency within explorer and beanshell",
     "Fixed color highlights in beanshell to be more accurate",
+    "Fixed games not working properly",
+    "Version push",
   ],
 };
 // import Settings from './sdk/components/Settings.tsx';
