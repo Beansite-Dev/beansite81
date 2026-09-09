@@ -39,21 +39,7 @@ const GameUI=({
         id="GUI_launch"
         onClick={(e)=>{if(launchFunc){
           e.preventDefault();
-          var win=window.open("",gamename,"toolbar=no,location=no,directories=no,status=no,menubar=no,scrollbars=yes,resizable=yes,width=640,height=360,top=100,left=100");
-          if(win){
-            win.document.documentElement.innerHTML=`
-              <title>${gamename}</title>
-              <link rel="icon" type="image/x-icon" href="${`/apps/beanpowered/gicon/${gamedata.id}.png`}">
-              <iframe src="${gamedata.src}" 
-                allowfullscreen
-                style="
-                  height:100dvh;
-                  width:100dvw;
-                  position:fixed;
-                  top:50%;
-                  left:50%;
-                  translate:-50% -50%;"/>`;
-          }
+          var win=window.open(gamedata.src,"_blank","toolbar=no,location=no,directories=no,status=no,menubar=no,scrollbars=yes,resizable=yes,width=640,height=360,top=100,left=100");
         }}}><FontAwesomeIcon icon={faPlay}/> Launch
       </motion.button>
     );
