@@ -15,12 +15,16 @@ const Homepage=({}):ReactElement=>{
       <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       <title>Beansite 8.1 - Home</title>
     </Helmet>
-    <Header/>
-    <S1/>
-    <S2/>
-    <S3/>
-    <S4/>
-    <Footer/>
+    {(window.matchMedia('screen and (max-width: 768px)').matches)?<>
+      {/* prepped for mobile ui which will go here */}
+    </>:<>
+      <Header/>
+      <S1/>
+      <S2/>
+      <S3/>
+      <S4/>
+      <Footer/>
+    </>}
   </>);
 };
 export default Homepage;

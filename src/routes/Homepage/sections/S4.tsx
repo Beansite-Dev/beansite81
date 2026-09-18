@@ -2,8 +2,8 @@ import { motion } from "motion/react";
 import type { Variants } from "motion/react";
 import { lazy, useRef, type ReactElement, useEffect } from "react";
 // import { FunctionlessWindow } from "../WindowExample";
-import { Icons } from "../../../sdk/components/Enum";
-import Beanpowered from "../components/BeanpoweredDemo";
+import { Icons } from "../../../sdk/components/Enum.tsx";
+import Beanpowered from "../components/BeanpoweredDemo.tsx";
 import { Canvas, useFrame } from '@react-three/fiber';
 import { 
   Sky,

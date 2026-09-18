@@ -3,7 +3,7 @@ import type { Variants } from "motion/react";
 import type { ReactElement } from "react";
 import Typewriter from 'typewriter-effect';
 // import FunctionlessWindow from "../WindowExample";
-import { Icons } from "../../../sdk/components/Enum";
+import { Icons } from "../../../sdk/components/Enum.tsx";
 import { lazy, startTransition } from 'react';
 import { useNavigate } from 'react-router';
 const FunctionlessWindow=lazy(()=>import("../WindowExample.tsx"));
